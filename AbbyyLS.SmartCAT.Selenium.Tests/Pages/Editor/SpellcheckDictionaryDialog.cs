@@ -17,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new SpellcheckDictionaryDialog GetPage()
-		{
-			var spellcheckDictionaryDialog = new SpellcheckDictionaryDialog(Driver);
-			InitPage(spellcheckDictionaryDialog, Driver);
-
-			return spellcheckDictionaryDialog;
-		}
-
-		public new void LoadPage()
+		public new SpellcheckDictionaryDialog LoadPage()
 		{
 			if (!IsSpellcheckDictionaryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился словарь");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку закрытия словаря");
 			CloseDictionaryButton.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Thread.Sleep(1000);
 			AddWordButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			DeleteWordButton = Driver.SetDynamicValue(How.XPath, DELETE_WORD_BUTTON, word);
 			DeleteWordButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -85,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Выделить слово {0}", word);
 			Word.DoubleClick();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -97,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			InputWordField.DoubleClick();
 			InputWordField.SendKeys(word);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			DictionaryForm.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>

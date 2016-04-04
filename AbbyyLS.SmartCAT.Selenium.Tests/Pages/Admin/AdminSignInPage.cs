@@ -8,9 +8,9 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	public class AdminSignInPage : BaseObject, IAbstractPage<AdminSignInPage>
+	public class AdminSignInPage : IAbstractPage<AdminSignInPage>
 	{
-		public WebDriver Driver { get; private set; }
+		public WebDriver Driver { get; set; }
 
 		public AdminSignInPage(WebDriver driver)
 		{
@@ -20,18 +20,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		public AdminSignInPage GetPage()
 		{
-			var adminSignInPage = new AdminSignInPage(Driver);
-			InitPage(adminSignInPage, Driver);
+			CustomTestContext.WriteLine("Переход на страницу администрирования: {0}", ConfigurationManager.AdminUrl);
 
-			return adminSignInPage;
+			Driver.Navigate().GoToUrl(ConfigurationManager.AdminUrl);
+
+			return new AdminSignInPage(Driver).LoadPage();
 		}
 
-		public void LoadPage()
+		public AdminSignInPage LoadPage()
 		{
 			if (!IsAdminSignInPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загрузилась страница входа в админку.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -45,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести логин пользователя в админку: {0}.", login);
 			Login.SetText(login);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести пароль пользователя в админку: {0}.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			SubmitButton.Click();
 			var adminLingvoProPage = new AdminLingvoProPage(Driver);
 
-			return adminLingvoProPage.GetPage();
+			return adminLingvoProPage.LoadPage();
 		}
 
 		#endregion
@@ -87,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			SetPassword(password);
 			var adminLingvoProPage = ClickSubmitButton();
 
-			return adminLingvoProPage.GetPage();
+			return adminLingvoProPage.LoadPage();
 		}
 
 		#endregion

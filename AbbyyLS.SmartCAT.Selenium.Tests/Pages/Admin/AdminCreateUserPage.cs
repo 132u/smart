@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminCreateUserPage GetPage()
-		{
-			var adminCreateUserPage = new AdminCreateUserPage(Driver);
-			InitPage(adminCreateUserPage, Driver);
-
-			return adminCreateUserPage;
-		}
-
-		public new void LoadPage()
+		public new AdminCreateUserPage LoadPage()
 		{
 			if (!IsAdminCreateUserPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загружена страница создания пользователя.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести email '{0}' для нового пользователя", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -51,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести Nickname '{0}' для нового пользователя", nickname);
 			NicknameInput.SetText(nickname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввод пароля '{0}' для нового пользователя", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввод подтверждения пароля '{0}' для нового пользователя", confirmPassword);
 			ConfirmPassword.SetText(confirmPassword);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			return new AdminEditUserPage(Driver).GetPage();
+			return new AdminEditUserPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -97,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -120,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			FillPassword(password);
 			FillConfirmPassword(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

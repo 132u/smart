@@ -11,20 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSetUpPretranslationDialog GetPage()
-		{
-			var newProjectSetUpPretranslationDialog = new NewProjectSetUpPretranslationDialog(Driver);
-			InitPage(newProjectSetUpPretranslationDialog, Driver);
-
-			return newProjectSetUpPretranslationDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSetUpPretranslationDialog LoadPage()
 		{
 			if (!IsNewProjectSetUpPresentationDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти к этапу Pretranslation");
 			}
+
+			return this;
 		}
 
 		/// <summary>

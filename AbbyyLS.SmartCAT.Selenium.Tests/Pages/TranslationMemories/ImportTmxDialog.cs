@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new ImportTmxDialog GetPage()
-		{
-			var importTmxDialog = new ImportTmxDialog(Driver);
-			InitPage(importTmxDialog, Driver);
-
-			return importTmxDialog;
-		}
-
-		public new void LoadPage()
+		public new ImportTmxDialog LoadPage()
 		{
 			if (!IsImportTmxPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог импорта TMX файла");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filePath);
 			ImportFileInput.SendKeys(filePath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files'");
 			ImportButton.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files' ожидая сообщение об ошибке");
 			ImportButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку 'Import' в окне 'Import TMX files' ожидая появления диалога подтверждения");
 			ImportButton.Click();
 
-			return new ConfirmReplacementDialog(Driver).GetPage();
+			return new ConfirmReplacementDialog(Driver).LoadPage();
 		}
 
 		#endregion
@@ -92,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SetFileName(filePath);
 			setFileNameForValidation(filePath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -104,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			EnterFileName(filePath);
 			var translationMemoriesPage = ClickImportButton();
 
-			return translationMemoriesPage.GetPage();
+			return translationMemoriesPage.LoadPage();
 		}
 
 		/// <summary>
@@ -116,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			EnterFileName(filePath);
 			var confirmReplacementDialog = ClickImportButtonExpectingReplacementConfirmation();
 
-			return confirmReplacementDialog.GetPage();
+			return confirmReplacementDialog.LoadPage();
 		}
 
 		#endregion
@@ -143,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
 			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -155,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
 			Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(filePath)));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

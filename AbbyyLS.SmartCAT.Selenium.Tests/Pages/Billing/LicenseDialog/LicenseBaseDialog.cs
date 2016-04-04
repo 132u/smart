@@ -14,19 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicenseBaseDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicenseBaseDialog LoadPage()
 		{
 			if (!IsLicenseBaseDialogOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не открылся основной диалог покупки/обновления/продления пакета лицензий.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -40,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			BuyButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CloseButton.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
-			return new BillingPage(Driver).GetPage();
+			return new BillingPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -125,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			Driver.WaitUntilElementIsDisplay(By.XPath(PAYMENT_IFRAME), 20);
 			Driver.SwitchToIFrame(By.XPath(PAYMENT_IFRAME));
 
-			return new LicensePaymentDialog(Driver).GetPage();
+			return new LicensePaymentDialog(Driver).LoadPage();
 		}
 
 		#endregion

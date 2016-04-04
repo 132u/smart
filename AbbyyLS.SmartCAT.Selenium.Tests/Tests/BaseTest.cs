@@ -15,7 +15,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 {
 	[TestFixture(typeof(ChromeDriverProvider))]
-	public class BaseTest<TWebDriverProvider> : BaseObject where TWebDriverProvider : IWebDriverProvider, new()
+	public class BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public WebDriver Driver { get; private set; }
 

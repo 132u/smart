@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectCreateBaseDialog GetPage()
-		{
-			var createProjectDialog = new NewProjectCreateBaseDialog(Driver);
-			InitPage(createProjectDialog, Driver);
-
-			return createProjectDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectCreateBaseDialog LoadPage()
 		{
 			if (!IsProjectCreateDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось загрузить диалог создания проекта");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			NextButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			BackButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на ссылку Files в навигационном меню");
 			FilesLink.Click();
 
-			return new NewProjectDocumentUploadPage(Driver).GetPage();
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на ссылку Settings в навигационном меню");
 			SettingsLink.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на ссылку Workflow в навигационном меню");
 			WorkflowLink.Click();
 
-			return new NewProjectWorkflowPage(Driver).GetPage();
+			return new NewProjectWorkflowPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -104,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			WaitCreateProjectDialogDisappear();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion

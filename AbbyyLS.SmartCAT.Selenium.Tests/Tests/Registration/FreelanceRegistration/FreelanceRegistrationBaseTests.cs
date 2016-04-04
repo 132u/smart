@@ -24,7 +24,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_projectsPage = new ProjectsPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_adminHelper = new AdminHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 
 			_email = "e" + Guid.NewGuid().ToString().Substring(0, 8) + "@mailforspam.com";
@@ -52,7 +51,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		protected SignInPage _signInPage;
 		protected LoginHelper _loginHelper;
 		protected AdminHelper _adminHelper;
-		protected CommonHelper _commonHelper;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 	}
 }

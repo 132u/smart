@@ -1,38 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ConfirmDeclineTaskDialog: ProjectSettingsPage, IAbstractPage<ConfirmDeclineTaskDialog>
 	{
-		public ConfirmDeclineTaskDialog(WebDriver driver)
-			: base(driver)
+		public ConfirmDeclineTaskDialog(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new ConfirmDeclineTaskDialog GetPage()
-		{
-			var confirmDeclineTaskDialog = new ConfirmDeclineTaskDialog(Driver);
-			InitPage(confirmDeclineTaskDialog, Driver);
-
-			return confirmDeclineTaskDialog;
-		}
-
-		public new void LoadPage()
+		public new ConfirmDeclineTaskDialog LoadPage()
 		{
 			if (!IsConfirmDeclineTaskDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Диалог подтверждения отмены задачи не открылся.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion

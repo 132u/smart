@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class SelectProfileForm : BaseObject, IAbstractPage<SelectProfileForm>
+	public class SelectProfileForm : IAbstractPage<SelectProfileForm>
 	{
 		
 		public WebDriver Driver { get; protected set; }
@@ -17,21 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public SelectProfileForm GetPage()
+		public SelectProfileForm LoadPage()
 		{
-			var selectProfileForm = new SelectProfileForm(Driver);
-			InitPage(selectProfileForm, Driver);
-
-			return selectProfileForm;
-		}
-
-		public void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsSelectProfileFormOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма выбора профиля.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы

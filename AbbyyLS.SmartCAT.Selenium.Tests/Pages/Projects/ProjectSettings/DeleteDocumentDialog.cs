@@ -11,21 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 		}
 
-		public new DeleteDocumentDialog GetPage()
-		{
-			var newDeleteDocumentDialog = new DeleteDocumentDialog(Driver);
-			InitPage(newDeleteDocumentDialog, Driver);
-			newDeleteDocumentDialog.DeleteDocumentButton = Driver.FindElement(By.XPath(DELETE_DOCUMENT_BTN));
-
-			return newDeleteDocumentDialog;
-		}
-
-		public new void LoadPage()
+		public new DeleteDocumentDialog LoadPage()
 		{
 			if (!IsDeleteDocumentDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог удаления документа");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -36,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку 'Удалить'.");
 			DeleteDocumentButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>

@@ -12,21 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new AdvancedSettingsSection GetPage()
-		{
-			var advancedSettingsSection = new AdvancedSettingsSection(Driver);
-			InitPage(advancedSettingsSection, Driver);
-
-			return advancedSettingsSection;
-		}
-
-		public new void LoadPage()
+		public new AdvancedSettingsSection LoadPage()
 		{
 			if (!IsAdvancedSettingsSectionOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылись расширенные настройки.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках проекта");
 			SelectTmButton.JavaScriptClick();
 
-			return new TranslationMemoryAdvancedSettingsSection(Driver).GetPage();
+			return new TranslationMemoryAdvancedSettingsSection(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Перейти на вкладку 'Translation Memory' в секции расширенных настройках.");
 			TranslationMemoryTab.Click();
 
-			return new TranslationMemoryAdvancedSettingsSection(Driver).GetPage();
+			return new TranslationMemoryAdvancedSettingsSection(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Перейти на вкладку Glossaries в секции расширенных настройках.");
 			GlossariesTab.Click();
 
-			return new GlossariesAdvancedSettingsSection(Driver).GetPage();
+			return new GlossariesAdvancedSettingsSection(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -72,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Перейти на вкладку 'Quality Assurance' в секции расширенных настройках.");
 			QualityAssuranceTab.Click();
 
-			return new QualityAssuranceAdvancedSettingsSection(Driver).GetPage();
+			return new QualityAssuranceAdvancedSettingsSection(Driver).LoadPage();
 		}
 
 		#endregion

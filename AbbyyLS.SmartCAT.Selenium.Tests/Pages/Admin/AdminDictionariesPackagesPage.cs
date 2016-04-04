@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminDictionariesPackagesPage GetPage()
-		{
-			var adminDictionariesPackagesPage = new AdminDictionariesPackagesPage(Driver);
-			InitPage(adminDictionariesPackagesPage, Driver);
-
-			return adminDictionariesPackagesPage;
-		}
-
-		public new void LoadPage()
+		public new AdminDictionariesPackagesPage LoadPage()
 		{
 			if (!IsAdminDictionariesPackagesPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загрузилась страница пакетов словарей.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать по 'Создать новый пакет' в меню");
 			Driver.FindElement(By.XPath(CREATE_DICTIONARY_PACKAGE_LINK)).Click();
 
-			return new AdminCreateDictionaryPackagePage(Driver).GetPage();
+			return new AdminCreateDictionaryPackagePage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -61,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				.First(item => item.Text == packageName);
 			requiredDictionaryNameLink.Click();
 
-			return new AdminDictionaryPackagePage(Driver).GetPage();
+			return new AdminDictionaryPackagePage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -110,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 					"Произошла ошибка:\n ссылка на {0} пакет словарей не существует", packageName));
 			}
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

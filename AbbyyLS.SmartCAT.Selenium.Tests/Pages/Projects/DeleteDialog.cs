@@ -12,21 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new DeleteDialog GetPage()
-		{
-			var newDeleteProjectDialog = new DeleteDialog(Driver);
-			InitPage(newDeleteProjectDialog, Driver);
-			newDeleteProjectDialog.DeleteButton = Driver.FindElement(By.XPath(CONFIRM_DELETE_BUTTON));
-
-			return newDeleteProjectDialog;
-		}
-
-		public new void LoadPage()
+		public new DeleteDialog LoadPage()
 		{
 			if (!IsDeleteDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог удаления проекта");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -42,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				throw new InvalidElementStateException("Произошла ошибка:\n диалог удаления не закрылся");
 			}
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>

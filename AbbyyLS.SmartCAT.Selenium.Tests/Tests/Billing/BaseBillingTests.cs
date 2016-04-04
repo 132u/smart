@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -22,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		public void SetUpBaseBillingTests()
 		{
 			LoginHelper = new LoginHelper(Driver);
-			CommonHelper = new CommonHelper(Driver);
+			SignInPage = new SignInPage(Driver);
 			WorkspacePage = new WorkspacePage(Driver);
 			BillingPage = new BillingPage(Driver);
 			LicenseBaseDialog = new LicenseBaseDialog(Driver);
@@ -50,7 +51,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 				.AddUserToAdminGroupInAccountIfNotAdded(
 					ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, accountUniqueName);
 
-			CommonHelper.GoToSignInPage();
+			SignInPage.GetPage();
+
 			LoginHelper.LogInSmartCat(
 				ThreadUser.Login,
 				ThreadUser.NickName,
@@ -61,8 +63,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Billing
 		}
 
 		protected LoginHelper LoginHelper;
-		protected CommonHelper CommonHelper;
 		protected WorkspacePage WorkspacePage;
+		protected SignInPage SignInPage;
 		public BillingPage BillingPage;
 		public LicenseBaseDialog LicenseBaseDialog;
 		public LicenseExtendDialog LicenseExtendDialog;

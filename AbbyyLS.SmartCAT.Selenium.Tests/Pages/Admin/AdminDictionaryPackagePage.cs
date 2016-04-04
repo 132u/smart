@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminDictionaryPackagePage GetPage()
-		{
-			var adminDictionaryPackagePage = new AdminDictionaryPackagePage(Driver);
-			InitPage(adminDictionaryPackagePage, Driver);
-
-			return adminDictionaryPackagePage;
-		}
-
-		public new void LoadPage()
+		public new AdminDictionaryPackagePage LoadPage()
 		{
 			if (!IsAdminDictionaryPackagePageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загрузилась страница пакета словарей.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы

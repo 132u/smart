@@ -28,7 +28,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_signInPage=new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-			_commonHelper = new CommonHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
 
 			_email = "e" + Guid.NewGuid().ToString().Substring(0, 8) +"@mailforspam.com";
@@ -51,7 +50,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 		protected SignInPage _signInPage;
 		protected WorkspacePage _workspacePage;
-		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
 		protected CompanyRegistrationFirstPage _companyRegistrationFirstPage;
 		protected CompanyRegistrationSecondPage _companyRegistrationSecondPage;

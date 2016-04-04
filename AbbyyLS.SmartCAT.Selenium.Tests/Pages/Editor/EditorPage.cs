@@ -18,7 +18,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
-	public class EditorPage : BaseObject, IAbstractPage<EditorPage>
+	public class EditorPage : IAbstractPage<EditorPage>
 	{
 		public WebDriver Driver { get; private set; }
 
@@ -28,15 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public EditorPage GetPage()
-		{
-			var editorPage = new EditorPage(Driver);
-			InitPage(editorPage, Driver);
-
-			return editorPage;
-		}
-
-		public void LoadPage()
+		public EditorPage LoadPage()
 		{
 			if (!IsEditorPageOpened())
 			{
@@ -46,6 +38,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			{
 				CloseTutorial();
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -58,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу проекта.");
 			HomeButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу проектов.");
 			HomeButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -80,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу курсов курсеры.");
 			HomeButton.Click();
 
-			return new CoursesPage(Driver).GetPage();
+			return new CoursesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -91,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Подтвердить сегмент с помощью горячих клавиш Ctrl+Enter");
 			Driver.SendHotKeys(Keys.Enter, control: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Вставить тег нажатием клавиши F8");
 			Driver.SendHotKeys(Keys.F8);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -114,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ConfirmButton.AdvancedClick();
 			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS), timeout: 30);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -125,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку поиска ошибки в терминологии");
 			FindErrorButton.Click();
 
-			return new ErrorsDialog(Driver).GetPage();
+			return new ErrorsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -136,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Вызвать окно поиска ошибок в терминологии с помощью хоткея F7");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.F7);
 
-			return new ErrorsDialog(Driver).GetPage();
+			return new ErrorsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -149,7 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
 			TargetCell.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -160,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Специальные символы'");
 			CharacterButton.Click();
 
-			return new SpecialCharactersForm(Driver).GetPage();
+			return new SpecialCharactersForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -172,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Driver.WaitUntilElementIsDisplay(By.XPath(UNDO_BUTTON));
 			UndoButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -183,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку возврата.");
 			RedoButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -195,7 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Driver.WaitUntilElementIsDisplay(By.XPath(UNDO_BUTTON));
 			Driver.SendHotKeys("z", control: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -206,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать хоткей кнопки возврата Ctrl Y.");
 			Driver.SendHotKeys("y", control: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -217,7 +211,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Открыть форму 'Специальные символы' с помощью сочетания клавиш Ctrl+Shift+I");
 			Driver.SendHotKeys("I", true, true);
 
-			return new SpecialCharactersForm(Driver).GetPage();
+			return new SpecialCharactersForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -228,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку открытия словаря");
 			SpellcheckDictionaryButton.Click();
 
-			return new SpellcheckDictionaryDialog(Driver).GetPage();
+			return new SpellcheckDictionaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -239,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Go to Last Unconfirmed Segment'.");
 			LastUnconfirmedButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -250,7 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Вставить тег'.");
 			InsertTagButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -261,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Выделить последний неподтвержденный сегмент нажатием F9");
 			Driver.SendHotKeys(OpenQA.Selenium.Keys.F9);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -335,7 +329,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Add Term'");
 			AddTermButton.Click();
 
-			return new AddTermDialog(Driver).GetPage();
+			return new AddTermDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -400,7 +394,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				FinishTutorialButton.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -411,7 +405,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Копировать оригинал в перевод'.");
 			CopyButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -422,7 +416,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Копировать текст из сорса в таргет с помощью сочетания клавиш Ctrl+Insert");
 			Driver.SendHotKeys(Keys.Insert, control: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -463,7 +457,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Конкордансный поиск'");
 			ConcordanceButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -474,7 +468,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Открыть 'Конкордансный поиск' с помощью сочетания клавиш Ctrl+k");
 			Driver.SendHotKeys("k", control: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -485,7 +479,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку Rollback.");
 			RollbackButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -496,7 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Открть диалог добавления термина, нажав сочетание клавиш Ctrl+E");
 			Driver.SendHotKeys("e", true);
 
-			return new AddTermDialog(Driver).GetPage();
+			return new AddTermDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -526,7 +520,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			segment.DoubleClickElementAtPoint(0, 0);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -556,7 +550,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
 			ConfirmYesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -570,7 +564,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
 			VoteUpButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		/// <summary>
 		/// Проскролить до кнопки голосования За.
@@ -583,7 +577,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
 			VoteUpButton.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -597,14 +591,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ScrollToVoteUpButton(author, translation);
 			ClickVoteUpButton(author, translation);
 
-			return GetPage();
+			return LoadPage();
 		}
 		public EditorPage ScrollToVoteCount(string author, string translation)
 		{
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
 			VoteCount.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -640,7 +634,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
 			VoteDownButton.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -654,7 +648,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
 			VoteDownButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -668,7 +662,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ScrollToVoteDownButton(author, translation);
 			ClickVoteDownButton(author, translation);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -679,7 +673,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать хоткей Shift F3 для изменения регистра.");
 			Driver.SendHotKeys(Keys.F3, shift: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -690,7 +684,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку изменения регистра.");
 			ChangeCaseButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -701,7 +695,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку Restore.");
 			RestoreButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -733,7 +727,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Кликнуть по вкладке ревизий");
 			RevisionTab.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -806,7 +800,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Revision = Driver.SetDynamicValue(How.XPath, REVISION_IN_LIST, revisionNumber.ToString(), revisionText);
 			Revision.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -832,7 +826,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString());
 			TargetCell.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -845,7 +839,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
 			cat.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -858,7 +852,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
 			cat.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -881,7 +875,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
 			cat.DoubleClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -931,7 +925,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				ClickRevisionTab();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -948,7 +942,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -961,7 +955,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Driver.SendHotKeys(Keys.End);
 			Driver.SendHotKeys(Keys.Left, control: true, shift: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -979,7 +973,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -995,7 +989,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Driver.SendHotKeys(Keys.Right,control: true, shift: true);
 			Driver.SendHotKeys(Keys.Right, control: true, shift: true);
 			
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -1011,7 +1005,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			Driver.SendHotKeys(Keys.End);
 			Driver.SendHotKeys(Keys.Home, control: true, shift: true);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1035,7 +1029,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				TargetCell.SendKeys(text);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1048,7 +1042,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ClickOnTargetCellInSegment(rowNumber);
 			FillSegmentTargetField(text, rowNumber, clearField);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1060,7 +1054,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ClickOnTargetCellInSegment(segmentNumber);
 			ClickRollbackButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1083,7 +1077,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1116,7 +1110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -1151,7 +1145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				throw new Exception("Термины в редакторе не сохранились.");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

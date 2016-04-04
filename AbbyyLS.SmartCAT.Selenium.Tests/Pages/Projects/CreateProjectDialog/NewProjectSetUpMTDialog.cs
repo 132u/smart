@@ -12,21 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSetUpMTDialog GetPage()
-		{
-			var newProjectSetUpMTDialog = new NewProjectSetUpMTDialog(Driver);
-			InitPage(newProjectSetUpMTDialog, Driver);
-
-			return newProjectSetUpMTDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSetUpMTDialog LoadPage()
 		{
 			if (!IsNewProjectSetUpMTDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не удалось перейти к четвертому шагу создания проекта (выбор МТ)");
 			}
+
+			return this;
 		}
 
 		/// <summary>

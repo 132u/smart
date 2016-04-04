@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new UsersAndRightsBasePage GetPage()
-		{
-			var usersAndRightsBasePage = new UsersAndRightsBasePage(Driver);
-			InitPage(usersAndRightsBasePage, Driver);
-
-			return usersAndRightsBasePage;
-		}
-
-		public new void LoadPage()
+		public new UsersAndRightsBasePage LoadPage()
 		{
 			if (!IsUsersAndRightsBasePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку 'Пользователи и права'.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Перейти на вкладку 'Группы и права'.");
 			GroupsRightsButton.Click();
 
-			return new GroupsAndAccessRightsTab(Driver).GetPage();
+			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
 		
 		#endregion

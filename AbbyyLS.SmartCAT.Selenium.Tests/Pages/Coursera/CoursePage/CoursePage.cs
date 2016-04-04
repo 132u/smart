@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 {
-	public class CoursePage : BaseObject, IAbstractPage<CoursePage>
+	public class CoursePage : IAbstractPage<CoursePage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CoursePage GetPage()
-		{
-			var coursePage = new CoursePage(Driver);
-			InitPage(coursePage, Driver);
-
-			return coursePage;
-		}
-
-		public void LoadPage()
+		public CoursePage LoadPage()
 		{
 			if (!IsCoursePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница курса.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			CustomTestContext.WriteLine("Нажать по вкладке Лекции.");
 			LectureTab.Click();
 
-			return new LecturesTab(Driver).GetPage();
+			return new LecturesTab(Driver).LoadPage();
 		}
 
 		#endregion

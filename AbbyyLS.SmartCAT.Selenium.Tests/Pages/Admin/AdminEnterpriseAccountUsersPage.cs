@@ -17,21 +17,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminEnterpriseAccountUsersPage GetPage()
-		{
-			var adminEnterpriseAccountUsersPage = new AdminEnterpriseAccountUsersPage(Driver);
-			InitPage(adminEnterpriseAccountUsersPage, Driver);
-
-			return adminEnterpriseAccountUsersPage;
-		}
-
-		public new void LoadPage()
+		public new AdminEnterpriseAccountUsersPage LoadPage()
 		{
 			if (!IsAdminEnterpriseAccountUsersPageOpened())
 			{
 				throw new Exception
 					("Произошла ошибка:\n не загружена страница со списком пользователей корпоративного аккаунта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести email пользователя {0} в строку для поиска.", userEmail);
 			FindUserInput.SetText(userEmail);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Найти'.(пользователя)");
 			FindUserButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -70,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			FoundUserSurnameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_SURNAME_INPUT_XPATH, userEmail);
 			FoundUserSurnameInput.SetText(surname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -84,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			FoundUserNameInput = Driver.SetDynamicValue(How.XPath, FOUND_USER_NAME_INPUT_XPATH, userEmail);
 			FoundUserNameInput.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -95,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить' (администратора в аккаунт).");
 			AddUserButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -117,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			SetUserName(userEmail, userName);
 			ClickAddUserButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -129,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			SetEmailToFindUserInput(login);
 			ClickFindUserButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -156,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				AddUser(userEmail, userSurname, userName);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

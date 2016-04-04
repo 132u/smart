@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 		}
 
-		public new DublicateFileErrorDialog GetPage()
-		{
-			var errorDialog = new DublicateFileErrorDialog(Driver);
-			InitPage(errorDialog, Driver);
-
-			return errorDialog;
-		}
-
-		public new void LoadPage()
+		public new DublicateFileErrorDialog LoadPage()
 		{
 			if (!IsDublicateFileErrorDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не пояивлось сообщение о ошибке.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			CustomTestContext.WriteLine("Нажать кнопку Ок.");
 			OkButton.Click();
 
-			return new AddFilesStep(Driver).GetPage();
+			return new AddFilesStep(Driver).LoadPage();
 		}
 
 		#endregion

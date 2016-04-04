@@ -18,20 +18,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new FilterDialog GetPage()
-		{
-			var filterDialog = new FilterDialog(Driver);
-			InitPage(filterDialog, Driver);
-
-			return filterDialog;
-		}
-
-		public new void LoadPage()
+		public new FilterDialog LoadPage()
 		{
 			if (!IsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузился FilterDialog.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы
@@ -218,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дропдаун языков.");
 			LanguageDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -229,7 +223,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Apply.");
 			ApplyButton.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -240,7 +234,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Apply, ожидая ошибку.");
 			ApplyButton.Click();
 
-			return new FilterDialog(Driver).GetPage();
+			return new FilterDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -251,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дропдаун автора.");
 			AuthorDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -262,7 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дропдаун автора изменений.");
 			ModifierDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -273,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Clear.");
 			ClearFilterButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -284,7 +278,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelFilterButton.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -296,7 +290,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в конечную дату создания.", createdEndDate);
 			CreatedEndDate.SetText(createdEndDate.ToString("M/d/yyyy").Replace(".", "/"));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -308,7 +302,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в начальную дату создания.", createdStartDate);
 			CreatedStartDate.SetText(createdStartDate.ToString("M/d/yyyy").Replace(".", "/"));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -320,7 +314,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в конечную дату изменения.", modifiedEndDate);
 			ModifiedEndDate.SetText(modifiedEndDate.ToString("M/d/yyyy").Replace(".", "/"));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -332,7 +326,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в начальную дату изменения.", modifiedStartDate);
 			ModifiedStartDate.SetText(modifiedStartDate.ToString("M/d/yyyy").Replace(".", "/"));
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -343,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на начальную дату создания.");
 			CreatedStartDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -354,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на конечную дату создания.");
 			CreatedEndDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -365,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на начальную дату изменения.");
 			ModifiedStartDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -376,7 +370,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на конечную дату изменения.");
 			ModifiedEndDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -387,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дату в календаре.");
 			DayInCalendar.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -413,7 +407,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			}
 			LanguageDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -425,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			DateModifiedDropdown.Click();
 			Driver.SetDynamicValue(How.XPath, DATE_OPTION, option.Description()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -437,7 +431,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			DateCreatedDropdown.Click();
 			Driver.SetDynamicValue(How.XPath, DATE_OPTION, option.Description()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -454,7 +448,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				checkbox.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -473,7 +467,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			
 			modifier.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -492,7 +486,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			author.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		#endregion
 

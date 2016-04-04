@@ -9,7 +9,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -22,20 +21,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new TaskAssignmentPage GetPage()
-		{
-			var taskAssignmentDialog = new TaskAssignmentPage(Driver);
-			InitPage(taskAssignmentDialog, Driver);
-
-			return taskAssignmentDialog;
-		}
-
-		public new void LoadPage()
+		public new TaskAssignmentPage LoadPage()
 		{
 			if (!IsTaskAssignmentPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть страницу назначения задач");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -50,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, TASK_ASSIGN_DROPDOWN, taskNumber.ToString());
 			AssigneeDropbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -92,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			AssignButton = Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON, taskNumber.ToString());
 			AssignButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			ConfirmCancelButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -123,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CancelAssignButton = Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString());
 			CancelAssignButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -135,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Thread.Sleep(1000);
 			SaveButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -147,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Thread.Sleep(1000);
 			SaveButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -159,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Thread.Sleep(1000);
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -182,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Thread.Sleep(1000);
 			CancelButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 		
 		/// <summary>
@@ -195,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DeadlineIcon = Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString());
 			DeadlineIcon.Click();
 
-			return new DatePicker(Driver).GetPage();
+			return new DatePicker(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -206,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Раскрыть календарь дедлайна.");
 			Deadline.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -217,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать на пустую область в футуре, чтоб закрыть календарь дедлайна.");
 			Footer.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -228,7 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
 			SaveButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 
 		}
 
@@ -267,7 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var assigneesDropdownForTask = Driver.SetDynamicValue(How.XPath, SELECT_ASSIGNEES_DROPDOWN, taskNumber.ToString());
 			assigneesDropdownForTask.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -279,7 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Выбрать тип назначения 'На весь документ' для задачи №{0}.", taskNumber);
 			Driver.FindElement(By.XPath(SIMPLE_ASSIGNMENT_OPTION.Replace("*#*", taskNumber.ToString()))).Click();
 		
-			return new SelectAssigneePage(Driver).GetPage();
+			return new SelectAssigneePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -291,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Выбрать тип назначения 'Распределить сегменты между исполнителями' для задачи №{0}.", taskNumber);
 			Driver.FindElement(By.XPath(SPLIT_ASSIGNMENT_OPTION.Replace("*#*", taskNumber.ToString()))).Click();
 
-			return new DistributeDocumentBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeDocumentBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -313,7 +306,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			Driver.SetDynamicValue(How.XPath, ASSIGNEE_OPTION, fullName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -330,7 +323,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString()).SendKeys(dateTime);
 			CloseDeadlineCalendar();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -344,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			Driver.SetDynamicValue(How.XPath, DAY, day.ToString()).Click();
 			CloseDeadlineCalendar();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -388,7 +381,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ExpandSelectAssigneesDropdown(taskNumber);
 			SelectAssignmentForEntireDocumentType(taskNumber);
 
-			return new SelectAssigneePage(Driver).GetPage();
+			return new SelectAssigneePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -400,7 +393,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ExpandSelectAssigneesDropdown(taskNumber);
 			SelectDistributeDocumentAssignmentType(taskNumber);
 
-			return new DistributeDocumentBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeDocumentBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		#endregion

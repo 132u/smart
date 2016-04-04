@@ -8,25 +8,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class EditTranslationMemoryDialog : ProjectSettingsPage, IAbstractPage<EditTranslationMemoryDialog>
 	{
-		public EditTranslationMemoryDialog(WebDriver driver)
-			: base(driver)
+		public EditTranslationMemoryDialog(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new EditTranslationMemoryDialog GetPage()
-		{
-			var editTMDialog = new EditTranslationMemoryDialog(Driver);
-			InitPage(editTMDialog, Driver);
-
-			return editTMDialog;
-		}
-
-		public new void LoadPage()
+		public new EditTranslationMemoryDialog LoadPage()
 		{
 			if (!IsEditTMDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог редактирования памяти перевода.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку загрузки новой памяти перевода.");
 			UploadButton.Click();
 
-			return new NewTranslationMemoryDialog(Driver).GetPage();
+			return new NewTranslationMemoryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку сохранения памяти перевода в диалоге редактирования.");
 			SaveButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion

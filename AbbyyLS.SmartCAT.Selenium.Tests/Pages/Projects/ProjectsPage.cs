@@ -23,20 +23,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new ProjectsPage GetPage()
-		{
-			var projectPage = new ProjectsPage(Driver);
-			InitPage(projectPage, Driver);
-
-			return projectPage;
-		}
-
-		public new void LoadPage()
+		public new ProjectsPage LoadPage()
 		{
 			if (!IsProjectsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку \"Проекты\".");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать зеленую кнопку создания проекта.");
 			GreenCreateProjectButton.Click();
 
-			return new NewProjectDocumentUploadPage(Driver).GetPage();
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -62,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			QualityAssuranceCheckButton = Driver.SetDynamicValue(How.XPath, QA_CHECK_BUTTON, projectName);
 			QualityAssuranceCheckButton.Click();
 
-			return new QualityAssuranceDialog(Driver).GetPage();
+			return new QualityAssuranceDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
 			ExportType.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -96,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				ClickProject(projectName);
 			}
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
 			ProjectRef.JavaScriptClick();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -120,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать на кнопку 'Создать проект'.");
 			CreateProjectButton.Click();
 
-			return new NewProjectDocumentUploadPage(Driver).GetPage();
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -131,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Поставить галочку в главном чекбоксе.");
 			MainCheckboxe.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -144,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ProjectCheckbox = Driver.SetDynamicValue(How.XPath, PROJECT_CHECKBOX, projectName);
 			ProjectCheckbox.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -155,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать на кнопку 'Удалить'.");
 			DeleteButton.ScrollAndClick();
 
-			return new DeleteDialog(Driver).GetPage();
+			return new DeleteDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -169,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DeleteInProjectButton = Driver.SetDynamicValue(How.XPath, DELETE_IN_PROJECT_BUTTON, projectName);
 			DeleteInProjectButton.Click();
 
-			return new DeleteProjectOrFileDialog(Driver).GetPage();
+			return new DeleteProjectOrFileDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -180,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
 
-			return new TaskDeclineDialog(Driver).GetPage();
+			return new TaskDeclineDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -197,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				OpenProjectFolder.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -211,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, projectName, documentNumber.ToString());
 			DocumentProgress.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -225,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
 			DocumentTaskAssignButton.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -237,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке проекта.");
 			Driver.SetDynamicValue(How.XPath, PROJECT_TASK_ASSIGN_BUTTON, projectName).Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -252,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			Driver.SwitchToNewBrowserTab();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -267,7 +261,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			Driver.SwitchToNewBrowserTab();
 
-			return new SelectTaskDialog(Driver).GetPage();
+			return new SelectTaskDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -278,7 +272,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в главном меню");
 			DownloadInMainMenuButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -291,7 +285,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DownloadInProjectButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_PROJECT_BUTTON, projectName);
 			DownloadInProjectButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -305,7 +299,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DownloadInDocumentButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_DOCUMENT_BUTTON, projectName, documentNumber.ToString());
 			DownloadInDocumentButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -322,7 +316,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				ClickProgressDocument(projectName, documentNumber);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -336,7 +330,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DocumentSettings = Driver.SetDynamicValue(How.XPath, DOCUMENT_SETTINGS, projectName, documentNumber.ToString());
 			DocumentSettings.Click();
 
-			return new DocumentSettingsDialog(Driver).GetPage();
+			return new DocumentSettingsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -347,7 +341,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать на кнопку загрузки файла");
 			UploadDocumentButton.Click();
 
-			return new AddFilesStep(Driver).GetPage();
+			return new AddFilesStep(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -362,7 +356,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
 			DocumentCheckBox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -375,7 +369,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DeleteInProjectButton = Driver.SetDynamicValue(How.XPath, DELETE_IN_PROJECT_BUTTON, projectName);
 			DeleteInProjectButton.Click();
 
-			return new DeleteDialog(Driver).GetPage();
+			return new DeleteDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -388,7 +382,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ProjectSettingsButton = Driver.SetDynamicValue(How.XPath, PROJECT_SETTINGS_BUTTON, projectName);
 			ProjectSettingsButton.Click();
 
-			return new ProjectSettingsDialog(Driver).GetPage();
+			return new ProjectSettingsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -403,7 +397,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			Driver.SwitchToNewBrowserTab();
 
-			return new BuildStatisticsPage(Driver).GetPage();
+			return new BuildStatisticsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -445,7 +439,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			OpenDocumentInfoForProject(projectName, documentNumber);
 			ClickDeclineButton();
 
-			return new TaskDeclineDialog(Driver).GetPage();
+			return new TaskDeclineDialog(Driver).LoadPage();
 		}
 
 		/// Открыть диалог назначения задачи
@@ -458,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			OpenDocumentInfoForProject(projectName, documentNumber);
 			var taskAssignmentPage = ClickDocumentAssignButton(projectName, documentNumber);
 
-			return taskAssignmentPage.GetPage();
+			return taskAssignmentPage.LoadPage();
 		}
 
 		/// <summary>
@@ -479,7 +473,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			
 			ClickProjectAssignButton(projectName);
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -816,7 +810,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				throw new Exception("Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 			}
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -831,7 +825,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				throw new InvalidElementStateException("Произошла ошибка:\n диалог создания проекта не закрылся");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

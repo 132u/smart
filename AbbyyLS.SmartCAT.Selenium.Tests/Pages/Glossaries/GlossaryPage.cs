@@ -20,20 +20,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossaryPage GetPage()
-		{
-			var glossaryPage = new GlossaryPage(Driver);
-			InitPage(glossaryPage, Driver);
-
-			return glossaryPage;
-		}
-
-		public new void LoadPage()
+		public new GlossaryPage LoadPage()
 		{
 			if (!IsGlossaryPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница глоссария");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -56,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Export.");
 			ExportButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -67,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'New Entry'.");
 			NewEntryButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			term.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -95,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -108,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
 
-			return new TermAlreadyExistsDialog(Driver).GetPage();
+			return new TermAlreadyExistsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -133,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(SAVE_ENTRY_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -144,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть меню редактирования глоссария.");
 			EditGlossaryMenu.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -155,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать 'Glossary properties' в меню редактирования глоссария");
 			GlossaryProperties.Click();
 
-			return new GlossaryPropertiesDialog(Driver).GetPage();
+			return new GlossaryPropertiesDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -166,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать 'GlossaryStructure' в меню редактирования глоссария.");
 			GlossaryStructure.Click();
 
-			return new GlossaryStructureDialog(Driver).GetPage();
+			return new GlossaryStructureDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -177,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Import.");
 			ImportButton.Click();
 
-			return new GlossaryImportDialog(Driver).GetPage();
+			return new GlossaryImportDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -208,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Открыть подробную информацию по языку или термину в режиме редактирования.");
 			LanguageHeaderEditMode.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -219,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Открыть подробную информацию по языку или термину в режиме просмотра.");
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_HEADER_VIEW_MODE, language.ToString()).Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -230,7 +224,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в поле комментария в секции 'Language and term details'.", comment);
 			LanguageCommentEditMode.SetText(comment);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -241,7 +235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в поле Definition в секции 'Language and term details'.", text);
 			DefinitionEditMode.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -252,7 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в поле 'Definition source' в секции 'Language and term details'.", text);
 			DefinitionSourceEditMode.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -275,7 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть поле {0} типа дропдаун.", fieldName);
 			Driver.SetDynamicValue(How.XPath, DROPDOWN_TERM_FIELD, fieldName.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -286,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать опцию {0}.", option);
 			Driver.SetDynamicValue(How.XPath, OPTION_IN_TERM_FIELD, option).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -308,7 +302,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на термин №{0} в секции 'Languages and terms'.", termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT_VIEW_MODE, termNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -320,7 +314,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести текст {0} в термин №{1}.", text, termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -361,7 +355,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на строку термина.");
 			CustomTermRow.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -373,7 +367,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CloseExpandTermsButton.Scroll();
 			CloseExpandTermsButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -386,7 +380,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var plusButton = Driver.SetDynamicValue(How.XPath, SYNONYM_PLUS_BUTTON, columnNumber.ToString());
 			plusButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -398,7 +392,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var synonymInput = Driver.SetDynamicValue(How.XPath, SYNONYM_INPUT, columnNumber.ToString());
 			synonymInput.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -425,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			DeleteTermButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, source, target);
 			DeleteTermButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -446,7 +440,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на термин №{0} в колонке 'Languages and terms'.", termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_IN_LANGUAGES_AND_TERMS_COLUMN, termNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -458,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.SetDynamicValue(How.XPath, TERM_FIELD_EDIT_MODE, termField.ToString()).SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -469,7 +463,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе типа List.", item);
 			Driver.SetDynamicValue(How.XPath, ITEMS_LIST, item).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -480,7 +474,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -491,7 +485,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть дропдаун Topic.");
 			TopicField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -502,7 +496,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать значение {0} в дропдауне Topic.", option);
 			Driver.SetDynamicValue(How.XPath, TOPIC_OPTION, option.Trim()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -515,7 +509,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в системное поле {1}.", value, fieldName);
 			Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD_TEXTAREA_TYPE, fieldName.ToString()).SetText(value);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -526,7 +520,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть комбобокс {0} типа List.", fieldName);
 			Driver.SetDynamicValue(How.XPath, ITEMS_LIST_DROPDOWN, fieldName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -537,7 +531,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на комбобокс {0} типа 'Multi-selection list'.", fieldName);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_DROPDOWN, fieldName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -548,7 +542,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу Yes/No.");
 			YesNoCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -560,7 +554,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var customField = Driver.SetDynamicValue(How.XPath, CUSTOM_FIELD_INPUT, fieldName);
 			customField.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -572,7 +566,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var customNumberField = Driver.SetDynamicValue(How.XPath, CUSTOM_NUMBER_FIELD, fieldName);
 			customNumberField.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -583,7 +577,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Открыть календарь в поле {0}.", fieldName);
 			Driver.SetDynamicValue(How.XPath, CUSTOM_DATE_FIELD, fieldName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -594,7 +588,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать текущую дату в календаре.");
 			TodayDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -637,7 +631,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку редактирования термина.");
 			EditTermButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -651,7 +645,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var term = Driver.FindElement(By.XPath(TERM_ROW_BY_SOURCE_AND_TARGET.Replace("#", source).Replace("**", target)));
 			term.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -662,7 +656,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine(string.Format("Ввести {0} в поле поиск.", text));
 			SearchInput.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -673,7 +667,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку поиска.");
 			SearchButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -684,7 +678,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Edit Entry'.");
 			EditEntryButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -695,7 +689,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -706,7 +700,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на поле Image.");
 			Driver.SetDynamicValue(How.XPath, IMAGE_FIELD, fieldName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -717,7 +711,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на кнопку Add в поле {0} типа Media.", fieldName);
 			Driver.SetDynamicValue(How.XPath, ADD_MEDIA_BUTTON, fieldName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -748,7 +742,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Filter.");
 			FilterButton.Click();
 
-			return new FilterDialog(Driver).GetPage();
+			return new FilterDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -769,7 +763,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Удалить фильтр Created со значением {0}.", filterValue);
 			Driver.SetDynamicValue(How.XPath, DELETE_CREATED_FILTER_BUTTON, filterValue).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -780,7 +774,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Удалить фильтр Modified со значением {0}.", filterValue);
 			Driver.SetDynamicValue(How.XPath, DELETE_MODIFIED_FILTER_BUTTON, filterValue).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -791,7 +785,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку удаления всех фильтров");
 			ClearAllFiltersButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -813,7 +807,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filepath);
 			AddMediaInput.SendKeys(filepath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -825,7 +819,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести путь к файлу изображения {0} в поле импорта(с мультимедиа).", filepath);
 			AddImageInputWithMultimedia.SendKeys(filepath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -837,7 +831,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести путь к файлу изображения {0} в поле импорта.", filepath);
 			AddImageInput.SendKeys(filepath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -848,7 +842,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Навести курсор мыши на ссылку добавления медиа файла");
 			AddMultimediaLink.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -859,7 +853,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Навести курсор мыши на ссылку добавления изображения");
 			AddImageLink.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -876,7 +870,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandItemsListDropdown(fieldName);
 			ClickItemInListDropdown(item);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -890,7 +884,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickItemInMultiselectListDropdown(item);
 			ClickMultiselectListDropdown(fieldName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 
@@ -902,7 +896,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandEditGlossaryMenu();
 			var glossaryStructureDialog = ClickGlossaryStructure();
 
-			return glossaryStructureDialog.GetPage();
+			return glossaryStructureDialog.LoadPage();
 		}
 
 		/// <summary>
@@ -913,7 +907,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandEditGlossaryMenu();
 			var glossaryPropertiesDialog = ClickGlossaryProperties();
 
-			return glossaryPropertiesDialog.GetPage();
+			return glossaryPropertiesDialog.LoadPage();
 		}
 
 		/// <summary>
@@ -927,7 +921,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			FillAllTerm(firstTerm, secondTerm);
 			ClickSaveTermButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -944,7 +938,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				ClickSaveTermButton();
 			}
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -957,7 +951,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			FillTerm(1, firstTerm);
 			FillTerm(2, secondTerm);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -978,7 +972,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			ClickSaveEntryButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -991,7 +985,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickSynonymPlusButton(columnNumber);
 			FillSynonym(text, columnNumber);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1003,7 +997,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			OpenLanguageAndTermDetailsEditMode();
 			FillDefinition(definition);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1015,7 +1009,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			OpenCalendar(fieldName);
 			ClickTodayInCalendar();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1027,7 +1021,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandTopicDropdown();
 			ClickOptionInTopicDropdown(option);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1040,7 +1034,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandDropdownTermField(fieldName);
 			SelectOptionDropdownTermField(option);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1053,7 +1047,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			HoverTermRow(source, target);
 			ClickDeleteButton(source, target);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1065,7 +1059,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			OpenLanguageAndTermDetailsEditMode();
 			FillDefinitionSource(definitionSource);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1077,7 +1071,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			OpenLanguageAndTermDetailsEditMode();
 			FillLanguageComment(comment);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1089,7 +1083,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			FillSearchField(text);
 			ClickSearchButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1105,7 +1099,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			FillAllTerm(source + text, target + text);
 			ClickSaveTermButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1120,7 +1114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			TermRow.HoverElement();
 			DeleteTermButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1142,7 +1136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				Driver.SetDynamicValue(How.XPath, TERM_INPUT, i.ToString()).SetText(text);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1156,7 +1150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SetImageFileName(filePath);
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1170,7 +1164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SetImageWithMultimediaFileName(filePath);
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1184,7 +1178,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SetMediaFileName(filePath);
 			Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_IMAGE_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -1589,7 +1583,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта медиа файла видимым для теста");
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";arguments[0].style[\"visibility\"] = \"visible\";", AddMediaInput);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1600,7 +1594,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта изображения(с мультимедиа) видимым для теста");
 			Driver.ExecuteScript("$(\"input:file[name = Image]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 				/// <summary>
@@ -1611,7 +1605,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта изображения видимым для теста");
 			Driver.ExecuteScript("$(\"input:file[name = x1]\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

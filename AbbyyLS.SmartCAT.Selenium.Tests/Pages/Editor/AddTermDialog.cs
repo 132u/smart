@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new AddTermDialog GetPage()
-		{
-			var addTermDialog = new AddTermDialog(Driver);
-			InitPage(addTermDialog, Driver);
-
-			return addTermDialog;
-		}
-
-		public new void LoadPage()
+		public new AddTermDialog LoadPage()
 		{
 			if (!IsAddTermDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог создания нового термина");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Ввести {0} в source.", sourceTerm);
 			SourceTerm.SetText(sourceTerm);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Ввести {0} в target.", targetTerm);
 			TargetTerm.SetText(targetTerm);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -60,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку Add в диалоге создания термина");
 			AddButton.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку Add в диалоге создания термина, ожидая окно подтверждения");
 			AddButton.Click();
 
-			return new ConfirmTermWithoutTranskationDialog(Driver).GetPage();
+			return new ConfirmTermWithoutTranskationDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку Cancel в диалоге создания термина");
 			CancelButton.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -94,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Ввести текст в поле 'Комментарий'.");
 			CommentInput.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -112,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				GlossarySelect.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -126,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				GlossarySelect.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -140,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var glossary = Driver.SetDynamicValue(How.XPath, GLOSSARY_SELECT_BOUNDLIST, glossaryName);
 			glossary.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

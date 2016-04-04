@@ -14,19 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicenseTrialDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicenseTrialDialog LoadPage()
 		{
 			if (!IsLicenseTrialDialogOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не открылось сообщение о триальном периоде.");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -37,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContiniueButton.Click();
 
-			return new LicenseBaseDialog(Driver).GetPage();
+			return new LicenseBaseDialog(Driver).LoadPage();
 		}
 
 		/// <summary>

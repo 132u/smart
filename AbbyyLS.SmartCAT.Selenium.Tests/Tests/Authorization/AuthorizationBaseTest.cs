@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public void Initialization()
 		{
 			_adminHelper = new AdminHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
 
 			_adminSignInPage = new AdminSignInPage(Driver);
 			_signInPage = new SignInPage(Driver);
@@ -30,7 +29,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 		protected AdminHelper _adminHelper;
 		protected AdminSignInPage _adminSignInPage;
-		protected CommonHelper _commonHelper;
 		protected SignInPage _signInPage;
 		protected FacebookPage _facebookPage;
 		protected GooglePage _googlePage;

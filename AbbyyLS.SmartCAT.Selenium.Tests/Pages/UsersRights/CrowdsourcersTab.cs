@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new CrowdsourcersTab GetPage()
-		{
-			var crowdsourcersTab = new CrowdsourcersTab(Driver);
-			InitPage(crowdsourcersTab, Driver);
-
-			return crowdsourcersTab;
-		}
-
-		public new void LoadPage()
+		public new CrowdsourcersTab LoadPage()
 		{
 			if (!IsCrowdsourcersTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы

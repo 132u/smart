@@ -3,34 +3,23 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
 	public class CoursesPage : HeaderMenu, IAbstractPage<CoursesPage>
 	{
-		public WebDriver Driver { get; protected set; }
-
 		public CoursesPage(WebDriver driver): base(driver)
 		{
-			Driver = driver;
-			PageFactory.InitElements(Driver, this);
 		}
 
-		public CoursesPage GetPage()
-		{
-			var coursesPage = new CoursesPage(Driver);
-			InitPage(coursesPage, Driver);
-
-			return coursesPage;
-		}
-
-		public void LoadPage()
+		public new CoursesPage LoadPage()
 		{
 			if (!IsCoursesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница курсов.");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -45,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			Course = Driver.SetDynamicValue(How.XPath, COURSE, courseName);
 			Course.Click();
 
-			return new CoursePage.CoursePage(Driver).GetPage();
+			return new CoursePage.CoursePage(Driver).LoadPage();
 		}
 
 		#endregion

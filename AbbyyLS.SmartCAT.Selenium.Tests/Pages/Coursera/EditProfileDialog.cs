@@ -8,28 +8,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
 	public class EditProfileDialog: HeaderMenu, IAbstractPage<EditProfileDialog>
 	{
-		public WebDriver Driver { get; protected set; }
-
 		public EditProfileDialog(WebDriver driver):base(driver)
 		{
-			Driver = driver;
-			PageFactory.InitElements(Driver, this);
 		}
 
-		public EditProfileDialog GetPage()
-		{
-			var editProfileDialog = new EditProfileDialog(Driver);
-			InitPage(editProfileDialog, Driver);
-
-			return editProfileDialog;
-		}
-
-		public void LoadPage()
+		public new EditProfileDialog LoadPage()
 		{
 			if (!IsEditProfileDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог редактирования профиля.");
 			}
+
+			return this;
 		}
 	
 		#region Простые методы страницы
@@ -43,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести имя {0}.", name);
 			Name.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести фамилию {0}.", surname);
 			Surname.SetText(surname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -67,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести информацию о пользователе {0}.", aboutMeInformation);
 			AboutMeTextarea.SetText(aboutMeInformation);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -78,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку сохранения.");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -89,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать на вкладку редактирования пароля.");
 			ChangePasswordTab.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку закрытия диалога редактирования профиля.");
 			CancelButton.Click();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -112,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести новый пароль {0}.", password);
 			NewPassword.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -124,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести старый пароль {0}.", password);
 			OldPassword.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -136,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести подтверждение пароля {0}.", password);
 			ConfirmPassword.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -147,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку сохранения пароля.");
 			SavePasswordButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -159,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadPhotoInput.SendKeys(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -175,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			makeInputDialogVisible();
 			SetUserPhotoFileName(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -193,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			Driver.WaitUntilElementIsDisappeared(By.XPath(PASSWORD_MISMATCH_ERROR));
 			ClickPasswordSaveButton();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -209,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			FillOldPassword(oldPassword);
 			FillConfirmPassword(confirmPassword ?? newPassword);
 
-			return new EditProfileDialog(Driver).GetPage();
+			return new EditProfileDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -245,7 +235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 
 			ClickSaveButton();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -377,7 +367,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
 			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100).css(\"width\", 500)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

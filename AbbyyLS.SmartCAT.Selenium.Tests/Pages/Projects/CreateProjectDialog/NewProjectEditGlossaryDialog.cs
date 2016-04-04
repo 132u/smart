@@ -13,21 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectEditGlossaryDialog GetPage()
+		public new NewProjectEditGlossaryDialog LoadPage()
 		{
-			var newProjectCreateGlossaryDialog = new NewProjectEditGlossaryDialog(Driver);
-			InitPage(newProjectCreateGlossaryDialog, Driver);
-
-			return newProjectCreateGlossaryDialog;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsNewProjectEditGlossaryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог редактирования глоссария.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -41,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Ввести название глоссария {0}.", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -52,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку Save.");
 			SaveButton.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion

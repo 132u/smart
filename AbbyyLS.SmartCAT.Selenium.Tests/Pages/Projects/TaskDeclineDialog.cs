@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 		}
 
-		public new TaskDeclineDialog GetPage()
-		{
-			var taskDeclineDialog = new TaskDeclineDialog(Driver);
-			InitPage(taskDeclineDialog, Driver);
-
-			return taskDeclineDialog;
-		}
-
-		public new void LoadPage()
+		public new TaskDeclineDialog LoadPage()
 		{
 			if (!IsTaskDeclineDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог отмены задачи.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion

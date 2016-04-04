@@ -19,20 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new TranslationMemoriesPage GetPage()
-		{
-			var translationMemoriesPage = new TranslationMemoriesPage(Driver);
-			InitPage(translationMemoriesPage, Driver);
-
-			return translationMemoriesPage;
-		}
-
-		public new void LoadPage()
+		public new TranslationMemoriesPage LoadPage()
 		{
 			if (!IsTranslationMemoriesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с памятью переводов");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -60,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				CreateNewTmButton.JavaScriptClick();
 			}
 
-			return new NewTranslationMemoryDialog(Driver).GetPage();
+			return new NewTranslationMemoryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку редактирования ТМ.");
 			EditButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку Delete.");
 			DeleteButton.Click();
 
-			return new DeleteTmDialog(Driver).GetPage();
+			return new DeleteTmDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -93,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Ввести название ТМ {0} в поле поиска.", translationMemoryName);
 			SearchField.SetText(translationMemoryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -104,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку поиска ТМ.");
 			SearchButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -119,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).ScrollDown();
 			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -130,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Ввести имя в форме изменения ТМ.");
 			EditNameField.SetText(tmName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -141,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Очистить имя в форме изменения ТМ.");
 			EditNameField.Clear();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -157,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -168,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
 			SaveChangesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -179,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Очистить поле комментария.");
 			EditCommentField.Clear();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -190,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Заполнить поле комментария текстом {0}.", text);
 			EditCommentField.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -201,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на поле с языком перевода в форме редактирования ТМ");
 			TranslationMemoryTargetLanguagesField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -214,7 +208,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			TargetLanguage = Driver.FindElement(By.XPath(TARGET_LANG_ITEM.Replace("*#*", languageValue.ToString())));
 			TargetLanguage.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -225,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на поле с клиентами в форме редактирования ТМ");
 			ClientsField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -236,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на поле с темами в форме редактирования ТМ");
 			TopicsField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -247,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на поле с группами проектов в форме редактирования ТМ");
 			ProjectGroupsList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -261,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Получить имя первой группы проектов в списке");
 			projectGroup = FirstProjectGroupInInList.Text;
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -274,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ProjectGroupInInList = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_IN_LIST, projectGroup);
 			ProjectGroupInInList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -287,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClientInInList = Driver.SetDynamicValue(How.XPath, CLIENT_IN_LIST, clientName);
 			ClientInInList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		///<summary>
@@ -300,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			TopicInList = Driver.SetDynamicValue(How.XPath, TOPIC_IN_LIST, topicName);
 			TopicInList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -348,7 +342,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на кнопку 'Update TM'");
 			UpdateTmButton.Click();
 
-			return new ImportTmxDialog(Driver).GetPage();
+			return new ImportTmxDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -359,7 +353,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку 'Export'");
 			ExportButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -370,7 +364,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на кнопку 'Add TMX'");
 			AddTmxButton.Click();
 
-			return new ImportTmxDialog(Driver).GetPage();
+			return new ImportTmxDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -381,7 +375,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку очистки всех фильтров");
 			ClearAllFiltersButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -392,7 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку 'Filter'");
 			FilterButton.Click();
 
-			return new TranslationMemoriesFilterDialog(Driver).GetPage();
+			return new TranslationMemoriesFilterDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -403,7 +397,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на дропдаун исходного языка.");
 			SourceLanguageDropdown.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -414,7 +408,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
 			TargetLanguageDropdown.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -425,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
 			TargetLanguageDropdown.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -439,7 +433,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SourceLanguageOption = Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGE_OPTION, languageId.ToString());
 			SourceLanguageOption.ScrollAndClick();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -464,7 +458,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			RemoveFilterButton = Driver.SetDynamicValue(How.XPath, REMOVE_FILTER_BUTTON, filterName);
 			RemoveFilterButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -480,7 +474,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickTranslationMemoryRow(translationMemoryName);
 			ClickExportButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -494,7 +488,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				ClickTranslationMemoryRow(translationMemoryName);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -508,7 +502,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				ClickTranslationMemoryRow(translationMemoryName);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -521,7 +515,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				ClickClearAllFiltersButton();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -533,7 +527,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			FillSearch(tmName);
 			ClickSearchTMButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -545,7 +539,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickSourceLanguageDropdown();
 			ClickSourceLanguageOption(language);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -561,7 +555,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			}
 			ClickTargetLanguageDropdown();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -583,8 +577,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickToProjectGroupsField();
 			SelectFirstProjectGroup(out projectGroupName);
 			ClickSaveTranslationMemoryButton();
-			
-			return GetPage();
+
+			if (!IsEditionFormDisappeared())
+			{
+				throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
+			}
+
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -661,7 +660,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				CloseTranslationMemoryInformation(tmName);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -682,7 +681,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				ClickAddTmxButton();
 			}
 
-			return new ImportTmxDialog(Driver).GetPage();
+			return new ImportTmxDialog(Driver).LoadPage();
 		}
 
 		#endregion

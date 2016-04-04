@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using OpenQA.Selenium;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
@@ -17,20 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 		}
 
-		public new SettingsResourcesStep GetPage()
-		{
-			var settingsResourcesStep = new SettingsResourcesStep(Driver);
-			InitPage(settingsResourcesStep, Driver);
-
-			return settingsResourcesStep;
-		}
-
-		public new void LoadPage()
+		public new SettingsResourcesStep LoadPage()
 		{
 			if (!IsSettingsResourcesStepOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся шаг настройки ресурсосв.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		{
 		}
 
-		public new DistributeSegmentsBetweenAssigneesPage GetPage()
-		{
-			var distributeSegmentsBetweenAssigneesPage = new DistributeSegmentsBetweenAssigneesPage(Driver);
-			InitPage(distributeSegmentsBetweenAssigneesPage, Driver);
-
-			return distributeSegmentsBetweenAssigneesPage;
-		}
-
-		public new void LoadPage()
+		public new DistributeSegmentsBetweenAssigneesPage LoadPage()
 		{
 			if (!IsDistributeSegmentsBetweenAssigneesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылась страница распределения сегментов между исполнителями.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -52,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 				throw new Exception(String.Format("Сегмент №{0} не стал кликабельным.", segmentNumber));
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Remove.");
 			RemoveRangeButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -74,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Assign.");
 			AssignButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Change для диапазона №{0}.", rangeNumber);
 			Driver.SetDynamicValue(How.XPath, CHANGE_RANGE_BUTTON, rangeNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -97,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку 'Begin With a Different Start Segment'.");
 			BeginWithDifferentStartSegmentButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -108,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку 'Begin With a Different Start Segment'.");
 			BeginWithDifferentEndSegmentButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -119,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Save.");
 			SaveButton.Click();
 
-			return new DistributeDocumentBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeDocumentBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -130,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать по 'Select End Of Range' в контекстном меню.");
 			SelectEndOfRange.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -142,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать по Assign в списке нераспределнных диапазанов.");
 			Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON_IN_NOT_DISTRIBUTED_RANGE, rangeNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -258,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			ClickSelectEndOfRange();
 			ClickSegment(rangeEnd);
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -272,7 +266,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGN_BUTTON));
 			ClickAssignButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -293,7 +287,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			ClickSegment(newRangeEnd);
 			ClickAssignButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

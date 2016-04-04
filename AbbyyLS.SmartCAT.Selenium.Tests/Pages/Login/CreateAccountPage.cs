@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class CreateAccountPage : BaseObject, IAbstractPage<CreateAccountPage>
+	public class CreateAccountPage : IAbstractPage<CreateAccountPage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,21 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CreateAccountPage GetPage()
+		public CreateAccountPage LoadPage()
 		{
-			var createAccountPage = new CreateAccountPage(Driver);
-			InitPage(createAccountPage, Driver);
-
-			return createAccountPage;
-		}
-
-		public void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsCreateAccountPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма создания аккаунта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать кнопку 'Create Account'.");
 			CreateAccountButton.Click();
 
-			return new SelectProfileForm(Driver).GetPage();
+			return new SelectProfileForm(Driver).LoadPage();
 		}
 
 		#endregion

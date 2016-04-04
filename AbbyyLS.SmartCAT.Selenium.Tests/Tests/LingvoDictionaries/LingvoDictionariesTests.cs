@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -26,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		public void LingvoDictionariesSetUp()
 		{
 			_adminHelper = new AdminHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
+			_signInPage = new SignInPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 
@@ -50,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 					.AddUserToAdminGroupInAccountIfNotAdded(
 						ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, accountUniqueName);
 
-				_commonHelper.GoToSignInPage();
+				_signInPage.GetPage();
 
 				_loginHelper.LogInSmartCat(
 					ThreadUser.Login,
@@ -153,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		private AdminHelper _adminHelper;
 		private LoginHelper _loginHelper;
 		private WorkspacePage _workspacePage;
-		private CommonHelper _commonHelper;
+		private SignInPage _signInPage;
 
 		private SearchPage _searchPage;
 		private LingvoDictionariesPage _lingvoDictionariesPage;

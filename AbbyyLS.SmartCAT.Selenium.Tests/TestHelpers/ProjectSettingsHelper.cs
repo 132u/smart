@@ -71,7 +71,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="filePaths">путь к файлу</param>
 		public ProjectSettingsHelper UploadDocument(IList<string> filePaths)
 		{
-			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentUploadButton()
 				.UploadDocument(filePaths);
@@ -98,7 +97,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="documentName">имя документа</param>
 		public ProjectSettingsHelper DeleteDocument(string documentName)
 		{
-			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickProjectsTableCheckbox(documentName)
 				.ClickDeleteButton()
@@ -109,7 +107,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper OpenWorkflowSettings()
 		{
-			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickSettingsButton()
 				.ClickWorkflowTab();
@@ -119,12 +116,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AddGlossaryToDocument(string documentName, string glossaryName)
 		{
-			BaseObject.InitPage(_projectPage, Driver);
 			_projectPage
 				.ClickDocumentProgress(documentName)
 				.ClickDocumentSettings();
-
-			BaseObject.InitPage(_documentSettingsDialog, Driver);
+			
 			_documentSettingsDialog
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)

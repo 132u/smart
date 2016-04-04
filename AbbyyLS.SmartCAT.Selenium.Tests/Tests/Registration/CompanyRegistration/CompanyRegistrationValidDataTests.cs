@@ -92,9 +92,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_workspacePage.SignOutExpectingAlert();
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -196,9 +196,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_workspacePage.SignOutExpectingAlert();
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -233,18 +233,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_workspacePage.SignOutExpectingAlert();
 
-			_commonHelper.GoToCompanyRegistration();
-
 			_companyRegistrationFirstPage
+				.GetPage()
 				.FillCompanyDataFirstStep(_email, _password, _password)
 				.ClickContinueButtonExpectingError();
 
 			Assert.IsTrue(_companyRegistrationFirstPage.IsAlreadySignUpMessageDisplayed(),
 				"Произошла ошибка:\n сообщение 'You have already signed up for one of the ABBYY services with this email.' не появилось.");
 
-			_commonHelper.GoToSignInPage();
-
-			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
+			_signInPage
+				.GetPage()
+				.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
@@ -272,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_workspacePage.SignOutExpectingAlert();
 
-			_commonHelper.GoToSignInPage();
+			_signInPage.GetPage();
 
 			_loginHelper.LogInSmartCat(_email, _nickName, _password, _maximumCompanyName);
 		}

@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		{
 		}
 
-		public new CancelConfirmationDialog GetPage()
-		{
-			var cancelConfirmationDialog = new CancelConfirmationDialog(Driver);
-			InitPage(cancelConfirmationDialog, Driver);
-
-			return cancelConfirmationDialog;
-		}
-
-		public new void LoadPage()
+		public new CancelConfirmationDialog LoadPage()
 		{
 			if (!IsCancelConfirmationDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылись настйроки контроля качества.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Close.");
 			CloseButton.Click();
 
-			return new GeneralTab(Driver).GetPage();
+			return new GeneralTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
-			return new QualityAssuranceSettings(Driver).GetPage();
+			return new QualityAssuranceSettings(Driver).LoadPage();
 		}
 
 		#endregion

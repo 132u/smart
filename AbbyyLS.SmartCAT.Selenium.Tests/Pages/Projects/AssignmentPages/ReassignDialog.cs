@@ -8,25 +8,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 {
 	public class ReassignDialog : ProjectsPage, IAbstractPage<ReassignDialog>
 	{
-		public ReassignDialog(WebDriver driver)
-			: base(driver)
+		public ReassignDialog(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new ReassignDialog GetPage()
-		{
-			var reassignDialog = new ReassignDialog(Driver);
-			InitPage(reassignDialog, Driver);
-
-			return reassignDialog;
-		}
-
-		public new void LoadPage()
+		public new ReassignDialog LoadPage()
 		{
 			if (!IsReassigneDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась страница назначения пользователя");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Cancel в окне переназначения сегментов.");
 			CancelReassignePopUpButton.Click();
 
-			return new DistributeSegmentsBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeSegmentsBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Continue в окне переназначения сегментов.");
 			ContinueReassignePopUpButton.Click();
 
-			return new DistributeSegmentsBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeSegmentsBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		#endregion

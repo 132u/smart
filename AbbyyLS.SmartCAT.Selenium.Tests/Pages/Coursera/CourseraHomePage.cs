@@ -11,28 +11,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
 	public class CourseraHomePage : HeaderMenu, IAbstractPage<CourseraHomePage>
 	{
-		public WebDriver Driver { get; protected set; }
-
 		public CourseraHomePage(WebDriver driver) : base(driver)
 		{
-			Driver = driver;
-			PageFactory.InitElements(Driver, this);
 		}
 
 		public CourseraHomePage GetPage()
 		{
-			var homePage = new CourseraHomePage(Driver);
-			InitPage(homePage, Driver);
+			CustomTestContext.WriteLine("Переход на страницу курсеры.", ConfigurationManager.CourseraUrl);
 
-			return homePage;
+			Driver.Navigate().GoToUrl(ConfigurationManager.CourseraUrl);
+
+			return new CourseraHomePage(Driver).LoadPage();
 		}
 
-		public void LoadPage()
+		public new CourseraHomePage LoadPage()
 		{
 			if (!IsCourseraHomePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась главная страница coursera.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -70,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку Workspace.");
 			WorkspaceButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -90,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку Join.");
 			JoinButton.Click();
 
-			return new CourseraSignInDialog(Driver).GetPage();
+			return new CourseraSignInDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -101,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку выбора курсов.");
 			SelectCourseButton.Click();
 
-			return new CoursesPage(Driver).GetPage();
+			return new CoursesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -112,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать на имя пользователя.");
 			Nickname.ScrollAndClick();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -125,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			VoteUpButton.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_UP_LIKED_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 		/// <summary>
 		/// Проскролить до кнопки голосования За.
@@ -136,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, translation);
 			VoteUpButton.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -149,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			VoteDownButton.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_DOWN_LIKED_BUTTON));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -161,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, translation);
 			VoteDownButton.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -173,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, translation);
 			VoteCount.Scroll();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

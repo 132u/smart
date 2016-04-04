@@ -17,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossariesPage GetPage()
-		{
-			var glossariesPage = new GlossariesPage(Driver);
-			InitPage(glossariesPage, Driver);
-
-			return glossariesPage;
-		}
-
-		public new void LoadPage()
+		public new GlossariesPage LoadPage()
 		{
 			if (!IsGlossariesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с глоссариями");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				CreateGlossaryButton.JavaScriptClick();
 			}
 
-			return new NewGlossaryDialog(Driver).GetPage();
+			return new NewGlossaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -60,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по названию");
 			SortByName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -81,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по языкам");
 			SortByLanguages.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по кол-ву добавленных терминов");
 			SortByTermsAdded.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -185,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			glossaryRow.ScrollAndClick();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -222,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на кнопку 'Suggested Terms'.");
 			SuggestedTermsButton.Click();
 
-			return new SuggestedTermsGlossariesPage(Driver).GetPage();
+			return new SuggestedTermsGlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -233,7 +227,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на кнопку 'Suggest Term'.");
 			SuggestTermButton.Click();
 
-			return new SuggestTermDialog(Driver).GetPage();
+			return new SuggestTermDialog(Driver).LoadPage();
 		}
 
 		#endregion

@@ -7,27 +7,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class StatisticsBasePage : ProjectsPage, IAbstractPage<StatisticsBasePage>
 	{
-		public StatisticsBasePage(WebDriver driver)
-			: base(driver)
+		public StatisticsBasePage(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new StatisticsBasePage GetPage()
+		public new StatisticsBasePage LoadPage()
 		{
-			var StatisticsBasePage = new StatisticsBasePage(Driver);
-			InitPage(StatisticsBasePage, Driver);
-
-			return StatisticsBasePage;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
-
 			if (!IsStatisticsBasePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился заголовок 'Statistics'.");
 			}
+
+			return this;
 		}
 
 		/// <summary>

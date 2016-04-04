@@ -11,28 +11,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
 	public class UserProfilePage : HeaderMenu, IAbstractPage<UserProfilePage>
 	{
-		public WebDriver Driver { get; protected set; }
-
 		public UserProfilePage(WebDriver driver): base(driver)
 		{
-			Driver = driver;
-			PageFactory.InitElements(Driver, this);
 		}
 
-		public UserProfilePage GetPage()
-		{
-			var profilePage = new UserProfilePage(Driver);
-			InitPage(profilePage, Driver);
-
-			return profilePage;
-		}
-
-		public void LoadPage()
+		public new UserProfilePage LoadPage()
 		{
 			if (!IsUserProfilePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница личного кабинета.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку редактирования профиля.");
 			EditProfileButton.Click();
 
-			return new EditProfileDialog(Driver).GetPage();
+			return new EditProfileDialog(Driver).LoadPage();
 		}
 
 		/// <summary>

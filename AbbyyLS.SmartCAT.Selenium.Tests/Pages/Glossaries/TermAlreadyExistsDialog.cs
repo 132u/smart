@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new TermAlreadyExistsDialog GetPage()
-		{
-			var termAlreadyExistsDialog = new TermAlreadyExistsDialog(Driver);
-			InitPage(termAlreadyExistsDialog, Driver);
-
-			return termAlreadyExistsDialog;
-		}
-
-		public new void LoadPage()
+		public new TermAlreadyExistsDialog LoadPage()
 		{
 			if (!IsTermAlreadyExistsDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог сохранения уже существующего термина");
 			}
+
+			return this;
 		}
 
 		/// <summary>

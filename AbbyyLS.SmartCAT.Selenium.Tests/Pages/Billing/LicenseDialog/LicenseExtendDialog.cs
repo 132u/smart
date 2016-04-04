@@ -15,19 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicenseExtendDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicenseExtendDialog LoadPage()
 		{
 			if (!IsLicenseExtendDialogOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не открылся диалог продления пакета лицензий.");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -40,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 
 			ExtendPeriod.SelectOptionByText((int)duration + " months");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

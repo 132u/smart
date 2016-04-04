@@ -1,6 +1,4 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -16,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 		}
 
-		public new PretranslationDialog GetPage()
-		{
-			var pretranslationDialog = new PretranslationDialog(Driver);
-			InitPage(pretranslationDialog, Driver);
-
-			return pretranslationDialog;
-		}
-
-		public new void LoadPage()
+		public new PretranslationDialog LoadPage()
 		{
 			if (!IsPretranslationDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\nДиалог претранслейта не открылся.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку создания нового правила");
 			AddInsertionRuleButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Раскрыть дропдаун ресурсов.");
 			ResourceDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку сохранения.");
 			SaveAndRunButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ResourceOption = Driver.SetDynamicValue(How.XPath, RESOURCE_OPTION,  resourceOption);
 			ResourceOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -88,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Cancel.");
 			CancelButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -104,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ExpandResourceDropdown();
 			ClickResourceOption(resourceOption.Description());
 		
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -116,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ExpandResourceDropdown();
 			ClickResourceOption(translationMemory);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

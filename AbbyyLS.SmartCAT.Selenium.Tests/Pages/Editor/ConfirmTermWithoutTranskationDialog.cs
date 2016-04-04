@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new ConfirmTermWithoutTranskationDialog GetPage()
-		{
-			var confirmTermWithoutTranskationDialog = new ConfirmTermWithoutTranskationDialog(Driver);
-			InitPage(confirmTermWithoutTranskationDialog, Driver);
-
-			return confirmTermWithoutTranskationDialog;
-		}
-
-		public new void LoadPage()
+		public new ConfirmTermWithoutTranskationDialog LoadPage()
 		{
 			if (!IsConfirmTermWithoutTranslationDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог подтверждения сохранения термина без перевода");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения");
 			ConfirmYesBtn.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		#endregion

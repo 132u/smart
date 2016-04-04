@@ -11,28 +11,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
 	public class LeaderboardPage : HeaderMenu, IAbstractPage<LeaderboardPage>
 	{
-		public WebDriver Driver { get; protected set; }
-
 		public LeaderboardPage(WebDriver driver): base(driver)
 		{
-			Driver = driver;
-			PageFactory.InitElements(Driver, this);
 		}
 
-		public LeaderboardPage GetPage()
-		{
-			var leaderboardPage = new LeaderboardPage(Driver);
-			InitPage(leaderboardPage, Driver);
-
-			return leaderboardPage;
-		}
-
-		public void LoadPage()
+		public new LeaderboardPage LoadPage()
 		{
 			if (!IsLeaderboardPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница лидеров.");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -47,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			UserName = Driver.SetDynamicValue(How.XPath, USER_NAME_IN_LIST, userName);
 			UserName.Click();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -58,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Раскрыть список курсов.");
 			CoursesDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -70,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CourseOption = Driver.SetDynamicValue(How.XPath, COURSE_OPTION, courseName);
 			CourseOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -87,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			ExpandCoursesDropdown();
 			ClickCourseOption(courseName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

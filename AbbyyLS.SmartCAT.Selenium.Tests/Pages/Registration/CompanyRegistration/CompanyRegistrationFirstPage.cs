@@ -18,18 +18,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 
 		public CompanyRegistrationFirstPage GetPage()
 		{
-			var companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
-			LoadPage();
+			CustomTestContext.WriteLine("Переход на страницу регистрации компаний: {0}.", ConfigurationManager.Url + RelativeUrlProvider.CorpReg);
 
-			return companyRegistrationFirstPage;
+			Driver.Navigate().GoToUrl(ConfigurationManager.Url + RelativeUrlProvider.CorpReg);
+
+			return new CompanyRegistrationFirstPage(Driver).LoadPage();
 		}
 
-		public void LoadPage()
+		public CompanyRegistrationFirstPage LoadPage()
 		{
 			if (!IsCompanyRegistrationFirstPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась первая страница регистрации компаний.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.JavaScriptClick();
 
-			return new CompanyRegistrationSecondPage(Driver).GetPage();
+			return new CompanyRegistrationSecondPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле Email.", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле пароля.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -89,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле подтверждения пароля.", password);
 			ConfirmPassword.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Нажать по ссылке 'or sign in with an existing ABBYY account'.");
 			ExistingAbbyyAccountLink.Click();
 
-			return new CompanyRegistrationSignInPage(Driver).GetPage();
+			return new CompanyRegistrationSignInPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -122,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			FillPassword(password);
 			FillConfirmPassword(confirmPassword);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

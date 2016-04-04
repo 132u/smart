@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
-	public class CourseraSignInDialog: BaseObject, IAbstractPage<CourseraSignInDialog>
+	public class CourseraSignInDialog: IAbstractPage<CourseraSignInDialog>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,19 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public new CourseraSignInDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public void LoadPage()
+		public CourseraSignInDialog LoadPage()
 		{
 			if (!IsCourseraSignInDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог авторизации.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести email {0}.", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести пароль {0}.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку SigIn.");
 			SigInButton.Click();
 			
-			return new CourseraHomePage(Driver).GetPage();
+			return new CourseraHomePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -76,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку SigIn с переходом на вкладку регистрации.");
 			SigInButton.Click();
 
-			return new CourseraSignUpDialog(Driver).GetPage();
+			return new CourseraSignUpDialog(Driver).LoadPage();
 		}
 
 		#endregion
@@ -94,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			FillEmail(email);
 			FillPassword(password);
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

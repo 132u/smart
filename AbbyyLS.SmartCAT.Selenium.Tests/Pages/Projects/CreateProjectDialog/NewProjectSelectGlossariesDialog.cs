@@ -12,21 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSelectGlossariesDialog GetPage()
-		{
-			var newProjectSelectGlossariesDialog = new NewProjectSelectGlossariesDialog(Driver);
-			InitPage(newProjectSelectGlossariesDialog, Driver);
-
-			return newProjectSelectGlossariesDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSelectGlossariesDialog LoadPage()
 		{
 			if (!IsNewProjectSelectGlossariesDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не удалось перейти к третьему шагу создания проекта (выбор глоссария)");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -37,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку 'Create Glossary'.");
 			CreateGlossaryButton.Click();
 
-			return new NewGlossaryDialog(Driver).GetPage();
+			return new NewGlossaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -48,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Выбрать первый глоссарий.");
 			FirstGlossaryInput.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

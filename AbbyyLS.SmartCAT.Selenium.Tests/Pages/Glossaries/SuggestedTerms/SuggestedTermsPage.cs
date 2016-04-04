@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		{
 		}
 
-		public new SuggestedTermsPage GetPage()
-		{
-			var suggestedTermsPage = new SuggestedTermsPage(Driver);
-			InitPage(suggestedTermsPage, Driver);
-
-			return suggestedTermsPage;
-		}
-
-		public new void LoadPage()
+		public new SuggestedTermsPage LoadPage()
 		{
 			if (!IsSuggestedTermsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница Suggested Terms");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			SuggestedTerm.Click();
 			SuggestedTerm.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -62,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			term.Click();
 			termInput.SetText(termValue);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			EditSuggestTermButton.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(ACCEPT_TERM_BUTTON_IN_EDIT_MODE));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -88,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать на выпадающий список глоссариев.");
 			GlossariesDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Выбрать глоссарий в дропдауне.");
 			Driver.SetDynamicValue(How.XPath, GLOSSARY_IN_DROPDOWN, glossaryName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -112,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			AcceptTermButtonInEditMode.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(ACCEPT_TERM_BUTTON_IN_EDIT_MODE));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -124,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать кнопку добавления синонима в термин.");
 			Driver.SetDynamicValue(How.XPath, ADD_SYNONYM_BUTTON, termNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -144,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать кнопку 'Accept suggest' термина {0}-{1}", term1, term2);
 			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, term1, term2).JavaScriptClick();
 
-			return new SelectGlossaryDialog(Driver).GetPage();
+			return new SelectGlossaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -159,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать кнопку 'Accept suggest' термина {0}-{1}", term1, term2);
 			Driver.SetDynamicValue(How.XPath, ACCEPT_SUGGEST_BUTTON, term1, term2).JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -176,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			EditSuggestTermButton = Driver.SetDynamicValue(How.XPath, EDIT_SUGGEST_TERM_BUTTON, term1, term2);
 			EditSuggestTermButton.Click();
 
-			return new SelectGlossaryDialog(Driver).GetPage();
+			return new SelectGlossaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -194,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			// Sleep не убирать, иначе термин не исчезнет
 			Thread.Sleep(1000);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -213,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			FillSuggestedTermInEditMode(termNumber: 2, termValue: newTermValue2);
 			ClickAcceptTermButtonInEditMode();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -232,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			FillSuggestedTermInEditMode(addButtonNumber, synonymValue);
 			ClickAcceptTermButtonInEditMode();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -244,7 +238,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			ClickGlossariesDropdown();
 			SelectGlossariesInDropdown(glossaryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

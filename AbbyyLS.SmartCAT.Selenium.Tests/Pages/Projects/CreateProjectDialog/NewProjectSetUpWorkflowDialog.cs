@@ -16,21 +16,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSetUpWorkflowDialog GetPage()
-		{
-			var newProjectSetUpWorkflowDialog = new NewProjectSetUpWorkflowDialog(Driver);
-			InitPage(newProjectSetUpWorkflowDialog, Driver);
-
-			return newProjectSetUpWorkflowDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSetUpWorkflowDialog LoadPage()
 		{
 			if (!IsNewProjectSetUpWorkflowDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не удалось перейти к этапу Workflow создания проекта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на первую задачу в проекте (чтобы выпал выпадающий список с заданиями ).");
 			WFTableFirstTask.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку 'Далее'.");
 			NextButton.Click();
 
-			return new NewProjectSetUpTMDialog(Driver).GetPage();
+			return new NewProjectSetUpTMDialog(Driver).LoadPage();
 		}
 		
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку 'Новая задача'");
 			NewTaskButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -87,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			var task = Driver.SetDynamicValue(How.XPath, WORKFLOW_TASK, taskNumber.ToString());
 			task.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -99,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			var deleteButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			deleteButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -136,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			taskOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

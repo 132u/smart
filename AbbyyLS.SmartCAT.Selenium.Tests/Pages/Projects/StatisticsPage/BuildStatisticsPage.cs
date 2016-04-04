@@ -8,25 +8,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
 	public class BuildStatisticsPage : StatisticsPage, IAbstractPage<BuildStatisticsPage>
 	{
-		public BuildStatisticsPage(WebDriver driver)
-			: base(driver)
+		public BuildStatisticsPage(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new BuildStatisticsPage GetPage()
-		{
-			var buildStatisticsPage = new BuildStatisticsPage(Driver);
-			InitPage(buildStatisticsPage, Driver);
-
-			return buildStatisticsPage;
-		}
-
-		public new void LoadPage()
+		public new BuildStatisticsPage LoadPage()
 		{
 			if (!IsBuildStatisticsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылась страница построения статистики.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку построения статистики.");
 			BuildStatisticsButton.Click();
 
-			return new StatisticsPage(Driver).GetPage();
+			return new StatisticsPage(Driver).LoadPage();
 		}
 
 		#endregion

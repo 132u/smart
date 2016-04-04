@@ -11,20 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		{
 		}
 
-		public new SuggestedTermsGlossariesPage GetPage()
-		{
-			var suggestTermsPage = new SuggestedTermsGlossariesPage(Driver);
-			InitPage(suggestTermsPage, Driver);
-
-			return suggestTermsPage;
-		}
-
-		public new void LoadPage()
+		public new SuggestedTermsGlossariesPage LoadPage()
 		{
 			if (!IsSuggestedTermsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась общая страница Suggested Terms");
 			}
+
+			return this;
 		}
 
 		#region Простые методы

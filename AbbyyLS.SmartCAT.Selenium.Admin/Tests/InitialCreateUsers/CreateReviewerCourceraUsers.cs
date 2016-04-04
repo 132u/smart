@@ -18,7 +18,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[SetUp]
 		public void CreateCourseraUsersSetUp()
 		{
-			_commonHelper = new CommonHelper(Driver);
 			_courseraSignInDialog = new CourseraSignInDialog(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_courseraSignUpDialog = new CourseraSignUpDialog(Driver);
@@ -38,7 +37,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 
 		protected CourseraSignUpDialog _courseraSignUpDialog;
 		protected CourseraSignInDialog _courseraSignInDialog;
-		protected CommonHelper _commonHelper;
 		protected CourseraHomePage _courseraHomePage;
 	}
 }

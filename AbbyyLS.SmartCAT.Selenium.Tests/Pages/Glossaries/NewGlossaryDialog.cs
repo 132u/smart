@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new NewGlossaryDialog GetPage()
-		{
-			var glossaryCreationPage = new NewGlossaryDialog(Driver);
-			InitPage(glossaryCreationPage, Driver);
-
-			return glossaryCreationPage;
-		}
-
-		public new void LoadPage()
+		public new NewGlossaryDialog LoadPage()
 		{
 			if (!IsNewGlossaryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог создания глоссария");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClientsList.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(DROPDOWN_LIST));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClientItem = Driver.SetDynamicValue(How.XPath, CLIENT_ITEM, client);
 			ClientItem.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			DeleteLanguageButton = Driver.SetDynamicValue(How.XPath, DELETE_LANGUAGE_BUTTON, dropdown.ToString());
 			DeleteLanguageButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -90,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ProjectGroupsDropDown.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(MULTISELECT_LIST));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -103,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ProjectGroupsItem = Driver.SetDynamicValue(How.XPath, PROJECT_GROUPS_ITEM, projectGroupName);
 			ProjectGroupsItem.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -115,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} название глоссария", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -127,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести комментарий {0}.", comment);
 			GlossaryComment.SetText(comment);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -141,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			languageDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -154,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var languageOption = Driver.SetDynamicValue(How.XPath, LANGUAGES_LIST, language.ToString());
 			languageOption.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -165,7 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Add.");
 			AddButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -176,7 +170,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на поле комментария.");
 			GlossaryComment.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -187,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку перехода к расшииренным настройкам.");
 			AdvancedSettingsButton.Click();
 
-			return new GlossaryStructureDialog(Driver).GetPage();
+			return new GlossaryStructureDialog(Driver).LoadPage();
 		}
 		
 		/// <summary>
@@ -198,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария.");
 			GlossarySaveButton.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -209,7 +203,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария, ожидая сообщение об ошибке");
 			GlossarySaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

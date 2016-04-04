@@ -19,7 +19,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[SetUp]
 		public void CreateCourseraUsersSetUp()
 		{
-			_commonHelper = new CommonHelper(Driver);
 			_courseraSignInDialog = new CourseraSignInDialog(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_courseraSignUpDialog = new CourseraSignUpDialog(Driver);
@@ -31,9 +30,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			foreach (var user in ConfigurationManager.CourseraCrowdsourceUserList.ToList())
 			{
 				_adminHelper.CreateNewUser(user.Login, user.Login, user.Password, aolUser: true);
-				_commonHelper.GoToCoursera();
 
-				_courseraHomePage.ClickJoinButton();
+				_courseraHomePage
+					.GetPage()
+					.ClickJoinButton();
+
 				_courseraSignInDialog
 					.LoginInCoursera(user.Login, user.Password)
 					.ClickSigInButtonRedirectionOnRegistartionTab();
@@ -48,7 +49,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 
 		protected CourseraSignUpDialog _courseraSignUpDialog;
 		protected CourseraSignInDialog _courseraSignInDialog;
-		protected CommonHelper _commonHelper;
 		protected CourseraHomePage _courseraHomePage;
 	}
 }

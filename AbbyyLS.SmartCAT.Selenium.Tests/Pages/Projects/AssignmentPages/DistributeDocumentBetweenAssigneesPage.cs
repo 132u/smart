@@ -12,26 +12,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 {
 	public class DistributeDocumentBetweenAssigneesPage : ProjectsPage, IAbstractPage<DistributeDocumentBetweenAssigneesPage>
 	{
-		public DistributeDocumentBetweenAssigneesPage(WebDriver driver)
-			: base(driver)
+		public DistributeDocumentBetweenAssigneesPage(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new DistributeDocumentBetweenAssigneesPage GetPage()
-		{
-			var distributeSegmentsBetweenAssigneesPage = new DistributeDocumentBetweenAssigneesPage(Driver);
-			InitPage(distributeSegmentsBetweenAssigneesPage, Driver);
-
-			return distributeSegmentsBetweenAssigneesPage;
-		}
-
-		public new void LoadPage()
+		public new DistributeDocumentBetweenAssigneesPage LoadPage()
 		{
 			if (!IsDistributeSegmentsBetweenAssigneesPageOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылась страница распределения документа между исполнителями.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Нажать на ссылку 'Select Segments And Assign' для исполнителя №{0}.", assigneeNumber);
 			Driver.SetDynamicValue(How.XPath, SELECT_SEGMENTS_AND_ASSIGN_LINK, assigneeNumber.ToString()).Click();
 
-			return new DistributeSegmentsBetweenAssigneesPage(Driver).GetPage();
+			return new DistributeSegmentsBetweenAssigneesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Нажать на кнопку 'Back to task'.");
 			BackToTaskButton.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -67,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Нажать на ссылку 'Another Assignee'.");
 			AnotherAssigneeButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -79,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Нажать кнопку удаления в режме редактирования.");
 			Driver.SetDynamicValue(How.XPath, DELETE_ASSIGNEE_BUTTON_EDIT_MODE, rowNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -91,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Нажать кнопку удаления исполнителя {0}.", assigneeName);
 			Driver.SetDynamicValue(How.XPath, DELETE_ASSIGNEE_BUTTON, assigneeName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -148,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			Driver.SetDynamicValue(How.XPath, ASSIGNEE_DROPDOWN, assigneeNumber.ToString()).Click();
 			Driver.SetDynamicValue(How.XPath, ASSIGNEE_OPTION, assigneeName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

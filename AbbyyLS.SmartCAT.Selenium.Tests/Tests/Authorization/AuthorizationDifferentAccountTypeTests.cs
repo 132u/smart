@@ -45,9 +45,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 					accountType: accountType)
 				.AddUserToAdminGroupInAccountIfNotAdded(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, _accountUniqueName);
 
-			_commonHelper.GoToSignInPage();
-
-			_signInPage.SubmitForm(ThreadUser.Login, ThreadUser.Password);
+			_signInPage
+				.GetPage()
+				.SubmitForm(ThreadUser.Login, ThreadUser.Password);
 
 			_selectAccountForm.SelectAccount(_accountUniqueName);
 

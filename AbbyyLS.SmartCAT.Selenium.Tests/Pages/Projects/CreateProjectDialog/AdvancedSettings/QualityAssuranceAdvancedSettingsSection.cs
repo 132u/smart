@@ -13,21 +13,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new QualityAssuranceAdvancedSettingsSection GetPage()
-		{
-			var qualityAssuranceAdvancedSettingsSection = new QualityAssuranceAdvancedSettingsSection(Driver);
-			InitPage(qualityAssuranceAdvancedSettingsSection, Driver);
-
-			return qualityAssuranceAdvancedSettingsSection;
-		}
-
-		public new void LoadPage()
+		public new QualityAssuranceAdvancedSettingsSection LoadPage()
 		{
 			if (!IsQualityAssuranceAdvancedSettingsSectionOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылись расширенные настройки 'Quality Assurance'.");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы

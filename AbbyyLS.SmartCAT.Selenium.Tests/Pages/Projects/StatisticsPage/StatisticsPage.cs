@@ -11,22 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new StatisticsPage GetPage()
+		public new StatisticsPage LoadPage()
 		{
-			var statisticsPage = new StatisticsPage(Driver);
-			InitPage(statisticsPage, Driver);
-
-			return statisticsPage;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
-
 			if (!IsStatisticsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Страница статистики проекта не открылась.");
 			}
+
+			return this;
 		}
 
 		/// <summary>

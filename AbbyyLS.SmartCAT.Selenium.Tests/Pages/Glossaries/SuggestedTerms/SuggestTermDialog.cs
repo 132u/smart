@@ -14,21 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new SuggestTermDialog GetPage()
+		public new SuggestTermDialog LoadPage()
 		{
-			var suggestTermDialog = new SuggestTermDialog(Driver);
-			InitPage(suggestTermDialog, Driver);
-
-			return suggestTermDialog;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsSuggestTermDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\nНе открылся диалог создания терминов");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -43,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в термин №{1}.", term, termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(term);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на выпадающий список глоссариев.");
 			GlossaryDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать глоссарий {0} в дропдауне.", glossary);
 			Driver.SetDynamicValue(How.XPath, GLOSSARU_IN_LIST, glossary).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы глоссария");
 			SaveButon.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -88,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая открытия страницы со списком глоссариев");
 			SaveButon.Click();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -99,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая сообщение об ошибке");
 			SaveButon.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -111,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на выпадающий список языков №{0}.", languageNumber);
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN_ARROW, languageNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -132,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать язык {0}.", language);
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_OPTION, language.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -143,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы со списком глоссариев");
 			CancelButon.Click();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -154,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Cancel, ожидая открытия страницы глоссария");
 			CancelButon.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 		
 		/// <summary>
@@ -165,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы со списком глоссариев");
 			SaveTermAnywayButon.Click();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -176,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы глоссария");
 			SaveTermAnywayButon.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -208,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				SelectGlossariesInDropdown(glossary);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

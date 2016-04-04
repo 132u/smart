@@ -6,27 +6,21 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
-	public class NewGroupDialog: GroupsAndAccessRightsTab, IAbstractPage<NewGroupDialog>
+	public class NewGroupDialog : GroupsAndAccessRightsTab, IAbstractPage<NewGroupDialog>
 	{
 		public NewGroupDialog(WebDriver driver)
 			: base(driver)
 		{
 		}
 
-		public new NewGroupDialog GetPage()
-		{
-			var newGroupDialog = new NewGroupDialog(Driver);
-			InitPage(newGroupDialog, Driver);
-
-			return newGroupDialog;
-		}
-
-		public new void LoadPage()
+		public new NewGroupDialog LoadPage()
 		{
 			if (!IsNewGroupDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог создания новой группы.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Ввести имя создаваемой группы: {0}.", groupName);
 			GroupName.SetText(groupName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -51,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Сохранить новую группу.");
 			SaveNewGroupButton.Click();
 
-			return new GroupsAndAccessRightsTab(Driver).GetPage();
+			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
 
 		#endregion
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			SetNewGroupName(groupName);
 			ClickSaveNewGroupButton();
 
-			return new GroupsAndAccessRightsTab(Driver).GetPage();
+			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
 
 		#endregion

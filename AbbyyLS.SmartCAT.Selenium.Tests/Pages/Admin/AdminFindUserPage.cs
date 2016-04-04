@@ -14,21 +14,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminFindUserPage GetPage()
-		{
-			var adminFindUserPage = new AdminFindUserPage(Driver);
-			InitPage(adminFindUserPage, Driver);
-
-			return adminFindUserPage;
-		}
-
-		public new void LoadPage()
+		public new AdminFindUserPage LoadPage()
 		{
 			if (!IsAdminFindUserPageOpened())
 			{
 				throw new Exception(
 					"Произошла ошибка:\n не загружена страница поиска пользователя.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести имя пользователя '{0}' в поле поиска.", userName);
 			InputSearch.SetText(userName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по кнопке 'Найти' рядом с полем поиска");
 			FindButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			EmailInSearchResultTable = Driver.SetDynamicValue(How.XPath, EMAIL_IN_SEARCH_RES_TABLE, email);
 			EmailInSearchResultTable.Click();
 
-			return new AdminEditUserPage(Driver).GetPage();
+			return new AdminEditUserPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -83,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			ClickFindButton();
 			var adminEditUserPage = ClickEmailInSearchResultTable(email);
 
-			return adminEditUserPage.GetPage();
+			return adminEditUserPage.LoadPage();
 		}
 
 		#endregion

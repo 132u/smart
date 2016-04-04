@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminEditUserPage GetPage()
-		{
-			var adminEditUserPage = new AdminEditUserPage(Driver);
-			InitPage(adminEditUserPage, Driver);
-
-			return adminEditUserPage;
-		}
-
-		public new void LoadPage()
+		public new AdminEditUserPage LoadPage()
 		{
 			if (!IsAdminEditUserPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загружена страница редактирования пользователя.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Администратор'");
 			IsAdminCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -51,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Submit'.");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -62,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Редактировать' персонального аккаунта");
 			EditPersonalAccount.Click();
 
-			return new AdminPersonalAccountPage(Driver).GetPage();
+			return new AdminPersonalAccountPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -73,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Создать персональный аккаунт'");
 			CreatePersonalAccount.Click();
 
-			return new AdminPersonalAccountPage(Driver).GetPage();
+			return new AdminPersonalAccountPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -90,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				SelectAdminCheckbox();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

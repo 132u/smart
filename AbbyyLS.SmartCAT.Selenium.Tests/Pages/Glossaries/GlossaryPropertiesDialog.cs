@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossaryPropertiesDialog GetPage()
-		{
-			var glossaryPropertiesDialog = new GlossaryPropertiesDialog(Driver);
-			InitPage(glossaryPropertiesDialog, Driver);
-
-			return glossaryPropertiesDialog;
-		}
-
-		public new void LoadPage()
+		public new GlossaryPropertiesDialog LoadPage()
 		{
 			if (!IsGlossaryPropertiesDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n диалог свойств глоссария не открылся");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести имя глоссария {0} в диалоге свойств глоссария.", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести комментарий в диалоге свойств глоссария.", comment);
 			Comment.SetText(comment);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Delete Glossary'.");
 			DeleteGlossaryButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Delete для подтверждения удаления глоссария.");
 			ConfirmDeleteButton.Click();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save");
 			SaveButton.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -97,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save, ожидая сообщение об ошибке");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -163,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			deleteButton.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(WARNING_DELETE_LANGUAGE));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -174,7 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать Cancel в сообщении при удалении языка в диалоге свойств глоссария.");
 			CancelLanguageDeleteButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -185,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Advanced в диалоге свойств глоссария.");
 			AdvancedButton.Click();
 
-			return new GlossaryStructureDialog(Driver).GetPage();
+			return new GlossaryStructureDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -196,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку добавления языка.");
 			AddLanguageButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -207,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на последний дропдаун языка.");
 			LastLanguageDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -218,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дропдаун выбора клиента.");
 			ClientDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -229,7 +223,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать на дропдаун выбора группы проекта.");
 			ProjectGroupDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -242,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, client);
 			ClientOption.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -255,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
 			ProjectGroupOption.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -269,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var languageOption = Driver.SetDynamicValue(How.XPath, LANGUAGE_OPTION, languageId.ToString());
 			languageOption.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -282,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			LanguageDropdown = Driver.SetDynamicValue(How.XPath, LANGUAGE_DROPDOWN, languageNumber.ToString());
 			LanguageDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -299,7 +293,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickClientOption(client);
 			GlossaryName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -312,7 +306,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickProjectGroupOption(projectGroup);
 			ClickProjectGroupDropdown();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -325,7 +319,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickLastLanguageDropdown();
 			SelectLanguage(language);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -338,7 +332,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickLanguageDropdown(languageNumber);
 			SelectLanguage(language);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -350,7 +344,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickDeleteLanguageButton(languagesNumber);
 			ClickCancelInDeleteLanguageWarning();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

@@ -250,7 +250,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingDefinition.cs" />
     <Compile Include="Configs\CatServerConfig.cs" />
-    <Compile Include="TestFramework\BaseObject.cs" />
     <Compile Include="TestFramework\IAbstractPage.cs" />
     <Compile Include="TestFramework\ListExtensions.cs" />
     <Compile Include="FeatureAttributes\PriorityMajorAttribute.cs" />
@@ -260,7 +259,6 @@
     <Compile Include="TestFramework\CustomTestContext.cs" />
     <Compile Include="TestFramework\WebElementExtensions.cs" />
     <Compile Include="TestHelpers\AdminHelper.cs" />
-    <Compile Include="TestHelpers\CommonHelper.cs" />
     <Compile Include="TestHelpers\CreateProjectHelper.cs" />
     <Compile Include="TestHelpers\GlossariesHelper.cs" />
     <Compile Include="TestHelpers\LoginHelper.cs" />

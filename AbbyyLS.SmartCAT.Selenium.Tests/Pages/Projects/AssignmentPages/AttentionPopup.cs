@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		{
 		}
 
-		public new AttentionPopup GetPage()
-		{
-			var attentionPopup = new AttentionPopup(Driver);
-			InitPage(attentionPopup, Driver);
-
-			return attentionPopup;
-		}
-
-		public new void LoadPage()
+		public new AttentionPopup LoadPage()
 		{
 			if (!IsAttentionPopupOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась страница назначения пользователя");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Cancel.");
 			CancelButton.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			CustomTestContext.WriteLine("Нажать на кнопку Save.");
 			SaveButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion

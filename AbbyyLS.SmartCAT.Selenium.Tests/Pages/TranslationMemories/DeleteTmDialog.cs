@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new DeleteTmDialog GetPage()
-		{
-			var deleteTmDialog = new DeleteTmDialog(Driver);
-			InitPage(deleteTmDialog, Driver);
-
-			return deleteTmDialog;
-		}
-
-		public new void LoadPage()
+		public new DeleteTmDialog LoadPage()
 		{
 			if (!IsDeleteConfirmatonDialogPresent())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог подтверждения удаления ТМ");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			DeleteButtonInConfirmationDialog.Click();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_CONFIRMATION_DIALOG));
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		#endregion

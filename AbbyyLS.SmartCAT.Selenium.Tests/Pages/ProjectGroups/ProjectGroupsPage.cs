@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 		{
 		}
 
-		public new ProjectGroupsPage GetPage()
-		{
-			var projectGroupsPage = new ProjectGroupsPage(Driver);
-			InitPage(projectGroupsPage, Driver);
-
-			return projectGroupsPage;
-		}
-
-		public new void LoadPage()
+		public new ProjectGroupsPage LoadPage()
 		{
 			if (!IsProjectGroupsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница 'Группы проектов'");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			CustomTestContext.WriteLine("Нажать кнопку создания группы проектов.");
 			AddProjectGroupsButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 
 			NewProjectGroupRow.SetText(projectGroupName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'.");
 			SaveProjectGroupsButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			CustomTestContext.WriteLine("Нажать кнопку 'Отмена'.");
 			CancelProjectGroupsButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -93,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			deleteButton.JavaScriptClick();
 			Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_PROJECT_GROUP_BUTTON.Replace("*#*", projectGroupName)));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -105,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			CustomTestContext.WriteLine("Прокрутить страницу и кликнуть по строке группы проектов {0}.", projectGroupName);
 			Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_ROW, projectGroupName).ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -118,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			var editButton = Driver.SetDynamicValue(How.XPath, EDIT_PROJECT_GROUP_BUTTON, projectGroupName);
 			editButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -131,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			ProjectGroupRow = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_ROW, projectGroupName);
 			ProjectGroupRow.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -143,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			CustomTestContext.WriteLine("Ввести новое имя группы проектов {0}.", newProjectGroupName);
 			EditNameField.SetText(newProjectGroupName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -177,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			FillProjectGroupName(projectGroup);
 			ClickSaveProjectGroups();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -206,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 			FillNewName(newProjectGroupName);
 			ClickSaveProjectGroups();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -237,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups
 				throw new Exception("Произошла ошибка:\nКнопка удаления не исчезла после удаления группы проектов");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

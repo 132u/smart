@@ -19,19 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		{
 		}
 
-		public new BillingPage GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new BillingPage LoadPage()
 		{
 			if (!IsBillingPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница управления лицензиями.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			CustomTestContext.WriteLine("Нажать кнопку Buy для периода {0} месяцев.", monthPeriod.ToString());
 			Driver.FindElement(By.XPath(BUY_BUTTON.Replace("'*#*'", monthPeriod.Description()))).Click();
 
-			return new LicensePurchaseDialog(Driver).GetPage();
+			return new LicensePurchaseDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 
 			buttons[rowNumber - 1].Click();
 
-			return new LicenseUpgradeDialog(Driver).GetPage();
+			return new LicenseUpgradeDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -73,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			CustomTestContext.WriteLine("Нажать кнопку Extend в {0} строке.", rowNumebr.ToString());
 			Driver.SetDynamicValue(How.XPath, EXTEND_BUTTON, rowNumebr.ToString()).Click();
 
-			return new LicenseExtendDialog(Driver).GetPage();
+			return new LicenseExtendDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -85,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			CustomTestContext.WriteLine("Выбрать {0} лицензий для покупки.", licenseNumber.ToString());
 			LicenseNumber.SelectOptionByText(licenseNumber.ToString());
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

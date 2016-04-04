@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new NewTranslationMemoryDialog GetPage()
-		{
-			var tmCreationPage = new NewTranslationMemoryDialog(Driver);
-			InitPage(tmCreationPage, Driver);
-
-			return tmCreationPage;
-		}
-
-		public new void LoadPage()
+		public new NewTranslationMemoryDialog LoadPage()
 		{
 			if (!IsNewTranslationMemoryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма создания ТМ");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Ввести имя новой ТМ");
 			NameField.SetText(translationMemoryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать на поле названия ТМ.");
 			NameField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Раскрыть / свернуть список исходных языков");
 			SourceLanguagesList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -78,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SourceLanguage = Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGES, ((int)language).ToString());
 			SourceLanguage.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -89,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Раскрыть / свернуть список языков перевода");
 			TargetLanguagesList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES, ((int)language).ToString());
 			TargetLanguage.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -115,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CreateClientDropDown.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -128,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, clientName);
 			ClientOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -141,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
 			ProjectOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -152,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ");
 			SaveTranslationMemoryButton.JavaScriptClick();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -163,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ, ожидая ошибку");
 			SaveTranslationMemoryButton.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -174,7 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку отмены сохранения ТМ");
 			CancelTranslationMemoryCreation.JavaScriptClick();
 			
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -188,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			initializeHiddenElementForValidation();
 			fileNameValidation();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -199,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Открыть список групп проектов  при создании ТМ.");
 			ProjectGroupsDropDown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -211,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filePath);
 			UploadFileField.SendKeys(filePath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -228,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickClientOption(clientName);
 			ClickTranslationMemoryName();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -241,7 +235,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickProjectGroupOption(projectGroup);
 			ClickTranslationMemoryName();
 
-			return GetPage();
+			return LoadPage();
 		}
 		/// <summary>
 		/// Выбрать target язык
@@ -253,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectTargetLanguage(language);
 			ClickTargetLanguagesList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -265,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickSourceLanguagesList();
 			SelectSourceLanguage(language);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -366,7 +360,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
 			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -377,7 +371,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Инициализировать скрытый элемнт, необходимый для загрузки документа");
 			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -388,7 +382,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
 			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

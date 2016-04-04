@@ -3,25 +3,26 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class LoginHelper
 	{
-		public WebDriver Driver { get; private set; }
+		public WebDriver Driver { get; set; }
 
 		public LoginHelper(WebDriver driver)
 		{
 			Driver = driver;
-			_adminHelper = new AdminHelper(Driver);
 			_adminSignInPage = new AdminSignInPage(Driver);
-			_commonHelper = new CommonHelper(Driver);
 			_signInPage = new SignInPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_courseraSignInDialog = new CourseraSignInDialog(Driver);
+			_companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
+			_freelanceRegistrationFirstPage = new FreelanceRegistrationFirstPage(Driver);
 		}
 
 		public LoginHelper LogInSmartCat(
@@ -61,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			if (ConfigurationManager.Standalone)
 			{
 				// Тесты запускаются на ОР
-				_commonHelper.GoToWorkspaceUrl(user.StandaloneUrl);
+				_workspacePage.GetPage(user.StandaloneUrl);
 
 				return this;
 			}
@@ -69,51 +70,52 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			switch (startPage)
 			{
 				case StartPage.Admin:
-					_commonHelper.GoToAdminUrl();
-					_adminSignInPage.SignIn(user.Login, user.Password);
+					_adminSignInPage
+						.GetPage()
+						.SignIn(user.Login, user.Password);
 					break;
 
 				case StartPage.CompanyRegistration:
-					_commonHelper.GoToCompanyRegistration();
+					_companyRegistrationFirstPage.GetPage();
 					break;
 
 				case StartPage.FreelanceRegistration:
-					_commonHelper.GoToFreelanceRegistratioin();
+					_freelanceRegistrationFirstPage.GetPage();
 					break;
 
 				case StartPage.SignIn:
-					_commonHelper.GoToSignInPage();
+					_signInPage.GetPage();
 					break;
 
 				case StartPage.Workspace:
-					_commonHelper.GoToSignInPage();
+					_signInPage.GetPage();
 					LogInSmartCat(user.Login, user.NickName, user.Password);
 					break;
 
 				case StartPage.PersonalAccount:
-					_commonHelper.GoToSignInPage();
+					_signInPage.GetPage();
 					LogInSmartCat(user.Login, user.NickName, user.Password, "Personal");
 					break;
 
 				case StartPage.Coursera:
-					_commonHelper.GoToCoursera();
+					_courseraHomePage.GetPage();
 					break;
 
 				default:
-					_commonHelper.GoToSignInPage();
+					_signInPage.GetPage();
 					LogInSmartCat(user.Login, user.NickName, user.Password);
 					break;
 			}
 			return this;
 		}
-
-		private readonly AdminHelper _adminHelper;
+		
 		private readonly AdminSignInPage _adminSignInPage;
-		private readonly CommonHelper _commonHelper;
 		private readonly SignInPage _signInPage;
 		private readonly CourseraHomePage _courseraHomePage;
 		private readonly WorkspacePage _workspacePage;
 		private readonly CourseraSignInDialog _courseraSignInDialog;
+		private readonly CompanyRegistrationFirstPage _companyRegistrationFirstPage;
+		private readonly FreelanceRegistrationFirstPage _freelanceRegistrationFirstPage;
 
 		public const string TestAccountName = "TestAccount";
 		public const string PersonalAccountName = "Personal";

@@ -13,21 +13,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new GlossariesAdvancedSettingsSection GetPage()
-		{
-			var glossariesAdvancedSettingsSection = new GlossariesAdvancedSettingsSection(Driver);
-			InitPage(glossariesAdvancedSettingsSection, Driver);
-
-			return glossariesAdvancedSettingsSection;
-		}
-
-		public new void LoadPage()
+		public new GlossariesAdvancedSettingsSection LoadPage()
 		{
 			if (!IsGlossariesAdvancedSettingsSectionOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылись расширенные настройки Glossaries.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку 'Create Glossary' в панели 'Advanced Settings'.");
 			CreateGlossaryButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -51,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку 'Select Glossary' в панели 'Advanced Settings'.");
 			SelectGlossaryButton.Click();
 
-			return new NewProjectSelectGlossariesDialog(Driver).GetPage();
+			return new NewProjectSelectGlossariesDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			EditGlossaryButton = Driver.SetDynamicValue(How.XPath, EDIT_GLOSSARY_BUTTON, glossaryNumber.ToString());
 			EditGlossaryButton.Click();
 
-			return new NewProjectEditGlossaryDialog(Driver).GetPage();
+			return new NewProjectEditGlossaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -76,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			GlossaryRow.ScrollDown();
 			GlossaryRow.HoverElement();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -103,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			HoverGlossaryRow(glossaryNumber);
 			ClickEditGlossaryButton(glossaryNumber);
 
-			return new NewProjectEditGlossaryDialog(Driver).GetPage();
+			return new NewProjectEditGlossaryDialog(Driver).LoadPage();
 		}
 
 		#endregion

@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		{
 		}
 
-		public new QualityAssuranceSettings GetPage()
-		{
-			var qualityAssuranceSettings = new QualityAssuranceSettings(Driver);
-			InitPage(qualityAssuranceSettings, Driver);
-
-			return qualityAssuranceSettings;
-		}
-
-		public new void LoadPage()
+		public new QualityAssuranceSettings LoadPage()
 		{
 			if (!IsQualityAssuranceSettingsOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылись настйроки контроля качества.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			EditorTitleCheckbox.Click();
 			EditorTitleCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Apply.");
 			ApplyButton.Click();
 
-			return new GeneralTab(Driver).GetPage();
+			return new GeneralTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Cancel без изменений настроек.");
 			CancelButton.Click();
 
-			return new GeneralTab(Driver).GetPage();
+			return new GeneralTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -72,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Cancel после изменений настроек.");
 			CancelButton.Click();
 
-			return new CancelConfirmationDialog(Driver).GetPage();
+			return new CancelConfirmationDialog(Driver).LoadPage();
 		}
 
 		#endregion

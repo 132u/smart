@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		{
 		}
 
-		public new ProjectSettingsDialog GetPage()
-		{
-			var settingsDialog = new ProjectSettingsDialog(Driver);
-			InitPage(settingsDialog, Driver);
-
-			return settingsDialog;
-		}
-
-		public new void LoadPage()
+		public new ProjectSettingsDialog LoadPage()
 		{
 			if (!IsSettingsDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог настроек проекта");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать на вкладку 'Workflow'.");
 			WorkflowTab.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать на вкладку General.");
 			GeneralTab.Click();
 
-			return new GeneralTab(Driver).GetPage();
+			return new GeneralTab(Driver).LoadPage();
 		}
 
 		#endregion
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
 			SaveButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
 			SaveButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку Cancel и дождаться закрытия окна");
 			CancelButton.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 		
 		#endregion

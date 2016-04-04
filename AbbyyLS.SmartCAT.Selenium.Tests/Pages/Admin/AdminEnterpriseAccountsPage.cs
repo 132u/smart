@@ -16,21 +16,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminEnterpriseAccountsPage GetPage()
-		{
-			var adminEnterpriseAccountsPage = new AdminEnterpriseAccountsPage(Driver);
-			InitPage(adminEnterpriseAccountsPage, Driver);
-
-			return adminEnterpriseAccountsPage;
-		}
-
-		public new void LoadPage()
+		public new AdminEnterpriseAccountsPage LoadPage()
 		{
 			if (!IsAdminEnterpriseAccountsPageOpened())
 			{
 				throw new Exception(
 					"Произошла ошибка:\n не загружена страница корпоративных аккаунтов.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -44,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Выбрать затею {0}.", venture);
 			SelectVenture.SelectOptionByText(venture);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF, accountName);
 			ManageUsersRef.Click();
 
-			return new AdminEnterpriseAccountUsersPage(Driver).GetPage();
+			return new AdminEnterpriseAccountUsersPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать 'Создать аккаунт'");
 			AddAccountRef.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -84,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new AdminCreateAccountPage(Driver).GetPage();
+			return new AdminCreateAccountPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -96,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку редактирования аккаунта {0}.", accountName);
 			Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, accountName).Click();
 
-			return new AdminCreateAccountPage(Driver).GetPage();
+			return new AdminCreateAccountPage(Driver).LoadPage();
 		}
 
 		#endregion

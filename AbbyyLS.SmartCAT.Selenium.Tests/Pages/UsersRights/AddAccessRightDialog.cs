@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new AddAccessRightDialog GetPage()
-		{
-			var addAccessRightPage = new AddAccessRightDialog(Driver);
-			InitPage(addAccessRightPage, Driver);
-
-			return addAccessRightPage;
-		}
-
-		public new void LoadPage()
+		public new AddAccessRightDialog LoadPage()
 		{
 			if (!IsAddRightDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного клиента'.");
 			ForSpecificClientRadioButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			RightRadio = Driver.SetDynamicValue(How.XPath, RIGHT_RADIO, right.ToString());
 			RightRadio.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для всех проектов'.");
 			ForAnyProjectRadio.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного проекта'.");
 			ForSpecificProjectRadio.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку далее (при добавлении прав пользователя).");
 			NextButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -97,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку 'Добавить' (право).");
 			AddRightButton.Click();
 
-			return new GroupsAndAccessRightsTab(Driver).GetPage();
+			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
 
 		#endregion
@@ -112,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного клиента'.");
 			ForSpecificClientRadioButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -179,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_OPTION, projectName);
 			ProjectOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

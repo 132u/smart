@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminPersonalAccountPage GetPage()
-		{
-			var adminPersonalAccountPage = new AdminPersonalAccountPage(Driver);
-			InitPage(adminPersonalAccountPage, Driver);
-
-			return adminPersonalAccountPage;
-		}
-
-		public new void LoadPage()
+		public new AdminPersonalAccountPage LoadPage()
 		{
 			if (!IsAdminPersonalAccountPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загружена страница создания аккаунта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести фамилию '{0}' при создании персонального аккаунта", surname);
 			Surname.SetText(surname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -52,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Active'");
 			ActiveCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminCreateDictionaryPackagePage GetPage()
-		{
-			var adminCreateDictionaryPackagePage = new AdminCreateDictionaryPackagePage(Driver);
-			InitPage(adminCreateDictionaryPackagePage, Driver);
-
-			return adminCreateDictionaryPackagePage;
-		}
-
-		public new void LoadPage()
+		public new AdminCreateDictionaryPackagePage LoadPage()
 		{
 			if (!IsAdminCreateDictionaryPackagePageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загрузилась страница создания пакета словарей.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -42,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести {0} в названии пакета словарей.", packageName);
 			DictionaryPackageName.SetText(packageName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Поставить галочку в чекбоксе 'Общедоступный пакет'");
 			PublicDictionaryCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Создать пакет'.");
 			CreateDictionaryPackButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -84,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				AddDictionaryToPack.Click();
 			});
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

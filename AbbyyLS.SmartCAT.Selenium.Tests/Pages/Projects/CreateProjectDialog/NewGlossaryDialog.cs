@@ -12,21 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewGlossaryDialog GetPage()
-		{
-			var newGlossaryDialog = new NewGlossaryDialog(Driver);
-			InitPage(newGlossaryDialog, Driver);
-
-			return newGlossaryDialog;
-		}
-
-		public new void LoadPage()
+		public new NewGlossaryDialog LoadPage()
 		{
 			if (!IsNewGlossaryDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылся диалог создания глоссария в процессе создания проекта");
 			}
+
+			return this;
 		}
 
 		public NewGlossaryDialog SetGlossaryName(string glossaryName)
@@ -34,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Ввести название глоссария {0}.", glossaryName);
 			GlossaryName.SetText(glossaryName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария");
 			SaveButton.Click();
 
-			return new NewProjectSelectGlossariesDialog(Driver).GetPage();
+			return new NewProjectSelectGlossariesDialog(Driver).LoadPage();
 		}
 
 		/// <summary>

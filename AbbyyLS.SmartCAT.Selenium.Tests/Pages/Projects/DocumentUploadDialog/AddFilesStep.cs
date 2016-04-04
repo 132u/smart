@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 		}
 
-		public new AddFilesStep GetPage()
-		{
-			var addFilesStep = new AddFilesStep(Driver);
-			InitPage(addFilesStep, Driver);
-
-			return addFilesStep;
-		}
-
-		public new void LoadPage()
+		public new AddFilesStep LoadPage()
 		{
 			if (!IsAddFilesStepOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся шаг загрузки файла.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadFileInput.SendKeys(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadFileInput.SendKeys(pathFile);
 
-			return new DublicateFileErrorDialog(Driver).GetPage();
+			return new DublicateFileErrorDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			CustomTestContext.WriteLine("Нажать кнопку Next.");
 			NextButton.Click();
 
-			return new SettingsResourcesStep(Driver).GetPage();
+			return new SettingsResourcesStep(Driver).LoadPage();
 		}
 
 		#endregion
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				SetFileName(filePath);
 			}
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				SetDublicateFileName(filePath);
 			}
 
-			return new DublicateFileErrorDialog(Driver).GetPage();
+			return new DublicateFileErrorDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -117,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				throw new Exception("Произошла ошибка: \n не удалось дождаться закрытия диалога добавления файла в проект.");
 			}
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -182,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				"arguments[0].style[\"visibility\"] = \"visible\";",
 				UploadFileInput);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

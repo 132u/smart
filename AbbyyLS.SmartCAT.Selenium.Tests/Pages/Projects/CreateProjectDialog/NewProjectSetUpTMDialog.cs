@@ -1,6 +1,4 @@
-﻿using System.Collections.Specialized;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -16,21 +14,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSetUpTMDialog GetPage()
-		{
-			var newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
-			InitPage(newProjectSetUpTMDialog, Driver);
-
-			return newProjectSetUpTMDialog;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSetUpTMDialog LoadPage()
 		{
 			if (!IsNewProjectSetUpTMDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не удалось перейти к следующему шагу создания проекта (выбор ТМ)");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Выбрать первую ТМ в списке.");
 			TMTableFirstItem.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			TranslationMemoryCheckbox = Driver.SetDynamicValue(How.XPath, TRANSLATION_MEMORY_CHECKBOX, translationMemory);
 			TranslationMemoryCheckbox.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Driver.WaitUntilElementIsClickable(By.XPath(SEARCH));
 			Search.SetText(translationMemory);
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -80,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку Cancel в окне выбора TM");
 			CancelButton.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -95,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку Add.");
 			AddButton.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -113,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ClickTranslationMemoryCheckbox(translationMemory);
 			ClickAddButton();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		#endregion

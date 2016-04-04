@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 		{
 		}
 
-		public new ClientsPage GetPage()
-		{
-			var clientsPage = new ClientsPage(Driver);
-			InitPage(clientsPage, Driver);
-
-			return clientsPage;
-		}
-
-		public new void LoadPage()
+		public new ClientsPage LoadPage()
 		{
 			if (!IsClientsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с клиентами.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Нажать кнопку создания клиента.");
 			AddClientButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Ввести имя клиента {0}.", clientName);
 			ClientNameField.SetText(clientName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 				throw new Exception("Произошла ошибка: Кнопка сохранения клиента не исчезла.");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -80,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить', ожидая ошибку.");
 			SaveClientButton.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -93,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			ClientRow = Driver.SetDynamicValue(How.XPath, CLIENT_ROW, clientName);
 			ClientRow.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -106,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			EditClientButton = Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, clientName);
 			EditClientButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -119,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			EditClientButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, clientName);
 			EditClientButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -130,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени");
 			SortByName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -164,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 				ClickSaveClientButton();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -186,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 				ClickSaveClientButton();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -198,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client
 			HoverCursorToClient(clientName);
 			ClickDeleteClientButton(clientName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

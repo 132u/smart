@@ -16,21 +16,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossaryStructureDialog GetPage()
-		{
-			var glossaryStructureDialog = new GlossaryStructureDialog(Driver);
-			InitPage(glossaryStructureDialog, Driver);
-
-			return glossaryStructureDialog;
-		}
-
-		public new void LoadPage()
+		public new GlossaryStructureDialog LoadPage()
 		{
 			if (!IsGlossaryStructureDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n диалог изменения структуры глоссария не открылся");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -46,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var field = Driver.SetDynamicValue(How.XPath, SYSTEM_FIELD, systemField.ToString());
 			field.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку Save в диалоге изменения сруктуры глоссария.");
 			SaveButton.Click();
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Add To List' в диалоге изменения сруктуры глоссария.");
 			AddToListButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -85,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				AddSystemFieldButton.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -96,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть комбобокс с уровнями полей.");
 			LevelDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			var levelOption = Driver.SetDynamicValue(How.XPath, LEVEL_OPTION, level.Description());
 			levelOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -120,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать поле {0} типа термин.", termField);
 			Driver.SetDynamicValue(How.XPath, TERM_FIELD_OPTION, termField.Description()).ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -131,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Переключиться на вкладку ' Custom Fields'.");
 			CustomFieldsTab.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -142,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в название кастомного поля.", fieldName);
 			CustomFieldName.SetText(fieldName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -153,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести {0} в поле 'Default value'.", defaultValue);
 			DefaultValue.SetText(defaultValue);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -164,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Заполнить поле 'Items List'.");
 			ItemsListField.SetText(items);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -175,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выбрать тип {0} кастомного поля.", type);
 			Driver.SetDynamicValue(How.XPath, TYPE_COMBOBOX, type.Description().Trim()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -186,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Раскрыть комбобокс типа кастомного поля.");
 			Type.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -197,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Поставить галочку в чекбоксе 'Required field'.");
 			RequiredCheckbox.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -208,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Add to List' на вкладке 'Custom Fields'.");
 			AddCustomFieldButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -219,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Add to List'  на вкладке 'System Fields'.");
 			AddSystemFieldButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -246,7 +240,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickAddSystemFieldButton();
 			var glossaryPage = ClickSaveButton();
 
-			return glossaryPage.GetPage();
+			return glossaryPage.LoadPage();
 		}
 
 		/// <summary>
@@ -258,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ExpandLevelDropdown();
 			SelectLevel(level);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -271,7 +265,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickAddSystemFieldButton();
 			var glossaryPage = ClickSaveButton();
 
-			return glossaryPage.GetPage();
+			return glossaryPage.LoadPage();
 		}
 
 		/// <summary>
@@ -282,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SelectLanguageFields();
 			var glossaryPage = ClickSaveButton();
 
-			return glossaryPage.GetPage();
+			return glossaryPage.LoadPage();
 		}
 
 		/// <summary>
@@ -301,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			var glossaryPage = ClickSaveButton();
 
-			return glossaryPage.GetPage();
+			return glossaryPage.LoadPage();
 		}
 
 		/// <summary>
@@ -343,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			ClickAddCustomFieldButton();
 			var glossaryPage = ClickSaveButton();
 
-			return glossaryPage.GetPage();
+			return glossaryPage.LoadPage();
 		}
 
 		#endregion

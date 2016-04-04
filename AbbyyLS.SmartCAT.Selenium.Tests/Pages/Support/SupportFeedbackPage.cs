@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support
 		{
 		}
 
-		public new SupportFeedbackPage GetPage()
-		{
-			var supportFeedbackPage = new SupportFeedbackPage(Driver);
-			InitPage(supportFeedbackPage, Driver);
-
-			return supportFeedbackPage;
-		}
-
-		public new void LoadPage()
+		public new SupportFeedbackPage LoadPage()
 		{
 			if (!IsSupportFeedbackPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась страница ответов техподдержки.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

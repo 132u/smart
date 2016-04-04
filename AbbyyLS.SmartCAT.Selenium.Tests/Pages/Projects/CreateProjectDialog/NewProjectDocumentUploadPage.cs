@@ -17,22 +17,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectDocumentUploadPage GetPage()
+		public new NewProjectDocumentUploadPage LoadPage()
 		{
-			var documentUploadPage = new NewProjectDocumentUploadPage(Driver);
-			InitPage(documentUploadPage, Driver);
-
-			return documentUploadPage;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsNewProjectDocumentUploadPageOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылась страница загрузки документа при создании проекта.");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -44,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			UploadDocumentInput.SendKeys(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#region Простые методы страницы
@@ -57,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку 'Пропустить' на странице загрузки документа");
 			SkipDocumentUploadButton.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
 			SettingsButton.Click();
 
-			return new NewProjectSettingsPage(Driver).GetPage();
+			return new NewProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			UploadedDocument = Driver.SetDynamicValue(How.XPath, UPLOADED_DOCUMENT, fileName);
 			UploadedDocument.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -95,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			DeleteFileButton = Driver.SetDynamicValue(How.XPath, DELETE_DOCUMENT_BUTTON, fileName);
 			DeleteFileButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -125,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				}
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -146,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				}
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -158,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			HoverCursorToUploadedDocument(fileName);
 			ClickDeleteDocumentButton(fileName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -248,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				"arguments[0].style[\"visibility\"] = \"visible\";", 
 				UploadDocumentInput);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

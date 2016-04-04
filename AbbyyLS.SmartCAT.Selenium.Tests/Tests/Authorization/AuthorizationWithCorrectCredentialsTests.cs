@@ -69,9 +69,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var nickName = "testuserperevedem@mailforspam.com";
 			var password = "43abC12z";
 
-			_commonHelper.GoToAdminUrl();
-
-			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
+			_adminSignInPage
+				.GetPage()
+				.SignIn(ThreadUser.Login, ThreadUser.Password);
 
 			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
 				email: email,
@@ -83,9 +83,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				personalAccountActiveState: false,
 				aolUser: true);
 
-			_commonHelper.GoToSignInPage();
-
-			_signInPage.SubmitFormExpectingWorkspacePage(email, password);
+			_signInPage
+				.GetPage()
+				.SubmitFormExpectingWorkspacePage(email, password);
 			
 			_workspacePage.SetLocale();
 
@@ -106,9 +106,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			var surname = "testusercoursera";
 			var password= "13grC89p";
 
-			_commonHelper.GoToAdminUrl();
-
-			_adminSignInPage.SignIn(ThreadUser.Login, ThreadUser.Password);
+			_adminSignInPage
+				.GetPage()
+				.SignIn(ThreadUser.Login, ThreadUser.Password);
 
 			_adminHelper
 				.CreateNewUser(
@@ -118,9 +118,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 					aolUser: true)
 				.AddUserToAdminGroupInAccountIfNotAdded(email, name, surname, accountName); ;
 
-			_commonHelper.GoToSignInPage();
-
-			_signInPage.SubmitFormExpectingCreateAccountForm(email, password);
+			_signInPage
+				.GetPage()
+				.SubmitFormExpectingCreateAccountForm(email, password);
 
 			_createAccountPage.ClickCreateAccountButton();
 

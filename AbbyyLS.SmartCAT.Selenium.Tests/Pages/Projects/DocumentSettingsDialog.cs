@@ -1,6 +1,4 @@
-﻿using System;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -16,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new DocumentSettingsDialog GetPage()
-		{
-			var documentSettings = new DocumentSettingsDialog(Driver);
-			InitPage(documentSettings, Driver);
-
-			return documentSettings;
-		}
-
-		public new void LoadPage()
+		public new DocumentSettingsDialog LoadPage()
 		{
 			if (!IsDocumentSettingsDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог настроек документа");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -42,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Задать имя документа: '{0}'", name);
 			Name.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку сохранения, ожидая страницу настрое проекта");
 			SaveButtonProjectSettingsPage.Click();
 
-			return new ProjectSettingsPage(Driver).GetPage();
+			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку сохранения, ожидая страницу со списком проектов");
 			SaveButtonProjectsPage.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -85,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				MachineTranslationCheckbox.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -98,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			GlossaryCheckbox = Driver.SetDynamicValue(How.XPath, GLOSSARY_BY_NAME_XPATH, glossaryName);
 			GlossaryCheckbox.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Навести курсор на таблицу глоссариев в диалоге настроек документа.");
 			GlossaryTable.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -129,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				MachineTranslationCheckbox.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -141,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ClickSaveButtonExpectingProjectsPage();
 			WaitUntilProjectLoadSuccessfully(projectName);
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		#endregion

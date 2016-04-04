@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new LicensesTab GetPage()
-		{
-			var licensesTab = new LicensesTab(Driver);
-			InitPage(licensesTab, Driver);
-
-			return licensesTab;
-		}
-
-		public new void LoadPage()
+		public new LicensesTab LoadPage()
 		{
 			if (!IsLicensesTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы

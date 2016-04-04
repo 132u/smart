@@ -1,13 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistration
 {
@@ -21,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public FreelanceRegistrationSignInPage GetPage()
-		{
-			var freelanceRegistrationSignInPage = new FreelanceRegistrationSignInPage(Driver);
-			LoadPage();
-
-			return freelanceRegistrationSignInPage;
-		}
-
-		public void LoadPage()
+		public FreelanceRegistrationSignInPage LoadPage()
 		{
 			if (!IsFreelanceRegistrationSignInPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница 'Sign In' регистрации фрилансеров.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -48,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Ввести email {0}.", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -60,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Ввести пароль {0}.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign In' для продолжения регистрации фрилансера.");
 			SignInButton.Click();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign In' для перехода в Workspace.");
 			SignInButton.Click();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -93,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign In', ожидая ошибку.");
 			SignInButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -111,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			Email.SetText(email);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

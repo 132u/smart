@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		{
 		}
 
-		public new GeneralTab GetPage()
-		{
-			var generalTab = new GeneralTab(Driver);
-			InitPage(generalTab, Driver);
-
-			return generalTab;
-		}
-
-		public new void LoadPage()
+		public new GeneralTab LoadPage()
 		{
 			if (!IsGeneralTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылась вкладка General.");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку удаления даты дедлайна.");
 			RemoveDeadlineButton.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -51,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Открыть календарь.");
 			DatePicker.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -62,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку контроля качества.");
 			SetUpQASettingsButton.Click();
 
-			return new QualityAssuranceSettings(Driver).GetPage();
+			return new QualityAssuranceSettings(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -73,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Поменять имя проекта на {0}.", name);
 			Name.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -84,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Поменять крайний срок {0}.", deadline);
 			Deadline.SetText(deadline);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -95,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Поменять описание проекта на {0}.", description);
 			Description.SetText(description);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

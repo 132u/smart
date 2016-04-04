@@ -4,13 +4,12 @@ using System.Linq;
 using System.Windows.Forms;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.UI;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
@@ -20,20 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminCreateAccountPage GetPage()
-		{
-			var adminCreateAccountPage = new AdminCreateAccountPage(Driver);
-			InitPage(adminCreateAccountPage, Driver);
-
-			return adminCreateAccountPage;
-		}
-
-		public new void LoadPage()
+		public new AdminCreateAccountPage LoadPage()
 		{
 			if (!IsAdminCreateAccountPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загружена страница создания аккаунта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -48,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Установить дату '{0}'", nextYear);
 			DictionariesExtDate.SetText(nextYear);
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -59,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить'.");
 			SaveButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести название аккаунта " + name);
 			Name.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -94,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Выбрать нужную затею: {0}", name);
 			Venture.SelectOptionByText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -105,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Выбрать тип корпоративного аккаунта: {0}", accountType);
 			EnterpriseAccountTypeDropdown.SelectOptionByText(accountType.ToString());
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -117,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести название поддомена {0}", name);
 			Subdomain.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -129,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			FeaturesOptions = Driver.SetDynamicValue(How.XPath, FEATURES_OPTIONS, feature);
 			FeaturesOptions.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -140,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по стрелке 'вправо', чтоб добавить функцию");
 			FeaturesToRightArrow.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -151,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать на кнопку добавления всех пакетов словарей.");
 			AddAllDictionariesPackagesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -172,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать на кнопку добавления всех алгоритмов разбора документов.");
 			AddAllDisassemblesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -183,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Управление платными услугами'");
 			ManagementPaidServicesReference.Click();
 
-			return new AdminManagementPaidServicesPage(Driver).GetPage();
+			return new AdminManagementPaidServicesPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -202,7 +195,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				ClickRightArrowToAddFeature();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -213,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			AddAllPackages();
 			ClickSaveButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -241,7 +234,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				SendKeys.SendWait(@"{Enter}");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -287,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 			ClickSaveButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

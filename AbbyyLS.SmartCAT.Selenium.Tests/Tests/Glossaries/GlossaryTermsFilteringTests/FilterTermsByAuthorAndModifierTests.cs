@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossaryTermFilterTestsSetUp()
 		{
 			_signInPage = new SignInPage(Driver);
-			_commonHelper = new CommonHelper(Driver);
 
 			_secondUser = null;
 
@@ -42,9 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_commonHelper.GoToSignInPage();
-
 			_signInPage
+				.GetPage()
 				.SubmitForm(_secondUser.Login, _secondUser.Password)
 				.SelectAccount();
 
@@ -115,6 +113,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private TestUser _secondUser;
 
 		private SignInPage _signInPage;
-		private CommonHelper _commonHelper;
 	}
 }

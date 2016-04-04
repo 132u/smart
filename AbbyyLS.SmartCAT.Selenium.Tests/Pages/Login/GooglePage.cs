@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class GooglePage : BaseObject, IAbstractPage<GooglePage>
+	public class GooglePage : IAbstractPage<GooglePage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public GooglePage GetPage()
-		{
-			var googlePage = new GooglePage(Driver);
-			InitPage(googlePage, Driver);
-
-			return googlePage;
-		}
-
-		public void LoadPage()
+		public GooglePage LoadPage()
 		{
 			if (!IsGooglePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница GooglePage (вход в Google).");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -44,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD));
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			NextButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -81,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			SubmitButton.JavaScriptClick();
 
-			return new SelectAccountForm(Driver).GetPage();
+			return new SelectAccountForm(Driver).LoadPage();
 		}
 
 		#endregion

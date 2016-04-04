@@ -21,20 +21,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 		}
 
-		public new ProjectSettingsPage GetPage()
-		{
-			var projectSettingsPage = new ProjectSettingsPage(Driver);
-			InitPage(projectSettingsPage, Driver);
-
-			return projectSettingsPage;
-		}
-
-		public new void LoadPage()
+		public new ProjectSettingsPage LoadPage()
 		{
 			if (!IsProjectSettingsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -47,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Pretranslate.");
 			PretranslateButton.Click();
 
-			return new PretranslationDialog(Driver).GetPage();
+			return new PretranslationDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -60,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
 			ExportType.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -78,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new BuildStatisticsPage(Driver).GetPage();
+			return new BuildStatisticsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -89,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать на кнопку 'Загрузить файлы'.");
 			AddFilesButton.Click();
 
-			return new AddFilesStep(Driver).GetPage();
+			return new AddFilesStep(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
 			DocumentSettingsButton.JavaScriptClick();
 
-			return new DocumentSettingsDialog(Driver).GetPage();
+			return new DocumentSettingsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -113,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			ProjectsTableCheckbox = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_CHECKBOX, documentName);
 			ProjectsTableCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -124,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
 			AssignTasksButtonInDocumentInfo.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -135,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку 'Назначить задачу' на панели");
 			AssignTasksButtonOnPanel.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 
@@ -147,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку 'QA Check'.");
 			QaCheckButton.Click();
 
-			return new QualityAssuranceDialog(Driver).GetPage();
+			return new QualityAssuranceDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -168,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new SelectTaskDialog(Driver).GetPage();
+			return new SelectTaskDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -189,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -209,7 +203,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -220,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку 'Удалить'.");
 			DeleteButton.Click();
 
-			return new DeleteDocumentDialog(Driver).GetPage();
+			return new DeleteDocumentDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -231,7 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в главном меню");
 			DownloadButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -242,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в свертке документа.");
 			DocumentDownloadButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 
@@ -257,7 +251,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			DocumentCheckbox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, documentName);
 			DocumentCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -268,7 +262,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку 'Настройки'");
 			SettingsButton.JavaScriptClick();
 
-			return new ProjectSettingsDialog(Driver).GetPage();
+			return new ProjectSettingsDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -289,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				AllCheckoxes.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -370,7 +364,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку Decline.");
 			DeclineButton.Click();
 
-			return new ConfirmDeclineTaskDialog(Driver).GetPage();
+			return new ConfirmDeclineTaskDialog(Driver).LoadPage();
 		}
 		/// <summary>
 		/// Нажать кнопку редактирования памяти перевода.
@@ -380,7 +374,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку редактирования памяти перевода.");
 			EditTranslationMemoryButton.Click();
 
-			return new EditTranslationMemoryDialog(Driver).GetPage();
+			return new EditTranslationMemoryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -424,7 +418,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
 			DocumentProgress.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -458,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				throw new NoSuchElementException("Произошла ошибка:\n глоссарий не найден.");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -557,7 +551,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 				throw new InvalidElementStateException("Произошла ошибка:\n документ загружается слишком долго");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>

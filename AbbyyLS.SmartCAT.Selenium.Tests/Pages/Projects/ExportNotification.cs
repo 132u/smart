@@ -20,20 +20,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public ExportNotification GetPage()
-		{
-			var exportNotification = new ExportNotification(Driver);
-			InitPage(exportNotification, Driver);
-
-			return exportNotification;
-		}
-
-		public void LoadPage()
+		public new ExportNotification LoadPage()
 		{
 			if (!IsExportNotificationDisplayed())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n уведомление не появилось");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -47,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DownloadNotifierButton.HoverElement();
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -108,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				throw new Exception(String.Format("Произошла ошибка:\n не удалось кликнуть на сообщение. Текст ошибки: {1}", ex.Message));
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -125,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DownloadNotifierButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>

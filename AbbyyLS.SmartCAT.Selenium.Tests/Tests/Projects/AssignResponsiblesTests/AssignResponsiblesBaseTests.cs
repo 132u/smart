@@ -21,7 +21,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void Setup()
 		{
 			_loginHelper = new LoginHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
@@ -65,7 +64,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected string _projectUniqueName;
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspacePage _workspacePage;
-		protected CommonHelper _commonHelper;
 		protected LoginHelper _loginHelper;
 		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected ProjectSettingsDialog _settingsDialog;

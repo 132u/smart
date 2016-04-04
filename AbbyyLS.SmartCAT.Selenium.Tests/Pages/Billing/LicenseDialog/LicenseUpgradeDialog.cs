@@ -14,19 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicenseUpgradeDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicenseUpgradeDialog LoadPage()
 		{
 			if (!IsLicenseUpgradeDialogOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не открылся диалог обновления пакета лицензий.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Выбрать {0} лицензий для обновления.", newLicenseNumber.ToString());
 			NewLicenseNumber.SelectOptionByText(newLicenseNumber.ToString());
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Открыть дропдаун выбора количества лицензий при апгрейде.");
 			NewLicenseNumber.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

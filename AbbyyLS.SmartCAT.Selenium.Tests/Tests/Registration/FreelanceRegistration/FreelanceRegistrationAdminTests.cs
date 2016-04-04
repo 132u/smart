@@ -26,9 +26,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			_adminHelper.CreateNewUser(_email, _nickName, _password, aolUser: false);
 
-			_commonHelper.GoToFreelanceRegistratioin();
-
-			_freelanceRegistrationFirstPage.ClickExistAccountAbbyyOnlineLink();
+			_freelanceRegistrationFirstPage
+				.GetPage()
+				.ClickExistAccountAbbyyOnlineLink();
 
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
@@ -46,9 +46,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			_adminHelper.CreateNewUser(_email, _nickName, _password);
 
-			_commonHelper.GoToFreelanceRegistratioin();
-
-			_freelanceRegistrationFirstPage.ClickExistAccountAbbyyOnlineLink();
+			_freelanceRegistrationFirstPage
+				.GetPage()
+				.ClickExistAccountAbbyyOnlineLink();
 
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _wrongPassword)
@@ -65,9 +65,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.CreateNewUser(_email, _nickName, _password)
 				.AddUserToAdminGroupInAccountIfNotAdded(_email, _nickName, _nickName, LoginHelper.TestAccountName);
 
-			_commonHelper.GoToFreelanceRegistratioin();
-
-			_freelanceRegistrationFirstPage.ClickExistAccountAbbyyOnlineLink();
+			_freelanceRegistrationFirstPage
+				.GetPage()
+				.ClickExistAccountAbbyyOnlineLink();
 
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)
@@ -86,9 +86,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
 				_email, _firstName, _lastName, _nickName, _password, aolUser: false);
 
-			_commonHelper.GoToFreelanceRegistratioin();
-
-			_freelanceRegistrationFirstPage.ClickExistAccountAbbyyOnlineLink();
+			_freelanceRegistrationFirstPage
+				.GetPage()
+				.ClickExistAccountAbbyyOnlineLink();
 
 			_freelanceRegistrationSignInPage
 				.FillSignInForm(_email, _password)

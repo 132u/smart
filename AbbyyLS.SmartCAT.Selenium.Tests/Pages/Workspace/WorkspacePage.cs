@@ -23,7 +23,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 {
-	public class WorkspacePage : BaseObject, IAbstractPage<WorkspacePage>
+	public class WorkspacePage : IAbstractPage<WorkspacePage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -33,20 +33,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public WorkspacePage GetPage()
+		public void GetPage(string workspaceUrl)
 		{
-			var workspacePage = new WorkspacePage(Driver);
-			InitPage(workspacePage, Driver);
+			CustomTestContext.WriteLine("Переход на страницу Workspace: {0}.", workspaceUrl);
 
-			return workspacePage;
+			Driver.Navigate().GoToUrl(workspaceUrl);
 		}
 
-		public void LoadPage()
+		public WorkspacePage LoadPage()
 		{
 			if (!IsWorkspacePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница с workspace");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -59,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Пользователи и права'.");
 			UsersRightsButton.Click();
 
-			return new UsersTab(Driver).GetPage();
+			return new UsersTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -70,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Клиенты'.");
 			ClientsButton.Click();
 
-			return new ClientsPage(Driver).GetPage();
+			return new ClientsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -81,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Группы проектов'.");
 			ProjectGroupsButton.Click();
 
-			return new ProjectGroupsPage(Driver).GetPage();
+			return new ProjectGroupsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -92,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Память переводов'.");
 			TranslationMemoriesButton.JavaScriptClick();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -103,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Глоссарии'.");
 			GlossariesButton.JavaScriptClick();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -114,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Lingvo Dictionaries'.");
 			LingvoDictionaries.Click();
 
-			return new LingvoDictionariesPage(Driver).GetPage();
+			return new LingvoDictionariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -125,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать на имя пользователя и аккаунт, чтобы появилась плашка 'Настройки профиля'.");
 			Account.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -164,7 +165,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Выйти из смартката.");
 			SignOutButton.JavaScriptClick();
 
-			return new SignInPage(Driver).GetPage();
+			return new SignInPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -185,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать на кнопку информация.");
 			HelpMenuButton.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -198,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			Driver.SwitchToNewBrowserTab();
 
-			return new HelpPage(Driver).GetPage();
+			return new HelpPage(Driver).LoadPage();
 
 		}
 
@@ -210,7 +211,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Перейти на страницу 'Видеоуроки'.");
 			VideoLessonsPage.JavaScriptClick();
 
-			return new VideoLessonsPage(Driver).GetPage();
+			return new VideoLessonsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -221,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Перейти на страницу 'Ответы техподержки'.");
 			SupportFeedbackPage.JavaScriptClick();
 
-			return new SupportFeedbackPage(Driver).GetPage();
+			return new SupportFeedbackPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -232,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Открыть диалоговое окно 'Обратиться в техподдержку'.");
 			FeedbackDialog.JavaScriptClick();
 
-			return new FeedbackDialog(Driver).GetPage();
+			return new FeedbackDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -255,7 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать Search в меню.");
 			SearchMenu.Click();
 
-			return new SearchPage(Driver).GetPage();
+			return new SearchPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -267,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Driver.Navigate().Refresh();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -279,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Driver.SwitchTo().Alert().Accept();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -300,7 +301,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		#endregion
@@ -316,7 +317,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ClickSignOutAssumingAlert();
 			Driver.SwitchTo().Alert().Accept();
 
-			return new SignInPage(Driver).GetPage();
+			return new SignInPage(Driver).LoadPage();
 		}
 
 
@@ -328,7 +329,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			OpenHideMenuIfClosed();
 			ClickClientsButton();
 
-			return new ClientsPage(Driver).GetPage();
+			return new ClientsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -340,7 +341,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ExpandResourcesIfNotExpanded();
 			ClickTranslationMemoriesButton();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -352,7 +353,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ExpandResourcesIfNotExpanded();
 			ClickGlossariesButton();
 
-			return new GlossariesPage(Driver).GetPage();
+			return new GlossariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -363,7 +364,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			OpenHideMenuIfClosed();
 			ClickProjectGroupsButton();
 
-			return new ProjectGroupsPage(Driver).GetPage();
+			return new ProjectGroupsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -374,7 +375,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			OpenHideMenuIfClosed();
 			ClickUsersRightsButton();
 
-			return new UsersTab(Driver).GetPage();
+			return new UsersTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -386,7 +387,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ExpandResourcesIfNotExpanded();
 			ClickSearchButton();
 
-			return new SearchPage(Driver).GetPage();
+			return new SearchPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -398,7 +399,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ExpandResourcesIfNotExpanded();
 			ClickLingvoDictionariesButton();
 
-			return new LingvoDictionariesPage(Driver).GetPage();
+			return new LingvoDictionariesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -409,7 +410,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			OpenHideMenuIfClosed();
 			ClickProjectsSubmenu();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -420,7 +421,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ClickAccount();
 			ClickSignOut();
 
-			return new SignInPage(Driver).GetPage();
+			return new SignInPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -432,7 +433,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ClickLicenseAndServices();
 			SwitchToLicenseAndServicesWindow();
 
-			return new BillingPage(Driver).GetPage();
+			return new BillingPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -443,7 +444,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Нажать кнопку 'Проекты'.");
 			ProjectsButton.JavaScriptClick();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -466,7 +467,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				ExpandResourcesMenuButton.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -500,7 +501,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 					throw new InvalidEnumArgumentException("Произошла ошибка:\n локализация может быть только русской или английской.");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -512,7 +513,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			CloseHelpButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -527,7 +528,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				CatMenuOpenButton.JavaScriptClick();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -543,7 +544,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 				RefreshPage<WorkspacePage>();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -571,7 +572,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			SetLocale(language);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

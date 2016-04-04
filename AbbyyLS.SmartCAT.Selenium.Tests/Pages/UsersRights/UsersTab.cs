@@ -17,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new UsersTab GetPage()
-		{
-			var usersTab = new UsersTab(Driver);
-			InitPage(usersTab, Driver);
-
-			return usersTab;
-		}
-
-		public new void LoadPage()
+		public new UsersTab LoadPage()
 		{
 			if (!IsUsersTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по имени.");
 			SortByFirstName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки фамилии");
 			SortByLastName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по ShortName");
 			SortByShortName.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -76,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по адресу почты");
 			SortByEmail.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -87,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по группе");
 			SortByGroups.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -98,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по дате создания");
 			SortByCreated.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по статусу");
 			SortByStatus.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		#endregion

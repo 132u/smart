@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public new SelectAssigneePage GetPage()
-		{
-			var selectAssigneePage = new SelectAssigneePage(Driver);
-			InitPage(selectAssigneePage, Driver);
-
-			return selectAssigneePage;
-		}
-
-		public new void LoadPage()
+		public new SelectAssigneePage LoadPage()
 		{
 			if (!IsSelectAssigneePageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась страница назначения пользователя");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			AnotherAssigneeButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Раскрыть Assignee дропдаун.");
 			AssigneeDopdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			assigneeOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			AssignButton.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку 'Закрыть'");
 			CloseButton.Click();
 
-			return new TaskAssignmentPage(Driver).GetPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -105,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ClickAssignButton();
 			Driver.WaitUntilElementIsDisplay(By.XPath(ASSIGNEE_NAME.Replace("*#*", assigneeName)));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

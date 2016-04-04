@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 		}
 
-		public new GroupsAndAccessRightsTab GetPage()
-		{
-			var groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
-			InitPage(groupsAndAccessRightsTab, Driver);
-
-			return groupsAndAccessRightsTab;
-		}
-
-		public new void LoadPage()
+		public new GroupsAndAccessRightsTab LoadPage()
 		{
 			if (!IsGroupsAndAccessRightsTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть вкладку Группы и права.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			CustomTestContext.WriteLine("Нажать на кнопку 'Создать группу'.");
 			CreateGroupButton.Click();
 
-			return new NewGroupDialog(Driver).GetPage();
+			return new NewGroupDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			Group = Driver.SetDynamicValue(How.XPath, GROUP, groupName);
 			Group.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				throw new Exception("Кнопка 'Редактировать кнопку' не стала видимой.");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -88,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			SaveButton = Driver.SetDynamicValue(How.XPath, SAVE_BUTTON, groupName);
 			SaveButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			DeleteUserButton = Driver.SetDynamicValue(How.XPath, DELETE_USER_BUTTON, groupName, userName);
 			DeleteUserButton.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -140,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			ClickGroupsButton();
 			ClickCreateGroupButton();
 			
-			return new NewGroupDialog(Driver).GetPage();
+			return new NewGroupDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -164,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				ClickSaveButton(groupName);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -189,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				ClickGroupRow(group);
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 
@@ -204,7 +198,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			AddRightsButton = Driver.SetDynamicValue(How.XPath, ADD_RIGHTS_BUTTON, groupName);
 			AddRightsButton.Click();
 
-			return new AddAccessRightDialog(Driver).GetPage();
+			return new AddAccessRightDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -216,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			AddGroupUsersInput = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USERS_INPUT, groupName);
 			AddGroupUsersInput.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -230,7 +224,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BUTTON, groupName, userName);
 			AddGroupUserButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

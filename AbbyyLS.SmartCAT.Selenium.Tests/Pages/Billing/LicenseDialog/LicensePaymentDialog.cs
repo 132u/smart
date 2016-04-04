@@ -14,19 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicensePaymentDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicensePaymentDialog LoadPage()
 		{
 			if (!IsLicensePaymentDialogOpebed())
 			{
 				throw new Exception("Произошла ошибка:\n не открылась форма для ввода данных кредитной карты.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -40,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			PayButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -52,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Ввести номер карты {0}.", cardNumber);
 			CreditCardNumber.SendKeys(cardNumber);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Ввести CVV карты {0}.", cvv);
 			Cvv.SetText(cvv);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -76,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Ввести {0} дату окончания срока действия карты.", date);
 			ExpirationDate.SendKeys(date);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -87,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 			CustomTestContext.WriteLine("Выйти из IFrame платежной системы.");
 			Driver.SwitchToDefaultContent();
 
-			return new LicenseBaseDialog(Driver).GetPage();
+			return new LicenseBaseDialog(Driver).LoadPage();
 		}
 
 		#endregion

@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossaryImportDialog GetPage()
-		{
-			var glossaryImportDialog = new GlossaryImportDialog(Driver);
-			InitPage(glossaryImportDialog, Driver);
-
-			return glossaryImportDialog;
-		}
-
-		public new void LoadPage()
+		public new GlossaryImportDialog LoadPage()
 		{
 			if (!IsGlossaryImportDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог импорта глоссария");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -52,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 				throw new Exception("Кнопка Import в диалоге импорта глоссария не стала кликабельной");
 			}
 
-			return new GlossarySuccessImportDialog(Driver).GetPage();
+			return new GlossarySuccessImportDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Нажать кнопку 'Replace All' в диалоге импорта глоссария");
 			ReplaceAllButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -75,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", pathFile);
 			ImportGlossaryInput.SendKeys(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -92,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			SetFileName(pathFile);
 			setFileNameForValidation(pathFile);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -123,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Driver.ExecuteScript("arguments[0].style[\"display\"] = \"block\";" + "arguments[0].style[\"visibility\"] = \"visible\";",
 			ImportGlossaryInput);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -135,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
 			Driver.ExecuteScript("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[0].innerHTML = '" + Path.GetFileName(pathFile) + "'");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

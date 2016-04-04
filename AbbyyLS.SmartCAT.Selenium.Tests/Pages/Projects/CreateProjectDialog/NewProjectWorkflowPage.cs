@@ -12,27 +12,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
 	public class NewProjectWorkflowPage : NewProjectCreateBaseDialog, IAbstractPage<NewProjectWorkflowPage>
 	{
-		public NewProjectWorkflowPage(WebDriver driver)
-			: base(driver)
+		public NewProjectWorkflowPage(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new NewProjectWorkflowPage GetPage()
+		public new NewProjectWorkflowPage LoadPage()
 		{
-			var newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
-			InitPage(newProjectWorkflowPage, Driver);
-
-			return newProjectWorkflowPage;
-		}
-
-		public new void LoadPage()
-		{
-			Driver.WaitPageTotalLoad();
 			if (!IsNewProjectWorkflowPageOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылась страница Workflow для создаваемого проекта");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -55,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку 'Create Project'");
 			CreateProjectButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -78,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть на кнопку назначения новой задачи типа {0}.", task);
 			Driver.SetDynamicValue(How.XPath, WORKFLOW_TASK_TYPE_ITEM, task.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -91,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			DeleteWorkflowTaskButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			DeleteWorkflowTaskButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -104,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			AddedWorkflowTaskItem = Driver.SetDynamicValue(How.XPath, WORKFLOW_ADDED_TASK_ITEM, taskNumber.ToString());
 			AddedWorkflowTaskItem.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -115,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть на кнопку очистки списка активных задач");
 			ClearButton.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -132,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			HoverCursorToTask(taskNumber);
 			ClickDeleteTaskButton(taskNumber);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -14,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 		}
 
-		public new NewTranslationMemoryDialog GetPage()
-		{
-			var newNewTranslationMemoryDialog = new NewTranslationMemoryDialog(Driver);
-			InitPage(newNewTranslationMemoryDialog, Driver);
-
-			return newNewTranslationMemoryDialog;
-		}
-
-		public new void LoadPage()
+		public new NewTranslationMemoryDialog LoadPage()
 		{
 			if (!IsNewTranslationMemoryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог создания новой памяти перевода.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			Name.SendKeys(translationMemoryName);
 			Name.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Нажать кнопку сохранения новой памяти перевода.");
 			SaveButton.ScrollAndClick();
 
-			return new EditTranslationMemoryDialog(Driver).GetPage();
+			return new EditTranslationMemoryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Ввести путь к файлу {0} в поле импорта.", filePath);
 			ImportFileButton.SendKeys(filePath);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -84,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			FillName(translationMemoryName);
 			ClickSaveButton();
 
-			return new EditTranslationMemoryDialog(Driver).GetPage();
+			return new EditTranslationMemoryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -98,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			initializeHiddenElementForValidation();
 			validation();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -127,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Выполнить скрипт для того, чтобы сделать диалог импорта видимым для теста");
 			Driver.ExecuteScript("$(\"input:file\").removeClass(\"g-hidden\").css(\"opacity\", 100)");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -138,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
 			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").filenameLink.text($(\".js-import-file-form .js-control\").data(\"controller\").fileInput.val());");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -149,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
 			Driver.ExecuteScript("$(\".js-import-file-form .js-control\").data(\"controller\").trigger(\"valueChanged\");");
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

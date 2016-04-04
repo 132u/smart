@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	public class AdminLingvoProPage : BaseObject, IAbstractPage<AdminLingvoProPage>
+	public class AdminLingvoProPage : IAbstractPage<AdminLingvoProPage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -18,21 +18,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public AdminLingvoProPage GetPage()
-		{
-			var adminLingvoProPage = new AdminLingvoProPage(Driver);
-			InitPage(adminLingvoProPage, Driver);
-
-			return adminLingvoProPage;
-		}
-		
-		public void LoadPage()
+		public AdminLingvoProPage LoadPage()
 		{
 			if (!IsAdminLingvoProPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не удалось зайти в админку.\n" +
 					" Не загружена страничка AdminLingvoProPage (Lingvo.Pro Admin).");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Корпоративные аккаунты'.");
 			EnterpriseAccountsLink.Click();
 
-			return new AdminEnterpriseAccountsPage(Driver).GetPage();
+			return new AdminEnterpriseAccountsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Поиск писем'.");
 			LettersSearchReference.Click();
 
-			return new AdminEmailsSearchPage(Driver).GetPage();
+			return new AdminEmailsSearchPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CreateUserReference.Click();
 			var adminCreateUserPage = new AdminCreateUserPage(Driver);
 
-			return adminCreateUserPage.GetPage();
+			return adminCreateUserPage.LoadPage();
 		}
 
 		/// <summary>
@@ -79,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Клик по ссылке Поиск пользователей в меню");
 			SearchUserReference.Click();
 
-			return new AdminFindUserPage(Driver).GetPage();
+			return new AdminFindUserPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -90,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать на ссылку 'Просмотреть пакеты словарей'.");
 			DictionaryPackagesLink.Click();
 
-			return new AdminDictionariesPackagesPage(Driver).GetPage();
+			return new AdminDictionariesPackagesPage(Driver).LoadPage();
 		}
 
 		#endregion

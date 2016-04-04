@@ -14,21 +14,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminManagementPaidServicesPage GetPage()
-		{
-			var adminManagementPaidServicesPage = new AdminManagementPaidServicesPage(Driver);
-			InitPage(adminManagementPaidServicesPage, Driver);
-
-			return adminManagementPaidServicesPage;
-		}
-
-		public new void LoadPage()
+		public new AdminManagementPaidServicesPage LoadPage()
 		{
 			if (!IsAdminManagementPaidServicesPageOpened())
 			{
 				throw new Exception(
 					"Произошла ошибка:\n не загружена страница управления платными услугами");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку включения безлимитного использования услуг");
 			EnableUnlimitedUseServicesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -52,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать кнопку отключения безлимитного использования услуг");
 			DisableUnlimitedUseServicesButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть по ссылке редактирования аккаунта");
 			EditAccountReference.Click();
 
-			return new AdminCreateAccountPage(Driver).GetPage();
+			return new AdminCreateAccountPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -86,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				}
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -105,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				}
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

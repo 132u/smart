@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
-	public class CompleteRegistrationDialog : BaseObject, IAbstractPage<CompleteRegistrationDialog>
+	public class CompleteRegistrationDialog : IAbstractPage<CompleteRegistrationDialog>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,19 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public new CompleteRegistrationDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public void LoadPage()
+		public CompleteRegistrationDialog LoadPage()
 		{
 			if (!IsCompleteRegistrationDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась последняя страница регистрации.");
 			}
+
+			return this;
 		}
 		
 		#region Методы, проверяющие состояние страницы

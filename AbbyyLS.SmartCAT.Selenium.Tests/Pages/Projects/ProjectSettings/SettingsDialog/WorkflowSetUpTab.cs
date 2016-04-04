@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		{
 		}
 
-		public new WorkflowSetUpTab GetPage()
-		{
-			var workflowSetUpTab = new WorkflowSetUpTab(Driver);
-			InitPage(workflowSetUpTab, Driver);
-
-			return workflowSetUpTab;
-		}
-
-		public new void LoadPage()
+		public new WorkflowSetUpTab LoadPage()
 		{
 			if (!IsWorkflowSetUpTabOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылась вкладка 'Workflow SetUp'.");
 			}
+
+			return this;
 		}
 		
 		#region Простые методы страницы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Нажать кнопку 'New Task'.");
 			NewTaskButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -52,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			CustomTestContext.WriteLine("Раскрыть комбобокс №{0} с задачами.", taskNumber);
 			Driver.SetDynamicValue(How.XPath, TASK, taskNumber.ToString()).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 
 			task.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -88,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			DeleteTaskButton = Driver.SetDynamicValue(How.XPath, DELETE_TASK_BUTTON, taskNumber.ToString());
 			DeleteTaskButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -106,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			ClickTaskInDropdown(task);
 			var projectSettingsPage = SaveSettings();
 
-			return projectSettingsPage.GetPage();
+			return projectSettingsPage.LoadPage();
 		}
 
 		/// <summary>
@@ -120,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 			ExpandTask(taskNumber);
 			ClickTaskInDropdown(task);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

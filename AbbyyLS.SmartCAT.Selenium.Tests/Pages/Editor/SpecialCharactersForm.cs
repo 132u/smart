@@ -11,20 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new SpecialCharactersForm GetPage()
-		{
-			var specialCharactersForm = new SpecialCharactersForm(Driver);
-			InitPage(specialCharactersForm, Driver);
-
-			return specialCharactersForm;
-		}
-
-		public new void LoadPage()
+		public new SpecialCharactersForm LoadPage()
 		{
 			if (!IsSpecialCharactersFormOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появилась форма 'Специальные символы'.");
 			}
+
+			return this;
 		}
 
 		/// <summary>

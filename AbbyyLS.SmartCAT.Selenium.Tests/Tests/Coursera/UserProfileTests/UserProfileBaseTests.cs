@@ -29,7 +29,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 			_adminHelper= new AdminHelper(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_courseraSignInDialog = new CourseraSignInDialog(Driver);
-			_commonHelper = new CommonHelper(Driver);
 			_courseraSignUpDialog = new CourseraSignUpDialog(Driver);
 
 			_login = Guid.NewGuid() + "@mailforspam.com";
@@ -37,9 +36,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 			
 			_adminHelper.CreateNewUser(_login, _login, _password, aolUser: false);
 
-			_commonHelper.GoToCoursera();
-
-			_courseraHomePage.ClickJoinButton();
+			_courseraHomePage
+				.GetPage()
+				.ClickJoinButton();
 
 			_courseraSignInDialog
 				.LoginInCoursera(_login, _password)
@@ -67,7 +66,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
 		protected AdminHelper _adminHelper;
 		protected CourseraHomePage _courseraHomePage;
 		protected CourseraSignInDialog _courseraSignInDialog;
-		protected CommonHelper _commonHelper;
 		protected CourseraSignUpDialog _courseraSignUpDialog;
 		protected EditProfileDialog _editProfileDialog;
 	}

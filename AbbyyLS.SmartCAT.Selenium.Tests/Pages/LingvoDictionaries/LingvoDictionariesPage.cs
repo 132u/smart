@@ -18,20 +18,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries
 		{
 		}
 
-		public new LingvoDictionariesPage GetPage()
-		{
-			var dictionariesPage = new LingvoDictionariesPage(Driver);
-			InitPage(dictionariesPage, Driver);
-
-			return dictionariesPage;
-		}
-
-		public new void LoadPage()
+		public new LingvoDictionariesPage LoadPage()
 		{
 			if (!IsLingvoDictionariesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница 'Словари Lingvo'");
 			}
+
+			return this;
 		}
 
 		/// <summary>

@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		{
 		}
 
-		public new SelectGlossaryDialog GetPage()
-		{
-			var selectGlossaryDialog = new SelectGlossaryDialog(Driver);
-			InitPage(selectGlossaryDialog, Driver);
-
-			return selectGlossaryDialog;
-		}
-
-		public new void LoadPage()
+		public new SelectGlossaryDialog LoadPage()
 		{
 			if (!IsSelectGlossaryDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\nНе открылся диалог выбора глоссария");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать на выпадающий список глоссариев в диалоге выбора глоссария.");
 			SelectGlossaryDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Выбрать {0} глоссарий.", glossaryName);
 			Driver.SetDynamicValue(How.XPath, GLOSSARY_IN_SELECT_GLOSSARY_DIALOG, glossaryName).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			CustomTestContext.WriteLine("Нажать кнопку Ok.");
 			OkButton.Click();
 
-			return new SuggestedTermsGlossariesPage(Driver).GetPage();
+			return new SuggestedTermsGlossariesPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -78,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			SelectGlossaryInSelectDialog(glossaryName);
 			var suggestedTermsPageForAllGlossaries = ClickOkButton();
 
-			return suggestedTermsPageForAllGlossaries.GetPage();
+			return suggestedTermsPageForAllGlossaries.LoadPage();
 		}
 
 		#endregion

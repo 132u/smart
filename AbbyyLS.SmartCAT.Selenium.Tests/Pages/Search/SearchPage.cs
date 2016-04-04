@@ -17,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		{
 		}
 
-		public new SearchPage GetPage()
-		{
-			var searchPage = new SearchPage(Driver);
-			InitPage(searchPage, Driver);
-
-			return searchPage;
-		}
-
-		public new void LoadPage()
+		public new SearchPage LoadPage()
 		{
 			if (!IsSearchPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница поиска.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -44,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			CustomTestContext.WriteLine("Ввести {0} в поле поиска", text);
 			SearchField.SetText(text);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			CustomTestContext.WriteLine("Нажать кнопку Translate.");
 			TranslateButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			TranslationWord = Driver.SetDynamicValue(How.XPath, TRANSLATION_WORD, text);
 			TranslationWord.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -80,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			SourceLanguageList.Click();
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_SOURCE_OPTION, source).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -92,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			TargetLanguageList.Click();
 			Driver.SetDynamicValue(How.XPath, LANGUAGE_TARGET_OPTION, target).Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -114,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			CustomTestContext.WriteLine("Нажать на перевод в окне перевода.");
 			TranslationFormReference.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -137,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			CustomTestContext.WriteLine("Переключиться во вкладку 'Examples'");
 			ExamplesTab.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -153,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			AddTextSearch(searchText);
 			ClickTranslateButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CompanyRegistrationSignInPage GetPage()
-		{
-			var companyExistingAccountRegistrationFirstPage = new CompanyRegistrationSignInPage(Driver);
-			LoadPage();
-
-			return companyExistingAccountRegistrationFirstPage;
-		}
-
-		public void LoadPage()
+		public CompanyRegistrationSignInPage LoadPage()
 		{
 			if (!IsCompanyRegistrationSignInPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница входа для регистрации компаний с существующим аккаунтом.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле Email.", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле пароля.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign In'.");
 			SignInButton.JavaScriptClick();
 
-			return new CompanyRegistrationSecondPage(Driver).GetPage();
+			return new CompanyRegistrationSecondPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -85,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			FillEmail(email);
 			FillPassword(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

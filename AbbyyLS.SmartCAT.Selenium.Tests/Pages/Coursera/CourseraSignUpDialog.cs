@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
-	public class CourseraSignUpDialog: BaseObject, IAbstractPage<CourseraSignUpDialog>
+	public class CourseraSignUpDialog: IAbstractPage<CourseraSignUpDialog>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CourseraSignUpDialog GetPage()
-		{
-			var courseraSignUpDialog = new CourseraSignUpDialog(Driver);
-			InitPage(courseraSignUpDialog, Driver);
-
-			return courseraSignUpDialog;
-		}
-
-		public void LoadPage()
+		public CourseraSignUpDialog LoadPage()
 		{
 			if (!IsCourseraSignUpDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Не открылся диалог регистрации пользователя.");
 			}
+
+			return this;
 		}
 	
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести имя {0}.", name);
 			Name.SetText(name);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Ввести фамилию {0}.", surname);
 			Surname.SetText(surname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку SignUp.");
 			SignUpButton.Click();
 
-			return new CompleteRegistrationDialog(Driver).GetPage();
+			return new CompleteRegistrationDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -78,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			var d=Driver.WaitUntilElementIsEnabled(By.XPath(CANCEL_BUTTON));
 			CancelButton.Click();
 
-			return new CourseraHomePage(Driver).GetPage();
+			return new CourseraHomePage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -96,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			FillName(name);
 			FillSurname(surname);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

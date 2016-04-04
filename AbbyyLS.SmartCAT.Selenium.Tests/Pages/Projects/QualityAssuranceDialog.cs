@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 		}
 
-		public QualityAssuranceDialog GetPage()
-		{
-			var qualityAssuranceDialog = new QualityAssuranceDialog(Driver);
-			InitPage(qualityAssuranceDialog, Driver);
-
-			return qualityAssuranceDialog;
-		}
-
-		public void LoadPage()
+		public new QualityAssuranceDialog LoadPage()
 		{
 			if (!IsQualityAssuranceDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Диалог контроля качества не открылся.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

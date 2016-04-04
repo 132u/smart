@@ -13,19 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing.LicenseDialog
 		{
 		}
 
-		public new LicensePurchaseCompleteDialog GetPage()
-		{
-			InitPage(this, Driver);
-
-			return this;
-		}
-
-		public new void LoadPage()
+		public new LicensePurchaseCompleteDialog LoadPage()
 		{
 			if (!IsLicensePurchaseCompleteDialogOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не открылось сообщение о завершении покупки пакета лицензий.");
 			}
+
+			return this;
 		}
 
 		/// <summary>

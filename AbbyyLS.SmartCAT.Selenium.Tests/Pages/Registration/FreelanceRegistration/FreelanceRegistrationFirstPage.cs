@@ -1,10 +1,9 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
-
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistration
 {
@@ -20,18 +19,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 
 		public FreelanceRegistrationFirstPage GetPage()
 		{
-			var freelanceRegistrationFirstPage = new FreelanceRegistrationFirstPage(Driver);
-			LoadPage();
+			CustomTestContext.WriteLine("Переход на страницу регистрации фрилансеров: {0}.", ConfigurationManager.Url + RelativeUrlProvider.FreelanceRegistratioin);
 
-			return freelanceRegistrationFirstPage;
+			Driver.Navigate().GoToUrl(ConfigurationManager.Url + RelativeUrlProvider.FreelanceRegistratioin);
+
+			return new FreelanceRegistrationFirstPage(Driver).LoadPage();
 		}
 
-		public void LoadPage()
+		public FreelanceRegistrationFirstPage LoadPage()
 		{
 			if (!IsFreelanceRegistrationFirstPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась первая страница регистрации фрилансеров.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Ввести email {0}.", email);
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Ввести пароль {0}.", password);
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Ввести подтверждение пароля {0}.", confirmPassword);
 			ConfirmPassword.SetText(confirmPassword);
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -80,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать кнопку Continue.");
 			ContinueButton.Click();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -91,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать кнопку 'Sign Up', ожидая ошибку.");
 			ContinueButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -102,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			CustomTestContext.WriteLine("Нажать на ссылку ' or sign in with an existing ABBYY account'.");
 			ExistAccountAbbyOnlineLink.Click();
 
-			return new FreelanceRegistrationSignInPage(Driver).GetPage();
+			return new FreelanceRegistrationSignInPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -125,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistrati
 			FillPassword(password);
 			FillConfirmPassword(confirmPassword);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

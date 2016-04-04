@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class LinkedInPage : BaseObject, IAbstractPage<LinkedInPage>
+	public class LinkedInPage : IAbstractPage<LinkedInPage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -16,20 +16,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public LinkedInPage GetPage()
-		{
-			var linkedInPage = new LinkedInPage(Driver);
-			InitPage(linkedInPage, Driver);
-
-			return linkedInPage;
-		}
-
-		public void LoadPage()
+		public LinkedInPage LoadPage()
 		{
 			if (!IsLinkedInPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница LinkedInPage (вход в LinkedIn).");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -44,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			Email.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			SubmitButton.JavaScriptClick();
 
-			return new SelectAccountForm(Driver).GetPage();
+			return new SelectAccountForm(Driver).LoadPage();
 		}
 
 		#endregion

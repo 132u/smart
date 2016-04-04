@@ -18,20 +18,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public CompanyRegistrationSecondPage GetPage()
-		{
-			var companyRegistrationSecondPage = new CompanyRegistrationSecondPage(Driver);
-			LoadPage();
-
-			return companyRegistrationSecondPage;
-		}
-
-		public void LoadPage()
+		public CompanyRegistrationSecondPage LoadPage()
 		{
 			if (!IsCompanyRegistrationSecondPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась вторая страница регистрации компаний.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -45,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле 'First name' на втором шаге регистрации компании.", firstName);
 			FirstName.SetText(firstName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -57,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле 'Last name' на втором шаге регистрации компании.", lastName);
 			LastName.SetText(lastName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -69,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле 'Company name' на втором шаге регистрации компании.", companyName);
 			CompanyName.SendKeys(companyName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -81,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести {0} в поле Subdomain на втором шаге регистрации компании.", subdomain);
 			Subdomain.SetText(subdomain);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -93,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Ввести телефон {0} на втором шаге регистрации компании.", phoneNumber);
 			PhoneNumber.SetText(phoneNumber);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -105,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
 			CreateAccountCompanyButton.Click();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -117,7 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_ACCOUNT_COMPANY_BUTTON));
 			CreateAccountCompanyButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -129,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Выбрать {0} тип компании на втором шаге регистрации компании", companyType);
 			CompanyTypeCombobox.SelectOptionByText(companyType);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -140,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			CustomTestContext.WriteLine("Кликнуть по Company Type комбобоксу");
 			CompanyTypeCombobox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -150,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 		{
 			CompanyTypeCombobox.DoubleClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -181,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration
 			FillPhoneNumber(phoneNumber);
 			SelectCompanyType(companyType.Description());
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

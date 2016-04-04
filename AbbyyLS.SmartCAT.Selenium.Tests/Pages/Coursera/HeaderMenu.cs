@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
-	public class HeaderMenu : BaseObject, IAbstractPage<HeaderMenu>
+	public class HeaderMenu : IAbstractPage<HeaderMenu>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -18,20 +18,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public HeaderMenu GetPage()
-		{
-			var header = new HeaderMenu(Driver);
-			InitPage(header, Driver);
-
-			return header;
-		}
-		
-		public void LoadPage()
+		public HeaderMenu LoadPage()
 		{
 			if (!IsHeaderMenuOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница лидеров.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -55,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Перейти на страницу курсов.");
 			Courses.Click();
 
-			return new CoursesPage(Driver).GetPage();
+			return new CoursesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -66,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Перейти на страницу Leaderboard.");
 			LeaderboardMenu.Click();
 
-			return new LeaderboardPage(Driver).GetPage();
+			return new LeaderboardPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -77,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Перейти на страницу профиля пользователя.");
 			Profile.Click();
 
-			return new UserProfilePage(Driver).GetPage();
+			return new UserProfilePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -89,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			Driver.Navigate().Refresh();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Перейти на главную страницу.");
 			HomePage.Click();
 
-			return new CourseraHomePage(Driver).GetPage();
+			return new CourseraHomePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -111,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			CustomTestContext.WriteLine("Нажать кнопку Sign Out.");
 			SignOut.Click();
 
-			return new CourseraHomePage(Driver).GetPage();
+			return new CourseraHomePage(Driver).LoadPage();
 		}
 
 		#endregion

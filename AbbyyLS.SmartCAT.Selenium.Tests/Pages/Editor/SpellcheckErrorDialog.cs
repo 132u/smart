@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new SpellcheckErrorDialog GetPage()
-		{
-			var spellcheckErrorDialog = new SpellcheckErrorDialog(Driver);
-			InitPage(spellcheckErrorDialog, Driver);
-
-			return spellcheckErrorDialog;
-		}
-
-		public new void LoadPage()
+		public new SpellcheckErrorDialog LoadPage()
 		{
 			if (!IsSpellcheckErrorDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появилось окно с предупреждением об ошибке");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -36,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'ОК'");
 			OkButton.Click();
 
-			return new SpellcheckDictionaryDialog(Driver).GetPage();
+			return new SpellcheckDictionaryDialog(Driver).LoadPage();
 		}
 
 		/// <summary>

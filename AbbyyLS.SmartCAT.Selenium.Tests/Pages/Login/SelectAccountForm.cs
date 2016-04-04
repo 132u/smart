@@ -8,7 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class SelectAccountForm : BaseObject, IAbstractPage<SelectAccountForm>
+	public class SelectAccountForm : IAbstractPage<SelectAccountForm>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -18,15 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public SelectAccountForm GetPage()
-		{
-			var selectAccountForm = new SelectAccountForm(Driver);
-			InitPage(selectAccountForm, Driver);
-
-			return selectAccountForm;
-		}
-
-		public void LoadPage()
+		public SelectAccountForm LoadPage()
 		{
 			Driver.WaitUntilElementIsDisappeared(By.XPath(WAITING_SERVER_RESPONSE_MESSAGE));
 
@@ -34,6 +26,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась форма выбора аккаунта.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -68,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 				AccountRef.JavaScriptClick();
 			}
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		#endregion

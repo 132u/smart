@@ -12,20 +12,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new ConfirmReplacementDialog GetPage()
-		{
-			var confirmReplacementDialog = new ConfirmReplacementDialog(Driver);
-			InitPage(confirmReplacementDialog, Driver);
-
-			return confirmReplacementDialog;
-		}
-
-		public new void LoadPage()
+		public new ConfirmReplacementDialog LoadPage()
 		{
 			if (!IsConfirmReplacementMessageDisplayed())
 			{
 				throw new XPathLookupException("Произошла ошибка: \nне открылся диалог подтверждения замены при импорте");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -38,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку подтверждения замены ТМ в окне импорта");
 			ConfirmReplacementButton.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -49,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку подтверждения замены ТМ в окне импорта");
 			ConfirmReplacementButton.Click();
 
-			return new ImportTmxDialog(Driver).GetPage();
+			return new ImportTmxDialog(Driver).LoadPage();
 		}
 
 		#endregion

@@ -13,20 +13,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support
 		{
 		}
 
-		public new HelpPage GetPage()
-		{
-			var helpPage = new HelpPage(Driver);
-			InitPage(helpPage, Driver);
-
-			return helpPage;
-		}
-
-		public new void LoadPage()
+		public new HelpPage LoadPage()
 		{
 			if (!IsHelpPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на страницу 'Справка'"); 
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

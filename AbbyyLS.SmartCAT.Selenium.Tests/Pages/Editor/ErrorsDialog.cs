@@ -11,20 +11,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new ErrorsDialog GetPage()
-		{
-			var errorsDialog = new ErrorsDialog(Driver);
-			InitPage(errorsDialog, Driver);
-
-			return errorsDialog;
-		}
-
-		public new void LoadPage()
+		public new ErrorsDialog LoadPage()
 		{
 			if (!IsErrorsDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог поиска ошибок");
 			}
+
+			return this;
 		}
 
 		/// <summary>

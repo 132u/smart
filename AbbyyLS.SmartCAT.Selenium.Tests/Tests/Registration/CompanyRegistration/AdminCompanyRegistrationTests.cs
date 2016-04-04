@@ -30,7 +30,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_companyRegistrationSignInPage = new CompanyRegistrationSignInPage(Driver);
 
 			_adminHelper = new AdminHelper(Driver);
-			_commonHelper = new CommonHelper(Driver);
 
 			int _companyNameMaxLenght = 40;
 
@@ -55,9 +54,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
 				.AddUserToAdminGroupInAccountIfNotAdded(_email, _firstName, _lastName, _accountUniqueName);
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -79,9 +78,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			_adminHelper.CreateNewUser(_email, _nickName, _password);
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -106,9 +105,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.CreateNewUser(_email, _nickName, _password)
 				.CreateNewPersonalAccount(_lastName, state: active);
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -138,9 +137,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.CreateAccountIfNotExist(accountName: _accountUniqueName, workflow: true)
 				.AddUserToAdminGroupInAccountIfNotAdded(_email, _firstName, _lastName, _accountUniqueName);
 
-			_commonHelper.GoToCompanyRegistration();
-
-			_companyRegistrationFirstPage.ClickExistingAbbyyAccountLink();
+			_companyRegistrationFirstPage
+				.GetPage()
+				.ClickExistingAbbyyAccountLink();
 
 			_companyRegistrationSignInPage
 				.FillSignInData(_email, _password)
@@ -184,7 +183,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		private string _nickName;
 
 		private AdminHelper _adminHelper;
-		private CommonHelper _commonHelper;
 		private CompanyRegistrationFirstPage _companyRegistrationFirstPage;
 		private CompanyRegistrationSecondPage _companyRegistrationSecondPage;
 		private CompanyRegistrationSignInPage _companyRegistrationSignInPage;

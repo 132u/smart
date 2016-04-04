@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support
 		{
 		}
 
-		public new VideoLessonsPage GetPage()
-		{
-			var videoLessonsPage = new VideoLessonsPage(Driver);
-			InitPage(videoLessonsPage, Driver);
-
-			return videoLessonsPage;
-		}
-
-		public new void LoadPage()
+		public new VideoLessonsPage LoadPage()
 		{
 			if (!IsVideoLessonsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылась страница видеоуроков.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

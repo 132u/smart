@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			PageFactory.InitElements(Driver, this);
 		}
 
-		public LecturesTab GetPage()
-		{
-			var lecturesPage = new LecturesTab(Driver);
-			InitPage(lecturesPage, Driver);
-
-			return lecturesPage;
-		}
-
-		public void LoadPage()
+		public LecturesTab LoadPage()
 		{
 			if (!IsLecturesPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница лекций на странице курса.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			Lecture = Driver.SetDynamicValue(How.XPath, LECTURE, lectureNumber.ToString());
 			Lecture.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		#endregion

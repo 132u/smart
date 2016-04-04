@@ -17,20 +17,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 		}
 
-		public new TranslationMemoriesFilterDialog GetPage()
-		{
-			var translationMemoriesFilterDialog = new TranslationMemoriesFilterDialog(Driver);
-			InitPage(translationMemoriesFilterDialog, Driver);
-
-			return translationMemoriesFilterDialog;
-		}
-
-		public new void LoadPage()
+		public new TranslationMemoriesFilterDialog LoadPage()
 		{
 			if (!IsTranslationMemoriesFilterDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузился диалог фильтров");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку очистки полей");
 			ClearFieldsButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -54,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку отмены");
 			CancelButton.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -65,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Нажать кнопку применения фильтра");
 			ApplyButton.Click();
 
-			return new TranslationMemoriesPage(Driver).GetPage();
+			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -76,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку source-языков");
 			SourceLanguageList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -87,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку target-языков");
 			TargetLanguageList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -100,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SourceLanguage = Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGE, language.ToString());
 			SourceLanguage.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -113,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGE, language.ToString());
 			TargetLanguage.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -127,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CreationDate.SetText(stringDate);
 			CreationDate.Click();
 			
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -140,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Topic = Driver.SetDynamicValue(How.XPath, TOPIC, topicName);
 			Topic.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -151,7 +145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку тем");
 			TopicList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -164,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ProjectGroup = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP, projectGroup);
 			ProjectGroup.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -175,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку групп проектов");
 			ProjectGroupList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -188,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Client = Driver.SetDynamicValue(How.XPath, CLIENT, client);
 			Client.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -199,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку клиентов");
 			ClientList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -212,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			Author = Driver.SetDynamicValue(How.XPath, AUTHOR, author);
 			Author.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -223,7 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку авторов");
 			AuthorList.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -234,7 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Кликнуть по хидеру диалога создания фильтра, чтоб закрыть календарь.");
 			FilterHeaderInDialog.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -251,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectAuthor(author);
 			ClickAuthorList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -264,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectSourceLanguage(language);
 			ClickSourceLanguageList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -277,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectTargetLanguage(language);
 			ClickTargetLanguageList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -290,7 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectTopic(topicName);
 			ClickTopicList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -303,7 +297,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectProjectGroup(projectGroup);
 			ClickProjectGroupList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -316,7 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			SelectClient(client);
 			ClickClientList();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

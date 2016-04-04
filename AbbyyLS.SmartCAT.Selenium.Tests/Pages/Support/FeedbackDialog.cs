@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support
 		{
 		}
 
-		public new FeedbackDialog GetPage()
-		{
-			var feedbackDialog = new FeedbackDialog(Driver);
-			InitPage(feedbackDialog, Driver);
-
-			return feedbackDialog;
-		}
-
-		public new void LoadPage()
+		public new FeedbackDialog LoadPage()
 		{
 			if (!IsSupportFeedbackDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся диалог ответов техподдержки.");
 			}
+
+			return this;
 		}
 
 		#region Методы, проверяющие состояние страницы

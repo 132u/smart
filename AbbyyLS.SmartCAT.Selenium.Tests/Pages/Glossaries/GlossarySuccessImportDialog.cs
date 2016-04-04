@@ -13,21 +13,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 		}
 
-		public new GlossarySuccessImportDialog GetPage()
-		{
-			var glossarySuccessImportDialog = new GlossarySuccessImportDialog(Driver);
-			InitPage(glossarySuccessImportDialog, Driver);
-
-			return glossarySuccessImportDialog;
-		}
-
-		public new void LoadPage()
+		public new GlossarySuccessImportDialog LoadPage()
 		{
 			if (!IsGlossarySuccessImportDialogOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылся диалог с сообщением о успешном импорте глоссария.");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -40,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_BUTTON));
 
-			return new GlossaryPage(Driver).GetPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>

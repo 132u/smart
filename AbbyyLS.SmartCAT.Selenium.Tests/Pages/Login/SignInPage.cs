@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
-	public class SignInPage : BaseObject, IAbstractPage<SignInPage>
+	public class SignInPage : IAbstractPage<SignInPage>
 	{
 		public WebDriver Driver { get; protected set; }
 
@@ -22,18 +22,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		public SignInPage GetPage()
 		{
-			var signInPage = new SignInPage(Driver);
-			InitPage(signInPage, Driver);
+			CustomTestContext.WriteLine("Переход на страницу авторизации: {0}.", ConfigurationManager.Url + RelativeUrlProvider.SignIn);
 
-			return signInPage;
+			Driver.Navigate().GoToUrl(ConfigurationManager.Url + RelativeUrlProvider.SignIn);
+
+			return new SignInPage(Driver).LoadPage();
 		}
 
-		public void LoadPage()
+		public SignInPage LoadPage()
 		{
 			if (!IsSignInPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница SignInPage (вход в смарткат).");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -48,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			Login.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			Password.SetText(password);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -72,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 			SignInButton.Click();
 
-			return new SelectAccountForm(Driver).GetPage();
+			return new SelectAccountForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -83,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 			SignInButton.Click();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -94,7 +97,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать 'Sign In', ожидая открытие страницы выбора профиля.");
 			SignInButton.Click();
 
-			return new SelectProfileForm(Driver).GetPage();
+			return new SelectProfileForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -105,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать 'Sign In', ожидая открытие страницы создания аккаунта.");
 			SignInButton.Click();
 
-			return new CreateAccountPage(Driver).GetPage();
+			return new CreateAccountPage(Driver).LoadPage();
 		}
 
 
@@ -117,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
 			SignInButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -128,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			CustomTestContext.WriteLine("Нажать иконку Faceebook.");
 			FacebookIcon.JavaScriptClick();
 
-			return new FacebookPage(Driver).GetPage();
+			return new FacebookPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -140,7 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			GoogleIcon.JavaScriptClick();
 
-			return new GooglePage(Driver).GetPage();
+			return new GooglePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -152,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			LinkedInIcon.JavaScriptClick();
 
-			return new LinkedInPage(Driver).GetPage();
+			return new LinkedInPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -170,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SetPassword(password);
 			ClickSignInButton();
 
-			return new SelectAccountForm(Driver).GetPage();
+			return new SelectAccountForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -184,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SetPassword(password);
 			ClickSubmitButtonExpectingWorkspacePage();
 
-			return new WorkspacePage(Driver).GetPage();
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -198,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SetPassword(password);
 			ClickSubmitButtonExpectingSelectProfileForm();
 
-			return new SelectProfileForm(Driver).GetPage();
+			return new SelectProfileForm(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -212,7 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SetPassword(password);
 			ClickSubmitButtonExpectingCreateAccountPage();
 
-			return new CreateAccountPage(Driver).GetPage();
+			return new CreateAccountPage(Driver).LoadPage();
 		}
 
 		#endregion
@@ -261,7 +264,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 				throw new Exception("Произошла ошибка:\n Сообщение 'Enter password' не исчезло.");
 			}
 
-			return new SignInPage(Driver).GetPage();
+			return new SignInPage(Driver).LoadPage();
 		}
 
 		/// <summary>

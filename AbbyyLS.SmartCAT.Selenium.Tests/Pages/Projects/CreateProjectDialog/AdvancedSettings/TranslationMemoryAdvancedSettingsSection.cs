@@ -12,21 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new TranslationMemoryAdvancedSettingsSection GetPage()
-		{
-			var translationMemoryAdvancedSettingsSection = new TranslationMemoryAdvancedSettingsSection(Driver);
-			InitPage(translationMemoryAdvancedSettingsSection, Driver);
-
-			return translationMemoryAdvancedSettingsSection;
-		}
-
-		public new void LoadPage()
+		public new TranslationMemoryAdvancedSettingsSection LoadPage()
 		{
 			if (!IsTranslationMemoryAdvancedSettingsSectionOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылись расширенные настройки 'Translation Memory'.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках 'Translation Memory'.");
 			SelectTmButton.JavaScriptClick();
 
-			return new NewProjectSetUpTMDialog(Driver).GetPage();
+			return new NewProjectSetUpTMDialog(Driver).LoadPage();
 		}
 
 		#endregion

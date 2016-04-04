@@ -14,20 +14,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		{
 		}
 
-		public new AdminEmailsSearchPage GetPage()
-		{
-			var adminEmailsSearchPage = new AdminEmailsSearchPage(Driver);
-			InitPage(adminEmailsSearchPage, Driver);
-
-			return adminEmailsSearchPage;
-		}
-
-		public new void LoadPage()
+		public new AdminEmailsSearchPage LoadPage()
 		{
 			if (!IsAdminLettersSearchPageOpened())
 			{
 				throw new Exception("Произошла ошибка:\n не загружена страница поиска писем в админке.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы
@@ -41,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести email пользователя {0} в поле для поиска.", email);
 			SearchEmailInput.SetText(email);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -53,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Ввести ограничение по поиску писем: {0}.", limit.ToString());
 			LimitCountInput.SetText(Convert.ToString(limit));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -64,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Найти'.");
 			FindButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion

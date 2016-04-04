@@ -15,20 +15,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 		}
 
-		public new SelectTaskDialog GetPage()
-		{
-			var selectTaskDialog = new SelectTaskDialog(Driver);
-			InitPage(selectTaskDialog, Driver);
-
-			return selectTaskDialog;
-		}
-
-		public new void LoadPage()
+		public new SelectTaskDialog LoadPage()
 		{
 			if (!IsSelectTaskDialogOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не появился диалог с выбором задания в редакторе.");
 			}
+
+			return this;
 		}
 
 		/// <summary>
@@ -39,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Перевод'.");
 			TranslateButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -50,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Менеджер'.");
 			ManagerButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -61,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Editing'.");
 			EditingButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -72,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Продолжить'.");
 			ContinueButton.Click();
 
-			return new EditorPage(Driver).GetPage();
+			return new EditorPage(Driver).LoadPage();
 		}
 
 		/// <summary>

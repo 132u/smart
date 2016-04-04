@@ -19,21 +19,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 		}
 
-		public new NewProjectSettingsPage GetPage()
-		{
-			var newProjectSettingPage = new NewProjectSettingsPage(Driver);
-			InitPage(newProjectSettingPage, Driver);
-
-			return newProjectSettingPage;
-		}
-
-		public new void LoadPage()
+		public new NewProjectSettingsPage LoadPage()
 		{
 			if (!IsNewProjectSettingsPageOpened())
 			{
 				throw new XPathLookupException(
 					"Произошла ошибка:\n не открылась страница настроек создаваемого проекта");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -47,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Ввести имя проекта: {0}.", projectName);
 			ProjectNameInput.SetText(projectName, projectName.Length > 100 ? projectName.Substring(0, 100) : projectName);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -58,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть на дропдаун исходного языка, чтобы появился выпадающий список.");
 			SourceLangDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			SourceLangItem = Driver.SetDynamicValue(How.XPath, SOURCE_LANG_ITEM, lang.ToString());
 			SourceLangItem.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -82,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку Add, чтоб открыть дропдаун языка перевода.");
 			AddTargetLanguageButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -93,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на название дропдаун 'Target Language', чтоб закрыть дропдаун.");
 			TargetLanguageDropdownHeader.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -109,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				e.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -122,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, lang.ToString());
 			TargetLangItem.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -133,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Use Machine Translation'.");
 			UseMachineTranslationCheckbox.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -144,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку Next.");
 			NextButton.Click();
 
-			return new NewProjectWorkflowPage(Driver).GetPage();
+			return new NewProjectWorkflowPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -155,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на кнопку Next, ожидая ошибку.");
 			NextButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -166,7 +160,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть на поле для ввода даты, чтобы появился всплывающий календарь.");
 			DeadlineDateField.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -177,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Выбрать текущую дату дедлайна в календаре.");
 			DeadlineDateCurrent.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -188,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Перейти на следующий месяц календаря.");
 			DeadlineDateNextMonth.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -199,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Перейти на предыдущий месяц календаря.");
 			DeadlineDatePrevMonth.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -210,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Кликнуть по произвольной дате в календаре.");
 			DeadlineDate.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -222,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Вписать дату дэдлайна: {0}", date);
 			DeadlineDateInput.SetText(date, date.Replace(" ", ""));
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -233,7 +227,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку 'Create Project'.");
 			CreateProjectButton.Click();
 
-			return new ProjectsPage(Driver).GetPage();
+			return new ProjectsPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -247,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			WriteTranslationMemoryRadioButton.ScrollDown();
 			WriteTranslationMemoryRadioButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -258,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку удаления памяти перевода.");
 			RemoveTranslationMemoryButton.JavaScriptClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -269,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать кнопку создания памяти перевода.");
 			CreateTranslationMemoryButton.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -282,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			TranslationMemoryRow = Driver.SetDynamicValue(How.XPath, TRANSLATION_MEMORY_ROW, translationMemory);
 			TranslationMemoryRow.HoverElement();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -293,7 +287,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на дропдаун клиента.");
 			ClientDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -306,7 +300,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
 			ProjectGroupOption.ScrollAndClick();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -317,7 +311,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Нажать на дропдаун группы проектов.");
 			ProjectGroupDropdown.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -330,7 +324,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ClientOption = Driver.SetDynamicValue(How.XPath, CLIENT_OPTION, client);
 			ClientOption.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		/// <summary>
@@ -344,7 +338,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				AdvancedSwitch.JavaScriptClick();
 			}
 
-			return new AdvancedSettingsSection(Driver).GetPage();
+			return new AdvancedSettingsSection(Driver).LoadPage();
 		}
 		
 		#endregion
@@ -360,7 +354,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			HoverTranslationMemoryRow(translationMemory);
 			ClickRemoveTranslationMemoryButton();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -409,7 +403,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				throw new InvalidElementStateException("Произошла ошибка: \nдата дедлайна не выбрана");
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -421,7 +415,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ClickSourceLangDropdown();
 			SelectSourceLanguageInList(sourceLanguage);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -435,7 +429,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			SelectTargetLanguageInList(targetLanguage);
 			ClickTargetLanguageDropdownHeader();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -459,7 +453,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				ClickUseMachineTranslationCheckbox();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -471,7 +465,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ClickClientDropdown();
 			ClickClientOptioin(client);
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -483,7 +477,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			ClickProjectGroupDropdown();
 			ClickProjectGroupOptioin(projectGroup);
 
-			return GetPage();
+			return LoadPage();
 		}
 		
 		#endregion

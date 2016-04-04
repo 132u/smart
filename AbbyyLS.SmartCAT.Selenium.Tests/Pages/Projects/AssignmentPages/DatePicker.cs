@@ -11,25 +11,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 {
 	public class DatePicker : TaskAssignmentPage, IAbstractPage<DatePicker>
 	{
-		public DatePicker(WebDriver driver)
-			: base(driver)
+		public DatePicker(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new DatePicker GetPage()
-		{
-			var datePicker = new DatePicker(Driver);
-			InitPage(datePicker, Driver);
-
-			return datePicker;
-		}
-
-		public new void LoadPage()
+		public DatePicker LoadPage()
 		{
 			if (!IsDatePickerOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не открылся календарь.");
 			}
+
+			return this;
 		}
 
 		#region Простые методы страницы
@@ -43,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			DoneButton.Click();
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -56,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			Day = Driver.SetDynamicValue(How.XPath, DAY, day.ToString());
 			Day.Click();
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -71,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 				NextMonthArrow.Click();
 			}
 
-			return GetPage();
+			return LoadPage();
 		}
 
 		#endregion
@@ -99,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
-			return instance.GetPage();
+			return instance.LoadPage();
 		}
 
 		#endregion
