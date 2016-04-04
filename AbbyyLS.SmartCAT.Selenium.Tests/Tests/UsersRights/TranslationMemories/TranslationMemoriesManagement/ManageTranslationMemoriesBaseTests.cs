@@ -2,7 +2,6 @@
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
@@ -11,10 +10,13 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMemories
 {
-	class ManageTranslationMemoriesBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class ManageTranslationMemoriesBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
+		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public override void BeforeTest()
@@ -37,6 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
+			_exportNotification = new ExportNotification(Driver);
 			_deleteTmDialog = new DeleteTmDialog(Driver);
 			_importTmxDialog = new ImportTmxDialog(Driver);
 			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
@@ -47,37 +50,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_userRightsHelper = new UserRightsHelper(Driver);
 			_projectGroupsPage = new ProjectGroupsPage(Driver);
 			_confirmReplacementDialog = new ConfirmReplacementDialog(Driver);
-
-			var groupName = Guid.NewGuid().ToString();
-			_projectGroupName = _projectGroupsPage.GetProjectGroupUniqueName();
-			_clientName = _clientsPage.GetClientUniqueName();
-			_commonTranslationMemory = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
-			_translationMemoryToDeleteTest = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
-			_commonTranslationMemoryWithClient =  _translationMemoriesHelper.GetTranslationMemoryUniqueName();
-			_commonTranslationMemoryWithProjectGroup =  _translationMemoriesHelper.GetTranslationMemoryUniqueName();
-
-			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
-
-			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
-
-			_workspacePage.GoToTranslationMemoriesPage();
-			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemory);
-			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemoryWithClient, client: _clientName);
-			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemoryWithProjectGroup, projectGroup: _projectGroupName);
-			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryToDeleteTest, client: _clientName, projectGroup: _commonTranslationMemoryWithProjectGroup);
-
-			_workspacePage.GoToClientsPage();
-			_clientsPage.CreateNewClient(_clientName);
-
-			_workspacePage.GoToProjectGroupsPage();
-			_projectGroupsPage.CreateProjectGroup(_projectGroupName);
-
-			_userRightsHelper.CreateGroupWithSpecificRights(
-				AdditionalUser.NickName,
-				groupName,
-				RightsType.TMManagement);
-
-			_workspacePage.SignOut();
+			_usersTab = new UsersTab(Driver);
+			_newGroupDialog = new NewGroupDialog(Driver);
+			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
+			_addAccessRightDialog = new AddAccessRightDialog(Driver);
+			_projectsPage = new ProjectsPage(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_advancedSettingsSection = new AdvancedSettingsSection(Driver);
 		}
 
 		[OneTimeTearDown]
@@ -89,14 +72,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			}
 		}
 
-		protected string _clientName;
-		protected string _translationMemory;
+		protected string _groupName;
 		protected string _projectGroupName;
+
+		protected const string _russianLanguage = "ru";
+		protected const string _englishLanguage = "en";
+		protected const string _lithuanianLanguage = "lt";
+
+		protected string _clientName;
+		protected string _clientName2;
+		protected string _clientName3;
+
+		protected string _translationMemory;
 		protected string _commonTranslationMemoryWithClient;
 		protected string _commonTranslationMemoryWithProjectGroup;
 		protected string _commonTranslationMemory;
+		protected string _commonTranslationMemory2;
+		protected string _commonTranslationMemory3;
 		protected string _translationMemoryToDeleteTest;
+		protected string _existingTranslationMemory;
 
+		protected ProjectsPage _projectsPage;
 		protected DeleteTmDialog _deleteTmDialog;
 		protected ConfirmReplacementDialog _confirmReplacementDialog;
 		protected ImportTmxDialog _importTmxDialog;
@@ -108,5 +104,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		protected WorkspacePage _workspacePage;
 		protected LoginHelper _loginHelper;
 		protected ExportNotification _exportNotification;
+		protected UsersTab _usersTab;
+		protected NewGroupDialog _newGroupDialog;
+		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
+		protected AddAccessRightDialog _addAccessRightDialog;
+		protected CreateProjectHelper _createProjectHelper;
+		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		protected NewProjectSettingsPage _newProjectSettingsPage;
+		protected NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
+		protected NewProjectWorkflowPage _newProjectWorkflowPage;
+		protected AdvancedSettingsSection _advancedSettingsSection;
 	}
 }

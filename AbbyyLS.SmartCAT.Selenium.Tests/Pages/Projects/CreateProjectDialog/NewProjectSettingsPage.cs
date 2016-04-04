@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Windows.Forms;
 
 using NUnit.Framework;
 
@@ -236,6 +237,55 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Перевести память перевода в режим запись.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSettingsPage ClickWriteTMRadioButton(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Перевести память перевода {0} в режим запись.", translationMemory);
+			WriteTranslationMemoryRadioButton = Driver.SetDynamicValue(How.XPath, WRITE_TRANSLATION_MEMORY_RADIO_BUTTON, translationMemory);
+			WriteTranslationMemoryRadioButton.ScrollDown();
+			WriteTranslationMemoryRadioButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления памяти перевода.
+		/// </summary>
+		public NewProjectSettingsPage ClickRemoveTranslationMemoryButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления памяти перевода.");
+			RemoveTranslationMemoryButton.JavaScriptClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку создания памяти перевода.
+		/// </summary>
+		public NewProjectSettingsPage ClickCreateTranslationMemoryButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку создания памяти перевода.");
+			CreateTranslationMemoryButton.Click();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на строку памяти перевода.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSettingsPage HoverTranslationMemoryRow(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Навести курсор на строку памяти перевода. {0}.", translationMemory);
+			TranslationMemoryRow = Driver.SetDynamicValue(How.XPath, TRANSLATION_MEMORY_ROW, translationMemory);
+			TranslationMemoryRow.HoverElement();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Нажать на дропдаун клиента.
 		/// </summary>
 		public NewProjectSettingsPage ClickClientDropdown()
@@ -245,10 +295,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return GetPage();
 		}
-		
+
+		/// <summary>
+		/// Выбрать группу проектов.
+		/// </summary>
+		/// <param name="projectGroup">группа проектов</param>
+		public NewProjectSettingsPage ClickProjectGroupOptioin(string projectGroup)
+		{
+			CustomTestContext.WriteLine("Выбрать группу проектов.");
+			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
+			ProjectGroupOption.ScrollAndClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун группы проектов.
+		/// </summary>
+		public NewProjectSettingsPage ClickProjectGroupDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун группы проектов.");
+			ProjectGroupDropdown.Click();
+
+			return GetPage();
+		}
+
 		/// <summary>
 		/// Выбрать клиента.
 		/// </summary>
+		/// <param name="client">клиент</param>
 		public NewProjectSettingsPage ClickClientOptioin(string client)
 		{
 			CustomTestContext.WriteLine("Выбрать клиента.");
@@ -257,7 +332,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Раскрыть дополнительные настройки, нажав переключатель
 		/// </summary>
@@ -271,10 +346,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return new AdvancedSettingsSection(Driver).GetPage();
 		}
-
+		
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Удалить память перевода
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSettingsPage RemoveTranslationMemory(string translationMemory)
+		{
+			HoverTranslationMemoryRow(translationMemory);
+			ClickRemoveTranslationMemoryButton();
+
+			return GetPage();
+		}
 
 		/// <summary>
 		/// Выбрать дату дэдлайна
@@ -387,6 +474,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return GetPage();
 		}
 
+		/// <summary>
+		/// Выбрать группу проектов
+		/// </summary>
+		/// <param name="projectGroup">группа проектов</param>
+		public NewProjectSettingsPage SelectProjectGroup(string projectGroup)
+		{
+			ClickProjectGroupDropdown();
+			ClickProjectGroupOptioin(projectGroup);
+
+			return GetPage();
+		}
+		
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -548,6 +647,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_DEADLINE_DATE));
 		}
 
+		/// <summary>
+		/// Проверить наличие памяти перевода.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public bool IsTranslationMemoryDisplayed(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Проверить наличие памяти перевода {0}.", translationMemory);
+
+			return Driver.GetIsElementExist(By.XPath(TRANSLATION_MEMORY_ROW.Replace("*#*", translationMemory)));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -618,6 +728,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CLIENT_DROPDOWN)]
 		protected IWebElement ClientDropdown { get; set; }
 		protected IWebElement ClientOption { get; set; }
+		[FindsBy(How = How.XPath, Using = ADD_EXISTING_TM)]
+		protected IWebElement AddExistingTMButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REMOVE_TRANSLATION_MEMORY_BUTTON)]
+		protected IWebElement RemoveTranslationMemoryButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CREATE_TRANSLATION_MEMORY_BUTTON)]
+		protected IWebElement CreateTranslationMemoryButton { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = PROJECT_GROUP_DROPDOWN)]
+		protected IWebElement ProjectGroupDropdown { get; set; }
+		protected IWebElement ProjectGroupOption { get; set; }
+
+		protected IWebElement WriteTranslationMemoryRadioButton { get; set; }
+		protected IWebElement TranslationMemoryRow { get; set; }
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -664,6 +789,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected const string CLIENT_DROPDOWN = "//input[contains(@placeholder, 'Select a client')]";
 		protected const string CLIENT_OPTION = "//li[@title='*#*']";
+
+		protected const string ADD_EXISTING_TM = "//div[contains(@data-bind, 'addExistingTM')]";
+		protected const string WRITE_TRANSLATION_MEMORY_RADIO_BUTTON = "//div[contains(text(),'*#*')]/../../../..//div[contains(@class, 'radiobtn-wrap')]";
+		protected const string TRANSLATION_MEMORY_ROW = "//div[contains(text(),'*#*')]";
+		protected const string REMOVE_TRANSLATION_MEMORY_BUTTON = "//span[contains(@data-bind,'removeProjectTM')]";
+		protected const string CREATE_TRANSLATION_MEMORY_BUTTON = "//div[contains(@data-bind, 'createTM')]//a";
+
+		protected const string PROJECT_GROUP_DROPDOWN = "//div[contains(@data-bind, 'domainId')]//input[contains(@placeholder, 'Select a project group')]";
+		protected const string PROJECT_GROUP_OPTION = "//li[@title='*#*']";
+		protected const string TM_SOURCE_LANGUAGE = "(//div[contains(text(),'*#*')]/../../..//span[contains(@data-bind, 'sourceLanguageId')])[1]";
 
 		#endregion
 	}

@@ -12,6 +12,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 	[Parallelizable(ParallelScope.Fixtures)]
 	class ManageTranslationMemoriesTests<TWebDriverProvider> : ManageTranslationMemoriesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
+		{
+			_groupName = Guid.NewGuid().ToString();
+			_projectGroupName = _projectGroupsPage.GetProjectGroupUniqueName();
+			_clientName = _clientsPage.GetClientUniqueName();
+			_commonTranslationMemory = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+			_translationMemoryToDeleteTest = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+			_commonTranslationMemoryWithClient = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+			_commonTranslationMemoryWithProjectGroup = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+
+			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
+
+			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
+
+			_workspacePage.GoToClientsPage();
+			_clientsPage.CreateNewClient(_clientName);
+
+			_workspacePage.GoToProjectGroupsPage();
+			_projectGroupsPage.CreateProjectGroup(_projectGroupName);
+
+			_workspacePage.GoToTranslationMemoriesPage();
+			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemory);
+			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemoryWithClient, client: _clientName);
+			_translationMemoriesHelper.CreateTranslationMemory(_commonTranslationMemoryWithProjectGroup, projectGroup: _projectGroupName);
+			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryToDeleteTest, client: _clientName, projectGroup: _projectGroupName);
+
+			_userRightsHelper.CreateGroupWithSpecificRights(
+				AdditionalUser.NickName,
+				_groupName,
+				RightsType.TMManagement);
+
+			_workspacePage.SignOut();
+		}
+
 		[Test]
 		public void CreateTranslationMemoryTest()
 		{
@@ -66,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		public void EditSettingsTranslationMemoryTest()
 		{
 			var translationMemoryNewName = string.Concat("!", _translationMemoriesHelper.GetTranslationMemoryUniqueName());
-			var newComment = "TranslationMemorysettingsTest";
+			var newComment = "EditSettingsTranslationMemoryTest";
 
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory);
 			_translationMemoriesPage.EditTranslationMemory(
@@ -83,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			Assert.IsTrue(_translationMemoriesPage.IsProjectGroupSelectedForTM(_projectGroupName),
 				"Произошла ошибка: Неверно указана группа проектов для ТМ {0}.", _projectGroupName);
 
-			Assert.IsTrue(_translationMemoriesPage.IsCommentTextMatchExpected(translationMemoryNewName),
+			Assert.IsTrue(_translationMemoriesPage.IsCommentTextMatchExpected(newComment),
 				"Произошла ошибка: Комментарий {0} не найден.", translationMemoryNewName);
 		}
 
@@ -121,8 +156,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile);
 
 			var unitsCountBefore = _translationMemoriesPage
-										.OpenTranslationMemoryInformation(_translationMemory)
-										.GetUnitsCount();
+				.OpenTranslationMemoryInformation(_translationMemory)
+				.GetUnitsCount();
 
 			_translationMemoriesPage.ClickUpdateTmButton();
 
@@ -131,8 +166,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_confirmReplacementDialog.ClickConfirmReplacementButton();
 
 			var unitsCountAfter = _translationMemoriesPage
-										.OpenTranslationMemoryInformation(_translationMemory)
-										.GetUnitsCount();
+				.OpenTranslationMemoryInformation(_translationMemory)
+				.GetUnitsCount();
 
 			Assert.AreEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
 		}
@@ -143,16 +178,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile);
 
 			var unitsCountBefore = _translationMemoriesPage
-										.OpenTranslationMemoryInformation(_translationMemory)
-										.GetUnitsCount();
+				.OpenTranslationMemoryInformation(_translationMemory)
+				.GetUnitsCount();
 
 			_translationMemoriesPage.ClickAddTmxButton();
 
 			_importTmxDialog.ImportTmxFile(PathProvider.TmxFile);
 
 			var unitsCountAfter = _translationMemoriesPage
-										.OpenTranslationMemoryInformation(_translationMemory)
-										.GetUnitsCount();
+				.OpenTranslationMemoryInformation(_translationMemory)
+				.GetUnitsCount();
 
 			Assert.AreEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
 		}
@@ -163,7 +198,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory);
 
 			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, EnglishLanguage, new List<string> { RussianLanguage }),
+				_translationMemory, _englishLanguage, new List<string> { _russianLanguage }),
 				"Произошла ошибка: Списки target языков не совпали.");
 
 			_translationMemoriesPage
@@ -172,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 				.SearchForTranslationMemory(_translationMemory);
 
 			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, EnglishLanguage, new List<string> { RussianLanguage, LithuanianLanguage }),
+				_translationMemory, _englishLanguage, new List<string> { _russianLanguage, _lithuanianLanguage }),
 				"Произошла ошибка: Списки языков переводов не совпали.");
 		}
 
@@ -194,8 +229,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		[Test]
 		public void DeleteTranslationMemoryThreadUserTest()
 		{
-			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryToDeleteTest);
-
 			_translationMemoriesPage
 				.OpenTranslationMemoryInformation(_translationMemoryToDeleteTest)
 				.ClickDeleteButtonInTMInfo();
@@ -205,9 +238,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			Assert.IsFalse(_translationMemoriesPage.IsTranslationMemoryExist(_translationMemoryToDeleteTest),
 				"Произошла ошибка: ТМ {0} представлена в списке ТМ.", _translationMemoryToDeleteTest);
 		}
-
-		private const string RussianLanguage = "ru";
-		private const string EnglishLanguage = "en";
-		private const string LithuanianLanguage = "lt";
 	}
 }

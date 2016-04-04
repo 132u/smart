@@ -353,6 +353,9 @@
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesUserRightsBaseTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesBaseTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightTests.cs" />
     <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />

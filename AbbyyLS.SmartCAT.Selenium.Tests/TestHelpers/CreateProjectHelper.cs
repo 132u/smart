@@ -15,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public CreateProjectHelper(WebDriver driver)
 		{
 			Driver = driver;
-
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -29,6 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			IList<string> filesPaths = null,
 			string glossaryName = null,
 			bool createNewTm = false,
+			string selectExistedTm = null,
 			IList<string> tmxFilesPaths = null,
 			bool useMachineTranslation = false,
 			Language sourceLanguage = Language.English,
@@ -80,6 +81,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectSettingsPage.ExpandAdvancedSettings();
 			}
 
+			if (selectExistedTm != null)
+			{
+				_newProjectSettingsPage
+					.ExpandAdvancedSettings()
+					.ClickSelectTranslationMemoryButton();
+
+				_newProjectSetUpTMDialog
+					.SearchTranslationMemory(selectExistedTm)
+					.ClickTranslationMemoryCheckbox(selectExistedTm)
+					.ClickAddButton();
+			} 
+
 			if (!personalAccount)
 			{
 				_newProjectSettingsPage.ClickNextButton();
@@ -123,5 +136,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly NewProjectEditGlossaryDialog _newProjectEditGlossaryDialog;
 		private readonly NewProjectWorkflowPage _newProjectWorkflowPage;
 		private readonly GlossariesAdvancedSettingsSection _glossariesAdvancedSettingsSection;
+		private readonly NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
 	}
 }

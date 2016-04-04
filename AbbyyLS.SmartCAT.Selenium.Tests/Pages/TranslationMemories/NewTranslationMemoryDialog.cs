@@ -37,10 +37,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <summary>
 		/// Ввести имя новой ТМ
 		/// </summary>
-		public NewTranslationMemoryDialog SetTranslationMemoryName(string name)
+		/// <param name="translationMemoryName">имя памяти перевода</param>
+		public NewTranslationMemoryDialog SetTranslationMemoryName(string translationMemoryName)
 		{
 			CustomTestContext.WriteLine("Ввести имя новой ТМ");
-			NameField.SetText(name);
+			NameField.SetText(translationMemoryName);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на поле названия ТМ
+		/// </summary>
+		public NewTranslationMemoryDialog ClickTranslationMemoryName()
+		{
+			CustomTestContext.WriteLine("Нажать на поле названия ТМ.");
+			NameField.Click();
 
 			return GetPage();
 		}
@@ -57,12 +69,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Выбрать исходный язык
+		/// Выбрать исходный язык.
 		/// </summary>
+		/// <param name="language">исходный язык</param>
 		public NewTranslationMemoryDialog SelectSourceLanguage(Language language)
 		{
-			CustomTestContext.WriteLine("Выбрать исходный язык {0}", language);
-			Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGES, ((int)language).ToString()).Click();
+			CustomTestContext.WriteLine("Выбрать исходный язык {0}.", language);
+			SourceLanguage = Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGES, ((int)language).ToString());
+			SourceLanguage.Click();
 
 			return GetPage();
 		}
@@ -79,12 +93,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Выбрать язык перевода
+		/// Выбрать язык перевода.
 		/// </summary>
+		/// <param name="language">язык перевода</param>
 		public NewTranslationMemoryDialog SelectTargetLanguage(Language language)
 		{
-			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
-			Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES, ((int)language).ToString()).ScrollAndClick();
+			CustomTestContext.WriteLine("Выбрать язык перевода {0}.", language);
+			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES, ((int)language).ToString());
+			TargetLanguage.ScrollAndClick();
 
 			return GetPage();
 		}
@@ -95,6 +111,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog OpenClientsList()
 		{
 			CustomTestContext.WriteLine("Раскрыть список клиентов");
+			Driver.WaitUntilElementIsClickable(By.XPath(CLIENT));
 			CreateClientDropDown.Click();
 			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
 
@@ -161,8 +178,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Загрузить ТМX документ во время создания создания ТМ
+		/// Загрузить ТМX документ во время создания создания ТМ.
 		/// </summary>
+		/// <param name="pathToFile">путь к файлу</param>
 		public NewTranslationMemoryDialog UploadFile(string pathToFile)
 		{
 			makeInputDialogVisible();
@@ -208,6 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			OpenClientsList();
 			ClickClientOption(clientName);
+			ClickTranslationMemoryName();
 
 			return GetPage();
 		}
@@ -220,6 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			OpenProjectGroupsList();
 			ClickProjectGroupOption(projectGroup);
+			ClickTranslationMemoryName();
 
 			return GetPage();
 		}
@@ -416,7 +436,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_FIELD)]
 		protected IWebElement UploadFileField { get; set; }
-
+		protected IWebElement SourceLanguage { get; set; }
+		protected IWebElement TargetLanguage { get; set; }
 		protected IWebElement ClientOption { get; set; }
 		protected IWebElement ProjectOption { get; set; }
 		#endregion
@@ -425,12 +446,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected const string PROJECT_GROUPS_LIST = ".//div[contains(@class,'ui-multiselect-menu')][2]/ul//span[2]";
 		protected const string PROJECT_GROUP_FILTER= "//select[contains(@data-bind,'allDomainsList')]//following-sibling::div";
-		protected const string PROJECT_GROUP_OPTION = "//span[text()='*#*']//preceding-sibling::span//input[@name='multiselect_5']";
+		protected const string PROJECT_GROUP_OPTION = "//div[contains(@class, 'js-popup-create-tm')][2]//span//input[contains(@title,'*#*')]";
 
 		protected const string CLIENT = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span";
 		protected const string CLIENT_LIST = "//select[contains(@data-bind,'allClientsList')]//following-sibling::span[contains(@class,'active')]";
 		protected const string CLIENT_ITEM = "//select[contains(@data-bind,'allClientsList')]/option";
-		protected const string CLIENT_OPTION = "//span[contains(@title,'*#*')]";
+		protected const string CLIENT_OPTION = "//span[contains(@class, 'js-dropdown__list boxtype')]//span[contains(@title,'*#*')]";
 
 		protected const string TM_NAME_FIELD = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'name')]";
 		protected const string SAVE_BUTTON = ".//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@data-bind, 'click: save')]";

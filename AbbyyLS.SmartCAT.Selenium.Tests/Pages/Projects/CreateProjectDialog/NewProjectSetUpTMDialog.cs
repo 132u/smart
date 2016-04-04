@@ -31,6 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			}
 		}
 
+		#region Простые методы страницы
+
 		/// <summary>
 		/// Выбрать первую ТМ в списке
 		/// </summary>
@@ -39,6 +41,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			CustomTestContext.WriteLine("Выбрать первую ТМ в списке.");
 			TMTableFirstItem.Click();
 			
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать память перевода.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSetUpTMDialog ClickTranslationMemoryCheckbox(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Выбрать память перевода {0}.", translationMemory);
+			TranslationMemoryCheckbox = Driver.SetDynamicValue(How.XPath, TRANSLATION_MEMORY_CHECKBOX, translationMemory);
+			TranslationMemoryCheckbox.ScrollAndClick();
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Ввести название памяти перевода в поиск.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSetUpTMDialog SearchTranslationMemory(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Ввести название памяти перевода {0} в поиск.", translationMemory);
+			Driver.WaitUntilElementIsClickable(By.XPath(SEARCH));
+			Search.SetText(translationMemory);
+
 			return GetPage();
 		}
 
@@ -54,11 +82,44 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Нажать кнопку Add
+		/// </summary>
+		public NewProjectSettingsPage ClickAddButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Add.");
+			AddButton.Click();
+
+			return new NewProjectSettingsPage(Driver).GetPage();
+		}
+
+		#endregion
+
+		#region Составные методы страницы
+
+		/// <summary>
+		/// Выбрать память перевода.
+		/// </summary>
+		/// <param name="translationMemory">память перевода</param>
+		public NewProjectSettingsPage SelectExisitingTranslationMemory(string translationMemory)
+		{
+			CustomTestContext.WriteLine("Выбрать память перевода {0}.", translationMemory);
+			SearchTranslationMemory(translationMemory);
+			ClickTranslationMemoryCheckbox(translationMemory);
+			ClickAddButton();
+
+			return new NewProjectSettingsPage(Driver).GetPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
 		/// Проверить, открылся ли шаг выбора TM в диалоге создания проекта
 		/// </summary>
 		public bool IsNewProjectSetUpTMDialogOpened()
 		{
-			return Driver.GetIsElementExist(By.XPath(ADD_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON));
 		}
 
 		/// <summary>
@@ -81,6 +142,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return TMTableFirstItem.Selected;
 		}
 
+		#endregion
+
+		#region Объявление элементов страницы
+
 		[FindsBy(How = How.XPath, Using = CREATE_TM_BTN)]
 		protected IWebElement CreateTMButton { get; set; }
 
@@ -96,7 +161,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
 		protected IWebElement CancelButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SEARCH)]
+		protected IWebElement Search { get; set; }
+		protected IWebElement TranslationMemoryCheckbox { get; set; }
+
 		protected IWebElement TranslationMemoryItem { get; set; }
+
+		#endregion
+
+		#region Описания XPath элементов
 
 		protected const string CREATE_TM_BTN = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-tm-create')]";
 		protected const string TM_TABLE_FIRST_ITEM = "//div[contains(@class,'js-popup-create-project')][2]//table[contains(@class,'js-tms-popup-table')]//tbody//tr[1]//td[1]//input";
@@ -105,5 +178,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
 		protected const string ADD_BUTTON = "//a[@data-bind='click: addTranslationMemories']";
 		protected const string CANCEL_BUTTON = "//a[@data-bind='click: close']";
+
+		protected const string TRANSLATION_MEMORY_CHECKBOX = "//div[contains(text(),'*#*')]/../../../..//label//input";
+		protected const string SEARCH = "(//input[@name='searchName'])[1]";
+
+		#endregion
 	}
 }

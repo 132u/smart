@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <summary>
 		/// Выбрать радиокнопку 'Для конкретного клиента'.
 		/// </summary>
-		public AddAccessRightDialog ClickForSpecificClientRadiobutton()
+		public AddAccessRightDialog ClickForSpecificClientRadioButton()
 		{
 			CustomTestContext.WriteLine("Выбрать радиокнопку 'Для конкретного клиента'.");
 			ForSpecificClientRadioButton.Click();
@@ -108,6 +108,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// Добавить права
 		/// </summary>
 		/// <param name="right">тип права</param>
+		public GroupsAndAccessRightsTab AddRightToGroupSpecificClient(RightsType right, string client)
+		{
+			ClickRightRadio(right);
+			ClickNextButton();
+			ClickForSpecificClientRadioButton();
+			ClickNextButton();
+			SelectProject(client);
+
+			var GroupsAndAccessRightsTab = ClickAddRightButton();
+
+			return GroupsAndAccessRightsTab;
+		}
+
+		/// <summary>
+		/// Добавить права
+		/// </summary>
+		/// <param name="right">тип права</param>
 		public GroupsAndAccessRightsTab AddRightToGroupAnyProject(RightsType right)
 		{
 			ClickRightRadio(right);
@@ -138,24 +155,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return groupsAndAccessRightsTab;
 		}
 		
-		/// <summary>
-		/// Добавить права
-		/// </summary>
-		/// <param name="right">тип права</param>
-		/// <param name="client">клиент</param>
-		public GroupsAndAccessRightsTab AddRightToGroupSpecificClient(RightsType right, string client)
-		{
-			ClickRightRadio(right);
-			ClickNextButton();
-			ClickForSpecificClientRadiobutton();
-			ClickNextButton();
-			SelectProject(client);
-
-			var groupsAndAccessRightsTab = ClickAddRightButton();
-
-			return groupsAndAccessRightsTab;
-		}
-
 		/// <summary>
 		/// Выбрать проект
 		/// </summary>
@@ -206,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		
 		protected IWebElement RightRadio { get; set; }
 		protected IWebElement ProjectOption { get; set; }
-		
+
 		#endregion
 
 		#region Описание XPath элементов

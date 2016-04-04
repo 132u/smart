@@ -38,6 +38,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Получить название клиента.
+		/// </summary>
+		public string GetClientName()
+		{
+			CustomTestContext.WriteLine(" Получить название клиента.");
+
+			return ClientViewMode.Text;
+		}
+
+		/// <summary>
 		/// Нажать кнопку создания новой ТМ
 		/// </summary>
 		public NewTranslationMemoryDialog ClickCreateNewTmButton()
@@ -842,6 +852,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = FILTER_BUTTON)]
 		protected IWebElement FilterButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLIENT_VIEW_MODE)]
+		protected IWebElement ClientViewMode { get; set; }
+
 		protected IWebElement ProjectGroupInInList { get; set; }
 
 		protected IWebElement ClientInInList { get; set; }
@@ -901,7 +914,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected const string EXPORT_BUTTON = "//span[contains(@data-bind,'exportTmx')]";
 
-		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[3]";
+		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[2]";
 		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[5]/span";
 		protected const string CLIENT_IN_LIST = "//span[contains(@class, 'js-dropdown')]/span[contains(text(),'*#*')]";
 		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div[1]";
@@ -909,6 +922,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CLEAR_ALL_FILTERS_BUTTON = "//i[contains(@class, 'filterClear js-clear-filter')]";
 		protected const string FILTER_BUTTON = "//div[contains(@class, 'js-set-filter')]";
 		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//i";
+		protected const string CLIENT_VIEW_MODE = "//div[contains(@data-bind,'clientName')]";
 
 		#endregion
 	}

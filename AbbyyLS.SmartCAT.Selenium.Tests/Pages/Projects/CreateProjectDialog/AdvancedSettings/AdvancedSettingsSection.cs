@@ -32,6 +32,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать кнопку 'Select' в расширенных настройках проекта
+		/// </summary>
+		public TranslationMemoryAdvancedSettingsSection ClickSelectTranslationMemoryButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Select' в расширенных настройках проекта");
+			SelectTmButton.JavaScriptClick();
+
+			return new TranslationMemoryAdvancedSettingsSection(Driver).GetPage();
+		}
+
+		/// <summary>
 		/// Перейти на вкладку 'Translation Memory' в секции расширенных настройках.
 		/// </summary>
 		public TranslationMemoryAdvancedSettingsSection ClickTranslationMemoryTab()
@@ -89,10 +100,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = QUALITY_ASSURANCE_TAB)]
 		protected IWebElement QualityAssuranceTab { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SELECT_TM_BUTTON)]
+		protected IWebElement SelectTmButton { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
-
+		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string TRANSLATION_MEMORY_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[1]";
 		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[2]";
 		protected const string QUALITY_ASSURANCE_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[3]";
