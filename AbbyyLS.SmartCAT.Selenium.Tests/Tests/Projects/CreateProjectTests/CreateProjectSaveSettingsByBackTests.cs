@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -21,8 +23,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Standalone]
 		public void BackFromWorkflowStepTest()
 		{
-			var deadlineDate = "11/28/2015";
-
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
@@ -32,8 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					_projectUniqueName,
 					sourceLanguage: Language.Japanese,
 					targetLanguage: Language.Lithuanian,
-					deadline: Deadline.FillDeadlineDate,
-					date: deadlineDate)
+					deadline: Deadline.CurrentDate)
 				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickSettingsLink();
@@ -41,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_newProjectSettingsPage.IsProjectNameMatchExpected(_projectUniqueName),
 				"Произошла ошибка:\n имя проекта не совпадает с ожидаемым");
 
-			Assert.AreEqual(deadlineDate, _newProjectSettingsPage.GetDeadlineDate(),
+			Assert.AreEqual(DateTime.Now.Date, _newProjectSettingsPage.GetDeadlineDate(),
 				"Произошла ошибка:\n в дэдлайне указана неверная дата");
 
 			Assert.IsTrue(_newProjectSettingsPage.IsSourceLanguageMatchExpected(Language.Japanese),

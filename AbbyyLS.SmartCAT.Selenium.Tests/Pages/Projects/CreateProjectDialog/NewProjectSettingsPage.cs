@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -362,7 +363,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		/// <param name="deadline">тип дэдлайна</param>
 		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
-		public NewProjectSettingsPage SetDeadline(Deadline deadline, string date = null)
+		public NewProjectSettingsPage SetDeadline(Deadline deadline)
 		{
 			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
 			OpenCalendar();
@@ -388,11 +389,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 					ClickPreviousMonth();
 					ClickDeadlineSomeDate();
 					break;
-
-				case Deadline.FillDeadlineDate:
-					FillDeadlineDate(date);
-					break;
-
+					
 				default:
 					throw new Exception(string.Format(
 						"Передан аргумент, который не предусмотрен! Значение аргумента:'{0}'", deadline));
@@ -440,11 +437,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Language sourceLanguage = Language.English,
 			Language targetLanguage = Language.Russian,
 			Deadline deadline = Deadline.CurrentDate,
-			string date = null,
 			bool useMachineTranslation = false)
 		{
 			FillProjectName(projectName);
-			SetDeadline(deadline, date);
+			SetDeadline(deadline);
 			SetSourceLanguage(sourceLanguage);
 			SetTargetLanguage(targetLanguage);
 
@@ -521,11 +517,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Получить значение в поле дэдлайна.
 		/// </summary>
-		public string GetDeadlineDate()
+		public DateTime? GetDeadlineDate()
 		{
 			CustomTestContext.WriteLine("Получить значение в поле дэдлайна.");
+			var date = DeadlineValue.Text.Split(new[] { ' ' })[0].Trim();
 
-			return DeadlineValue.Text.Split(new[] { ' ' })[0].Trim();
+			return DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
 		}
 
 		/// <summary>
@@ -748,12 +745,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string PROJECT_NAME_INPUT = "//input[contains(@placeholder, 'name')]";
 
 		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
-		protected const string DEADLINE_DATE_INPUT = "//div[contains(@class, 'project__datebox')]//input";
+		protected const string DEADLINE_DATE_INPUT = "//div[contains(@class, 'datetimepicker')]//input";
 		protected const string DEADLINE_DATE_NEXT_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-next')]";
 		protected const string DEADLINE_DATE_FIELD = "//datetimepicker//span[contains(@data-bind, 'watermark')]";
 		protected const string DEADLINE_DATE_PREV_MONTH = "//div[contains(@id, 'ui-datepicker-div')]//a[contains(@class, 'ui-datepicker-prev')]";
 		protected const string DEADLINE_DATE = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//tr[1]//td[count(a)!=0][1]";
-		protected const string DEADLINE_VALUE = "//div[contains(@class, 'project__datebox')]//span//span[contains(@data-bind,'formatDateTime')]";
+		protected const string DEADLINE_VALUE = "//div[contains(@class, 'datetimepicker')]//span//span[contains(@data-bind,'formatDateTime')]";
 		protected const string DEADLINE_SET_VALUE = "//datetimepicker//span[contains(@class, 'datetimepicker__date')]";
 		protected const string SOURCE_LANG_DROPDOWN = "//div[@class='source_lang']//i";
 		protected const string SOURCE_LANG_SELECTED = "//div[@class='source_lang']//input[@title='*#*']";

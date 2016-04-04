@@ -38,8 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			IEnumerable<WorkflowTask> tasks = null,
 			bool personalAccount = false,
 			Deadline deadline = Deadline.CurrentDate,
-			bool expectingError = false,
-			string deadlineDate = null)
+			bool expectingError = false)
 		{
 			_projectsPage.ClickCreateProjectButton();
 
@@ -62,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectDocumentUploadPage.ClickSettingsButton();
 			}
 
-			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMachineTranslation: useMachineTranslation, deadline: deadline, date: deadlineDate);
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMachineTranslation: useMachineTranslation, deadline: deadline);
 
 			if (glossaryName != null)
 			{

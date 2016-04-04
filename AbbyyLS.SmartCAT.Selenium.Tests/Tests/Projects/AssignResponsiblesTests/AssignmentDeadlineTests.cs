@@ -105,8 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Proofreading,
 					WorkflowTask.Editing,
 					WorkflowTask.Postediting},
-				deadline: Deadline.FillDeadlineDate,
-				deadlineDate: DateTime.Now.AddMonths(2).ToString("d", CultureInfo.InvariantCulture)
+				deadline: Deadline.NextMonth
 				);
 			
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
