@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Specialized;
+
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -69,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Нажать кнопку Cancel в окне выбора TM
 		/// </summary>
@@ -80,6 +82,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			return new NewProjectSettingsPage(Driver).GetPage();
 		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
 		/// Нажать кнопку Add
@@ -163,9 +169,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		[FindsBy(How = How.XPath, Using = SEARCH)]
 		protected IWebElement Search { get; set; }
+		
 		protected IWebElement TranslationMemoryCheckbox { get; set; }
-
-		protected IWebElement TranslationMemoryItem { get; set; }
 
 		#endregion
 
@@ -176,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TM_ITEM = "//div[@data-bind='foreach: filteredTranslationMemories']//div[@data-bind='text: name' and text()='*#*']";
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
 		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
-		protected const string ADD_BUTTON = "//a[@data-bind='click: addTranslationMemories']";
+		protected const string ADD_BUTTON = "//a[contains(@data-bind, 'addTranslationMemories')]";
 		protected const string CANCEL_BUTTON = "//a[@data-bind='click: close']";
 
 		protected const string TRANSLATION_MEMORY_CHECKBOX = "//div[contains(text(),'*#*')]/../../../..//label//input";

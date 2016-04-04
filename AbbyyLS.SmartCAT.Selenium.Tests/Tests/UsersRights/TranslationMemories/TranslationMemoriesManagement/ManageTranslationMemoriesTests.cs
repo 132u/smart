@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		}
 
 		[Test]
-		public void TranslationMemoriesViewTest()
+		public void TranslationMemoriesVisibilityTest()
 		{
 			Assert.IsTrue(_translationMemoriesPage.IsTranslationMemoryExist(_commonTranslationMemory),
 				"Произошла ошибка: ТМ {0} не представлена в списке ТМ.", _commonTranslationMemory);
@@ -88,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		}
 
 		[Test]
-		public void TranslationMemorySettingsViewTest()
+		public void TranslationMemorySettingsVisibilityTest()
 		{
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory);
 			_translationMemoriesPage.OpenTranslationMemoryInformation(_translationMemory);
@@ -198,7 +198,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory);
 
 			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, _englishLanguage, new List<string> { _russianLanguage }),
+				_translationMemory, Language.English, new List<Language> { Language.Russian }),
 				"Произошла ошибка: Списки target языков не совпали.");
 
 			_translationMemoriesPage
@@ -207,7 +207,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 				.SearchForTranslationMemory(_translationMemory);
 
 			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, _englishLanguage, new List<string> { _russianLanguage, _lithuanianLanguage }),
+				_translationMemory, Language.English, new List<Language> { Language.Russian, Language.Lithuanian }),
 				"Произошла ошибка: Списки языков переводов не совпали.");
 		}
 

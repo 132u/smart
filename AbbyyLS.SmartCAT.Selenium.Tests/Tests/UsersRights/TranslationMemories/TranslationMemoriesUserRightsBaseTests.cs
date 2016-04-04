@@ -51,6 +51,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories
 			_newGroupDialog = new NewGroupDialog(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_exportNotification = new ExportNotification(Driver);
 
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 		}
@@ -68,11 +70,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories
 		protected string _commonClientName;
 		protected string _commonClientName2;
 
+		protected string _projectGroup;
+
 		protected string _translationMemoryWithoutClient;
 		protected string _translationMemoryWithClient;
+		protected string _translationMemoryWithCommonClient;
 		protected string _translationMemory;
 		protected string _translationMemoryWithSecondClient;
-
+		protected string _translationMemoryWithProject;
+		protected string _translationMemoryWithConcepts;
+		protected CreateProjectHelper _createProjectHelper;
 		protected DeleteTmDialog _deleteTmDialog;
 		protected ConfirmReplacementDialog _confirmReplacementDialog;
 		protected ImportTmxDialog _importTmxDialog;
@@ -88,5 +95,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected AddAccessRightDialog _addAccessRightDialog;
+		protected ProjectsPage _projectsPage;
 	}
 }

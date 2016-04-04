@@ -350,7 +350,6 @@
     <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchSpecificClientTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesUserRightsBaseTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesBaseTests.cs" />
     <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesTests.cs" />
     <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsTests.cs" />
@@ -427,6 +426,13 @@
     <Compile Include="Tests\Editor\TopPanelTests\EditorErrorTests.cs" />
     <Compile Include="Tests\Editor\SegmentsPanelTests\EditorSpellcheckTests.cs" />
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\EditTranslationMemoriesContentTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\TranslationMemoriesContentBaseTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\TranslationMemoriesContentSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\TranslationMemoriesContentTests.cs" />
+    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesUserRightsBaseTests.cs" />
     <Compile Include="Tests\UsersRights\UserRightsTests.cs" />
     <Compile Include="Tests\UsersRights\UserRightsWorkflowTests.cs" />
     <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectFormsAndButtonsAvailabilityTests.cs" />
@@ -467,7 +473,6 @@
     <Folder Include="Tests\UsersRights\ManagePaidResources\" />
     <Folder Include="Tests\UsersRights\ManageUsers\" />
     <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
-    <Folder Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

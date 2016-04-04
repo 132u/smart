@@ -16,6 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			Driver = driver;
 			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
+			_newProjectSetUpTMDialog = new NewProjectSetUpTMDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -92,6 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.ClickTranslationMemoryCheckbox(selectExistedTm)
 					.ClickAddButton();
 			} 
+
 
 			if (!personalAccount)
 			{

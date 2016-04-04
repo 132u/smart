@@ -116,7 +116,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickTranslationMemoryRow(string translationMemoryName)
 		{
 			CustomTestContext.WriteLine("Нажать по строке с ТМ {0}.", translationMemoryName);
-			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).Click();
+			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).ScrollDown();
+			Driver.FindElement(By.XPath(TM_ROW.Replace("*#*", translationMemoryName))).ScrollAndClick();
 
 			return GetPage();
 		}
@@ -147,6 +148,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// Нажать кнопку сохранить в форме редактирования TM
 		/// </summary>
 		public TranslationMemoriesPage ClickSaveTranslationMemoryButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
+			SaveChangesButton.ScrollAndClick();
+
+			if (!IsEditionFormDisappeared())
+			{
+				throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
+			}
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку сохранить в форме редактирования TM
+		/// </summary>
+		public TranslationMemoriesPage ClickSaveTranslationMemoryButtonExpectingError()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
 			SaveChangesButton.Click();
@@ -186,15 +203,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 			return GetPage();
 		}
-
+		
 		/// <summary>
 		/// Выбрать язык перевода
 		/// </summary>
-		public TranslationMemoriesPage SelectTargetLanguage(Language? language)
+		public TranslationMemoriesPage ClickTargetLanguageOption(Language? language)
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
-			TargetLanguage = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, ((int)language).ToString());
-			TargetLanguage.Click();
+			var languageValue = (int)language;
+			TargetLanguage = Driver.FindElement(By.XPath(TARGET_LANG_ITEM.Replace("*#*", languageValue.ToString())));
+			TargetLanguage.ScrollAndClick();
 
 			return GetPage();
 		}
@@ -339,7 +357,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickExportButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Export'");
-			ExportButton.Click();
+			ExportButton.ScrollAndClick();
 
 			return GetPage();
 		}
@@ -375,6 +393,53 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			FilterButton.Click();
 
 			return new TranslationMemoriesFilterDialog(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун исходного языка.
+		/// </summary>
+		public TranslationMemoriesPage ClickSourceLanguageDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун исходного языка.");
+			SourceLanguageDropdown.Click();
+
+			return new TranslationMemoriesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун целевого языка.
+		/// </summary>
+		public TranslationMemoriesPage ClickTargetLanguageDropdown()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
+			TargetLanguageDropdown.Click();
+
+			return new TranslationMemoriesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на дропдаун целевого языка.
+		/// </summary>
+		public TranslationMemoriesPage ClickTarget()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
+			TargetLanguageDropdown.Click();
+
+			return new TranslationMemoriesPage(Driver).GetPage();
+		}
+
+		/// <summary>
+		/// Нажать на исходный язык. 
+		/// </summary>
+		/// <param name="language">исходный язык</param>
+		public TranslationMemoriesPage ClickSourceLanguageOption(Language language)
+		{
+			CustomTestContext.WriteLine("Нажать на исходный язык.");
+			var languageId = (int)language;
+			SourceLanguageOption = Driver.SetDynamicValue(How.XPath, SOURCE_LANGUAGE_OPTION, languageId.ToString());
+			SourceLanguageOption.ScrollAndClick();
+
+			return new TranslationMemoriesPage(Driver).GetPage();
 		}
 
 		/// <summary>
@@ -472,6 +537,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
+		/// Выбрать исходный язык.
+		/// </summary>
+		/// <param name="language">исходный язык</param>
+		public TranslationMemoriesPage SelectSourceLanguage(Language language)
+		{
+			ClickSourceLanguageDropdown();
+			ClickSourceLanguageOption(language);
+
+			return GetPage();
+		}
+
+		/// <summary>
+		/// Выбрать целевой язык.
+		/// </summary>
+		/// <param name="language">исходный язык</param>
+		public TranslationMemoriesPage SelectTargetLanguage(List<Language> languages)
+		{
+			ClickTargetLanguageDropdown();
+			for (int i = 0; i < languages.Count; i++)
+			{
+				ClickTargetLanguageOption(languages[i]);
+			}
+			ClickTargetLanguageDropdown();
+
+			return GetPage();
+		}
+
+		/// <summary>
 		/// Добавить первую группу в списке в память перевода
 		/// </summary>
 		/// <param name="translationMemoryName"></param>
@@ -490,12 +583,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			ClickToProjectGroupsField();
 			SelectFirstProjectGroup(out projectGroupName);
 			ClickSaveTranslationMemoryButton();
-
-			if (!IsEditionFormDisappeared())
-			{
-				throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
-			}
-
+			
 			return GetPage();
 		}
 
@@ -539,7 +627,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			if (addTargetLanguage != Language.NoLanguage)
 			{
 				ClickToTargetLanguages();
-				SelectTargetLanguage(addTargetLanguage);
+				ClickTargetLanguageOption(addTargetLanguage);
 			}
 
 			if (addClient != null)
@@ -695,8 +783,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// </summary>
 		public bool IsLanguagesForTranslationMemoryExists(
 			string translationMemoryName,
-			string sourceLanguage,
-			List<string> targetLanguages)
+			Language sourceLanguage,
+			List<Language> targetLanguages)
 		{
 			CustomTestContext.WriteLine("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
 				translationMemoryName, sourceLanguage, string.Join(", ", targetLanguages.ToArray()));
@@ -712,12 +800,53 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			var actualSource = languagesList[0].Trim();
 			var actualTargetList = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
 
-			if (sourceLanguage != actualSource)
+			if (sourceLanguage.ToString() != actualSource)
 			{
 				throw new InvalidElementStateException("Произошла ошибка:\n source языки не совпали");
 			}
+			var targetLanguagesArray= targetLanguages.Select(a => a.ToString());
 
-			return targetLanguages.OrderBy(x => x).SequenceEqual(actualTargetList.OrderBy(x => x));
+			return targetLanguagesArray.OrderBy(x => x).SequenceEqual(actualTargetList.OrderBy(x => x));
+		}
+
+		/// <summary>
+		/// Получить целевые языки памяти перевода.
+		/// </summary>
+		/// <param name="translationMemoryName">имя памяти перевода</param>
+		public List<string> GetTranslationMemoryTargetLanguages(string translationMemoryName)
+		{
+			CustomTestContext.WriteLine("Получить целевые языки памяти перевода {0}.", translationMemoryName);
+			TranslationMemoryColumn = Driver.SetDynamicValue(How.XPath, TM_LANGUAGES_IN_TABLE, translationMemoryName);
+			var languagesColumn = TranslationMemoryColumn.Text;
+			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
+
+			if (languagesList.Count < 2)
+			{
+				throw new InvalidElementStateException("Произошла ошибка: Неверное количество языков.");
+			}
+			var targetLanguages = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+			targetLanguages.Sort();
+
+			return targetLanguages;
+		}
+
+		/// <summary>
+		/// Получить исходный язык памяти перевода.
+		/// </summary>
+		/// <param name="translationMemoryName">имя памяти перевода</param>
+		public string GetTranslationMemorySourceLanguages(string translationMemoryName)
+		{
+			CustomTestContext.WriteLine("Получить исходный язык памяти перевода {0}.", translationMemoryName);
+			TranslationMemoryColumn = Driver.SetDynamicValue(How.XPath, TM_LANGUAGES_IN_TABLE, translationMemoryName);
+			var languagesColumn = TranslationMemoryColumn.Text;
+			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
+
+			if (languagesList.Count < 2)
+			{
+				throw new InvalidElementStateException("Произошла ошибка: Неверное количество языков.");
+			}
+
+			return languagesList[0].Trim();
 		}
 
 		/// <summary>
@@ -775,6 +904,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_TM_VALIDATION_ERROR_MESSAGE));
 		}
 
+		/// <summary>
+		/// Проверить, что появилось сообщение 'The language cannot be changed because TM is already used in SmartCAT.'.
+		/// </summary>
+		public bool IsImpossibleToChangeLanguageErrorMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение 'The language cannot be changed because TM is already used in SmartCAT.'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(IMPOSSIBLE_TO_CHANGE_LANGUAGE_ERROR));
+		}
 		#endregion
 
 		#region Объявление элементов страницы
@@ -849,26 +987,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		[FindsBy(How = How.XPath, Using = CLEAR_ALL_FILTERS_BUTTON)]
 		protected IWebElement ClearAllFiltersButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = TAGET_LANGUAGE_DROPDOWN)]
+		protected IWebElement TargetLanguageDropdown { get; set; }
+
 		[FindsBy(How = How.XPath, Using = FILTER_BUTTON)]
 		protected IWebElement FilterButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = CLIENT_VIEW_MODE)]
 		protected IWebElement ClientViewMode { get; set; }
+		[FindsBy(How = How.XPath, Using = SOURCE_LANGUAGE_DROPDOWN)]
+		protected IWebElement SourceLanguageDropdown { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SOURCE_LANGUAGE_OPTION)]
+		protected IWebElement SourceLanguageOption { get; set; }
 
 		protected IWebElement ProjectGroupInInList { get; set; }
 
 		protected IWebElement ClientInInList { get; set; }
 
 		protected IWebElement TopicInList { get; set; }
-
 		protected IWebElement RemoveFilterButton { get; set; }
-
+		protected IWebElement TranslationMemoryColumn { get; set; }
 		protected IWebElement TmInformationForm { get; set; }
 
 		#endregion
 
 		#region Описания XPath элементов
-
+		protected const string TAGET_LANGUAGE_DROPDOWN = "//span[contains(@class, 'trgtlang')]//div";
 		protected const string TRANSLATION_MEMORIES_TABLE = "//table[contains(@class, 'translationmemories')]";
 		protected const string ADD_TM_BTN = "//div[contains(@data-bind,'createTm')]//a";
 		protected const string CREATE_TM_DIALOG = "//div[contains(@class,'js-popup-create-tm')][2]";
@@ -882,7 +1027,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
-		protected const string TARGET_LANG_ITEM = "(//div[contains(@class,'ui-multiselect-menu')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']/../..)[2]";
+		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect-menu')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
+
+		protected const string SOURCE_LANGUAGE_DROPDOWN = "//select[contains(@data-bind,'allSourceLanguagesList')]//following-sibling::span";
+		protected const string SOURCE_LANGUAGE_OPTION = "//span[@data-id='*#*']";
 
 		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'switchToEditing')]//a";
 		protected const string TM_EDIT_NAME = "//tr[contains(@class,'js-tm-panel')]//input[contains(@data-bind, 'value: name')]";
@@ -923,7 +1071,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string FILTER_BUTTON = "//div[contains(@class, 'js-set-filter')]";
 		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//i";
 		protected const string CLIENT_VIEW_MODE = "//div[contains(@data-bind,'clientName')]";
-
+		protected const string IMPOSSIBLE_TO_CHANGE_LANGUAGE_ERROR = "//p[contains(text(), 'The language cannot be changed because TM is already used in SmartCAT')]";
 		#endregion
 	}
 }

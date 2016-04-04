@@ -9,6 +9,7 @@
 		TMManagement,
 		TMSearch,
 		GlossaryManagement,
+		TMContentManagement,
 		GlossaryContentManagement
 	}
 }
