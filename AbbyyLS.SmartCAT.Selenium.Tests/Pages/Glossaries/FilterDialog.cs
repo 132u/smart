@@ -401,7 +401,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Выбрать язык {0}.", language);
 			LanguageDropdown.Click();
-
+			Driver.WaitUntilElementIsDisplay(By.XPath(LANGUAGES_CHECKBOXES));
 			var checkboxList = Driver.GetElementList(By.XPath(LANGUAGES_CHECKBOXES));
 
 			foreach (var checkbox in checkboxList)

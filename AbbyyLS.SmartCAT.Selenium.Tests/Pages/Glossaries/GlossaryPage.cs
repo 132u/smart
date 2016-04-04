@@ -86,11 +86,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать на галочку для сохраенния термина
+		/// Нажать на галочку для сохранения термина
 		/// </summary>
 		public GlossaryPage ClickSaveTermButton()
 		{
-			CustomTestContext.WriteLine("Нажать на галочку для сохраенния термина.");
+			CustomTestContext.WriteLine("Нажать на галочку для сохранения термина.");
 			TermSaveButton.Click();
 
 			Driver.WaitUntilElementIsDisappeared(By.XPath(TERM_SAVE_BUTTON));
