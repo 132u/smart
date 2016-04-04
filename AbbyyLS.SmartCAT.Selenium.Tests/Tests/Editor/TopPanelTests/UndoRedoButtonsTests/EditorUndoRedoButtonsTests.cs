@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Текст в таргете для сегмента №{0} не восстановился после клика по кнопке Отмены.", _segmentNumber);
 		}
 
-		[Test, Ignore("PRX-16042"]
+		[Test, Ignore("PRX-16042")]
 		public void UndoRedoHotkeyTest()
 		{
 			var targetText = "some text";
