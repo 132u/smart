@@ -13,8 +13,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories.
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
-			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
-
 			var groupName = Guid.NewGuid().ToString();
 			
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
