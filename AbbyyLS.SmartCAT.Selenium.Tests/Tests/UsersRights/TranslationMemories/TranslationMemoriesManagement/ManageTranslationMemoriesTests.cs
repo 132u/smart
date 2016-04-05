@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -195,20 +197,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMem
 		[Test]
 		public void EditLanguagesTranslationMemoryTest()
 		{
+			var targetLanguages = new List<string> { Language.Russian.Description(), Language.Lithuanian.Description() };
+			targetLanguages.Sort();
+
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory);
 
-			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, Language.English, new List<Language> { Language.Russian }),
-				"Произошла ошибка: Списки target языков не совпали.");
+			Assert.AreEqual(Language.English.Description(),
+				_translationMemoriesPage.GetTranslationMemorySourceLanguage(_translationMemory),
+				"Произошла ошибка: Неверно указан исходный язык.");
 
+			Assert.AreEqual(
+				new List<string> { Language.Russian.Description() },
+				_translationMemoriesPage.GetTranslationMemoryTargetLanguages(_translationMemory),
+				"Произошла ошибка: Неверно указаны целевые языки.");
+			
 			_translationMemoriesPage
 				.EditTranslationMemory(_translationMemory, addTargetLanguage: Language.Lithuanian)
 				.RefreshPage<TranslationMemoriesPage>()
 				.SearchForTranslationMemory(_translationMemory);
 
-			Assert.IsTrue(_translationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				_translationMemory, Language.English, new List<Language> { Language.Russian, Language.Lithuanian }),
-				"Произошла ошибка: Списки языков переводов не совпали.");
+			Assert.AreEqual(
+				Language.English.Description(),
+				_translationMemoriesPage.GetTranslationMemorySourceLanguage(_translationMemory),
+				"Произошла ошибка: Неверно указан исходный язык.");
+
+			Assert.AreEqual(targetLanguages, _translationMemoriesPage.GetTranslationMemoryTargetLanguages(_translationMemory),
+				"Произошла ошибка: Неверно указаны целевые языки.");
 		}
 
 		[Test]

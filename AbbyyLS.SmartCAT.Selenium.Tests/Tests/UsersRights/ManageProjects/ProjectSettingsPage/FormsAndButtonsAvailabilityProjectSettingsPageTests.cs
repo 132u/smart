@@ -132,7 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 
 			_generalTab
 				.ClickRemoveDateButton()
-				.OpenDatePicker();
+				.OpenCalendar();
+
 			_datePicker.SetDate<GeneralTab>(deadline.Day);
 
 			_generalTab.CancelSettingsChanges();
@@ -150,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 
 			_generalTab
 				.ClickRemoveDateButton()
-				.OpenDatePicker();
+				.OpenCalendar();
 			_datePicker.SetDate<GeneralTab>(deadline.Day);
 
 			_generalTab.SaveSettings();

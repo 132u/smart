@@ -40,10 +40,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		/// <summary>
 		/// Открыть календарь.
 		/// </summary>
-		public GeneralTab OpenDatePicker()
+		public GeneralTab OpenCalendar()
 		{
 			CustomTestContext.WriteLine("Открыть календарь.");
-			DatePicker.Click();
+			ShowCalendarIcon.Click();
 
 			return LoadPage();
 		}
@@ -126,12 +126,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		[FindsBy(How = How.XPath, Using = DATEPICKER)]
 		protected IWebElement DatePicker { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SHOW_CALENDAR_ICON)]
+		protected IWebElement ShowCalendarIcon { get; set; }
+
 		#endregion
 		
 		#region Описания XPath элементов
 
+		protected const string SHOW_CALENDAR_ICON = "//datetimepicker//span[contains(@data-bind, 'showCalendarIcon')]";
 		protected const string DATEPICKER = "//datetimepicker//input";
-		protected const string REMOVE_DEADLINE_BUTTON = "//datetimepicker//span[contains(@class, 'remove-btn')]";
+		protected const string REMOVE_DEADLINE_BUTTON = "//datetimepicker//span[contains(@class, 'icon-close')]";
 		protected const string DEADLINE = "//input[contains(@class, 'hasDatepicker')]";
 		protected const string SET_UP_QA_SETTINGS_BUTTON = "//div[contains(@class,'popup-edit')][2]//div[contains(@data-bind, 'setupQaSettings')]";
 		protected const string NAME = "(//div[contains(@class,'js-popup-edit')])[2]//input[contains(@data-bind, 'value: name')]";

@@ -776,37 +776,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		}
 
 		/// <summary>
-		/// Проверить, указаны ли для ТМ корректные языки
-		/// </summary>
-		public bool IsLanguagesForTranslationMemoryExists(
-			string translationMemoryName,
-			Language sourceLanguage,
-			List<Language> targetLanguages)
-		{
-			CustomTestContext.WriteLine("Проверить, указаны ли для ТМ {0} корректные языки: source = {1}, target = {2}.",
-				translationMemoryName, sourceLanguage, string.Join(", ", targetLanguages.ToArray()));
-			var TM = Driver.FindElement(By.XPath(TM_LANGUAGES_IN_TABLE.Replace("*#*", translationMemoryName)));
-			var languagesColumn = TM.Text;
-			var languagesList = languagesColumn.Split(new[] { '>' }).ToList();
-
-			if (languagesList.Count < 2)
-			{
-				throw new InvalidElementStateException("Произошла ошибка:\n неверное количество элементов в списке с source и target языками");
-			}
-
-			var actualSource = languagesList[0].Trim();
-			var actualTargetList = languagesList[1].Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-
-			if (sourceLanguage.ToString() != actualSource)
-			{
-				throw new InvalidElementStateException("Произошла ошибка:\n source языки не совпали");
-			}
-			var targetLanguagesArray= targetLanguages.Select(a => a.ToString());
-
-			return targetLanguagesArray.OrderBy(x => x).SequenceEqual(actualTargetList.OrderBy(x => x));
-		}
-
-		/// <summary>
 		/// Получить целевые языки памяти перевода.
 		/// </summary>
 		/// <param name="translationMemoryName">имя памяти перевода</param>
@@ -831,7 +800,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// Получить исходный язык памяти перевода.
 		/// </summary>
 		/// <param name="translationMemoryName">имя памяти перевода</param>
-		public string GetTranslationMemorySourceLanguages(string translationMemoryName)
+		public string GetTranslationMemorySourceLanguage(string translationMemoryName)
 		{
 			CustomTestContext.WriteLine("Получить исходный язык памяти перевода {0}.", translationMemoryName);
 			TranslationMemoryColumn = Driver.SetDynamicValue(How.XPath, TM_LANGUAGES_IN_TABLE, translationMemoryName);

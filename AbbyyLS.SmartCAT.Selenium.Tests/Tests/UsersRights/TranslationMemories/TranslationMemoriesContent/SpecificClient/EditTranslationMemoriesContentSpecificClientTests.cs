@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories.
 
 			Assert.AreEqual(
 				Language.German.Description(), 
-				_translationMemoriesPage.GetTranslationMemorySourceLanguages(_translationMemory),
+				_translationMemoriesPage.GetTranslationMemorySourceLanguage(_translationMemory),
 				"Произошла ошибка: Неверно указаны целевые языки.");
 		}
 

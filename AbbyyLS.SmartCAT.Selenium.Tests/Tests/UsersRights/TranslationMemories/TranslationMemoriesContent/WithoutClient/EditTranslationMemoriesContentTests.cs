@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.TranslationMemories.
 				.RefreshPage<TranslationMemoriesPage>()
 				.SearchForTranslationMemory(_translationMemory);
 
-			Assert.AreEqual(Language.German.Description(), _translationMemoriesPage.GetTranslationMemorySourceLanguages(_translationMemory),
+			Assert.AreEqual(Language.German.Description(), _translationMemoriesPage.GetTranslationMemorySourceLanguage(_translationMemory),
 				"Произошла ошибка:\nНеверно указан исходный язык.");
 		}
 
