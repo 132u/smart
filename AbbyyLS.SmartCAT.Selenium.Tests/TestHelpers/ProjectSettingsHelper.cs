@@ -27,6 +27,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_selectAssigneePage = new SelectAssigneePage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_editorPage = new EditorPage(Driver);
+			_deleteDocumentDialog = new DeleteDocumentDialog(Driver);
+			_settingResourceStep = new SettingsResourcesStep(Driver);
 		}
 
 		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, int taskNumber = 1)
@@ -83,8 +85,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				}
 			}
 
-			_addFilesStep
-				.ClickNextButton()
+			_addFilesStep.ClickNextButton();
+
+			_settingResourceStep
 				.ClickFinish<ProjectSettingsPage>()
 				.WaitUntilDocumentProcessed();
 
@@ -99,8 +102,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_projectPage
 				.ClickProjectsTableCheckbox(documentName)
-				.ClickDeleteButton()
-				.ConfirmDelete();
+				.ClickDeleteButton();
+
+			_deleteDocumentDialog.ConfirmDelete();
 
 			return this;
 		}
@@ -129,6 +133,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		private readonly SettingsResourcesStep _settingResourceStep;
+		private readonly DeleteDocumentDialog _deleteDocumentDialog;
 		private readonly ProjectSettingsPage _projectPage;
 		private readonly DocumentSettingsDialog _documentSettingsDialog;
 		private readonly AddFilesStep _addFilesStep;

@@ -1,5 +1,7 @@
 ﻿using OpenQA.Selenium;
 
+using OpenQA.Selenium.Support.PageObjects;
+
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -40,9 +42,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DELETE_DOCUMENT_DIALOG));
 		}
 
+		[FindsBy(How = How.XPath, Using = DELETE_DOCUMENT_BUTTON)]
 		protected IWebElement DeleteDocumentButton { get; set; }
 
-		protected const string DELETE_DOCUMENT_BTN = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
+		protected const string DELETE_DOCUMENT_BUTTON = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
 
 	}
 }
