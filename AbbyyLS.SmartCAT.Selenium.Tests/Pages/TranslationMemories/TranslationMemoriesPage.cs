@@ -648,15 +648,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 				SelectProjectGroup(addProjectGroup);
 			}
 
-			ClickSaveTranslationMemoryButton();
-
-			if (!isErrorExpecting)
+			if (isErrorExpecting)
 			{
-				if (!IsEditionFormDisappeared())
-				{
-					throw new XPathLookupException("Ошибка: не исчезла форма редактирования ТМ");
-				}
-
+				ClickSaveTranslationMemoryButtonExpectingError();
+			}
+			else
+			{
+				ClickSaveTranslationMemoryButton();
 				CloseTranslationMemoryInformation(tmName);
 			}
 
@@ -1026,7 +1024,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
-		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect-menu')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
+		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect-menu')][2]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 
 		protected const string SOURCE_LANGUAGE_DROPDOWN = "//select[contains(@data-bind,'allSourceLanguagesList')]//following-sibling::span";
 		protected const string SOURCE_LANGUAGE_OPTION = "//span[@data-id='*#*']";

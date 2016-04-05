@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -89,20 +91,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void EditTmLanguages()
 		{
+			var targetLanguages = new List<string> { Language.Russian.Description(), Language.Lithuanian.Description() };
+			targetLanguages.Sort();
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
 
-			Assert.IsTrue(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				UniqueTMName, Language.English, new List<Language> { Language.Russian }),
-				"Произошла ошибка:\nСписки target языков не совпали");
+			Assert.AreEqual(new List<string> { Language.Russian.Description() },
+				TranslationMemoriesPage.GetTranslationMemoryTargetLanguages(UniqueTMName),
+				"Произошла ошибка: Неверно указаны целевые языки.");
+
+			Assert.AreEqual(
+				Language.English.Description(),
+				TranslationMemoriesPage.GetTranslationMemorySourceLanguages(UniqueTMName),
+				"Произошла ошибка: Неверно указан исходный язык.");
 
 			TranslationMemoriesPage
 				.EditTranslationMemory(UniqueTMName, addTargetLanguage: Language.Lithuanian)
 				.RefreshPage<TranslationMemoriesPage>()
 				.SearchForTranslationMemory(UniqueTMName);
 
-			Assert.IsTrue(TranslationMemoriesPage.IsLanguagesForTranslationMemoryExists(
-				UniqueTMName, Language.English, new List<Language> { Language.Russian, Language.Lithuanian }),
-				"Произошла ошибка:\nСписки языков переводов не совпали");
+			Assert.AreEqual(targetLanguages,
+				TranslationMemoriesPage.GetTranslationMemoryTargetLanguages(UniqueTMName),
+				"Произошла ошибка: Неверно указаны целевые языки.");
+
+			Assert.AreEqual(
+				Language.English.Description(),
+				TranslationMemoriesPage.GetTranslationMemorySourceLanguages(UniqueTMName),
+				"Произошла ошибка: Неверно указан исходный язык.");
 		}
 
 		[TestCase(true)]
