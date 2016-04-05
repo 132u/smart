@@ -3,6 +3,8 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
+using OpenQA.Selenium.Support.PageObjects;
+
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 {
 	public class SettingsResourcesStep : DocumentUploadBaseDialog, IAbstractPage<SettingsResourcesStep>
@@ -30,12 +32,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 			CustomTestContext.WriteLine("Проверить, что открылся шаг настройки ресурсов.");
 
-			return Driver.GetIsElementExist(By.XPath(USE_MACHINE_TRANSLATION_CHECKBOX));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_BUTTON));
 		}
 
 		#endregion
 
 		#region Объявление элементов страницы
+
+		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
+		protected IWebElement UseMachineTranslationheckbox { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов

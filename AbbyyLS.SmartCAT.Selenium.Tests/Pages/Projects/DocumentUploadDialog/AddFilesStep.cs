@@ -140,7 +140,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			CustomTestContext.WriteLine("Проверить, что файл {0} загрузился", fileName);
 			Driver.SetDynamicValue(How.XPath, UPLOADED_FILE, fileName).Scroll();
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName)));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(UPLOAD_ICON.Replace("*#*", fileName)))
+				&& Driver.WaitUntilElementIsDisplay(By.XPath(UPLOADED_FILE.Replace("*#*", fileName)));
 		}
 
 		/// <summary>
@@ -202,6 +203,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		protected const string UPLOAD_FILE_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
 		protected const string UPLOADED_FILE = "//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]";
 		protected const string DUPLICATE_NAME_ERROR = "//span[contains(string(),'The following files have already been added to the project')]";
+
+		protected const string UPLOAD_ICON =
+			"//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]//preceding-sibling::span[contains(@class, 'icon_file_loading')]";
 
 		#endregion
 	}
