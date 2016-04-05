@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -39,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверное количество терминов");
 		}
 
-		[Test, Ignore("PRX-10924")]
+		[Test]
 		public void CreateCustomTermTest()
 		{
 			_glossaryPage.OpenGlossaryStructure();

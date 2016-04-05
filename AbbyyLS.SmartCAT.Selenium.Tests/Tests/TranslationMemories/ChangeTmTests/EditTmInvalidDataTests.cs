@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Ошибка: не появилось сообщение о пустом названии при редактировании ТМ");
 		}
 
-		[Test, Ignore("PRX-14254")]
+		[Test]
 		public void EditTMSaveExistingNameTest()
 		{
 			var secondTranslationMemoryName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();

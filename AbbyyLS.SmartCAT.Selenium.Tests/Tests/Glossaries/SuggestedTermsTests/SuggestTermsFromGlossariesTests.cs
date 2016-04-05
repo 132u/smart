@@ -178,7 +178,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 		[Test]
-		[Ignore("PRX-13437")]
 		public void SuggestEmptyTermFromGlossaryListTest()
 		{
 			_glossariesPage
