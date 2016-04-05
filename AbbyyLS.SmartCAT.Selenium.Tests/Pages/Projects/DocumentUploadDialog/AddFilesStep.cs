@@ -58,7 +58,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		public SettingsResourcesStep ClickNextButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Next.");
-			NextButton.ScrollAndClick();
+			NextButton.ScrollDown();
+			NextButton.Click();
 
 			return new SettingsResourcesStep(Driver).LoadPage();
 		}
