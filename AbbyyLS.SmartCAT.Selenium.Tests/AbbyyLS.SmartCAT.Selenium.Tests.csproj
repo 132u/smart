@@ -72,6 +72,7 @@
     <Compile Include="DataStructures\ProjectStatus.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
+    <Compile Include="FeatureAttributes\LoadTestsAttribute.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
     <Compile Include="Pages\Coursera\CoursePage\CoursePage.cs" />
     <Compile Include="Pages\Coursera\CoursePage\LecturesTab.cs" />
@@ -325,7 +326,11 @@
     <Compile Include="Tests\Glossaries\TermsTests\DeleteTermTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\SearchTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsBaseTest.cs" />
+    <Compile Include="Tests\LoadTests\CrossFileRepetitions.cs" />
+    <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
+    <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
+    <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectBaseTests.cs" />

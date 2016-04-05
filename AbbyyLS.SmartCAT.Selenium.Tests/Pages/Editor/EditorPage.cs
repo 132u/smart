@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 using OpenQA.Selenium;
@@ -20,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 {
 	public class EditorPage : IAbstractPage<EditorPage>
 	{
-		public WebDriver Driver { get; private set; }
+		public WebDriver Driver { get; set; }
 
 		public EditorPage(WebDriver driver)
 		{

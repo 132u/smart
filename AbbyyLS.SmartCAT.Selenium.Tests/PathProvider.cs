@@ -24,6 +24,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к файлу с тегами, репитшенами и цифрами
+		/// </summary>
+		public static string EditorTagsRepetitionsNumbersFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "TagsRepetitionsNumbers.docx")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу с тегами, репитшенами и цифрами
+		/// </summary>
+		public static string EditorCrossFileRepetitionsFirstFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions1.docx")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к файлу с тегами, репитшенами и цифрами
+		/// </summary>
+		public static string EditorCrossFileRepetitionsSecondFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions2.docx")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу txt
 		/// </summary>
 		public static string EditorTxtFile

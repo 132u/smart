@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
-	<CatServer Url="smartcat.stage-next.als.local" Workspace="" IsHttpsEnabled="true" Standalone="false"/>
+	<CatServer Url="smartcat.als.local" Workspace="" IsHttpsEnabled="true" Standalone="false"/>
 	<CourseraTargetServer Url="http://coursera.stage-next.als.local/en"/>
 
 	<TestingFiles 
@@ -11,8 +11,7 @@
 	/>
 
 	<ThreadUsers>
-		<ThreadUser Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>
-		<ThreadUser Login="ringo123@mailforspam.com" Password="31415926" NickName="Ringo Star" Name="Ringo" Surname="Star"/>
+		<ThreadUser Login="d.tonkushin@abbyy-ls.com" Password="12345" NickName="Дмитрий Тонкушин" Name="Дмитрий" Surname="Тонкушин"/>
 	</ThreadUsers>
 	
 	<TestUsers>
