@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			Standalone = config.Standalone;
 			Url = prefix + config.Url;
 			CourseraUrl = courseraConfig.Url;
-			AdminUrl = @"http://admin.smartcat.als.local/";
+			AdminUrl = "http://" + config.Url + ":81";
 		}
 
 		public static ConcurrentBag<TestUser> Users { get; set; }
