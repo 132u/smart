@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		{
 			if (!IsDublicateFileErrorDialogOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не пояивлось сообщение о ошибке.");
+				throw new XPathLookupException("Произошла ошибка:\n не появилось сообщение о ошибке.");
 			}
 
 			return this;
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// </summary>
 		public bool IsDublicateFileErrorDialogOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(UPDATE_BUTTON));
+			return Driver.WaitUntilElementIsAppear(By.XPath(UPDATE_BUTTON));
 		}
 
 		/// <summary>
@@ -76,8 +76,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		#region Описания XPath элементов
 
 		protected const string DUPLICATE_FILE_NAME = "//div[contains(@class, 'duplicate-file')]//span[contains(text(),'*#*')]";
-		protected const string UPDATE_BUTTON = "//div[contains(@class,'popupbox duplicate-file')]//label[contains(@data-bind, 'update')]";
-		protected const string LOAD_BUTTON = "//div[contains(@class,'popupbox duplicate-file')]//label[contains(@data-bind, 'load')]";
+		protected const string UPDATE_BUTTON = "//div[contains(@class,'duplicate-settings-popup')]//label[contains(@data-bind, 'update')]//input";
+		protected const string LOAD_BUTTON = "//div[contains(@class,'duplicate-settings-popup')]//label[contains(@data-bind, 'load')]//input";
 		protected const string OK_BUTTON = "//button[contains(@data-bind, 'save')]";
 
 		#endregion
