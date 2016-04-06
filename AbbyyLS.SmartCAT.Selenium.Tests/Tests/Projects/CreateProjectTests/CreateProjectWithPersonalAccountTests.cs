@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			StartPage = StartPage.PersonalAccount;
 		}
 
-		[Test]
+		[Test, Description("S-7168")]
 		public void CreateProjectNoFileTest()
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();

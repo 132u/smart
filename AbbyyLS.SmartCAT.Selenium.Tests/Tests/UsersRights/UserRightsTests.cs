@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights
 			_workspacePage.GoToUsersPage();
 		}
 
-		[Test]
+		[Test, Description("S-7124")]
 		public void CreateGroupTest()
 		{
 			_groupsAndAccessRightsTab.OpenNewGroupDialog();

@@ -27,11 +27,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
-		[Test]
+		[Test, Description("S-13753")]
 		public void DeleteProjectWithFileTest()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile, PathProvider.DocumentFile2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
-		[Test]
+		[Test, Description("S-13750")]
 		public void DeleteDocumentFromProject()
 		{
 			var document = PathProvider.DocumentFile;

@@ -10,7 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 	class ExportGlossaryTests<TWebDriverProvider>
 		: BaseGlossaryTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
+		[Test, Description("S-7294")]
 		public void ExportGlossaryTest()
 		{
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);

@@ -16,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	class CreateProjectTests<TWebDriverProvider>
 		: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
+		[Test, Description("S-7136")]
 		public void CreateProjectNoFileTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test]
+		[Test, Description("S-7142")]
 		public void ImportDocumentAfterCreationTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);

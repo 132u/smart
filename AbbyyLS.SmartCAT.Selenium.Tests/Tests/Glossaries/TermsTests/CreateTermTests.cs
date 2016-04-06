@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 
-		[Test]
+		[Test, Description("S-7288")]
 		public void CreateDefaultTermTest()
 		{
 			_glossaryPage.CreateTerm();

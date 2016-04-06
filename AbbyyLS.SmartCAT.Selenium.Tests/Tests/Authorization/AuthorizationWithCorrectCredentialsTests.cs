@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
-		[Test]
+		[Test, Description("S-7048")]
 		public void SignOutTest()
 		{
 			_signInPage.SubmitForm(ThreadUser.Login, ThreadUser.Password);
