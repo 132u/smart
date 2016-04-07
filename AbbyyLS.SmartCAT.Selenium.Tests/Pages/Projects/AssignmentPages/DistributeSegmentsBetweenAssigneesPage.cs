@@ -34,11 +34,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// <param name="segmentNumber">номер сегмента</param>
 		public DistributeSegmentsBetweenAssigneesPage ClickSegment(int segmentNumber = 1)
 		{
-			CustomTestContext.WriteLine("Кликнуть по сегменту №{0}", segmentNumber);
+			CustomTestContext.WriteLine("Попытаться кликнуть по сегменту №{0}", segmentNumber);
+			Driver.FindElement(By.XPath(SEGMENT.Replace("*#*", segmentNumber.ToString()))).Scroll();
 			Segment = Driver.WaitUntilElementIsClickable(By.XPath(SEGMENT.Replace("*#*", segmentNumber.ToString())));
 
 			if (Segment != null)
 			{
+				CustomTestContext.WriteLine("Кликнуть по сегменту №{0}", segmentNumber);
 				Segment.Click();
 			}
 			else
