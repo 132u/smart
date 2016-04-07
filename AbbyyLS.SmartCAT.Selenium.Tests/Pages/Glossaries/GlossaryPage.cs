@@ -532,6 +532,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Нажать на комбобокс {0} типа 'Multi-selection list'.", fieldName);
 			Driver.SetDynamicValue(How.XPath, MULTISELECT_DROPDOWN, fieldName).Click();
+			Driver.WaitUntilElementIsAppear(By.XPath(OPTION_LIST));
 
 			return LoadPage();
 		}
@@ -1835,6 +1836,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ITEMS_LIST_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//span[contains(@class,'js-dropdown')]";
 		protected const string ITEMS_LIST = "//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string MULTISELECT_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//div[contains(@class,'ui-multiselect')]";
+		protected const string OPTION_LIST = "//ul[contains(@class, 'multiselect-checkboxes')]";
 		protected const string MULTISELECT_LIST = "//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')][text()='*#*']";
 		protected const string MEDIA_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]";
 		protected const string PROGRESS_MEDIA_FILE = "//p[contains(text(), '*#*')]/..//img[contains(@class, 'prgrssbar ')]";
