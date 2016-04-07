@@ -14,6 +14,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ViewProjects
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class ViewProjectBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -11,6 +11,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaries.ManageGlossariesAndCreateProject
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class ManageGlossariesAndCreateProjectBaseTests<TWebDriverProvider> : ManageGlossariesCommonBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]

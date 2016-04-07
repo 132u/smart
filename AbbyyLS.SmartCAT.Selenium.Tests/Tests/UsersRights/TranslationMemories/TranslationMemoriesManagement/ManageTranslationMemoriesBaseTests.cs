@@ -15,6 +15,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageTranslationMemories
 {
+	[Parallelizable(ParallelScope.Fixtures)]
 	class ManageTranslationMemoriesBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
