@@ -206,7 +206,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
 			var languageValue = (int)language;
 			TargetLanguage = Driver.FindElement(By.XPath(TARGET_LANG_ITEM.Replace("*#*", languageValue.ToString())));
-			TargetLanguage.ScrollAndClick();
+			TargetLanguage.ScrollDown();
+			TargetLanguage.Click();
 
 			return LoadPage();
 		}
@@ -993,7 +994,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string CREATION_DATE = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string TM_LANGUAGES = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span[string()='*##*']";
 		protected const string TM_LANGUAGES_IN_TABLE = "//td[@class='l-corpr__td tm']//span[string()='*#*']/parent::td/parent::tr//td[2]//span";
-		protected const string TARGET_LANG_ITEM = "//div[contains(@class,'ui-multiselect-menu')][2]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
+		protected const string TARGET_LANG_ITEM = "//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 
 		protected const string SOURCE_LANGUAGE_DROPDOWN = "//select[contains(@data-bind,'allSourceLanguagesList')]//following-sibling::span";
 		protected const string SOURCE_LANGUAGE_OPTION = "//span[@data-id='*#*']";

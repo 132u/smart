@@ -133,7 +133,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Выбрать группу проектов {0} в дропдауне.", projectGroup);
 			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
-			ProjectOption.ScrollAndClick();
+			ProjectOption.ScrollDown();
+			ProjectOption.Click();
 
 			return LoadPage();
 		}

@@ -472,7 +472,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public GlossaryPage ClickItemInMultiselectListDropdown(string item)
 		{
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
-			Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item).Click();
+			MultiselectList = Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item);
+			MultiselectList.ScrollDown();
+			MultiselectList.Click();
 
 			return LoadPage();
 		}
@@ -1746,6 +1748,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		[FindsBy(How = How.XPath, Using = DIAPASON_PANEL)]
 		protected IWebElement DiapasonPanel { get; set; }
+
+		protected IWebElement MultiselectList { get; set; }
 
 		protected IWebElement DeleteTermButton { get; set; }
 
