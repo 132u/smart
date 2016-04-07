@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_courseraHomePage.ClickProfile();
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14792")]
 		public void RatingAfterTranslationTest()
 		{
 			var ratingBeforeTranslation = _profilePage.GetUserProfileRating();
@@ -178,7 +178,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Количество переведенных предложений не увеличилось.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14792")]
 		public void RatingTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -236,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			Assert.AreNotEqual(ratingBeforeRate, ratingAfterRate, "Произошла ошибка:\n Рейтинг не изменился.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14792")]
 		public void VoteUpViaEventsListTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -283,7 +283,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Рейтинг не увеличился.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-14792")]
 		public void VoteDownViaEventsListTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);

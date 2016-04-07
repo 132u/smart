@@ -113,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			var position = UserRating.Text;
 			double positionNubmer;
 
-			if (!double.TryParse(position, System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out positionNubmer))
+			if (!double.TryParse(position, System.Globalization.NumberStyles.Float, CultureInfo.GetCultureInfo("en-US"), out positionNubmer))
 			{
 				throw new Exception(string.Format("Произошла ошибка:\nНе удалось преобразование рейтинга {0} пользователя в профиле.", position));
 			}
