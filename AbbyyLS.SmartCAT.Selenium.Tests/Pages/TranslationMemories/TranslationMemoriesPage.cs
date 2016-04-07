@@ -732,7 +732,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public bool IsExistingNameErrorMessageDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить наличие ошибки о существующем имени при некорректном редактировании имени ТМ.");
-
+			
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_EDIT_EXIST_NAME));
 		}
 
@@ -1011,7 +1011,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string PROJECT_GROUPS_FIELD = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'domainNames')]";
 
 		protected const string ERROR_EDIT_NO_NAME = "//tr[contains(@class,'js-tm-panel')]//div[contains(@class,'tmpanel__error')]//p[contains(@data-message-id, 'name-required')]";
-		protected const string ERROR_EDIT_EXIST_NAME = "//tr[contains(@class,'js-tm-panel')]//div[contains(@class,'tmpanel__error')]//p[contains(text(),'The name should be unique.')]";
+		protected const string ERROR_EDIT_EXIST_NAME = "//tr[contains(@class,'js-tm-panel')]//div[contains(@class,'tmpanel__error')]//p[contains(text(),'A translation memory with this name already exists.')]";
 
 		protected const string SEARCH_BUTTON = "//a[@title='Search TM by name']";
 		protected const string SEARCH_TM_FIELD = "//input[@name='searchTMName']";
