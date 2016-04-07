@@ -57,6 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			{
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
+				Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString())));
 				CancelNotifierButton = Driver.SetDynamicValue(How.XPath, NOTIFIER_CANCEL_BTN, i.ToString());
 				CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
 				CancelNotifierButton.Click();
