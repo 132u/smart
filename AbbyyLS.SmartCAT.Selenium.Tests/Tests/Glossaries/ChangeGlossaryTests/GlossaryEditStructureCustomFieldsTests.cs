@@ -373,8 +373,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} отсутствует в новом термине", fieldName);
 
 			_glossaryPage
-				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
-				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
+				.SelectItemInMultiSelectListDropdown(fieldName, new List<string> { "select1", "select3" })
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0] + ", " + itemsList[2]),
@@ -408,8 +407,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом", fieldName);
 
 			_glossaryPage
-				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[0])
-				.SelectItemInMultiSelectListDropdown(fieldName, itemsList[2])
+				.SelectItemInMultiSelectListDropdown(fieldName, new List<string> { "select1", "select3" })
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsCustomFieldValueMatchExpected(fieldName, itemsList[0] + ", " + itemsList[2]),

@@ -473,7 +473,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Выбрать значение {0} в комбобоксе 'Multi-selection list'.", item);
 			MultiselectList = Driver.SetDynamicValue(How.XPath, MULTISELECT_LIST, item);
-			MultiselectList.ScrollDown();
 			MultiselectList.Click();
 
 			return LoadPage();
@@ -880,11 +879,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// Выбрать значение в поле типа 'Multi-selection list'
 		/// </summary>
 		/// <param name="fieldName">имя поля</param>
-		/// <param name="item">значение</param>
-		public GlossaryPage SelectItemInMultiSelectListDropdown(string fieldName, string item)
+		/// <param name="items">значение</param>
+		public GlossaryPage SelectItemInMultiSelectListDropdown(string fieldName, List<string> items)
 		{
 			ClickMultiselectListDropdown(fieldName);
-			ClickItemInMultiselectListDropdown(item);
+			for (int i = 0; i < items.Count; i++)
+			{
+				ClickItemInMultiselectListDropdown(items[i]);
+			}
 			ClickMultiselectListDropdown(fieldName);
 
 			return LoadPage();
@@ -1837,7 +1839,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string ITEMS_LIST = "//span[contains(@class,'js-dropdown__list')]//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string MULTISELECT_DROPDOWN = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//div[contains(@class,'ui-multiselect')]";
 		protected const string OPTION_LIST = "//ul[contains(@class, 'multiselect-checkboxes')]";
-		protected const string MULTISELECT_LIST = "//ul[contains(@class,'ui-multiselect-checkboxes')]//span[contains(@class,'ui-multiselect-item-text')][text()='*#*']";
+		protected const string MULTISELECT_LIST = "//span[contains(@class,'ui-multiselect-item-text')][text()='*#*']/..";
 		protected const string MEDIA_FIELD = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-control')]//p[contains(text(),'*#*')]";
 		protected const string PROGRESS_MEDIA_FILE = "//p[contains(text(), '*#*')]/..//img[contains(@class, 'prgrssbar ')]";
 		protected const string MEDIA_FIELD_TEXT = "//p[contains(text(), '*#*')]/..//a[contains(@class, 'js-filename-link')]";
