@@ -60,7 +60,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString())));
 				CancelNotifierButton = Driver.SetDynamicValue(How.XPath, NOTIFIER_CANCEL_BTN, i.ToString());
 				CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
-				CancelNotifierButton.Click();
+				CancelNotifierButton.JavaScriptClick();
+				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString()))))
+				{
+					throw new Exception("Кнопка закрытия №" + i + " не исчезла.");
+				}
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), Driver) as T;
@@ -277,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описания XPath элементов
 
-		protected const string NOTIFIER_CANCEL_BTN = "(//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(), 'Close')]/..)[*#*]//span";
+		protected const string NOTIFIER_CANCEL_BTN = "(//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(), 'Close')]/..)[*#*]//span/..";
 		protected const string NOTIFIER_DOWNLOAD_BTN = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(contains(@style,'none'))]//button//span[contains(text(),'Download')]/..";
 		protected const string NOTIFIER_MESSAGE = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//span[@data-bind='html: message']";
 		protected const string NOTIFIER_MESSAGE_BY_TEXT = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]//div[not(@style)]//span[@data-bind='html: message'][contains(text(),'*#*')]";
