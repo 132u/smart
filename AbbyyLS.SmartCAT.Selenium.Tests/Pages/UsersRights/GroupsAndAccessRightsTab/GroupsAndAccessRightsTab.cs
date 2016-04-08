@@ -229,7 +229,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return LoadPage();
 		}
-
+		
 		#endregion
 		
 		#region Методы, проверяющие состояние страницы
@@ -386,7 +386,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string GROUP_USER = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]";
 		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]//span[contains(@data-bind,'removeUser')]";
 		protected const string ADD_GROUP_USERS_INPUT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')][1]//input[contains(@class, 'tblgrp_finduser')]";
-		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr[contains(string(),'*##*')]//following-sibling::td//a[string() = 'Add']";
+		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr//td[string()='*##*']//following-sibling::td//a[text() = 'Add']";
 
 		protected const string VIEW_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'View all projects')]";
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
