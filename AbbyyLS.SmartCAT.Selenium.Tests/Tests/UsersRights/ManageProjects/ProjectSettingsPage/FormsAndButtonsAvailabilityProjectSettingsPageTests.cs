@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageProjects.Proje
 		[Test]
 		public void AssignTaskButtonDisabledTest()
 		{
-			Assert.IsTrue(_projectSettingsPage.IsAssignTaskButtonDisabled(),
+			Assert.IsFalse(_projectSettingsPage.IsAssignTaskButtonDisabled(),
 			"Произошла ошибка:\n Кнопка назначения пользователя на документ активна.");
 			
 			_projectSettingsPage.ClickDocumentCheckbox(PathProvider.DocumentFile);
