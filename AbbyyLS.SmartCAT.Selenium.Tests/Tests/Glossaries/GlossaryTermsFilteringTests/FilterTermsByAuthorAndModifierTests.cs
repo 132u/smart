@@ -63,8 +63,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_glossaryPage.IsCreatedByFilterLabelDisplayed(),
 				"Произошла ошибка:\nФильтр 'Created by' не отображается в таблице терминов.");
 
-			Assert.IsTrue(_glossaryPage.GetCreatedByFilterText().Contains(ThreadUser.NickName),
-				"Произошла ошибка:\nФильтр 'Created by' не содержит имя автора {0}.", ThreadUser.NickName);
+			Assert.IsTrue(_glossaryPage.GetCreatedByFilterText().Contains(ThreadUser.Name),
+				"Произошла ошибка:\nФильтр 'Created by' не содержит имя автора {0}.", ThreadUser.Name);
+
+			Assert.IsTrue(_glossaryPage.GetCreatedByFilterText().Contains(ThreadUser.Surname),
+				"Произошла ошибка:\nФильтр 'Created by' не содержит фамилию автора {0}.", ThreadUser.Surname);
 
 			Assert.AreEqual(_glossaryPage.TermsCount(), 1,
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов.");

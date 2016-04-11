@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Threading;
 
@@ -409,12 +410,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public ProjectSettingsPage ClickDocumentProgress(string filePath)
 		{
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
-			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
+			CustomTestContext.WriteLine("Навести курсор на поле прогресс строке документа {0}.", fileName);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
 			DocumentProgress.HoverElement();
 
-			Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_TOOLTIP));
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_TOOLTIP)))
+			{
+				throw new Exception("Произошла ошибка: не появился тултип.");
+			}
 
+			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
 			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
 			DocumentProgress.Click();
 
