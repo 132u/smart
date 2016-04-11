@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		/// <param name="password">пароль пользователя</param>
 		public SignInPage SetPassword(string password)
 		{
-			CustomTestContext.WriteLine("Ввести пароль пользователя {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль {0}.", password);
 
 			Password.SetText(password);
 

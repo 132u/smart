@@ -383,8 +383,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string NEW_GROUP_NAME_INPUT = "//input[contains(@class, 'add-group-popup')]";
 		protected const string EDIT_GROUP_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@data-bind, 'click: edit')]//a";
 		protected const string ADD_RIGHTS_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@data-bind,'click: addAccessRight')]";
-		protected const string GROUP_USER = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]";
-		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li[contains(string(), '*##*')]//span[contains(@data-bind,'removeUser')]";
+		protected const string GROUP_USER = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li//span[text()='*##*']";
+		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li//span[text()='*##*']/..//span[contains(@data-bind,'removeUser')]";
 		protected const string ADD_GROUP_USERS_INPUT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')][1]//input[contains(@class, 'tblgrp_finduser')]";
 		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr//td[string()='*##*']//following-sibling::td//a[text() = 'Add']";
 
