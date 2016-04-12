@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -31,6 +32,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		}
 
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать кнопку "Create Account"
+		/// </summary>
+		public RegistrationPage ClickCreateAccountButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Create Account'");
+			CreateAccountButton.Click();
+
+			return new RegistrationPage(Driver).LoadPage();
+		}
 
 		#endregion
 
@@ -83,6 +95,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		#region Объявление элементов страницы
 
+		[FindsBy(How = How.XPath, Using = CREATE_ACCOUNT_BUTTON)]
+		protected IWebElement CreateAccountButton { get; set; }
+
 		protected IWebElement AccountRef { get; set; }
 
 		#endregion
@@ -95,8 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string EUROPE_ACCOUNT_LIST = "//span[contains(@data-bind, 'localRegionName') and text()='Europe']/../..//li[contains(@class,'choice-acc')]//following-sibling::li//a[contains(@data-bind , 'loginToAccount')]";
 		protected const string USA_ACCOUNT_LIST = "//li[@translate='region-us']//following-sibling::li//a[contains(@ng-click,'signInAccount')]";
 		protected const string WAITING_SERVER_RESPONSE_MESSAGE = "//div[@ng-show='accountWatitngServerResponse']/span";
-		protected const string FREELANCE_PROFILE = "//div[contains(@data-bind, 'chooseFreelancerProfile')]";
-		protected const string CORPORATE_PROFILE = "//div[contains(@data-bind, 'chooseCorporateProfile')]";
+		protected const string CREATE_ACCOUNT_BUTTON = "//button[@data-bind='click: createAccount']";
 
 		protected const string EUROPE_HEADER = "//li[@translate='region-ru']";
 

@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 using OpenQA.Selenium;
@@ -158,6 +158,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new LinkedInPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Получить информационное сообщение
+		/// </summary>
+		public string GetMessageText()
+		{
+			CustomTestContext.WriteLine("Получить информационное сообщение");
+			Driver.WaitUntilElementIsDisplay(By.XPath(MESSAGE));
+			Thread.Sleep(3000); // Часть текста элемента (имя) прилетает AJAX запросом уже после появления элемента
+
+			return Message.Text;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -229,7 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		{
 			CustomTestContext.WriteLine("Проверить, что на странице появилось сообщение о неправильном пароле.");
 
-            return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_WRONG_PASSWORD));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_WRONG_PASSWORD));
 		}
 
 		/// <summary>
@@ -325,6 +337,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = SIGN_UP_COMPANY_BTN)]
 		protected IWebElement SignUpAsCompanyButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = MESSAGE)]
+		protected IWebElement Message { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -346,6 +361,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";
+
+		protected const string MESSAGE = "//p[@class='g-form__msg']";
 
 		#endregion
 	}

@@ -4,7 +4,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration.FreelanceRegistration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -21,8 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_workspacePage = new WorkspacePage(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_courseraSignInDialog = new CourseraSignInDialog(Driver);
-			_companyRegistrationFirstPage = new CompanyRegistrationFirstPage(Driver);
-			_freelanceRegistrationFirstPage = new FreelanceRegistrationFirstPage(Driver);
+			_registrationPage = new RegistrationPage(Driver);
 		}
 
 		public LoginHelper LogInSmartCat(
@@ -75,12 +73,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 						.SignIn(user.Login, user.Password);
 					break;
 
-				case StartPage.CompanyRegistration:
-					_companyRegistrationFirstPage.GetPage();
-					break;
-
-				case StartPage.FreelanceRegistration:
-					_freelanceRegistrationFirstPage.GetPage();
+				case StartPage.Registration:
+					_registrationPage.GetPage();
 					break;
 
 				case StartPage.SignIn:
@@ -114,8 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly CourseraHomePage _courseraHomePage;
 		private readonly WorkspacePage _workspacePage;
 		private readonly CourseraSignInDialog _courseraSignInDialog;
-		private readonly CompanyRegistrationFirstPage _companyRegistrationFirstPage;
-		private readonly FreelanceRegistrationFirstPage _freelanceRegistrationFirstPage;
+		private readonly RegistrationPage _registrationPage;
 
 		public const string TestAccountName = "TestAccount";
 		public const string PersonalAccountName = "Personal";

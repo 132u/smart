@@ -1,4 +1,6 @@
-﻿namespace AbbyyLS.SmartCAT.Selenium.Tests
+﻿using System;
+
+namespace AbbyyLS.SmartCAT.Selenium.Tests
 {
 	internal static class RelativeUrlProvider
 	{
@@ -18,19 +20,11 @@
 			}
 		}
 
-		public static string CorpReg
+		public static string Registratioin
 		{
 			get
 			{
-				return "/corp-reg";
-			}
-		}
-
-		public static string FreelanceRegistratioin
-		{
-			get
-			{
-				return "/freelance-reg";
+				return "/registration?email=";
 			}
 		}
 	}

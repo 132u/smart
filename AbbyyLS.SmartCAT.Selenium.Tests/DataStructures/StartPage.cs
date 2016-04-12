@@ -3,11 +3,10 @@
 	public enum StartPage
 	{
 		Admin,
-		CompanyRegistration,
+		Registration,
 		SignIn,
 		Workspace,
 		PersonalAccount,
-		FreelanceRegistration,
 		Coursera
 	}
 }
