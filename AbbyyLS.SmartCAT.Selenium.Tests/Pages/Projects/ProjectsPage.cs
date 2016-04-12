@@ -41,6 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public NewProjectDocumentUploadPage ClickGreenCreateProjectButton()
 		{
 			CustomTestContext.WriteLine("Нажать зеленую кнопку создания проекта.");
+			OpenHideMenuIfClosed();
 			GreenCreateProjectButton.Click();
 
 			return new NewProjectDocumentUploadPage(Driver).LoadPage();
