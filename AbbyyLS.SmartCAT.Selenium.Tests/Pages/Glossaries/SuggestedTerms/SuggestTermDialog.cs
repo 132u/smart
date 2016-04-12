@@ -1,8 +1,11 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -35,6 +38,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Ввести {0} в термин №{1}.", term, termNumber);
 			Driver.SetDynamicValue(How.XPath, TERM_INPUT, termNumber.ToString()).SetText(term);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Заполнить поле 'Комментарий'.
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public SuggestTermDialog FillComment(string comment)
+		{
+			CustomTestContext.WriteLine("Заполнить поле 'Комментарий'.");
+			CommentField = Driver.SetDynamicValue(How.XPath, COMMENT_INPUT, comment);
+			CommentField.SetText(comment);
 
 			return LoadPage();
 		}
@@ -172,6 +188,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return new GlossaryPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку 'Save term anyway', ожидая открытия страницы поиска.
+		/// </summary>
+		public SearchPage ClickSaveTermAnywayButtonExpectingSearchPage()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Save term anyway', ожидая открытия страницы поиска.");
+			SaveTermAnywayButon.Click();
+
+			return new SearchPage(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -182,10 +209,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			Language language1 = Language.English,
 			Language language2 = Language.Russian,
 			bool defaultLanguages = false,
-			string glossary = null)
+			string glossary = null,
+			string comment = null)
 		{
 			FillTerm(termNumber: 1, term: term1);
 			FillTerm(termNumber: 2, term: term2);
+			
+			if(comment != null)
+				FillComment(comment);
 
 			if (!defaultLanguages)
 			{
@@ -252,12 +283,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = SAVE_TERM_ANYWAY_BUTON)]
 		protected IWebElement SaveTermAnywayButon { get; set; }
 
+		protected IWebElement CommentField { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
 
 		protected const string SUGGEST_TERM_DIALOG = "//div[contains(@class,'js-add-suggest-popup')]";
 		protected const string TERM_INPUT = "//div[contains(@class, 'l-addsugg__contr lang js-language')][*#*]//input[contains(@class, 'js-addsugg-term')]";
+		protected const string COMMENT_INPUT = "//div[contains(@class, 'l-addsugg__contr')]//input[contains(@class, 'l-addsugg__txtcomm')]";
 		protected const string GLOSSARY_DROPDOWN = "//span[contains(@class, 'js-dropdown addsuggglos')]";
 		protected const string GLOSSARU_IN_LIST = "//span[contains(@class,'js-dropdown__item')][@title='*#*']";
 		protected const string SAVE_BUTON = "//input[contains(@class, 'js-save-btn')]";

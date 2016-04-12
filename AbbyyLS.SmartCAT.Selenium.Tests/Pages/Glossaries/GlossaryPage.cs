@@ -33,6 +33,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Раскрыть меню редактирования термина.
+		/// </summary>
+		/// <param name="term">термин</param>
+		public GlossaryPage UnrollEditMenuForTerms(string term)
+		{
+			CustomTestContext.WriteLine("Раскрыть меню редактирования термина.");
+			TableWithTerms = Driver.SetDynamicValue(How.XPath, TABLE_WITH_TERMS, term);
+			TableWithTerms.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Ввести комментарий в выпадающем меню редактирования терминов.
+		/// </summary>
+		/// <param name="comment">еомментарий</param>
+		public GlossaryPage FillCommentInDropDownEditMenu(string comment)
+		{
+			CustomTestContext.WriteLine("Ввести комментарий в выпадающем меню редактирования терминов.");
+			CommentField.SetText(comment);
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Получить текст из термина типа дропдаун в режиме просмотра
 		/// </summary>
 		public string GetDropdownTermFieldViewModelText(GlossarySystemField termField)
@@ -40,6 +65,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			CustomTestContext.WriteLine("Получить текст из термина типа дропдаун в режиме просмотра.", termField);
 
 			return Driver.SetDynamicValue(How.XPath, DROPDOWN_TERM_FIELD_VIEW_MODE, termField.ToString()).Text.ToLower();
+		}
+
+		/// <summary>
+		/// Раскрыть поле для добавления термина в секции 'Language and term details'.
+		/// </summary>
+		/// <param name="rowNumber">номер поля для ввода</param>
+		public GlossaryPage GetDropdownAddTermInLanguagesAndTerms(int rowNumber)
+		{
+			CustomTestContext.WriteLine("Раскрыть поле для добавления термина в секции 'Language and term details'.");
+			Driver.WaitUntilElementIsDisplay(By.XPath(ADD_BUTTON.Replace("*#*", rowNumber.ToString())));
+			var addTermButton = Driver.SetDynamicValue(How.XPath, ADD_BUTTON, rowNumber.ToString());
+			addTermButton.Click();
+
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1576,6 +1615,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(DELETE_BUTTON.Replace("*#*", source).Replace("*##*", target)));
 		}
 
+		/// <summary>
+		/// Проверить, что поле поиска автоматически заполненно значением первого термина.
+		/// </summary>
+		public bool IsSearchFieldContainSearchedTerm(string term)
+		{
+			//появляется при переходе со страницы поиска
+			CustomTestContext.WriteLine("Проверить, что поле поиска автоматически заполненно значением первого термина.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FIELD_WITH_TERM.Replace("*#*", term)));
+		}
+
 		#endregion
 
 		#region Вспомогательные методы
@@ -1752,6 +1802,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = DIAPASON_PANEL)]
 		protected IWebElement DiapasonPanel { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_BUTTON)]
+		protected IWebElement AddButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = COMMENT_FIELD)]
+		protected IWebElement CommentField { get; set; }
+
+		protected IWebElement TableWithTerms { get; set; }
+
 		protected IWebElement MultiselectList { get; set; }
 
 		protected IWebElement DeleteTermButton { get; set; }
@@ -1776,6 +1834,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string EXPORT_BUTTON = "//button[contains(@class,'js-export-concepts')]";
 		protected const string TERM_ROW = "//tr[contains(@class, 'js-concept-row')]";
 		protected const string TERMS_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class, 'glossaryLang')]//p";
+		protected const string TABLE_WITH_TERMS = "//table[contains(@class, 'js-sortable-table')]//td//p[contains(text(), '*#*')]//parent::td";
+		protected const string COMMENT_FIELD = "//div[contains(@class, 'l-corpr__viewmode__edit js-edit')]//textarea[contains(@name, 'Comment')]";
 
 		protected const string SORT_BY_ENGLISH_TERM = "//th[contains(@data-sort-by,'Language1')]//a";
 		protected const string SORT_BY_RUSSIAN_TERM = "//th[contains(@data-sort-by,'Language2')]//a";
@@ -1785,12 +1845,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LANGUAGE_HEADER_VIEW_MODE = "//div[contains(@class, 'js-lang-node')]//span[contains(text(), '*#*')]";
 		protected const string LANGUAGE_COMMENT_EDIT_MODE = "//div[contains(@class, 'lang-attrs')][1]//textarea[@name='Comment']";
 		protected const string LANGUAGE_COMMENT_VIEW_MODE = "//td[contains(@class, 'js-details-panel')]//div[contains(@class, 'viewmode js-lang-attr')]//p[@title='Comment']/following-sibling::div";
-		protected const string ADD_BUTTON = "//div[@class='l-corprtree__langbox']['*#*']//div[contains(@class, 'l-inactive-lang')]//span[contains(@class, 'addbtn js-add-term')]";
+		protected const string ADD_BUTTON = "//div[@class='l-corprtree__langbox'][*#*]//div[contains(@class, 'l-inactive-lang')]//i";
 		protected const string TERM_LANGUAGE = "//span[@class='js-term-editor g-block l-corprtree__edittrasl']//input[contains(@class, 'txttrasl')]";
 		protected const string ADD_BUTTON_LIST = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')]//i[contains(@class,'js-add-term')]";
 		protected const string TERM_INPUT = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'js-selected-node')]//span[contains(@class,'js-term-editor')]//input";
 		protected const string TERM_INPUT_VIEW_MODE = "//div[contains(@class, 'js-terms-tree')]//div[contains(@class, 'l-corprtree__langbox')][*#*]//span[@class='js-term-viewer']";
-		protected const string DEFINITION_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='Interpretation']";
+		protected const string DEFINITION_EDIT_MODE = "//div[contains(@class, 'l-corpr__viewmode__edit')]//textarea[@name='Interpretation']";
 		protected const string DEFINITION_VIEW_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//p[@title='Definition']/following-sibling::div[contains(@class, '_viewmode__val js-value')]";
 		protected const string DEFINITION_SOURCE_VIEW_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//p[@title='Definition source']/following-sibling::div[contains(@class, '_viewmode__val js-value')]";
 		protected const string DEFINITION_SOURCE_EDIT_MODE = "//div[contains(@class, 'viewmode js-lang-attrs')]//textarea[@name='InterpretationSource']";
@@ -1807,6 +1867,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string TERM_ROW_BY_SOURCE_AND_TARGET = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**')]//td[4]";
 		protected const string CANCEL_BUTTON = "//tr[contains(@class, 'js-concept-row js-editing opened')]//i[contains(@class, 'js-cancel-btn')]";
 		protected const string SEARCH_INPUT = "//input[@name='searchTerm']";
+		protected const string SEARCH_FIELD_WITH_TERM = "//div[contains(@class, 'l-corpr__hd right')]//input[contains(@value, '*#*')]";
 		protected const string SEARCH_BUTTON = "//a[@title='Search']";
 		protected const string TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
 		protected const string LANGUAGE_COLUMNS = "//tr[@class='js-table-header']//th[contains(@data-sort-by, 'Language')]";

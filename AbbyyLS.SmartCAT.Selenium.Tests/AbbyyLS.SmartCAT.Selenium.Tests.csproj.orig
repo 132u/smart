@@ -126,13 +126,16 @@
     <Compile Include="Pages\Projects\StatisticsPage\BuildStatisticsPage.cs" />
     <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeDocumentBetweenAssigneesPage.cs" />
+<<<<<<< HEAD
     <Compile Include="Pages\Registration\RegistrationPage.cs" />
+=======
     <Compile Include="Pages\Search\ExamplesFromTextsDialog.cs" />
     <Compile Include="Pages\Search\SearchHistoryPage.cs" />
     <Compile Include="Pages\Search\SearchPageTabs\DefinitionsTab.cs" />
     <Compile Include="Pages\Search\SearchPageTabs\ExamplesTab.cs" />
     <Compile Include="Pages\Search\SearchPageTabs\PhrasesTab.cs" />
     <Compile Include="Pages\Search\SearchPageTabs\TranslationsTab.cs" />
+>>>>>>> SCAT-941 Написать автотесты по новым тест-кейсам поиска
     <Compile Include="Pages\Support\FeedbackDialog.cs" />
     <Compile Include="Pages\Support\HelpPage.cs" />
     <Compile Include="Pages\Support\SupportFeedbackPage.cs" />
@@ -332,17 +335,16 @@
     <Compile Include="Tests\LoadTests\CrossFileRepetitions.cs" />
     <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
+<<<<<<< HEAD
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountAdminRegistrationTests.cs" />
-    <Compile Include="Tests\Search\SearchPageTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationInvalidDataTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationValidDataTests.cs" />
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelancerAdminRegistrationTests.cs" />
     <Compile Include="Tests\Registration\RegistrationBaseTest.cs" />
+=======
+    <Compile Include="Tests\Search\SearchPageTests.cs" />
+>>>>>>> SCAT-941 Написать автотесты по новым тест-кейсам поиска
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByProjectGroupTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByClientTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByLanguageTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByTopicTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
@@ -416,7 +418,7 @@
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUploadingInvalidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchTmTests.cs" />
     <Compile Include="Tests\TranslationMemories\ExportTmTests\ExportTmTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmCommonTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\EditTermTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUploadingValidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUpdatingValidDataTests.cs" />

@@ -394,8 +394,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#region Описания XPath элементов
 
 		protected const string SAVE_BUTTON = "//div[contains(@class, 'js-popup-buttons')]//div[contains(@class, 'js-save')]";
-		protected const string ADD_TO_LIST_BUTTON = "//span[contains(@class,'js-add-tbx-attribute')]";
-		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-type='*#*']";
+		protected const string ADD_TO_LIST_BUTTON = "//div[contains(@class,'js-add-tbx-attribute')]";
+		protected const string SYSTEM_FIELD = "//table[contains(@class, 'table concept')]//tr[@data-attr-key='*#*']";
 		protected const string ADDED_SYSTEM_FIELD = "//div[contains(@class,'l-editgloss__tbxreslt')]//td[contains(text(), '*#*')]";
 		protected const string LEVEL_DROPDOWN = "//span[contains(@class, 'js-dropdown__text level')]";
 		protected const string LANGUAGE_FIELDS_LIST = "//table[contains(@class, 'language')]/tbody//tr";

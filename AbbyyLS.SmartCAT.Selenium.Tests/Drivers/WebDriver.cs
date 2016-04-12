@@ -310,7 +310,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		/// <param name="locator">динамический локатор</param>
 		/// <param name="value">значение, на которое меняем часть локатора</param>
 		/// <param name="value2">второе значение, на которое меняем часть локатора</param>
-		public IWebElement SetDynamicValue(How how, string locator, string value, string value2 = "")
+		public IWebElement SetDynamicValue(How how, string locator, string value, string value2 = "", string value3 = "")
 		{
 			IWebElement webElement = null;
 
@@ -319,28 +319,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 				switch (how)
 				{
 					case How.XPath:
-						webElement = _driver.FindElement(By.XPath(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.XPath(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.CssSelector:
-						webElement = _driver.FindElement(By.CssSelector(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.CssSelector(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.Id:
-						webElement = _driver.FindElement(By.Id(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.Id(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.ClassName:
-						webElement = _driver.FindElement(By.ClassName(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.ClassName(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.LinkText:
-						webElement = _driver.FindElement(By.LinkText(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.LinkText(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.PartialLinkText:
-						webElement = _driver.FindElement(By.PartialLinkText(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.PartialLinkText(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.Name:
-						webElement = _driver.FindElement(By.Name(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.Name(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					case How.TagName:
-						webElement = _driver.FindElement(By.TagName(locator.Replace("*#*", value).Replace("*##*", value2)));
+						webElement = _driver.FindElement(By.TagName(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
 						break;
 					default:
 						throw new Exception(
@@ -350,12 +350,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			catch (NoSuchElementException)
 			{
 				Assert.Fail("Ошибка: не удалось найти элемент How " +
-					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
+					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3));
 			}
 			catch (Exception ex)
 			{
 				Assert.Fail("Ошибка: " + ex.Message + "How " +
-					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2));
+					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3));
 			}
 
 			return webElement;

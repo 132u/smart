@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -22,6 +23,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return this;
 		}
 
+		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать на кнопку 'Сохранить изменения'.
+		/// </summary>
+		public GlossaryPage ClickSaveChangesButton()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Сохранить изменения'.");
+			SaveChangesButton.Click();
+
+			return new GlossaryPage(Driver).LoadPage();
+		}
+
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
 		/// <summary>
 		/// Проверить, открылся диалог сохранения уже существующего термина
 		/// </summary>
@@ -32,6 +50,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ALREADY_EXIST_TERM_ERROR));
 		}
 
+		#endregion
+
+		#region Объявление элементов страницы
+
+		[FindsBy(How = How.XPath, Using = SAVE_CHANGES_BUTTON)]
+		protected IWebElement SaveChangesButton { get; set; }
+
+		#endregion
+
+		#region Описание XPath элементов
+
 		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
+		protected const string SAVE_CHANGES_BUTTON = "//div[contains(@class, 'g-btn g-greenbtn')]//a[contains(text(), 'Save Changes')]//parent::div";
+
+		#endregion
 	}
 }

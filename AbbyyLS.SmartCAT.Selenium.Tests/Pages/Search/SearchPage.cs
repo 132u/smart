@@ -1,11 +1,12 @@
-﻿﻿using System.Collections;
-﻿using System.Collections.Generic;
+﻿﻿using System.Collections.Generic;
 ﻿using System.Linq;
 
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -124,14 +125,68 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
-		/// Переключиться во вкладку 'Examples'
+		/// Открыть историю поиска.
 		/// </summary>
-		public SearchPage SwitchToExamplesTab()
+		public SearchPage OpenSearchHistory()
 		{
-			CustomTestContext.WriteLine("Переключиться во вкладку 'Examples'");
-			ExamplesTab.Click();
+			CustomTestContext.WriteLine("Открыть историю поиска.");
+			SearchHistoryButton.Click();
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Получить список названий терминов из истории поиска.
+		/// </summary>
+		public List<string> GetSearchinqQueryFromHistory()
+		{
+			CustomTestContext.WriteLine("Получить список названий терминов из истории поиска.");
+
+			return Driver.GetTextListElement(By.XPath(LIST_WITH_SEARCHING_QUERYS));
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку 'Translations'.
+		/// </summary>
+		public TranslationsTab SwitchToTranslationsTab()
+		{
+			CustomTestContext.WriteLine("Переключиться на вкладку 'Translations'.");
+			TranslationsTab.Click();
+
+			return new TranslationsTab(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку 'Examples'.
+		/// </summary>
+		public ExamplesTab SwitchToExamplesTab()
+		{
+			CustomTestContext.WriteLine("Переключиться на вкладку 'Examples'.");
+			ExamplesTab.Click();
+
+			return new ExamplesTab(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку 'Phrases'.
+		/// </summary>
+		public PhrasesTab SwitchToPhrasesTab()
+		{
+			CustomTestContext.WriteLine("Переключиться на вкладку 'Phrases'.");
+			PhrasesTab.Click();
+
+			return new PhrasesTab(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку 'Definitions'.
+		/// </summary>
+		public DefinitionsTab SwitchToDefinitionsTab()
+		{
+			CustomTestContext.WriteLine("Переключиться на вкладку Definitions'.");
+			DefenitionsTab.Click();
+
+			return new DefinitionsTab(Driver).LoadPage();
 		}
 
 		#endregion
@@ -261,7 +316,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		/// </summary>
 		public bool IsSearchPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEARCH_FORM_XPATH)) &&
+				IsDialogBackgroundDisappeared();
 		}
 
 		/// <summary>
@@ -274,15 +330,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 			return Driver.WaitUntilElementIsDisplay(By.XPath(NO_EXAMPLES_FOUND_IMAGE));
 		}
 
+		/// <summary>
+		/// Проверить, совпадает ли слово в поисковой строке с заданным.
+		/// </summary>
+		/// <param name="word">слово, которое ожидается в поисковой строке</param>
+		public bool IsWordInSearchFieldCorrect(string word)
+		{
+			CustomTestContext.WriteLine("Проверить, совпадает ли слово в поисковой строке с заданным.");
+			var wordFromSearchField = Driver.GetTextListElement(By.XPath(SEARCH_FIELD_PATH));
+
+			return word == wordFromSearchField[0];
+		}
+
+		/// <summary>
+		/// Проверить, совпадает ли отображенный язык в таргете с заданным.
+		/// </summary>
+		/// <param name="language">язык</param>
+		public bool IsTargetLanguageCorrect(string language)
+		{
+			CustomTestContext.WriteLine("Проверить, совпадает ли отображенный язык в таргете с заданным.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TARGET_LANGUAGE.Replace("*#*", language)));
+		}
+
+		/// <summary>
+		/// Проверить, совпадает ли отображенный язык в сорсе с заданным.
+		/// </summary>
+		/// <param name="language">язык</param>
+		public bool IsSourceLanguageCorrect(string language)
+		{
+			CustomTestContext.WriteLine("Проверить, совпадает ли отображенный язык в сорсе с заданным.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SOURCE_LANGUAGE.Replace("*#*", language)));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.Id, Using = SEARCH_FIELD)]
 		protected IWebElement SearchField { get; set; }
-
-		[FindsBy(How = How.XPath, Using = EXAMPLES_TAB)]
-		protected IWebElement ExamplesTab { get; set; }
 
 		[FindsBy(How = How.XPath, Using = NO_EXAMPLES_FOUND_IMAGE)]
 		protected IWebElement NoExamplesFoundImage { get; set; }
@@ -302,17 +389,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BUTTON)]
 		protected IWebElement TranslateButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SEARCH_HISTORY_BUTTON)]
+		protected IWebElement SearchHistoryButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TRANSLATIONS_TAB)]
+		protected IWebElement TranslationsTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = EXAMPLES_TAB)]
+		protected IWebElement ExamplesTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PHRASES_TAB)]
+		protected IWebElement PhrasesTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DEFENITIONS_TAB)]
+		protected IWebElement DefenitionsTab { get; set; }
+
 		protected IWebElement TranslationWord { get; set; }
 
 		#endregion
 
 		#region Описание XPath элементов
 
-		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples')]//span[contains(@class,'translation') and contains(text(),'*#*')]";
+		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples') and contains(text(),'*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_FIELD= "searchText";
 		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//div[contains(@class, 'js-srcpanel-long')]//input[@type='submit']";
 		protected const string SEARCH_RESULT = "//div[contains(@class,'js-search-results')]";
+		protected const string SEARCH_FIELD_PATH = "//div[contains(@class, 'g-srcpanel__srcbar')]//textarea[contains(@class, 'js-source-text')]";
+		protected const string SEARCH_HISTORY_BUTTON = "//div[contains(@class, 'g-srchistr')]//a[contains(text(), 'Search history')]";
+		protected const string LIST_WITH_SEARCHING_QUERYS = "//div[contains(@class, 'g-srchistr')]";
 
 		protected const string SOURCE_LANGUAGE_LIST = "SearchSrcLang";
 		protected const string TARGET_LANGUAGE_LIST = "SearchDestLang";
@@ -320,7 +425,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected const string LANGUAGE_TARGET_OPTION = "//select[@id='SearchDestLang']//option[@value='*#*']";
 
 		protected const string DEFINITION_TAB = "//li[contains(@data-search-mode,'Interpret')]";
+
+		protected const string DEFENITIONS_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Definitions']";
+		protected const string TRANSLATIONS_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Translations']";
+		protected const string PHRASES_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Phrases']";
 		protected const string EXAMPLES_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Examples']";
+
 		protected const string NO_EXAMPLES_FOUND_IMAGE = "//div[contains(@class, 'js-empty-icon-box')]";
 
 		protected const string AUTOREVERSED_MESSAGE = "//div[contains(@class,'js-language-autoreversed')]";
@@ -333,6 +443,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		
 		protected const string GLOSSARY_NAMES_LIST = "//div[contains(@class,'js-search-results')]//div[contains(@class,'l-glossary__data')]//h2";
 		protected const string TERM_NAME = "//table[*#*]//td/table[contains(@class,'l-glossary__tblsrcword')]//td//span[contains(@class,'l-glossary__srcwordtxt')]";
+
+		protected const string TARGET_LANGUAGE = "//div[contains(@class, 'js-swap-container')]//select[contains(@class, 'js-swap-second')]//option[contains(@selected, 'selected') and contains(@value, '*#*')]//parent::select";
+		protected const string SOURCE_LANGUAGE = "//div[contains(@class, 'js-swap-container')]//select[contains(@class, 'js-swap-first')]//option[contains(@selected, 'selected') and contains(@value, '*#*')]//parent::select";
 
 		#endregion
 	}
