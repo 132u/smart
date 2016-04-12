@@ -156,7 +156,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке групп проектов.", projectGroup);
 			ProjectGroup = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP, projectGroup);
-			ProjectGroup.ScrollAndClick();
+			ProjectGroup.Scroll();
+			ProjectGroup.Click();
 
 			return LoadPage();
 		}
