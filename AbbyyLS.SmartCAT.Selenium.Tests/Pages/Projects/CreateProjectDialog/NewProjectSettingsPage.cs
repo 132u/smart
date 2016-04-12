@@ -115,7 +115,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0} из списка.", lang);
 			TargetLangItem = Driver.SetDynamicValue(How.XPath, TARGET_LANG_ITEM, lang.ToString());
-			TargetLangItem.ScrollAndClick();
+			TargetLangItem.Scroll();
+			TargetLangItem.Click();
 
 			return LoadPage();
 		}
@@ -299,7 +300,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Выбрать группу проектов.");
 			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
-			ProjectGroupOption.ScrollAndClick();
+			ProjectGroupOption.Scroll();
+			ProjectGroupOption.Click();
 
 			return LoadPage();
 		}
