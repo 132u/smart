@@ -362,10 +362,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
 
 			Assert.IsFalse(_exportNotification.GetTextNotificationByNumber(3).Contains(secondNotifierDocName),
-				"Ошибка: в третьем сообщении об экспорте есть название документа '{0}'", secondNotifierDocName);
+				"Произошла ошибка: в третьем сообщении об экспорте есть название документа '{0}'", secondNotifierDocName);
 
 			Assert.IsTrue(_exportNotification.GetTextNotificationByNumber(2).Contains(secondNotifierDocName),
-				"Ошибка: кликнули по верхнему сообщению - появилось не второе.");
+				"Произошла ошибка: кликнули по верхнему сообщению - появилось не второе.");
 		}
 
 		[TestCase(ExportType.Source)]
