@@ -477,7 +477,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public FilterDialog SelectAuthor(string userName)
 		{
 			CustomTestContext.WriteLine("Выбрать автора {0}.", userName);
-			var author = Driver.GetElementList(By.XPath(AUTHOR_CHECKBOXES)).FirstOrDefault();
+			var author = Driver.SetDynamicValue(How.XPath, AUTHOR_CHECKBOXES, userName);
 
 			if (author == null)
 			{
@@ -553,7 +553,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string LANGUAGE_DROPDOWN = "//div[contains(@class, 'js-languages-multiselect')]//div[@class='ui-multiselect-text']";
 		protected const string EMPTY_LANGUAGE_ERROR = "//div[@style='display: block;']//p[text()='The \"Language\" field cannot be empty.']";
 		protected const string AUTHOR_DROPDOWN = "//div[@class='l-filtersrc__control creator']//div[@class='ui-multiselect-text']//span";
-		protected const string AUTHOR_CHECKBOXES = "//input[contains(@id,'ui-multiselect-creator-option')]";
+		protected const string AUTHOR_CHECKBOXES = "//span[text()='*#*']//preceding-sibling::span//input[contains(@id,'ui-multiselect-creator-option')]";
 		protected const string MODIFIER_DROPDOWN = "//div[contains(@class,'modifier')]//div[contains(@class, 'ui-multiselect ui-widget')]";
 		protected const string MODIFIER_CHECKBOXES = "//input[contains(@id,'ui-multiselect-modifier-option')]";
 		protected const string DATE_CREATED_DROPDOWN = "//div[@class='l-filtersrc__lside']//i";
