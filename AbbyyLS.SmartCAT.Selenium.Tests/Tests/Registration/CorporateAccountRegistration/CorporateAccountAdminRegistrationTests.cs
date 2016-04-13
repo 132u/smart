@@ -29,9 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.AreEqual(_firstAndLastName + ", you already\r\nhave an account.", _signInPage.GetMessageText(),
 				"Произошла ошибка:\n не появилось сообщение о том, что аккаунт уже существует.");
 
-			_signInPage.SubmitForm(_email, _password);
-
-			_selectAccountForm.SelectAccount(_companyName);
+			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstAndLastName),
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
@@ -77,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_signInPage
 				.GetPage()
-				.SubmitForm(_email, _password);
+				.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
@@ -87,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_workspacePage.SignOutExpectingAlert();
 
-			_signInPage.SubmitForm(_email, _password);
+			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstName + " " + _lastName),
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");

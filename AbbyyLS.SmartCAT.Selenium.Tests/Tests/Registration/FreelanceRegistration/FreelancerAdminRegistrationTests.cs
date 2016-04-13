@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistrati
 			Assert.AreEqual(_firstAndLastName + ", you already\r\nhave an account.", _signInPage.GetMessageText(),
 				"Произошла ошибка:\n не появилось сообщение о том, что аккаунт уже существует.");
 
-			_signInPage.SubmitForm(_email, _password);
+			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
 
 			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstAndLastName),
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
