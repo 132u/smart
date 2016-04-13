@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ThreadUser.NickName),
+			Assert.AreEqual(_workspacePage.GetUserName(), ThreadUser.NickName,
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(account),
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			
 			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(nickName),
+			Assert.AreEqual(_workspacePage.GetUserName(), nickName,
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(accountName),

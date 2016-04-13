@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -16,6 +16,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -51,6 +52,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Получить имя пользователя.
+		/// </summary>
+		public string GetUserName()
+		{
+			CustomTestContext.WriteLine("Получить имя пользователя.");
+
+			return UserName.Text;
+		}
 
 		/// <summary>
 		/// Нажать на кнопку "пользователи и права"
@@ -571,7 +582,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			string accountName = LoginHelper.TestAccountName,
 			Language language = Language.English)
 		{
-			if (!IsUserNameMatchExpected(nickName))
+			if (nickName != GetUserName())
 			{
 				throw new Exception(
 					"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
@@ -619,27 +630,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			CustomTestContext.WriteLine("Проверить, что пункт 'Lingvo Dictionaries' присутствует в меню и видим");
 
 			return Driver.GetIsElementExist(By.XPath(LINGVO_DICTIONARIES_MENU)) && LingvoDictionaries.Displayed;
-		}
-
-		/// <summary>
-		/// Проверить, что имя пользователя в черной плашке совпадает с ожидаемым
-		/// </summary>
-		/// <param name="expectedUserName">ожидаемое имя</param>
-		public bool IsUserNameMatchExpected(string expectedUserName)
-		{
-			CustomTestContext.WriteLine(
-				"Проверить, что имя пользователя в черной плашке совпадает с ожидаемым именем {0}",
-				expectedUserName);
-
-			var userName = UserName.Text;
-			var index = userName.IndexOf("\r", StringComparison.Ordinal);
-
-			if (index > 0)
-			{
-				userName = userName.Substring(0, index);
-			}
-
-			return userName == expectedUserName;
 		}
 
 		/// <summary>
@@ -801,7 +791,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string LOCALE_REF = "//div[contains(@class, 'langTools')]//i[contains(@class, '*#*')]";
 		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//button[contains(@class, 'language-button')]//i";
 		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
-		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]";
+		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]//b//span";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
 		protected const string NOTIFIER_LIST = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]";
 		protected const string SIGN_OUT_BUTTON = ".//a[contains(@href,'Logout')]";

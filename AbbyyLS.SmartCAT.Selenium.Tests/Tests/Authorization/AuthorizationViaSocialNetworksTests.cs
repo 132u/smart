@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using NLog.Fluent;
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -18,15 +19,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[Test, Description("S-13738")]
 		public void AuthorizationViaFacebook()
 		{
+			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
+			var password = ConfigurationManager.SocialNetworksUserList[0].Password;
+			var nickname = ConfigurationManager.SocialNetworksUserList[0].NickName;
+
 			_signInPage.ClickFacebookIcon();
 
-			_facebookPage.SubmitForm(ConfigurationManager.SocialNetworksUserList[0].Login, ConfigurationManager.SocialNetworksUserList[0].Password);
+			_facebookPage.SubmitForm(login, password);
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
 			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.AreEqual(_workspacePage.GetUserName(), nickname,
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
@@ -36,15 +41,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[Test, Description("S-13737")]
 		public void AuthorizationViaGooglePlus()
 		{
+			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
+			var password = ConfigurationManager.SocialNetworksUserList[0].Password;
+			var nickname = ConfigurationManager.SocialNetworksUserList[0].NickName;
+
 			_signInPage.ClickGooglePlusIcon();
 
-			_googlePage.SubmitForm(ConfigurationManager.SocialNetworksUserList[0].Login, ConfigurationManager.SocialNetworksUserList[0].Password);
+			_googlePage.SubmitForm(login, password);
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
 			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.AreEqual(_workspacePage.GetUserName(), nickname,
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
@@ -54,15 +63,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[Test, Description("S-13740")]
 		public void AuthorizationViaLinkedIn()
 		{
+			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
+			var password = ConfigurationManager.SocialNetworksUserList[0].Password;
+			var nickname = ConfigurationManager.SocialNetworksUserList[0].NickName;
+
 			_signInPage.ClickLinkedInIcon();
 
-			_linkedInPage.SubmitForm(ConfigurationManager.SocialNetworksUserList[0].Login, ConfigurationManager.SocialNetworksUserList[0].Password);
+			_linkedInPage.SubmitForm(login, password);
 
 			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
 
 			_workspacePage.SetLocale();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(ConfigurationManager.SocialNetworksUserList[0].NickName),
+			Assert.AreEqual(_workspacePage.GetUserName(), nickname,
 				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),

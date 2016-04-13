@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyName: _companyName)
 				.ClickConfirmButton();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(_firstAndLastName),
+			Assert.AreEqual(_workspacePage.GetUserName(), _firstAndLastName,
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(_companyName),
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 					companyName: companyName)
 				.ClickConfirmButton();
 
-			Assert.IsTrue(_workspacePage.IsUserNameMatchExpected(firstAndLastName),
+			Assert.AreEqual(_workspacePage.GetUserName(), firstAndLastName,
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(companyName),
