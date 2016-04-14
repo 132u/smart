@@ -294,10 +294,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 			for (var i = notificationsCount; i > 0; i--)
 			{
+				var n = 0;
 				CustomTestContext.WriteLine("Закрыть сообщение №{0}.", i);
 				Driver.WaitUntilElementIsDisplay(By.XPath(CLOSE_NOTIFICATION_BUTTON.Replace("*#*", i.ToString())));
 				Notification = Driver.SetDynamicValue(How.XPath, CLOSE_NOTIFICATION_BUTTON, i.ToString());
 				Notification.Click();
+
+				if (n < 5 && !Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_NOTIFICATION_BUTTON.Replace("*#*", i.ToString()))))
+				{
+					CustomTestContext.WriteLine("Закрыть сообщение №{0}, попытка клика №{1}.", n, n + 2);
+					Notification.Click();
+					n++;
+				}
+
+				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(CLOSE_NOTIFICATION_BUTTON.Replace("*#*", i.ToString()))))
+				{
+					throw new Exception("Кнопка закрытия сообщения №" + i + " не исчезла.");
+				}
 			}
 
 			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;

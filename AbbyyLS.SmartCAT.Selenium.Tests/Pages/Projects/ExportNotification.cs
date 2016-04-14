@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -50,17 +51,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public T CancelAllNotifiers<T>() where T : class, IAbstractPage<T>
 		{
 			CustomTestContext.WriteLine("Закрыть все уведомления");
-
 			var countNotifiers = GetCountExportNotifiers();
 
 			for (int i = countNotifiers; i > 0; i--)
 			{
+				var n = 0;
 				//sleep стоит,чтобы закрываемые уведомления успевали пропадать
 				Thread.Sleep(1000);
 				Driver.WaitUntilElementIsDisplay(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString())));
 				CancelNotifierButton = Driver.SetDynamicValue(How.XPath, NOTIFIER_CANCEL_BTN, i.ToString());
-				CustomTestContext.WriteLine("Закрыть уведомление №{0}", i);
+				CustomTestContext.WriteLine("Закрыть уведомление №{0}, попытка клика №1.", i);
 				CancelNotifierButton.JavaScriptClick();
+				if (n < 5 && !Driver.WaitUntilElementIsDisappeared(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString()))))
+				{
+					CustomTestContext.WriteLine("Закрыть уведомление №{0}, попытка клика №{1}.", i, n + 2);
+					CancelNotifierButton.Click();
+					n++;
+				}
+
 				if (!Driver.WaitUntilElementIsDisappeared(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString()))))
 				{
 					throw new Exception("Кнопка закрытия №" + i + " не исчезла.");
