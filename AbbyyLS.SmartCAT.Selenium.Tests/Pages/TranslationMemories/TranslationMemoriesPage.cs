@@ -205,10 +205,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Выбрать язык перевода {0}", language);
 			var languageValue = (int)language;
-			TargetLanguage = Driver.FindElement(By.XPath(TARGET_LANG_ITEM.Replace("*#*", languageValue.ToString())));
-			TargetLanguage.ScrollDown();
-			TargetLanguage.Click();
-
+			var TargetLanguages = Driver.FindElements(By.XPath(TARGET_LANG_ITEM.Replace("*#*", languageValue.ToString())));
+			for (int i = 0; i < TargetLanguages.Count; i++)
+			{
+				TargetLanguages[i].ScrollDown();
+				try
+				{
+					TargetLanguages[i].Click();
+				}
+				catch (ElementNotVisibleException)
+				{
+					continue;
+				}
+			}
+			
 			return LoadPage();
 		}
 
@@ -408,6 +418,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickTargetLanguageDropdown()
 		{
 			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
+			TargetLanguageDropdown.Scroll();
 			TargetLanguageDropdown.Click();
 
 			return new TranslationMemoriesPage(Driver).LoadPage();
