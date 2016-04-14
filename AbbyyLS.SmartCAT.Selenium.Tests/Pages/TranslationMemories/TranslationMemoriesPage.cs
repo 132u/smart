@@ -407,7 +407,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSourceLanguageDropdown()
 		{
 			CustomTestContext.WriteLine("Нажать на дропдаун исходного языка.");
-			SourceLanguageDropdown.Click();
+			SourceLanguageDropdown.WaitTargetAndClick();
 
 			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
@@ -419,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Нажать на дропдаун целевого языка.");
 			TargetLanguageDropdown.Scroll();
-			TargetLanguageDropdown.Click();
+			TargetLanguageDropdown.WaitTargetAndClick();
 
 			return new TranslationMemoriesPage(Driver).LoadPage();
 		}

@@ -1,5 +1,6 @@
 ﻿using System;
-
+using System.Reflection;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Internal;
@@ -269,6 +270,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				throw new Exception(string.Format(
 					"При попытке скроллинга страницы произошла ошибка: " + ex.Message));
 			}
+		}
+
+
+		public static void WaitTargetAndClick(this IWebElement webElement)
+		{
+			var i = 0;
+
+			do
+			{
+				i++;
+
+				try
+				{
+					webElement.Click();
+					break;
+				}
+				catch (TargetInvocationException)
+				{
+					Thread.Sleep(500);
+				}
+			} while (i < 4);
 		}
 
 		/// <summary>

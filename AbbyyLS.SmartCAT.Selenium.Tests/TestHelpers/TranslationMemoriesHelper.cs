@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 {
 	public class TranslationMemoriesHelper
 	{
-		public WebDriver Driver { get; private set; }
+		public WebDriver Driver { get; set; }
 
 		public TranslationMemoriesHelper(WebDriver driver)
 		{
@@ -32,7 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			DialogButtonType finalButtonType = DialogButtonType.Save,
 			bool isCreationErrorExpected = false,
 			string client = null,
-			string projectGroup = null)
+			string projectGroup = null,
+			string topic = null)
 		{
 			_translationMemoriesPage.ClickCreateNewTmButton();
 
@@ -63,6 +64,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			if (projectGroup != null)
 			{
 				_newTranslationMemoryDialog.SelectProjectGroup(projectGroup);
+			}
+
+			if (topic != null)
+			{
+				_newTranslationMemoryDialog.SetTopic(topic);
 			}
 
 			switch (finalButtonType)
@@ -154,7 +160,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			{
 				_translationMemoriesFilterDialog
 					.SetCreationDateTMFilterFrom(setCreationDateTMFilterFrom.Value)
-					.ClickFilterDialogHeader();
+					.ClickSourceLanguageList()
+					.ClickSourceLanguageList();
 			}
 
 			if (cancelFilterCreation)

@@ -331,6 +331,10 @@
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelancerAdminRegistrationTests.cs" />
     <Compile Include="Tests\Registration\RegistrationBaseTest.cs" />
     <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByProjectGroupTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByClientTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByLanguageTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByTopicTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
@@ -404,7 +408,7 @@
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUploadingInvalidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchTmTests.cs" />
     <Compile Include="Tests\TranslationMemories\ExportTmTests\ExportTmTests.cs" />
-    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmTests.cs" />
+    <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmCommonTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\EditTermTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUploadingValidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUpdatingValidDataTests.cs" />

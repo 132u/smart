@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickApplyButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку применения фильтра");
-			ApplyButton.Click();
+			ApplyButton.WaitTargetAndClick();
 
 			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickSourceLanguageList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку source-языков");
-			SourceLanguageList.Click();
+			SourceLanguageList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickTargetLanguageList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку target-языков");
-			TargetLanguageList.Click();
+			TargetLanguageList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -143,7 +143,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickTopicList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку тем");
-			TopicList.Click();
+			TopicList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -155,6 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog SelectProjectGroup(string projectGroup)
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке групп проектов.", projectGroup);
+			Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP.Replace("*#*", projectGroup)));
 			ProjectGroup = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP, projectGroup);
 			ProjectGroup.Scroll();
 			ProjectGroup.Click();
@@ -168,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickProjectGroupList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку групп проектов");
-			ProjectGroupList.Click();
+			ProjectGroupList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -192,7 +193,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickClientList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку клиентов");
-			ClientList.Click();
+			ClientList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -216,18 +217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog ClickAuthorList()
 		{
 			CustomTestContext.WriteLine("Кликнуть по раскрывающемуся списку авторов");
-			AuthorList.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть по хидеру диалога создания фильтра, чтоб закрыть календарь.
-		/// </summary>
-		public TranslationMemoriesFilterDialog ClickFilterDialogHeader()
-		{
-			CustomTestContext.WriteLine("Кликнуть по хидеру диалога создания фильтра, чтоб закрыть календарь.");
-			FilterHeaderInDialog.Click();
+			AuthorList.WaitTargetAndClick();
 
 			return LoadPage();
 		}

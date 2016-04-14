@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickSourceLanguagesList()
 		{
 			CustomTestContext.WriteLine("Раскрыть / свернуть список исходных языков");
-			SourceLanguagesList.Click();
+			SourceLanguagesList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickTargetLanguagesList()
 		{
 			CustomTestContext.WriteLine("Раскрыть / свернуть список языков перевода");
-			TargetLanguagesList.Click();
+			TargetLanguagesList.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -105,8 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog OpenClientsList()
 		{
 			CustomTestContext.WriteLine("Раскрыть список клиентов");
-			Driver.WaitUntilElementIsClickable(By.XPath(CLIENT));
-			CreateClientDropDown.Click();
+			CreateClientDropDown.WaitTargetAndClick();
 			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT_LIST));
 
 			return LoadPage();
@@ -132,6 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickProjectGroupOption(string projectGroup)
 		{
 			CustomTestContext.WriteLine("Выбрать группу проектов {0} в дропдауне.", projectGroup);
+			Driver.WaitUntilElementIsDisplay(By.XPath(PROJECT_GROUP_OPTION.Replace("*#*", projectGroup)));
 			ProjectOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
 			ProjectOption.ScrollDown();
 			ProjectOption.Click();
@@ -145,7 +145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSaveTranslationMemory()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения ТМ");
-			SaveTranslationMemoryButton.JavaScriptClick();
+			SaveTranslationMemoryButton.WaitTargetAndClick();
 
 			return new TranslationMemoriesPage(Driver).LoadPage();
 		}
@@ -192,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog OpenProjectGroupsList()
 		{
 			CustomTestContext.WriteLine("Открыть список групп проектов  при создании ТМ.");
-			ProjectGroupsDropDown.Click();
+			ProjectGroupsDropDown.WaitTargetAndClick();
 
 			return LoadPage();
 		}
@@ -209,9 +209,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			return LoadPage();
 		}
 
+		///<summary>
+		/// Нажать на поле с темами в форме редактирования ТМ
+		/// </summary>
+		public NewTranslationMemoryDialog ClickToTopicsField()
+		{
+			CustomTestContext.WriteLine("Нажать на поле с темами в форме редактирования ТМ");
+			TopicsField.WaitTargetAndClick();
+
+			return LoadPage();
+		}
+
+		///<summary>
+		/// Выбрать тему в списке (из видимых)
+		/// </summary>
+		/// <param name="topicName">тема</param>
+		public NewTranslationMemoryDialog SelectTopic(string topicName)
+		{
+			CustomTestContext.WriteLine("Выбрать тему {0} в списке", topicName);
+			TopicInList = Driver.SetDynamicValue(How.XPath, TOPIC_IN_LIST, topicName);
+			TopicInList.Click();
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Выбрать топик
+		/// </summary>
+		/// <param name="topicName">имя топика</param>
+		public NewTranslationMemoryDialog SetTopic(string topicName)
+		{
+			ClickToTopicsField();
+			SelectTopic(topicName);
+			ClickToTopicsField();
+
+			return LoadPage();
+		}
 
 		/// <summary>
 		/// Выбрать клиента
@@ -431,10 +468,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		[FindsBy(How = How.XPath, Using = UPLOAD_FILE_FIELD)]
 		protected IWebElement UploadFileField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TOPICS_FIELD)]
+		protected IWebElement TopicsField { get; set; }
 		protected IWebElement SourceLanguage { get; set; }
 		protected IWebElement TargetLanguage { get; set; }
 		protected IWebElement ClientOption { get; set; }
 		protected IWebElement ProjectOption { get; set; }
+		protected IWebElement TopicInList { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -456,6 +498,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string OPEN_TARGET_LANGUAGES = "//div[contains(@class,'js-popup-create-tm')][2]//select[contains(@data-bind,'TargetLanguagesList')]/following-sibling::div";
 		protected const string TARGET_LANGUAGES = "//div[contains(@class,'ui-multiselect')]//ul[@class='ui-multiselect-checkboxes ui-helper-reset']//li//input[@value='*#*']";
 		protected const string SOURCE_LANGUAGES = "//span[contains(@class,'js-dropdown__item')][@data-id='*#*']";
+		protected const string TOPICS_FIELD = "(//div[@data-watermark='Select topic'])[2]";
+		protected const string TOPIC_IN_LIST = "//div[contains(@data-bind,'topicDropdown')]/div/div//span[contains(@class,'nodetext') and text()='*#*']";
 
 		protected const string ERROR_EXISTING_NAME = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(text(),'A translation memory with this name already exists.')]";
 		protected const string ERROR_NO_NAME = "//div[contains(@class,'js-popup-create-tm')][2]//div[contains(@class,'createtm__error')]//p[contains(@data-message-id, 'name-required')]";
