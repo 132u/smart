@@ -897,10 +897,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <returns>Список подсвеченных в сегменте слов</returns>
 		public List<string> GetHighlightedWords(int segmentNumber)
 		{
-			CustomTestContext.WriteLine("Получить список подсвеченных в сегменте №{0} слов.", segmentNumber);
+			
 			var highlightedWords = new List<string>();
 
-			Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString()).ScrollAndClick();
+			var targetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString());
+			CustomTestContext.WriteLine("Проскролить до таргет ячейки сегмента №{0}.", segmentNumber - 1);
+			targetCell.Scroll();
+			CustomTestContext.WriteLine("Кликнуть по таргет ячейке сегмента №{0}.", segmentNumber - 1);
+			targetCell.Click();
+
+			CustomTestContext.WriteLine("Получить список подсвеченных в сегменте №{0} слов.", segmentNumber);
 			var segmentCatSelectedList = Driver.GetElementList(By.XPath(HIGHLIGHTED_SEGMENT.Replace("*#*", segmentNumber.ToString())));
 
 			if (segmentCatSelectedList.Count > 0)
