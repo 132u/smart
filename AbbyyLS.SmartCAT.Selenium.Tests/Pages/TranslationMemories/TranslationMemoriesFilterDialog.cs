@@ -181,6 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog SelectClient(string client)
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке клиентов.", client);
+			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT.Replace("*#*", client)), 5);
 			Client = Driver.SetDynamicValue(How.XPath, CLIENT, client);
 			Client.Scroll();
 			Client.Click();
