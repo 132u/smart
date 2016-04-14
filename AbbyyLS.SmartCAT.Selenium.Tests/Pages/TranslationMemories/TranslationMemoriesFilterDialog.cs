@@ -182,7 +182,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке клиентов.", client);
 			Client = Driver.SetDynamicValue(How.XPath, CLIENT, client);
-			Client.ScrollAndClick();
+			Client.Scroll();
+			Client.Click();
 
 			return LoadPage();
 		}
