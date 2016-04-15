@@ -23,6 +23,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Переход на страницу администрирования: {0}", ConfigurationManager.AdminUrl);
 
 			Driver.Navigate().GoToUrl(ConfigurationManager.AdminUrl);
+			Driver.Manage().Cookies.DeleteAllCookies();
+			Driver.Navigate().Refresh();
 
 			return new AdminSignInPage(Driver).LoadPage();
 		}

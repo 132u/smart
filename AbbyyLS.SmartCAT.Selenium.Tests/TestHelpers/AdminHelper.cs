@@ -7,6 +7,7 @@ using NUnit.Framework;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -29,6 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_adminDictionariesPackages = new AdminDictionariesPackagesPage(Driver);
 			_adminDictionaryPackage = new AdminDictionaryPackagePage(Driver);
 			_adminManagementPaidServicesPage = new AdminManagementPaidServicesPage(Driver);
+			_accountInvitationPage = new AccountInvitationPage(Driver);
+			_adminEmailsSearchPage = new AdminEmailsSearchPage(Driver);
+			_adminLetterPage = new AdminLetterPage(Driver);
 		}
 
 		public static string PublicDictionaryPackageName
@@ -137,6 +141,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			
 			_adminEnterpriseAccountUsersPage.AddExistedUserToAccountIfNotAdded(
 				userEmail, userSurname, userName);
+
+			return this;
+		}
+
+		/// <summary>
+		/// Активировать пользователя
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminHelper ActivateUser(string email)
+		{
+			_adminLingvoProPage.ClickAdminLettersSearchReference();
+			_adminEmailsSearchPage
+				.SetEmail(email)
+				.ClickFindButton()
+				.OpenLetter(email);
+
+			_adminLetterPage.ClickInvintationLink();
 
 			return this;
 		}
@@ -391,5 +412,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminDictionariesPackagesPage _adminDictionariesPackages;
 		private readonly AdminDictionaryPackagePage _adminDictionaryPackage;
 		private readonly AdminManagementPaidServicesPage _adminManagementPaidServicesPage;
+		private AdminEmailsSearchPage _adminEmailsSearchPage;
+		private AdminLetterPage _adminLetterPage;
+		protected AccountInvitationPage _accountInvitationPage;
 	}
 }

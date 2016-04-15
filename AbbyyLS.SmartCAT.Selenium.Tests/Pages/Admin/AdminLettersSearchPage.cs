@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -61,9 +63,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Кликнуть на кнопку 'Подробнее'
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminEmailsSearchPage ClickOpenLetterButton(string email)
+		{
+			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
+			OpenLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_LETTER_BUTTON, email);
+			OpenLetterButton.Click();
+
+			return LoadPage();
+		}
+
+
+		/// <summary>
+		/// Переключиться в окно письма
+		/// </summary>
+		public AdminLetterPage SwitchToLetterWindow()
+		{
+			CustomTestContext.WriteLine("Переключиться в окно письма.");
+			Driver.SwitchToNewBrowserTab();
+
+			return new AdminLetterPage(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
+
+		/// <summary>
+		/// Открыть письмо
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminLetterPage OpenLetter(string email)
+		{
+			ClickOpenLetterButton(email);
+			SwitchToLetterWindow();
+			
+			return new AdminLetterPage(Driver).LoadPage();
+		}
 
 		#endregion
 
@@ -100,6 +139,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = FIND_BTN_XPATH)]
 		protected IWebElement FindButton { get; set; }
 
+		protected IWebElement OpenLetterButton { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -108,6 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string LIMIT_COUNT_INPUT_ID = "LimitCount";
 		protected const string FIND_BTN_XPATH = "//input[contains(@class, 'button initializeSearch')]";
 		protected const string FOUND_EMAILS_TABLE = "//table[contains(@class, 'foundEmails')]";
+		protected const string OPEN_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[@class='openLetter']//a";
 
 		#endregion
 	}

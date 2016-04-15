@@ -58,6 +58,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public GroupsAndAccessRightsTab ClickEditGroupButton(string groupName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Редактировать группу'.");
+			if (!IsGroupInfoOpened(groupName))
+			{
+				ClickGroupRow(groupName);
+			}
+
 			var editGroupButtonXpathReplaced = EDIT_GROUP_BUTTON.Replace("*#*", groupName);
 			if (Driver.WaitUntilElementIsDisplay(By.XPath(editGroupButtonXpathReplaced)))
 			{
@@ -112,12 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			{
 				ClickGroupRow(groupName);
 			}
-
-			if (IsEditGroupButtonDisplayed(groupName))
-			{
-				ClickEditGroupButton(groupName);
-			}
-
+			
+			ClickEditGroupButton(groupName);
+			
 			var addAccessRightDialog = ClickAddRightsButton(groupName);
 
 			return addAccessRightDialog;
@@ -149,10 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				ClickGroupRow(groupName);
 			}
 
-			if (IsEditGroupButtonDisplayed(groupName))
-			{
-				ClickEditGroupButton(groupName);
-			}
+			ClickEditGroupButton(groupName);
 			
 			if (!IsUserExistInGroup(groupName, userName))
 			{
@@ -189,7 +188,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Проверить, содержит ли хотя бы одна группа пользователя.
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public bool CheckGroupsContainsUser(string userName)
+		{
+			var groups = GetGroupNameList();
 
+			foreach (var group in groups)
+			{
+				ClickGroupRow(group);
+
+				if (IsUserExistInGroup(group, userName))
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 		/// <summary>
 		/// Нажать кнопку "Добавить права"
 		/// </summary>
@@ -225,6 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			CustomTestContext.WriteLine("Выбрать пользователя {0} из списка и нажать кнопку 'Добавить' в группу {1}.", userName, groupName);
 			AddGroupUserButton = Driver.SetDynamicValue(How.XPath, ADD_GROUP_USER_BUTTON, groupName, userName);
+			AddGroupUserButton.Scroll();
 			AddGroupUserButton.Click();
 
 			return LoadPage();
@@ -254,7 +273,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			
 			return Driver.GetIsElementExist(By.XPath(GROUP_USER.Replace("*#*", groupName).Replace("*##*", userName)));
 		}
-		
+
+		/// <summary>
+		/// Получить список пользователей в дропдауне добавления пользователя в группу.
+		/// </summary>
+		public List<string> GetUserListInSearchDropdown()
+		{
+			CustomTestContext.WriteLine("Получить список пользователей в дропдауне добавления пользователя в группу.");
+			var userList = Driver.GetTextListElement(By.XPath(USER_LIST_IN_DROPDOWN_SEARCH));
+			userList.Sort();
+
+			return userList;
+		}
+
 		/// <summary>
 		/// Проверить, существует ли группа
 		/// </summary>
@@ -392,7 +423,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
 		protected const string CREATE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Create any projects')]";
 		protected const string SAVE_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@data-bind,'click: save')]//a";
-		
+		protected const string USER_LIST_IN_DROPDOWN_SEARCH = "//table[@data-bind='foreach: foundUsers']//tr//td[contains(@data-bind,'name')]";
 		#endregion
 	}
 }

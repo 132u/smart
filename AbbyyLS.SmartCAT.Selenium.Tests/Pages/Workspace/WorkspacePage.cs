@@ -538,7 +538,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			{
 				CustomTestContext.WriteLine("Открыть CAT меню слева.");
 				Driver.WaitUntilElementIsDisplay(By.XPath(CAT_MENU_OPEN_BUTTON), 20);
-				CatMenuOpenButton.JavaScriptClick();
+				CatMenuOpenButton.Click();
 			}
 
 			return LoadPage();
@@ -783,9 +783,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		#region Описания XPath элементов
 		
 		protected const string CAT_MENU = "//div[contains(@class, 'js-mainmenu')]";
-		protected const string CAT_MENU_OPEN_BUTTON = "//div[contains(@class,'g-topbox__burger')]//span";
+		protected const string CAT_MENU_OPEN_BUTTON = "//div[contains(@class,'g-topbox__burger')]//button";
 		protected const string CLOSE_HELP_BUTTON = "//div[@class='popup-wrap']//img[@title='Close']";
-
 		protected const string RESOURCES_MENU ="//li[contains(@class, 'js-menuitem-Resources')]";
 		protected const string EXPAND_RESOURCES_MENU = "//li[contains(@class, 'js-menuitem-Resources')]//a";
 		protected const string PROJECTS_BUTTON = "//a[@href ='/Workspace']";

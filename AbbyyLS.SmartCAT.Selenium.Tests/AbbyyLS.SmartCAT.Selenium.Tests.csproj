@@ -73,6 +73,7 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="FeatureAttributes\LoadTestsAttribute.cs" />
+    <Compile Include="Pages\Admin\AdminLetterPage.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
     <Compile Include="Pages\Coursera\CoursePage\CoursePage.cs" />
     <Compile Include="Pages\Coursera\CoursePage\LecturesTab.cs" />
@@ -141,6 +142,9 @@
     <Compile Include="Pages\TranslationMemories\DeleteTmDialog.cs" />
     <Compile Include="Pages\TranslationMemories\ImportTmxDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesFilterDialog.cs" />
+    <Compile Include="Pages\UsersRights\AccountInvitationCompletePage.cs" />
+    <Compile Include="Pages\UsersRights\AccountInvitationPage.cs" />
+    <Compile Include="Pages\UsersRights\AddUserDialog.cs" />
     <Compile Include="Pages\UsersRights\CrowdsourcersTab.cs" />
     <Compile Include="Pages\UsersRights\GroupsAndAccessRightsTab\GroupsAndAccessRightsTab.cs" />
     <Compile Include="Pages\UsersRights\LicensesTab.cs" />
@@ -344,6 +348,9 @@
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByLanguageTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByTopicTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
+    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsAdminTest.cs" />
+    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsBaseTests.cs" />
+    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
     <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
     <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectBaseTests.cs" />

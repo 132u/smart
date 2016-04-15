@@ -30,6 +30,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать кнопку добавления пользователя
+		/// </summary>
+		public AddUserDialog ClickAddUserButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку добавления пользователя");
+			AddUserButton.Click();
+
+			return new AddUserDialog(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку сортировки по имени
 		/// </summary>
 		public UsersTab ClickSortByFirstName()
@@ -105,7 +116,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 			return LoadPage();
 		}
-		
+
+		/// <summary>
+		/// Получить статус пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public string GetStatus(string userName)
+		{
+			CustomTestContext.WriteLine("Получить статус пользователя {0}.", userName);
+			StatusValue = Driver.SetDynamicValue(How.XPath, STATUS_VALUE, userName);
+
+			return StatusValue.Text;
+		}
+
+		/// <summary>
+		/// Получить группу пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public string GetGroup(string userName)
+		{
+			CustomTestContext.WriteLine("Получить группу пользователя {0}.", userName);
+			GroupValue = Driver.SetDynamicValue(How.XPath, GROUP_VALUE, userName);
+
+			return GroupValue.Text;
+		}
+
 		#endregion
 		
 		#region Составные методы страницы
@@ -184,6 +219,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		[FindsBy(How = How.XPath, Using = USER_SURNAME_LIST)]
 		protected IWebElement UserSurnameList { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ADD_USER_BUTTON)]
+		protected IWebElement AddUserButton { get; set; }
+		protected IWebElement StatusValue { get; set; }
+		protected IWebElement GroupValue { get; set; }
+
 		#endregion
 		
 		#region Описание XPath элементов
@@ -198,6 +238,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string SORT_BY_GROUPS = "";
 		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'CreatedDate')]//a";
 		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'Status')]//a";
+		protected const string ADD_USER_BUTTON = "//div[contains(@class, 'adduser')]//a[contains(@class, 'purplebtn')]";
+		protected const string STATUS_VALUE = "//td//p[text()='*#*']/../following-sibling::td[contains(@class, 'user-status')]//p";
+		protected const string GROUP_VALUE = "//td//p[text()='*#*']/../following-sibling::td[contains(@class, 'user-groups')]//p";
 
 		#endregion
 	}
