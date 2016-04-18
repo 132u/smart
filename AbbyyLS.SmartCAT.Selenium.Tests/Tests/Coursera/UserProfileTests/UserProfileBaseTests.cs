@@ -7,7 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera.UserProfileTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	class UserProfileBaseTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()

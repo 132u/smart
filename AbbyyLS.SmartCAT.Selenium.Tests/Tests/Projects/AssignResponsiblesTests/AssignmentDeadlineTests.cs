@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Globalization;
-
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {

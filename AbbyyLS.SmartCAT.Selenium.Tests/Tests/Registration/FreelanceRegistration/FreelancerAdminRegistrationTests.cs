@@ -4,7 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration.FreelanceRegistration
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]

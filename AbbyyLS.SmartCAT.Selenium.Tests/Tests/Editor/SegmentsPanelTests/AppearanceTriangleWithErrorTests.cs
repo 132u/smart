@@ -2,7 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.SegmentsPanelTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	public class AppearanceTriangleWithErrorTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> 
 		where TWebDriverProvider : IWebDriverProvider, new()

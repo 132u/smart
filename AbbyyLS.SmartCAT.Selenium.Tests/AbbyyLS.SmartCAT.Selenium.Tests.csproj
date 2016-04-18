@@ -327,6 +327,7 @@
     <Compile Include="Tests\Glossaries\GlossaryTermsFilteringTests\ClearFilterTests.cs" />
     <Compile Include="Tests\Glossaries\GlossaryInEditorTests\GlossaryTermHighlightingTests.cs" />
     <Compile Include="Tests\Glossaries\ImportGlossaryTests\ImportGlossaryTests.cs" />
+    <Compile Include="Tests\Glossaries\SortingTests\SortingInSuggestedTermsTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsFromGlossaryTests.cs" />
     <Compile Include="Tests\Glossaries\SuggestedTermsTests\SuggestTermsFromGlossariesTests.cs" />
     <Compile Include="Tests\Glossaries\TermsTests\CreateTermTests.cs" />
@@ -342,43 +343,44 @@
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationValidDataTests.cs" />
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelancerAdminRegistrationTests.cs" />
     <Compile Include="Tests\Registration\RegistrationBaseTest.cs" />
-    <Compile Include="Tests\SupportTests\WorkspaceSupportButtonsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesSpecificClientTests.cs" />
+    <Compile Include="Tests\WorkspaceTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByProjectGroupTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByClientTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByLanguageTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByTopicTests.cs" />
     <Compile Include="Tests\TranslationMemories\SearchTmTests\SearchExamplesInTmTests.cs" />
-    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsAdminTest.cs" />
-    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsBaseTests.cs" />
-    <Compile Include="Tests\UsersAndAccessRightGroups\UsersAndAccessRightGroupsTest.cs" />
-    <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
-    <Compile Include="Tests\UsersRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesCommonBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesAndManageProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditAdvansedSettingsTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditPropertiesTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesExportImportTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTermTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ManageProjectBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ExportDocumentTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\ManageProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityProjectsPageTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchSpecificClientTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesSearch\TranslationMemoriesSearchTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesManagement\ManageTranslationMemoriesTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightSpecificClientTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightTests.cs" />
-    <Compile Include="Tests\UsersRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
+    <Compile Include="Tests\UsersAndRights\UsersAndAccessRightGroups\UsersAndAccessRightGroupsAdminTest.cs" />
+    <Compile Include="Tests\UsersAndRights\UsersAndAccessRightGroups\UsersAndAccessRightGroupsBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\UsersAndAccessRightGroups\UsersAndAccessRightGroupsTest.cs" />
+    <Compile Include="Tests\UsersAndRights\CreateProjects\CreateProjectWithRightBaseTest.cs" />
+    <Compile Include="Tests\UsersAndRights\CreateProjects\FormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesAndCreateProject\ManageGlossariesAndCreateProjectTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesCommonBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossarySearch\ManageGlossarySearchTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesAndManageProjectTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossariesSpecificClient\ManageGlossariesSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditAdvansedSettingsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesEditPropertiesTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesExportImportTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTermTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaries\ManageGlossaries\ManageGlossariesTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ManageProjectBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectSettingsPage\ProjectSettingsExportDocumentTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectSettingsPage\ManageProjectProjectSettingsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectsPage\FormsAndButtonsAvailabilityProjectsPageTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectsPage\ManageProjectTests.cs" />
+    <Compile Include="Tests\UsersAndRights\SearchInTranslationMemories\TranslationMemoriesSearchSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersAndRights\SearchInTranslationMemories\TranslationMemoriesSearchTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightTests.cs" />
+    <Compile Include="Tests\UsersAndRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />
     <Compile Include="Tests\ProjectGroups\ChangeProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\DeleteProjectGroupTests.cs" />
     <Compile Include="Tests\ProjectGroups\ProjectGroupsBaseTest.cs" />
@@ -387,9 +389,9 @@
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesBaseTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesBasicTests.cs" />
     <Compile Include="Tests\Projects\AssignResponsiblesTests\AssignResponsiblesTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectsPage\ExportDocumentTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\FormsAndButtonsAvailabilityBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ManageProjects\ProjectSettingsPage\FormsAndButtonsAvailabilityProjectSettingsPageTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectsPage\ExportDocumentTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\FormsAndButtonsAvailabilityBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageProjects\ProjectSettingsPage\FormsAndButtonsAvailabilityProjectSettingsPageTests.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectAutofillProjectNameTests.cs" />
     <Compile Include="Tests\Projects\BaseProjectTest.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectTests.cs" />
@@ -401,7 +403,7 @@
     <Compile Include="Tests\Billing\BillingTests.cs" />
     <Compile Include="Tests\Billing\BuyLicensePackageTests.cs" />
     <Compile Include="Configs\ThreadUserConfig.cs" />
-    <Compile Include="Tests\UsersRights\CreateProjects\CreateProjectWithRight.cs" />
+    <Compile Include="Tests\UsersAndRights\CreateProjects\CreateProjectWithRight.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectWithIncorrectDataTests.cs" />
     <Compile Include="Tests\Projects\CreateProjectTests\CreateProjectWithPersonalAccountTests.cs" />
     <Compile Include="Tests\Projects\DeleteProjectTests\DeleteProjectTests.cs" />
@@ -427,7 +429,7 @@
     <Compile Include="Tests\Glossaries\TermsTests\EditTermTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUploadingValidDataTests.cs" />
     <Compile Include="Tests\TranslationMemories\ImportTmxFilesTests\TmUpdatingValidDataTests.cs" />
-    <Compile Include="Tests\UsersRights\SortingInUsersRightsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\SortingInUsersRightsTests.cs" />
     <Compile Include="Tests\Clients\SortingInClientsTests.cs" />
     <Compile Include="Tests\Glossaries\SortingTests\SortingInGlossariesTests.cs" />
     <Compile Include="Tests\ProjectGroups\SortingInProjectGroups.cs" />
@@ -443,18 +445,18 @@
     <Compile Include="Tests\Editor\TopPanelTests\EditorErrorTests.cs" />
     <Compile Include="Tests\Editor\SegmentsPanelTests\EditorSpellcheckTests.cs" />
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\EditTranslationMemoriesContentTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\TranslationMemoriesContentBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\SpecificClient\TranslationMemoriesContentSpecificClientTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesContent\WithoutClient\TranslationMemoriesContentTests.cs" />
-    <Compile Include="Tests\UsersRights\TranslationMemories\TranslationMemoriesUserRightsBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\UserRightsTests.cs" />
-    <Compile Include="Tests\UsersRights\UserRightsWorkflowTests.cs" />
-    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectFormsAndButtonsAvailabilityTests.cs" />
-    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectBaseTests.cs" />
-    <Compile Include="Tests\UsersRights\ViewProjects\ViewProjectTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\SpecificClient\EditTranslationMemoriesContentSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\WithoutClient\EditTranslationMemoriesContentTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\WithoutClient\TranslationMemoriesContentBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\SpecificClient\TranslationMemoriesContentSpecificClientTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemoriesContent\WithoutClient\TranslationMemoriesContentTests.cs" />
+    <Compile Include="Tests\UsersAndRights\TranslationMemoriesUserRightsBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\UserRightsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\UserRightsWorkflowTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ViewProjects\ViewProjectFormsAndButtonsAvailabilityTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ViewProjects\ViewProjectBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ViewProjects\ViewProjectTests.cs" />
     <Compile Include="TestUser.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -467,7 +469,7 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Tests\UsersRights\UserRightsWorkflowPersonalAccountTests.cs" />
+    <Compile Include="Tests\UsersAndRights\UserRightsWorkflowPersonalAccountTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
@@ -485,12 +487,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Tests\UsersRights\ManageClientsAndProjectGroups\" />
-    <Folder Include="Tests\UsersRights\ManagePaidResources\" />
-    <Folder Include="Tests\UsersRights\ManageUsers\" />
-    <Folder Include="Tests\UsersRights\SearchInGlossaries\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
 	   Other similar extension points exist, see Microsoft.Common.targets.
