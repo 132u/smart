@@ -157,11 +157,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickFindButton()
 				.OpenLetter(email);
 
-			_adminLetterPage.ClickInvintationLink();
+			var link = _adminLetterPage.GetLink();
+			Driver.SwitchToNewTab();
+
+			Driver.Navigate().GoToUrl(link);
 
 			return this;
 		}
-
+		
 		/// <summary>
 		/// Создание нового юзера
 		/// </summary>

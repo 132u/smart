@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public bool IsUsersTabOpened()
 		{
-			return UserSurnameList.Displayed;
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_USER_BUTTON));
 		}
 
 		#endregion

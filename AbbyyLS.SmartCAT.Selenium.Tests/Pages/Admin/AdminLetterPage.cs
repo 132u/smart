@@ -41,7 +41,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 			return new AccountInvitationPage(Driver).LoadPage();
 		}
-		
+
+		/// <summary>
+		/// Получить ссылку из письма
+		/// </summary>
+		public string GetLink()
+		{
+			CustomTestContext.WriteLine("Получить ссылку из письма.");
+
+			return InvintationLink.GetAttribute("href");
+		}
+
 		#endregion
 		
 		#region Методы, проверяющие состояние страницы
