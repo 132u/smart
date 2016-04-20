@@ -73,6 +73,7 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
     <Compile Include="FeatureAttributes\LoadTestsAttribute.cs" />
+    <Compile Include="Pages\Admin\AdminEmailConfirmationPage.cs" />
     <Compile Include="Pages\Admin\AdminLetterPage.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
     <Compile Include="Pages\Coursera\CoursePage\CoursePage.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Pages\UsersRights\LicensesTab.cs" />
     <Compile Include="Pages\UsersRights\GroupsAndAccessRightsTab\NewGroupDialog.cs" />
     <Compile Include="Pages\UsersRights\UsersAndRightsBasePage.cs" />
+    <Compile Include="Pages\Workspace\EmailConfirmationInformationDialog.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
     <Compile Include="Configs\TestsUserConfig.cs" />
     <Compile Include="DataStructures\AssignmentType.cs" />

@@ -43,6 +43,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
+		/// Кликнуть на ссылку подтверждения email
+		/// </summary>
+		public AdminEmailConfirmationPage ClickVerifyEmailLink()
+		{
+			CustomTestContext.WriteLine("Кликнуть на ссылку подтверждения email.");
+			VerifyEmailLink.Click();
+
+			return new AdminEmailConfirmationPage(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Получить ссылку из письма
 		/// </summary>
 		public string GetLink()
@@ -61,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// </summary>
 		public bool IsAdminLetterPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(INVINTATION_LINK));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TITLE));
 		}
 
 		#endregion
@@ -71,12 +82,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = INVINTATION_LINK)]
 		protected IWebElement InvintationLink { get; set; }
 
+		[FindsBy(How = How.XPath, Using = VERIFY_EMAIL_LINK)]
+		protected IWebElement VerifyEmailLink { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
 
 		protected const string INVINTATION_LINK = "//a[contains(@href, '/Account/UseAccountInvitation')]";
-		
+		protected const string VERIFY_EMAIL_LINK = "//a[contains(@href, '/Account/VerifyEMail')]";
+		protected const string TITLE = "//div[@class='l-content']//h2[text()='Информация о письме']";
+
 		#endregion
 	}
 }

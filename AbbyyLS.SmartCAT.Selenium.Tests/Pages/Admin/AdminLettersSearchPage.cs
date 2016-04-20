@@ -67,6 +67,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Кликнуть на кнопку 'Подробнее'
 		/// </summary>
 		/// <param name="email">email</param>
+		public AdminEmailsSearchPage ClickOpenEmailConfirmationLetterButton(string email)
+		{
+			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
+			OpenEmailConfirmationLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_EMAIL_CONFIRMATION_LETTER_BUTTON, email);
+			OpenEmailConfirmationLetterButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть на кнопку 'Подробнее'
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminEmailsSearchPage ClickOpenResendedEmailConfirmationLetterButton(string email)
+		{
+			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
+			OpenResendedEmailConfirmationLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_RESENDED_EMAIL_CONFIRMATION_LETTER_BUTTON, email);
+			OpenResendedEmailConfirmationLetterButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть на кнопку 'Подробнее'
+		/// </summary>
+		/// <param name="email">email</param>
 		public AdminEmailsSearchPage ClickOpenLetterButton(string email)
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
@@ -75,7 +101,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 			return LoadPage();
 		}
-
 
 		/// <summary>
 		/// Переключиться в окно письма
@@ -101,6 +126,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			ClickOpenLetterButton(email);
 			SwitchToLetterWindow();
 			
+			return new AdminLetterPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Открыть письмо подтверждения пароля
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminLetterPage OpenEmailConfirmationLetter(string email)
+		{
+			ClickOpenEmailConfirmationLetterButton(email);
+			SwitchToLetterWindow();
+
+			return new AdminLetterPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Открыть письмо подтверждения пароля
+		/// </summary>
+		/// <param name="email">email</param>
+		public AdminLetterPage OpenResendedEmailConfirmationLetter(string email)
+		{
+			ClickOpenResendedEmailConfirmationLetterButton(email);
+			SwitchToLetterWindow();
+
 			return new AdminLetterPage(Driver).LoadPage();
 		}
 
@@ -141,6 +190,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		protected IWebElement OpenLetterButton { get; set; }
 
+		protected IWebElement OpenEmailConfirmationLetterButton { get; set; }
+
+		protected IWebElement OpenResendedEmailConfirmationLetterButton { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -149,6 +202,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string LIMIT_COUNT_INPUT_ID = "LimitCount";
 		protected const string FIND_BTN_XPATH = "//input[contains(@class, 'button initializeSearch')]";
 		protected const string FOUND_EMAILS_TABLE = "//table[contains(@class, 'foundEmails')]";
+		protected const string OPEN_EMAIL_CONFIRMATION_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[text()='SmartCAT | Confirm your email to sign up for SmartCAT']//following-sibling::td[@class='openLetter']//a";
+		protected const string OPEN_RESENDED_EMAIL_CONFIRMATION_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[text()='Please confirm your SmartCAT registration']//following-sibling::td[@class='openLetter']//a";
 		protected const string OPEN_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[@class='openLetter']//a";
 
 		#endregion

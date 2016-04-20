@@ -33,6 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_accountInvitationPage = new AccountInvitationPage(Driver);
 			_adminEmailsSearchPage = new AdminEmailsSearchPage(Driver);
 			_adminLetterPage = new AdminLetterPage(Driver);
+			_adminEmailConfirmationPage = new AdminEmailConfirmationPage(Driver);
 		}
 
 		public static string PublicDictionaryPackageName
@@ -152,6 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public AdminHelper ActivateUser(string email)
 		{
 			_adminLingvoProPage.ClickAdminLettersSearchReference();
+
 			_adminEmailsSearchPage
 				.SetEmail(email)
 				.ClickFindButton()
@@ -164,7 +166,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			return this;
 		}
-		
+
+		/// <summary>
+		/// Подтвердить email
+		/// </summary>
+		/// <param name="email">email</param>
+		/// <param name="resend">повторная отправка</param>
+		public AdminHelper ConfirmEmail(string email, bool resend = false)
+		{
+			_adminLingvoProPage.ClickAdminLettersSearchReference();
+
+			_adminEmailsSearchPage
+				.SetEmail(email)
+				.ClickFindButton();
+
+			if (resend)
+			{
+				_adminEmailsSearchPage.OpenResendedEmailConfirmationLetter(email);
+			}
+			else
+			{
+				_adminEmailsSearchPage.OpenEmailConfirmationLetter(email);
+			}
+
+			_adminLetterPage.ClickVerifyEmailLink();
+
+			_adminEmailConfirmationPage.ClickGoToSignInPageLink();
+
+			return this;
+		}
+
 		/// <summary>
 		/// Создание нового юзера
 		/// </summary>
@@ -418,5 +449,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private AdminEmailsSearchPage _adminEmailsSearchPage;
 		private AdminLetterPage _adminLetterPage;
 		protected AccountInvitationPage _accountInvitationPage;
+		protected AdminEmailConfirmationPage _adminEmailConfirmationPage;
 	}
 }

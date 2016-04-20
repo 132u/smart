@@ -53,6 +53,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		#region Простые методы страницы
 
+		public EmailConfirmationInformationDialog ClickSendAgainButton()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Send Again'");
+			SendAgainButton.Click();
+
+			return new EmailConfirmationInformationDialog(Driver).LoadPage();
+		}
+
 		/// <summary>
 		/// Получить имя пользователя.
 		/// </summary>
@@ -613,6 +621,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, появилось ли сообщение об ограниченном доступе
+		/// </summary>
+		public bool IsLimitedAccessMessageDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, появилось ли сообщение об ограниченном доступе");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LIMITED_ACCESS_MESSAGE));
+		}
+
+		/// <summary>
+		/// Проверить, видна ли кнопка 'Send Again'
+		/// </summary>
+		public bool IsSendAgainButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, видна ли кнопка 'Send Again'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEND_AGAIN_BUTTON));
+		}
+
+		/// <summary>
 		/// Проверить, раскрыт ли пункт меню Проекты.
 		/// </summary>
 		public bool IsProjectsMenuExpanded()
@@ -764,6 +792,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = PROJECTS_MENU)]
 		protected IWebElement ProjectsMenu { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SEND_AGAIN_BUTTON)]
+		protected IWebElement SendAgainButton { get; set; }
+
 		protected IWebElement AccountNameInList { get; set; }
 
 		protected IWebElement Notification { get; set; }
@@ -810,6 +841,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']";
 		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
 		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//button[contains(@data-bind, 'stopBubble')]//span";
+
+		protected const string LIMITED_ACCESS_MESSAGE = "//div[@class='g-limited-access-msg']";
+		protected const string SEND_AGAIN_BUTTON = "//div[@class='g-limited-access-msg']//a[text()='Send Again']";
 
 		#endregion
 	}

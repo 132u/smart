@@ -4,7 +4,9 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Registration;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -27,6 +29,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_loginHelper = new LoginHelper(Driver);
 			_selectAccountForm = new SelectAccountForm(Driver);
 			_adminHelper = new AdminHelper(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_adminSignInPage = new AdminSignInPage(Driver);
+			_emailConfirmationInformationDialog = new EmailConfirmationInformationDialog(Driver);
 
 			_firstName = "firstName" + Guid.NewGuid();
 			_lastName = "lastName" + Guid.NewGuid();
@@ -56,5 +63,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		protected LoginHelper _loginHelper;
 		protected RegistrationPage _registrationPage;
 		protected SelectAccountForm _selectAccountForm;
+		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		protected NewProjectSettingsPage _newProjectSettingsPage;
+		protected NewProjectWorkflowPage _newProjectWorkflowPage;
+		protected AdminSignInPage _adminSignInPage;
+		protected EmailConfirmationInformationDialog _emailConfirmationInformationDialog;
 	}
 }
