@@ -204,78 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		#endregion
-
-		#region Вспомогательные методы
-
-		/// <summary>
-		/// Возвращает маску имени экспортиремого файла для поиска на жёстком диске
-		/// </summary>
-		/// <param name="exportType">тип экспорта</param>
-		/// <param name="filePath">путь до файла</param>
-		public string GetExportFileNameMask(ExportType exportType, string filePath)
-		{
-			return exportType == ExportType.Tmx
-				? Path.GetFileNameWithoutExtension(filePath) + "*.tmx"
-				: Path.GetFileNameWithoutExtension(filePath) + "*" + Path.GetExtension(filePath);
-		}
-
-		/// <summary>
-		/// Проверяет, что файл загрузился на жёсткий диск
-		/// </summary>
-		/// <param name="fileMask">макса имени файла</param>
-		public bool IsFileDownloaded(string fileMask)
-		{
-			var files = getDownloadedFiles(fileMask, 15, PathProvider.ExportFiles);
-
-			if (files.Length == 0)
-			{
-				CustomTestContext.WriteLine("Ошибка: файл не загрузился за отведённое время (15 секунд)");
-				return false;
-			}
-
-			var directoryInfo = Directory.CreateDirectory(Path.Combine(
-				new []{ 
-					PathProvider.ResultsFolderPath,
-					TestContext.CurrentContext.Test.Name,
-					DateTime.Now.Ticks.ToString()
-				})).FullName;
-
-			var pathToMove = Path.Combine(
-				new []{
-					directoryInfo, 
-					Path.GetFileNameWithoutExtension(files[0]) + DateTime.Now.Ticks + Path.GetExtension(files[0])
-				});
-
-			File.Move(files[0], pathToMove);
-
-			return true;
-		}
-
-		/// <summary>
-		/// Получает файлы на диске с заданной маской имени
-		/// </summary>
-		/// <param name="mask">маска имени файла</param>
-		/// <param name="waitTime">максимальное время ожидания</param>
-		/// <param name="dirName">каталог, в котором осуществляется поиск файлов</param>
-		private string[] getDownloadedFiles(string mask, int waitTime, string dirName)
-		{
-			var files = new string[0];
-
-			for (int i = 0; i < waitTime; i++)
-			{
-				files = Directory.GetFiles(dirName, mask, SearchOption.TopDirectoryOnly);
-				if (files.Length > 0)
-				{
-					break;
-				}
-				Thread.Sleep(1000);//Ждём секунду
-			}
-
-			return files;
-		}
-
-		#endregion
-
+		
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = NOTIFIER_DOWNLOAD_BTN)]

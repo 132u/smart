@@ -1,21 +1,11 @@
 ﻿using System;
 using System.Threading;
-using NUnit.Framework;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Support.UI;
-using System.IO;
-using System.Text;
-using System.Configuration;
-using System.Diagnostics;
 using System.Collections.Generic;
-using System.Windows.Forms;
-using System.Drawing;
-using System.Drawing.Imaging;
 
-using OpenQA.Selenium.Interactions;
+using NUnit.Framework;
+
+using OpenQA.Selenium;
+
 
 namespace AbbyyLS.Coursera.Function.Selenium.Tests
 {

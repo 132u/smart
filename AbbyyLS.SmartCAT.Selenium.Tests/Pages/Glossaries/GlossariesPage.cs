@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -183,6 +185,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
+		/// Получить целевые языки глоссария
+		/// </summary>
+		/// <param name="glossaryName">название глоссария</param>
+		public List<string> GetTargetLanguages(string glossaryName)
+		{
+			CustomTestContext.WriteLine("Получить целевые языки глоссария {0}.", glossaryName);
+			TargetLanguagesColumn = Driver.SetDynamicValue(How.XPath, TARGET_LANGUAGES_COLUMN, glossaryName);
+			var languagesColumn = TargetLanguagesColumn.Text;
+			var languagesList = languagesColumn.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.ToLower()).ToList();
+
+			languagesList.Sort();
+
+			return languagesList;
+		}
+
+		/// <summary>
 		/// Получить дату изменения глоссария
 		/// </summary>
 		/// <param name="glossaryName">название глоссария</param>
@@ -348,6 +366,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = SUGGEST_TERM_BUTTON)]
 		protected IWebElement SuggestTermButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = TARGET_LANGUAGES_COLUMN)]
+		protected IWebElement TargetLanguagesColumn { get; set; }
+
 		protected IWebElement GlossaryRow { get; set; }
 
 		#endregion
@@ -375,6 +396,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected const string SUGGESTED_TERMS_BUTTON = ".//a[contains(@href,'/Suggests')]";
 		protected const string SUGGEST_TERM_BUTTON = "//div[contains(@class,'js-add-suggest')]";
+		protected const string TARGET_LANGUAGES_COLUMN = "//p[text()='*#*']/../..//td[2]//p";
 
 		#endregion
 	}

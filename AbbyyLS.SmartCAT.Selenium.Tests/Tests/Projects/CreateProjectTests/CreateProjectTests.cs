@@ -209,7 +209,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var jobList = _projectsPage.GetJobList(_projectUniqueName);
 
 			Assert.AreEqual(expectedJobList, jobList,
-				"Произошла ошибка: Неверный спсико джобов.");
+				"Произошла ошибка: Неверный список джобов.");
+		}
+
+		[Test, Description("S-7144")]
+		public void OpenProjectSettingsPageTest()
+		{
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[]{ PathProvider.DocumentFile});
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			Assert.IsTrue(_projectSettingsPage.IsProjectSettingsPageOpened(),
+				"Произошла ошибка: не открылась страница проекта {0}.", _projectUniqueName);
 		}
 	}
 }

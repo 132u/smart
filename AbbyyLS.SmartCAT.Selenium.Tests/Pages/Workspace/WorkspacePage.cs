@@ -1,7 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
+
+using System.IO.Compression;
+
+using NUnit.Framework;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -709,6 +715,83 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public bool IsDialogBackgroundDisappeared()
 		{
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(DIALOG_BACKGROUND));
+		}
+
+		/// <summary>
+		/// Получает файлы на диске с заданной маской имени
+		/// </summary>
+		/// <param name="mask">маска имени файла</param>
+		/// <param name="waitTime">максимальное время ожидания</param>
+		/// <param name="dirName">каталог, в котором осуществляется поиск файлов</param>
+		protected string[] getDownloadedFiles(string mask, int waitTime, string dirName)
+		{
+			var files = new string[0];
+
+			for (int i = 0; i < waitTime; i++)
+			{
+				files = Directory.GetFiles(dirName, mask, SearchOption.TopDirectoryOnly);
+				if (files.Length > 0)
+				{
+					break;
+				}
+				Thread.Sleep(1000);//Ждём секунду
+			}
+
+			return files;
+		}
+
+		/// <summary>
+		/// Проверяет, что файл загрузился на жёсткий диск
+		/// </summary>
+		/// <param name="fileMask">макса имени файла</param>
+		public bool IsFileDownloaded(string fileMask)
+		{
+			var files = getDownloadedFiles(fileMask, 15, PathProvider.ExportFiles);
+			var testName = "";
+
+			if (files.Length == 0)
+			{
+				CustomTestContext.WriteLine("Ошибка: файл не загрузился за отведённое время (15 секунд)");
+				return false;
+			}
+
+			if (TestContext.CurrentContext.Test.Name.Contains("\""))
+			{
+				testName = TestContext.CurrentContext.Test.Name.Replace("\"", "");
+			}
+			else
+			{
+				testName = TestContext.CurrentContext.Test.Name;
+			}
+
+			var directoryInfo = Directory.CreateDirectory(Path.Combine(
+				new[]{ 
+					PathProvider.ResultsFolderPath,
+					testName,
+					DateTime.Now.Ticks.ToString()
+				})).FullName;
+
+			var pathToMove = Path.Combine(
+				new[]{
+					directoryInfo, 
+					Path.GetFileNameWithoutExtension(files[0]) + DateTime.Now.Ticks + Path.GetExtension(files[0])
+				});
+
+			File.Move(files[0], pathToMove);
+
+			return true;
+		}
+
+		/// <summary>
+		/// Возвращает маску имени экспортиремого файла для поиска на жёстком диске
+		/// </summary>
+		/// <param name="exportType">тип экспорта</param>
+		/// <param name="filePath">путь до файла</param>
+		public string GetExportFileNameMask(ExportType exportType, string filePath)
+		{
+			return exportType == ExportType.Tmx
+				? Path.GetFileNameWithoutExtension(filePath) + "*.tmx"
+				: Path.GetFileNameWithoutExtension(filePath) + "*" + Path.GetExtension(filePath);
 		}
 
 		#endregion

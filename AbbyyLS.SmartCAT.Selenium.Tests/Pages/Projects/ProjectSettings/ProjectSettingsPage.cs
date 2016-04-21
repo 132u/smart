@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			if (!IsProjectSettingsPageOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на вкладку проекта.");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось перейти на страницу проекта.");
 			}
 
 			return this;
@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return new BuildStatisticsPage(Driver).LoadPage();
 		}
-
+		
 		/// <summary>
 		/// Нажать кнопку "Загрузить файлы"
 		/// </summary>

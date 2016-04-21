@@ -44,6 +44,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Навести курсор на знак ошибки (желтый треугольник)
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage HoverYellowTriangle(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Навести курсор на знак ошибки (желтый треугольник) сегмента №{0}.", segmentNumber);
+			YellowErrorTriangle =  Driver.SetDynamicValue(How.XPath,SEGMENT_ERROR_LOGO, segmentNumber.ToString());
+			YellowErrorTriangle.Click();
+			YellowErrorTriangle.HoverElement();
+
+			if (!IsErrorsPopupDisplayed())
+			{
+				throw new Exception("Произошла ошибка: не появился попап с ошибками.");
+			}
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку "Домой" для перехода на страницу проекта
 		/// </summary>
 		public ProjectSettingsPage ClickHomeButtonExpectingProjectSettingsPage()
@@ -106,6 +125,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Подтвердить сегмент'.");
 			ConfirmButton.AdvancedClick();
 			Driver.WaitUntilElementIsDisplay(By.XPath(ALL_SEGMENTS_SAVED_STATUS), timeout: 30);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Закрыть сообщение с критической ошибкой
+		/// </summary>
+		public EditorPage CloseCriticalErrorMessageIfExist()
+		{
+			CustomTestContext.WriteLine("Закрыть сообщение с критической ошибкой");
+			if (IsMessageWithCrititcalErrorDisplayed())
+			{
+				CloseCriticalErrorMessageButton.Click();
+			}
 
 			return LoadPage();
 		}
@@ -405,6 +438,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CopyButton.Click();
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на вкладку 'QA Check'
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage ClickQACheckTab(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку 'QA Check'.");
+			ClickOnTargetCellInSegment(segmentNumber);
+			QACheckTab.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Получить текст ошибки (вкладка 'QA Check').
+		/// </summary>
+		/// <param name="errorNumber">номер ошибки</param>
+		public string GetErrorTextFromQaCheckTab(int errorNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить текст ошибки (вкладка 'QA Check').");
+			QAError = Driver.SetDynamicValue(How.XPath, QA_ERROR, errorNumber.ToString());
+
+			return QAError.Text;
 		}
 
 		/// <summary>
@@ -1443,6 +1501,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, что появилось сообщение о том, что перевод содержит критическую ошибку
+		/// </summary>
+		public bool IsMessageWithCrititcalErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появилось сообщение о том, что перевод содержит критическую ошибку.");
+
+			return Driver.WaitUntilElementIsAppear(By.XPath(MESSAGE_WITH_CRITICAL_ERROR));
+		}
+
+
+		/// <summary>
 		/// Проверить, что сообщение о том, что термин сохранен, исчезло
 		/// </summary>
 		public bool IsTermSavedMessageDisappeared()
@@ -1471,6 +1540,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Проверить, что появился треугольник с ошибкой, после подтверждения сегмента.");
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что появился попап со списком ошибок.
+		/// </summary>
+		public bool IsErrorsPopupDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что появился попап со списком ошибок.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERRORS_POPUP));
+		}
+
+		/// <summary>
+		/// Проверить, что попап со списком ошибок содержит правильную ошибку.
+		/// </summary>
+		/// <param name="error">ошибка</param>
+		public bool IsErrorsPopupContainsCorrectError(string error)
+		{
+			CustomTestContext.WriteLine("Проверить, что попап со списком ошибок содержит правильную ошибку '{0}'.", error);
+			var textInPopup = Driver.ExecuteScript("return document.getElementById('ext-quicktips-tip-innerCt').innerHTML");
+
+			return textInPopup.ToString().Contains(error);
+		}
+
+		/// <summary>
+		/// Проверить, что ошибока в попапе критическая.
+		/// </summary>
+		/// <param name="error">ошибка</param>
+		public bool IsCriticalError(string error)
+		{
+			CustomTestContext.WriteLine("Проверить, что попап со списком ошибок содержит правильную ошибку '{0}'.", error);
+			var textInPopup = Driver.ExecuteScript("return document.getElementById('ext-quicktips-tip-innerCt').innerHTML");
+
+			return textInPopup.ToString().Contains(error + " (critical)");
+		}
+
+		/// <summary>
+		/// Проверить, что таблица с ошибками отсутствует (вкладка 'QA Check').
+		/// </summary>
+		public bool IsQAErrorTableDissapeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что таблица с ошибками отсутствует (вкладка 'QA Check').");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(QA_ERROR_TABLE));
 		}
 
 		#endregion
@@ -1585,9 +1698,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = REVISION_USER_COLUNM)]
 		protected IWebElement RevisionUserColunm { get; set; }
 
+		[FindsBy(How = How.XPath, Using = QA_CHECK_TAB)]
+		protected IWebElement QACheckTab { get; set; }
+
 		[FindsBy(How = How.XPath, Using = SEGMENTS_BODY)]
 		protected IWebElement SegmentsTable { get; set; }
 
+		[FindsBy(How = How.XPath, Using = QA_ERROR_TABLE)]
+		protected IWebElement QAErrorTable { get; set; }
+
+		protected IWebElement YellowErrorTriangle { get; set; }
+		protected IWebElement Error { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
 		protected IWebElement VoteUpButton { get; set; }
 		protected IWebElement VoteCount{ get; set; }
@@ -1598,6 +1719,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement InsertChangedPart;
 		protected IWebElement User;
 		protected IWebElement Type;
+		protected IWebElement QAError;
+		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
+		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -1679,6 +1803,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";
 		protected const string VOTE_UP_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'plus')]";
 		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[@class='rating-count']";
+
+		protected const string MESSAGE_WITH_CRITICAL_ERROR = "//div[contains(text(),'contains critical errors.')]";
+		protected const string CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON = "//div[contains(text(),'contains critical errors.')]/../../..//div[@data-qtip='Close panel']";
+		protected const string ERRORS_POPUP = "//h3[contains(text(),'Translation errors')]";
+		protected const string ERROR = "//h3[contains(text(),'Translation errors')]/../..";
+
+		protected const string QA_CHECK_TAB = "//span[contains(@id, 'errors-tab')]//span[contains(text(), 'QA')]";
+		protected const string QA_ERROR = "//div[@id='errors-body']//tr[*#*]//td[2]//div";
+		protected const string QA_ERROR_TABLE = "//div[@id='errors-body']//table";
 
 		#endregion
 	}

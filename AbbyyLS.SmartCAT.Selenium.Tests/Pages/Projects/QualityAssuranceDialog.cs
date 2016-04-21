@@ -23,6 +23,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return this;
 		}
 
+		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать кнопку скачивания отчета о ошибках.
+		/// </summary>
+		public QualityAssuranceDialog ClickDownloadReportButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку скачивания отчета о ошибках.");
+			DownloadReportButton.Click();
+
+			return this;
+		}
+
+		/// <summary>
+		/// Нажать кнопку проверки ошибок.
+		/// </summary>
+		public QualityAssuranceDialog ClickCheckerrorsButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку проверки ошибок.");
+			CheckForErrorsButton.Click();
+
+			return this;
+		}
+
+		#endregion
+
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
@@ -39,6 +65,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		[FindsBy(How = How.XPath, Using = CHECK_FOR_ERRORS_BUTTON)]
 		protected IWebElement CheckForErrorsButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DOWNLOAD_REPORT_BUTTON)]
+		protected IWebElement DownloadReportButton { get; set; }
 
 		#endregion
 

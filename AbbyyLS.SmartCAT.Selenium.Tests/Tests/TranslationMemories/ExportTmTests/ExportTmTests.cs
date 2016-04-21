@@ -31,6 +31,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		private ExportNotification _exportNotification;
+		protected ExportNotification _exportNotification;
 	}
 }

@@ -28,6 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			var options = new ChromeOptions();
 			options.AddArguments("--lang=en");
 			options.AddUserProfilePreference("download.default_directory", downloadDirectory);
+			options.AddUserProfilePreference("safebrowsing.enabled", "true");
 			Log.Info("Настройки браузера {0}", String.Join(" ", options.Arguments));
 			Log.Info("Путь к папке для скаченных файлов {0}", downloadDirectory);
 			

@@ -138,6 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectWorkflowPage ClickNextButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку Next.");
+			NextButton.Scroll();
 			NextButton.Click();
 
 			return new NewProjectWorkflowPage(Driver).LoadPage();

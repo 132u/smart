@@ -69,6 +69,7 @@
     <Compile Include="DataStructures\AccountType.cs" />
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="DataStructures\DocumentStatus.cs" />
+    <Compile Include="DataStructures\ErrorType.cs" />
     <Compile Include="DataStructures\ProjectStatus.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Pages\Projects\ProjectSettings\PretranslationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\CancelConfirmationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\GeneralTab.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\NewLanguageSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\QualityAssuranceSettings.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\WorkflowSetUpTab.cs" />
     <Compile Include="Pages\Projects\QualityAssuranceDialog.cs" />
@@ -339,11 +341,17 @@
     <Compile Include="Tests\LoadTests\CrossFileRepetitions.cs" />
     <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
+    <Compile Include="Tests\QualityAssurance\QualityAssuranceBaseTests.cs" />
+    <Compile Include="Tests\QualityAssurance\QualityAssuranceReportTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountAdminRegistrationTests.cs" />
     <Compile Include="Tests\Search\SearchPageTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationInvalidDataTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationValidDataTests.cs" />
     <Compile Include="Tests\Registration\FreelanceRegistration\FreelancerAdminRegistrationTests.cs" />
+    <Compile Include="Tests\Projects\ChangeProjectTests\ChangeProjectLanguagesTests.cs" />
+    <Compile Include="Tests\Projects\ChangeProjectTests\ChangeProjectSettingsTests.cs" />
+    <Compile Include="Tests\Projects\StatisticsTests\StatisticsTests.cs" />
+    <Compile Include="Tests\QualityAssurance\QualityAssuranceTests.cs" />
     <Compile Include="Tests\Registration\RegistrationBaseTest.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesSpecificClientTests.cs" />
     <Compile Include="Tests\WorkspaceTests\WorkspaceSupportButtonsTests.cs" />

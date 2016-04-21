@@ -350,12 +350,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="documentName">имя документа</param>
-		public ProjectsPage SelectDocument(string projectName, string documentPath)
+		/// <param name="jobs">наличие джоб</param>
+		public ProjectsPage SelectDocument(string projectName, string documentPath, bool jobs = false)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Отметить чекбокс документа {0} в проекте {1}", documentName, projectName);
-			DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
+			if (jobs)
+			{
+				DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_WITH_JOBS_CHECKBOX, projectName, documentName);
+			}
+			else
+			{
+				DocumentCheckBox = Driver.SetDynamicValue(How.XPath, DOCUMENT_CHECKBOX, projectName, documentName);
+			}
 			DocumentCheckBox.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Отметить чекбокс джоба документа
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentName">имя документа</param>
+		/// <param name="jobLanguage">язык джобы</param>
+		public ProjectsPage SelectDocumentJob(string projectName, string documentPath, Language jobLanguage)
+		{
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Отметить чекбокс джоба языка {2} документа {0} в проекте {1}", documentName, projectName, jobLanguage.Description());
+			DocumentJob = Driver.SetDynamicValue(How.XPath, DOCUMENT_JOB, projectName, documentName, jobLanguage.Description());
+			DocumentJob.Click();
 
 			return LoadPage();
 		}
@@ -461,7 +484,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="filePathList">список документов</param>
-		/// <returns></returns>
 		public TaskAssignmentPage OpenAssignDialogForSelectedDocuments(string projectName, IList<string> filePathList)
 		{
 			CustomTestContext.WriteLine("Открыть диалог назначения задачи для нескольких документов.");
@@ -480,6 +502,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что кнопка удаления неактивна в панели проекта.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public bool IsDeleteButtonInProjectPanelDisabled(string projectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка удаления неактивна в панели проекта '{0}'.", projectName);
+			DeleteButtonInProjectPanel = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON_IN_PROJECT_PANEL, projectName);
+			DeleteButtonInProjectPanel.Scroll();
+
+			return DeleteButtonInProjectPanel.GetAttribute("class").Contains("disable");
+		}
 
 		/// <summary>
 		/// Проверить, что отображается кнопка загрузки документа.
@@ -931,13 +966,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DocumentTaskAssignButton {get; set;}
 		protected IWebElement MyTask {get; set;}
 		protected IWebElement DocumentRef { get; set; }
-
 		protected IWebElement DocumentCheckBox { get; set; }
 		protected IWebElement JobList { get; set; }
+		protected IWebElement DocumentJob { get; set; }
 		protected IWebElement DeleteInProjectButton { get; set; }
 		protected IWebElement ProjectAssignTaskButton { get; set; }
 		protected IWebElement QualityAssuranceCheckButton { get; set; }
 		protected IWebElement ProjectStatusRights { get; set; }
+
+		protected IWebElement DeleteButtonInProjectPanel { get; set; }
 
 		#endregion
 
@@ -962,6 +999,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
+		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
+		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
@@ -974,6 +1013,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr//div[contains(@data-bind, 'click: assign')]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//a[@title='*##*']/../..//preceding-sibling::td";
+		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//a[text()='*#*']/../../../following-sibling::tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*##*']/../..//preceding-sibling::td//input";
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
 		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
 		protected const string PROJECT_SETTINGS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'edit')]";
@@ -989,6 +1029,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
 		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
+		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
+
 		#endregion
 	}
 }

@@ -1,16 +1,20 @@
-﻿using NUnit.Framework;
+﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
-	class BaseProjectTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	public class BaseProjectTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUpBaseProjectTest()
@@ -26,15 +30,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_dublicateFileErrorDialog = new DublicateFileErrorDialog(Driver);
+			_projectSettingsDialog = new ProjectSettingsDialog(Driver);
+			_translationMemoriesPage = new TranslationMemoriesPage(Driver);
+			_newLanguageSettingsDialog = new NewLanguageSettingsDialog(Driver);
+			_glossariesHelper = new GlossariesHelper(Driver);
+			_glossariesPage = new GlossariesPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspacePage.GoToProjectsPage();
+
+			_projectsPage.CloseAllNotifications<ProjectsPage>();
 		}
 
 		protected string _projectUniqueName;
 		protected const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
+		protected NewLanguageSettingsDialog _newLanguageSettingsDialog;
+		protected ProjectSettingsDialog _projectSettingsDialog;
 		protected DublicateFileErrorDialog _dublicateFileErrorDialog;
 		protected WorkspacePage _workspacePage;
 		protected CreateProjectHelper _createProjectHelper;
@@ -46,5 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ProjectSettingsPage _projectSettingsPage;
 		protected AddFilesStep _documentUploadGeneralInformationDialog;
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
+		protected TranslationMemoriesPage _translationMemoriesPage;
+		protected GlossariesHelper _glossariesHelper;
+		protected GlossariesPage _glossariesPage;
 	}
 }

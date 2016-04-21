@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
