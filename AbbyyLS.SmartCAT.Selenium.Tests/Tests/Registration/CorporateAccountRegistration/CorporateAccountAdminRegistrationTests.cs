@@ -8,6 +8,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
+	[Registration]
 	public class CorporateAccountAdminRegistrationTests<TWebDriverProvider> :
 		RegistrationBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
