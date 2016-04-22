@@ -151,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.ClickEditGroupButton(_groupName)
 				.ClickAddUsersSearchbox(_groupName);
 
-			Assert.AreEqual(userList.Remove(_nickName), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
+			Assert.AreEqual(userList.Except(new List<string> { _nickName }), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
 				"Произошла ошибка: неверный список пользователей.");
 
 			_workspacePage.GoToUsersPage();
