@@ -9,6 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorPreviousStageTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test(Description = "Проверяет блокировку сегментов при добавлении задачи на редактирование")]

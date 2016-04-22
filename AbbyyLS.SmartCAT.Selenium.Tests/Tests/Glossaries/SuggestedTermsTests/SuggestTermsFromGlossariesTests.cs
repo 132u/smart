@@ -9,6 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Glossaries]
 	class SuggestTermsFromGlossariesTests<TWebDriverProvider>
 		: SuggestTermsBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

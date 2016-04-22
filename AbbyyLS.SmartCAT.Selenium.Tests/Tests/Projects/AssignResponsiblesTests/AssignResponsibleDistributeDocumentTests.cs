@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Projects]
 	class AssignResponsibleDistributeDocumentTests<TWebDriverProvider> : AssignResponsiblesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

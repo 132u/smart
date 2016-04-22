@@ -14,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
+	[Projects]
 	class ChangeProjectLanguagesTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test, Description("S-7058")]

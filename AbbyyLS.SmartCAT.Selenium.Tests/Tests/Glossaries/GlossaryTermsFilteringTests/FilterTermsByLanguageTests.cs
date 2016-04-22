@@ -4,10 +4,12 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Glossaries]
 	class FilterTermsByLanguageTests<TWebDriverProvider>
 		: BaseGlossaryTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -10,6 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Glossaries]
 	class SortingInSuggestedTermsTests<TWebDriverSettings>
 		: BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{

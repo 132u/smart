@@ -11,6 +11,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Projects]
 	public class AssignResponsiblesBasicTests<TWebDriverProvider> : AssignResponsiblesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

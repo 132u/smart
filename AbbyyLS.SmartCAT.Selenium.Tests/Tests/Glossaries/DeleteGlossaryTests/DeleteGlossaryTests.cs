@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Glossaries]
 	class DeleteGlossaryTests<TWebDriverSettings>
 		: BaseGlossaryTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{

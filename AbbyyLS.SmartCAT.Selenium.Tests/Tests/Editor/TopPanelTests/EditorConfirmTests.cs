@@ -7,6 +7,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorConfirmTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test(Description = "Проверяет подтверждение сегмента с помощью кнопки")]

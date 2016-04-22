@@ -7,6 +7,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Projects]
 	internal class SortingOnProjectSettingsPageTests<TWebDriverSettings> : BaseProjectTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
 	{

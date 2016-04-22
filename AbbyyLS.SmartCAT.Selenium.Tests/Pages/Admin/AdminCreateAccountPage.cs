@@ -221,8 +221,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 				var alert = wait.Until(ExpectedConditions.AlertIsPresent());
 
 				if (alert.Text.Contains("Включение функции"
-					+ " workflow для аккаунта необратимо, обратное выключение "
-					+ "будет невозможно. Продолжить?"))
+					 + " workflow для аккаунта необратимо, обратное выключение "
+					 + "будет невозможно. Продолжить?"))
 				{
 					CustomTestContext.WriteLine("Закрыть модальное диалоговое окно");
 					alert.Accept();
@@ -232,6 +232,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			{
 				CustomTestContext.WriteLine("Закрыть открытый диалог");
 				SendKeys.SendWait(@"{Enter}");
+			}
+			catch (WebDriverTimeoutException)
+			{
+				CustomTestContext.WriteLine("Алерт не появился");
 			}
 
 			return LoadPage();

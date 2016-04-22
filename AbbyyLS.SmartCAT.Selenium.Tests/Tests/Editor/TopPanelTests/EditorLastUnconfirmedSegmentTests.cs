@@ -7,6 +7,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorLastUnconfirmedSegmentTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test(Description = "Проверяет переход к следующему неподтвержденному сегменту с помощью кнопки (при 2 сегментах)")]

@@ -9,6 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	class EditorUndoRedoButtonsTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test, Ignore("PRX-16042")]

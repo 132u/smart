@@ -13,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
+	[Projects]
 	class CreateProjectTests<TWebDriverProvider>
 		: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

@@ -10,6 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Standalone]
 	[Parallelizable(ParallelScope.Fixtures)]
+	[TranslationMemories]
 	class FilterTmByLanguageTests<TWebDriverProvider> : BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]

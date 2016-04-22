@@ -74,8 +74,12 @@
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\AuthorizationAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
+    <Compile Include="FeatureAttributes\EditorAttribute.cs" />
+    <Compile Include="FeatureAttributes\GlossariesAttribute.cs" />
     <Compile Include="FeatureAttributes\LoadTestsAttribute.cs" />
+    <Compile Include="FeatureAttributes\ProjectsAttribute.cs" />
     <Compile Include="FeatureAttributes\RegistrationAttribute.cs" />
+    <Compile Include="FeatureAttributes\TranslationMemoriesAttribute.cs" />
     <Compile Include="Pages\Admin\AdminEmailConfirmationPage.cs" />
     <Compile Include="Pages\Admin\AdminLetterPage.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />

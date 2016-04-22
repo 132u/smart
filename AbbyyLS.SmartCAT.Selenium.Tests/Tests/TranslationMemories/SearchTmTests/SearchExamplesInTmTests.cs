@@ -3,12 +3,14 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[TranslationMemories]
 	class SearchExamplesInTmTests<TWebDriverProvider>
 		: BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

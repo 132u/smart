@@ -7,6 +7,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorCopySourceToTargetTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test(Description = "Проверяет копирование текста из сорса в таргет с помощью кнопки")]

@@ -9,6 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
 	[Standalone]
+	[Projects]
 	class CreateProjectWithIncorrectDataTests<TWebDriverProvider>: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCase("*")]

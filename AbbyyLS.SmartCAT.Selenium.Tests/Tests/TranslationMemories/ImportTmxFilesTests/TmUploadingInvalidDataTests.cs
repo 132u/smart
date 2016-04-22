@@ -3,10 +3,12 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[TranslationMemories]
 	class TmUploadingInvalidDataTests<TWebDriverProvider>
 		: BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

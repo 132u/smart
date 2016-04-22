@@ -14,6 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorMatchColumnTMSubstitutionTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{

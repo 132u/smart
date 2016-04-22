@@ -13,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Editor]
 	public class EditorErrorTests<TWebDriverProvider>
 		: BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

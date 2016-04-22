@@ -15,6 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Projects]
 	class ChangeProjectSettingsTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]

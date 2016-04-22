@@ -13,6 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[Glossaries]
 	class GlossariesEditorTests<TWebDriverProvider>
 		: BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{

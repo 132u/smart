@@ -10,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Projects]
 	class CreateProjectSaveSettingsByBackTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

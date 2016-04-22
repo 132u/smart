@@ -8,6 +8,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[TranslationMemories]
 	class CreateTmInvalidDataTests<TWebDriverProvider>
 		: BaseTmTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
