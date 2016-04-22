@@ -67,8 +67,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			var password = _accountInvitationPage.GetPassword();
 			var email = _accountInvitationPage.GetEmail();
 
-			_signInPage.GetPage();
-			_loginHelper.LogInSmartCat(email, _nickName, password);
+			_signInPage
+				.GetPage()
+				.SubmitFormExpectingWorkspacePage(email, password);
 
 			Assert.IsTrue(_workspacePage.IsWorkspacePageOpened(),
 				"Произошла ошибка: не открылась страница WS.");
@@ -88,8 +89,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			var password = _accountInvitationPage.GetPassword();
 
-			_signInPage.GetPage();
-			_loginHelper.LogInSmartCat(_email, _nickName, password);
+			_signInPage
+				.GetPage()
+				.SubmitFormExpectingWorkspacePage(_email, password);
 
 			Assert.IsFalse(_projectsPage.IsCreateProjectButtonDisplayed(),
 				"Произошла ошибка: отображается кнопка создания проекта.");
@@ -139,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверный список пользователей.");
 
 			_groupsAndAccessRightsTab
-				.ClickAddGroupUserButton(_groupName, _name)
+				.ClickAddGroupUserButton(_groupName, _nickName)
 				.ClickSaveButton(_groupName);
 
 			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, _nickName),
@@ -149,7 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.ClickEditGroupButton(_groupName)
 				.ClickAddUsersSearchbox(_groupName);
 
-			Assert.AreEqual(userList.Except(new List<string>{_nickName}), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
+			Assert.AreEqual(userList.Remove(_nickName), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
 				"Произошла ошибка: неверный список пользователей.");
 
 			_workspacePage.GoToUsersPage();
