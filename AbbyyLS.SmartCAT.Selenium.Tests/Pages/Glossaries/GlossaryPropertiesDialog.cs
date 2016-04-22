@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -34,6 +36,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Ввести имя глоссария {0} в диалоге свойств глоссария.", glossaryName);
 			GlossaryName.SetText(glossaryName);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на поле названия.
+		/// </summary>
+		public GlossaryPropertiesDialog ClickGlossaryName()
+		{
+			CustomTestContext.WriteLine("Нажать на поле названия.");
+			GlossaryName.Click();
 
 			return LoadPage();
 		}
@@ -240,15 +253,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		}
 
 		/// <summary>
-		/// Нажать на дропдаун выбора группы проекта
+		/// Нажать на опцию в дропдауне выбора группы проекта.
 		/// </summary>
 		/// <param name="projectGroup">группа проекта</param>
 		public GlossaryPropertiesDialog ClickProjectGroupOption(string projectGroup)
 		{
-			CustomTestContext.WriteLine("Нажать на дропдаун выбора группы проекта.");
+			CustomTestContext.WriteLine("Нажать на опцию '{0}' в дропдауне выбора группы проекта.", projectGroup);
 			ProjectGroupOption = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_OPTION, projectGroup);
-			ProjectGroupOption.ScrollAndClick();
-
+			ProjectGroupOption.ScrollAndClickViaElementBlock();
+			
 			return LoadPage();
 		}
 
@@ -291,7 +304,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			ClickClientDropdown();
 			ClickClientOption(client);
-			GlossaryName.Click();
+			ClickGlossaryName();
 
 			return LoadPage();
 		}
@@ -304,7 +317,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			ClickProjectGroupDropdown();
 			ClickProjectGroupOption(projectGroup);
-			ClickProjectGroupDropdown();
+			ClickGlossaryName();
 
 			return LoadPage();
 		}

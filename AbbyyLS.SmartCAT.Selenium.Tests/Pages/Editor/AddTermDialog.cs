@@ -253,7 +253,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CANCEL_BUTTON = "//div[contains(@id, 'term-window')]//span[contains(string(), 'Cancel')]";
 		protected const string GLOSSARY_SELECT = "//input[@name='glossaryId']";
 		protected const string GLOSSARY_LIST = "//ul[contains(@id, 'boundlist')]";
-		protected const string GLOSSARY_SELECT_BOUNDLIST = "//ul[contains(@id, 'boundlist')]//li[contains(string(), '*#*')]";
+		protected const string GLOSSARY_SELECT_BOUNDLIST = "//li[string() = '*#*']";
 
 		#endregion
 	}

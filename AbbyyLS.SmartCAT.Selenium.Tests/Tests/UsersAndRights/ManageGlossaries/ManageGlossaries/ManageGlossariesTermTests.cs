@@ -115,11 +115,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			var projectName = _createProjectHelper.GetProjectUniqueName();
 			var term1 = "term-" + Guid.NewGuid();
 			var term2 = "term-" + Guid.NewGuid();
+			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
 			_workspacePage.GoToProjectsPage();
-			_createProjectHelper.CreateNewProject(projectName, glossaryName: _glossaryUniqueName);
+			_createProjectHelper.CreateNewProject(projectName, glossaryName: glossaryUniqueName);
 			_projectsPage.ClickProject(projectName);
 
 			_projectSettingsHelper
@@ -134,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			
 			_editorPage.ClickAddTermButton();
 
-			_addTermDialog.AddNewTerm(term1, term2, glossaryName: _glossaryUniqueName);
+			_addTermDialog.AddNewTerm(term1, term2, glossaryName: glossaryUniqueName);
 
 			Assert.IsTrue(_editorPage.IsTermSaved(), "Произошла ошибка:\n сообщение о том, что термин сохранен, не появилось");
 

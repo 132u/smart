@@ -194,6 +194,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 		}
 
 		/// <summary>
+		/// Прокрутить и кликнуть (использовать метод в случаи, когда клик невозможен из-за того,
+		/// что другой элемент(футер, виза) загораживает)
+		/// </summary>
+		public static void ScrollAndClickViaElementBlock(this IWebElement webElement)
+		{
+			try
+			{
+				webElement.Scroll();
+				webElement.Click();
+			}
+			catch (InvalidOperationException)
+			{
+				webElement.ScrollDown();
+				webElement.Click();
+			}
+		}
+
+		/// <summary>
 		/// Двойной клик по элементу
 		/// </summary>
 		/// <param name="webElement">элемент</param>
