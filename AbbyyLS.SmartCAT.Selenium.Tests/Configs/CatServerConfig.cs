@@ -8,6 +8,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Configs
 		[DataMember(Name = "Url")]
 		public string Url { get; set; }
 
+		[DataMember(Name = "AdminUrl")]
+		public string AdminUrl { get; set; }
+
 		/// <summary>
 		/// Абсолютный путь к workspace
 		/// </summary>

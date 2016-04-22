@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
 
-	<CatServer Url="smartcat.$(servername).als.local" Workspace="" IsHttpsEnabled="true" Standalone="false"/>
+	<CatServer Url="smartcat.$(servername).als.local" AdminUrl="admin.$(servername).als.local" Workspace="" IsHttpsEnabled="true" Standalone="false"/>
 	<CourseraTargetServer Url="http://coursera.$(servername).als.local/en"/>
 
 	<TestingFiles 
