@@ -39,8 +39,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspacePage.GoToProjectsPage();
-
-			_projectsPage.CloseAllNotifications<ProjectsPage>();
 		}
 
 		protected string _projectUniqueName;
