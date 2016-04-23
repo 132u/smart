@@ -1,4 +1,8 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -44,6 +48,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new RegistrationPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Получить список доступных аккаунтов.
+		/// </summary>
+		public List<string> GetAccountList()
+		{
+			CustomTestContext.WriteLine("Получить список доступных аккаунтов.");
+
+			return Driver.GetTextListElement(By.XPath(AVAILIBLE_ACCOUNTS_LIST));
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -77,6 +91,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new WorkspacePage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Отсортировать список аккаунтов для сравнения в нужном порядке.
+		/// </summary>
+		/// <param name="accountList">список аккаунтов для сортировки в нужном порядке</param>
+		public List<string> GetSortedAccountsList(List<string> accountList)
+		{
+			CustomTestContext.WriteLine("Отсортировать список аккаунтов для сравнения в нужном порядке.");
+
+			var personalAccount = LoginHelper.PersonalAccountName;
+
+			accountList.Sort();
+
+			if (accountList.Contains(personalAccount))
+			{
+				accountList.Remove(personalAccount);
+				accountList.Insert(0, personalAccount);
+			}
+
+			return accountList;
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -90,13 +125,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(EUROPE_HEADER));
 		}
-		
+
+		/// <summary>
+		/// Проверить сортировку и количество отображаемых аккаунтов.
+		/// </summary>
+		/// <param name="accountsList">список аккаунтов в которые добавлен пользователь.</param>
+		public bool IsSortAndContentInAccountsListCorrect(List<string> accountsList)
+		{
+			CustomTestContext.WriteLine("Проверить сортировку и количество отображаемых аккаунтов.");
+
+			var accountsFromSelectForm = GetAccountList();
+			var sortedAccountsList = GetSortedAccountsList(accountsList);
+
+			if (accountsFromSelectForm.Count != sortedAccountsList.Count)
+			{
+				throw new Exception("Количество доступных и подключенных аккаунтов не совпадает.");
+			}
+
+			int matches = accountsFromSelectForm
+				.Where((t, i) => t == sortedAccountsList[i])
+				.Count();
+
+			if (accountsFromSelectForm.Count != matches)
+			{
+				CustomTestContext.WriteLine("Не совпали названия аккаунтов или их порядок.");
+
+				return false;
+			}
+			
+
+			return true;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = CREATE_ACCOUNT_BUTTON)]
 		protected IWebElement CreateAccountButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = AVAILIBLE_ACCOUNTS_LIST)]
+		protected IWebElement AvailibleAccountsList { get; set; }
 
 		protected IWebElement AccountRef { get; set; }
 
@@ -105,6 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		#region Описание Xpath элементов
 
 		protected const string ACCOUNT_SELECTION_FORM = "//div[contains(@data-bind, 'selectAccount')]";
+		protected const string AVAILIBLE_ACCOUNTS_LIST = "//div[contains(@data-bind, 'selectAccount')]//ul[contains(@class, 'l-choice-acc__region-list')]//ul";
 		protected const string US_ACCOUNT_REF_XPATH = "//li[@translate = 'region-us']/following-sibling::li[@class='ng-scope']//span[contains(string(), '*#*')]";
 		protected const string RU_ACCOUNT_REF_XPATH = "//span[contains(@data-bind, 'localRegionName') and text()='Europe']/../..//li[contains(@class,'choice-acc')]//following-sibling::li//a[contains(@data-bind , 'loginToAccount')]//span[text()='*#*']";
 		protected const string EUROPE_ACCOUNT_LIST = "//span[contains(@data-bind, 'localRegionName') and text()='Europe']/../..//li[contains(@class,'choice-acc')]//following-sibling::li//a[contains(@data-bind , 'loginToAccount')]";

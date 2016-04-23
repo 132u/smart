@@ -15,7 +15,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public void Initialization()
 		{
 			_adminHelper = new AdminHelper(Driver);
-
 			_adminSignInPage = new AdminSignInPage(Driver);
 			_signInPage = new SignInPage(Driver);
 			_facebookPage = new FacebookPage(Driver);
@@ -25,6 +24,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_workspacePage = new WorkspacePage(Driver);
 			_selectProfileForm = new SelectProfileForm(Driver);
 			_createAccountPage = new CreateAccountPage(Driver);
+			_proZPage = new ProZPage(Driver);
+			_proZConfirmLogInPage = new ProZConfirmLogInPage(Driver);
 		}
 
 		protected AdminHelper _adminHelper;
@@ -37,5 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		protected SelectProfileForm _selectProfileForm;
 		protected WorkspacePage _workspacePage;
 		protected CreateAccountPage _createAccountPage;
+		protected ProZPage _proZPage;
+		protected ProZConfirmLogInPage _proZConfirmLogInPage;
 	}
 }

@@ -3,6 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 {
@@ -38,12 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.AreEqual(_workspacePage.GetUserName(), _firstAndLastName,
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected("Personal"),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.PersonalAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
 		[TestCase(false)]
-		[TestCase(true)]
+		[TestCase(true), Description("S-7110")]
 		public void ExistingUserWithPersonalAccountRegistrationTest(bool active)
 		{
 			_adminHelper
@@ -60,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.AreEqual(_workspacePage.GetUserName(), _firstAndLastName,
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 
-			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected("Personal"),
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.PersonalAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 	}

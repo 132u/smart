@@ -29,25 +29,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Ввести email
+		/// Ввести email пользователя на странице Google.
 		/// </summary>
 		/// <param name="email">email пользователя</param>
 		public GooglePage SetEmail(string email)
 		{
-			CustomTestContext.WriteLine("Ввести email пользователя на странице Google {0}.", email);
-
+			CustomTestContext.WriteLine("Ввести email {0} пользователя на странице Google.", email);
 			Email.SetText(email);
 
 			return LoadPage();
 		}
 
 		/// <summary>
-		/// Ввести password
+		/// Ввести пароль пользователя на странице Google.
 		/// </summary>
 		/// <param name="password">password пользователя</param>
 		public GooglePage SetPassword(string password)
 		{
-			CustomTestContext.WriteLine("Ввести пароль пользователя на странице Google {0}.", password);
+			CustomTestContext.WriteLine("Ввести пароль {0} пользователя на странице Google.", password);
 			Driver.WaitUntilElementIsDisplay(By.XPath(PASSWORD));
 			Password.SetText(password);
 
@@ -60,7 +59,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public GooglePage ClickNextButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Next'.");
-
 			NextButton.Click();
 
 			return LoadPage();
@@ -72,7 +70,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectAccountForm ClickSubmitButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-
 			SubmitButton.JavaScriptClick();
 
 			return new SelectAccountForm(Driver).LoadPage();

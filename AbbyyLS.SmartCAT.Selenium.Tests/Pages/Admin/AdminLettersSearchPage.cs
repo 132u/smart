@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Threading;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -10,13 +8,13 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 {
-	public class AdminEmailsSearchPage : AdminLingvoProPage, IAbstractPage<AdminEmailsSearchPage>
+	public class AdminLettersSearchPage : AdminLingvoProPage, IAbstractPage<AdminLettersSearchPage>
 	{
-		public AdminEmailsSearchPage(WebDriver driver) : base(driver)
+		public AdminLettersSearchPage(WebDriver driver) : base(driver)
 		{
 		}
 
-		public new AdminEmailsSearchPage LoadPage()
+		public new AdminLettersSearchPage LoadPage()
 		{
 			if (!IsAdminLettersSearchPageOpened())
 			{
@@ -32,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Ввести email пользователя в поле для поиска
 		/// </summary>
 		/// <param name="email">емаил</param>
-		public AdminEmailsSearchPage SetEmail(string email)
+		public AdminLettersSearchPage SetEmail(string email)
 		{
 			CustomTestContext.WriteLine("Ввести email пользователя {0} в поле для поиска.", email);
 			SearchEmailInput.SetText(email);
@@ -41,21 +39,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
-		/// Ввести ограничение по поиску писем
-		/// </summary>
-		/// <param name="limit">количество писем (последние письма)</param>
-		public AdminEmailsSearchPage SetLimitCount(int limit)
-		{
-			CustomTestContext.WriteLine("Ввести ограничение по поиску писем: {0}.", limit.ToString());
-			LimitCountInput.SetText(Convert.ToString(limit));
-
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Кликнуть на кнопку "Найти"
 		/// </summary>
-		public AdminEmailsSearchPage ClickFindButton()
+		public AdminLettersSearchPage ClickFindButton()
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Найти'.");
 			FindButton.Click();
@@ -67,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Кликнуть на кнопку 'Подробнее'
 		/// </summary>
 		/// <param name="email">email</param>
-		public AdminEmailsSearchPage ClickOpenEmailConfirmationLetterButton(string email)
+		public AdminLettersSearchPage ClickOpenEmailConfirmationLetterButton(string email)
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
 			OpenEmailConfirmationLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_EMAIL_CONFIRMATION_LETTER_BUTTON, email);
@@ -80,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Кликнуть на кнопку 'Подробнее'
 		/// </summary>
 		/// <param name="email">email</param>
-		public AdminEmailsSearchPage ClickOpenResendedEmailConfirmationLetterButton(string email)
+		public AdminLettersSearchPage ClickOpenResendedEmailConfirmationLetterButton(string email)
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
 			OpenResendedEmailConfirmationLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_RESENDED_EMAIL_CONFIRMATION_LETTER_BUTTON, email);
@@ -93,11 +79,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// Кликнуть на кнопку 'Подробнее'
 		/// </summary>
 		/// <param name="email">email</param>
-		public AdminEmailsSearchPage ClickOpenLetterButton(string email)
+		public AdminLettersSearchPage ClickOpenLetterButton(string email)
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Подробнее'.");
-			OpenLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_LETTER_BUTTON, email);
-			OpenLetterButton.Click();
+			OpenLastLetterButton = Driver.SetDynamicValue(How.XPath, OPEN_LAST_LETTER_BUTTON, email);
+			OpenLastLetterButton.Click();
 
 			return LoadPage();
 		}
@@ -188,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = FIND_BTN_XPATH)]
 		protected IWebElement FindButton { get; set; }
 
-		protected IWebElement OpenLetterButton { get; set; }
+		protected IWebElement OpenLastLetterButton { get; set; }
 
 		protected IWebElement OpenEmailConfirmationLetterButton { get; set; }
 
@@ -204,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string FOUND_EMAILS_TABLE = "//table[contains(@class, 'foundEmails')]";
 		protected const string OPEN_EMAIL_CONFIRMATION_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[text()='SmartCAT | Confirm your email to sign up for SmartCAT']//following-sibling::td[@class='openLetter']//a";
 		protected const string OPEN_RESENDED_EMAIL_CONFIRMATION_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[text()='Please confirm your SmartCAT registration']//following-sibling::td[@class='openLetter']//a";
-		protected const string OPEN_LETTER_BUTTON = "//td[text()='*#*']//following-sibling::td[@class='openLetter']//a";
+		protected const string OPEN_LAST_LETTER_BUTTON = "//tr[1]//td[text()='*#*']//following-sibling::td[@class='openLetter']//a";
 
 		#endregion
 	}

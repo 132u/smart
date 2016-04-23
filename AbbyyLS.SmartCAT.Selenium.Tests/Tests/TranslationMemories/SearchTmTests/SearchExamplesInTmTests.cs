@@ -4,8 +4,11 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 {
@@ -19,6 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		{
 			_searchPage = new SearchPage(Driver);
 			_examplesTab = new ExamplesTab(Driver);
+			_createProjectHelper = new CreateProjectHelper(Driver);
+			_editorPage = new EditorPage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 		}
 
 		[Test(Description = "S-7296")]
@@ -54,13 +60,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test, Description("S-14645")]
 		public void AdvancedSearchTranslationExampleInTmTest()
 		{
-			var _tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
-			var source = "pretranslation line.";
-			var rightTargetPartial = "для претранслейта";
-			var leftTargetPartial = "предложение";
+			var projectName = "Project Name" + Guid.NewGuid();
+			var source = "first sentence.";
+			var rightTargetPartial = Guid.NewGuid().ToString() + ".";
+			var leftTargetPartial = "первое";
 
-			TranslationMemoriesHelper.CreateTranslationMemory(
-				_tmName, importFilePath: PathProvider.OneLineTmxFile);
+			WorkspacePage.GoToProjectsPage();
+
+			_createProjectHelper.CreateNewProject(
+				projectName,
+				new[] { PathProvider.EditorTxtFile},
+				createNewTm: true);
+
+			_projectsPage
+				.OpenProjectInfo(projectName)
+				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+
+			_editorPage
+				.FillSegmentTargetField(text: leftTargetPartial + " " + rightTargetPartial)
+				.ConfirmSegmentTranslation()
+				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			WorkspacePage.GoToSearchPage();
 
@@ -69,15 +88,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_examplesTab.InitAdvancedSearch(source, rightTargetPartial);
 
 			Assert.IsTrue(_examplesTab.IsSourceInSearchResultCorrect(1, source),
-				"Выведенный сорс не совпадает с сорсом в TM.");
+				"Произошла ошибка: \n Выведенный сорс не совпадает с сорсом в TM.");
 
 			Assert.IsTrue(_examplesTab.IsTargetInSearchResultCorrect(1, leftTargetPartial, rightTargetPartial),
-				"Выведенный пример перевода не совпадает с переводом в ТМ.");
-			//заведён баг, PRX-16144, как починят надо будет дописать один Assert.
-			//должно отображаться название ТМ.
+				"Произошла ошибка: \n Выведенный пример перевода не совпадает с переводом в ТМ.");
+
+			_examplesTab.ClickArrowButton();
+
+			Assert.AreEqual(projectName, _examplesTab.GetProjectName(),
+				"Произошла ошибка: \nЗаданное имя проекта не совпадает с отображенным.");
 		}
 
 		private SearchPage _searchPage;
 		private ExamplesTab _examplesTab;
+		private CreateProjectHelper _createProjectHelper;
+		private ProjectsPage _projectsPage;
+		private EditorPage _editorPage;
 	}
 }

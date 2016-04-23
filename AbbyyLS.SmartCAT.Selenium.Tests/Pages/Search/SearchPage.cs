@@ -5,7 +5,6 @@
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;

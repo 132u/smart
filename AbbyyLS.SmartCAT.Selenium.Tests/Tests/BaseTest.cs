@@ -141,6 +141,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			}
 		}
 
+		public void ReplaceDrivers(WebDriver wd)
+		{
+			//метод используется, когда в тесте создаётся новый экземпляр WebDriver
+			//необходим для корректного завершения работы тестов.
+			Driver = wd;
+		}
+
 		public TestUser ThreadUser { get; protected set; }
 		public TestUser AdditionalUser { get; protected set; }
 		public TestUser CourseraReviewerUser { get; protected set; }

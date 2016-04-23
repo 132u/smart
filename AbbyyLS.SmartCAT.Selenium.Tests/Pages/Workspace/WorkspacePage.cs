@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
-
-using System.IO.Compression;
 
 using NUnit.Framework;
 
@@ -24,7 +21,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
@@ -165,6 +161,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			Account.JavaScriptClick();
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть на ссылку с настройками профиля.
+		/// </summary>
+		public UserProfileDialog ClickAccessSettings()
+		{
+			CustomTestContext.WriteLine("Кликнуть на ссылку с настройками профиля.");
+			AccessSettings.Click();
+
+			return new UserProfileDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -903,6 +910,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		[FindsBy(How = How.XPath, Using = SEND_AGAIN_BUTTON)]
 		protected IWebElement SendAgainButton { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = ACCESS_SETTINGS)]
+		protected IWebElement AccessSettings { get; set; }
 
 		protected IWebElement AccountNameInList { get; set; }
 
@@ -932,6 +942,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string LOCALE_REF = "//div[contains(@class, 'langTools')]//i[contains(@class, '*#*')]";
 		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//button[contains(@class, 'language-button')]//i";
 		protected const string ACCOUNT = "//span[@class='g-topbox__nameuser']";
+		protected const string ACCESS_SETTINGS = "//a[contains(text(), 'Access Settings')]";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]//b//span";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
 		protected const string NOTIFIER_LIST = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]";

@@ -45,12 +45,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		/// <summary>
 		/// Кликнуть по ссылке 'Поиск писем'
 		/// </summary>
-		public AdminEmailsSearchPage ClickAdminLettersSearchReference()
+		public AdminLettersSearchPage ClickAdminLettersSearchReference()
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке 'Поиск писем'.");
 			LettersSearchReference.Click();
 
-			return new AdminEmailsSearchPage(Driver).LoadPage();
+			return new AdminLettersSearchPage(Driver).LoadPage();
 		}
 
 		/// <summary>

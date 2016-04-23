@@ -466,9 +466,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new TaskDeclineDialog(Driver).LoadPage();
 		}
 
+		///<summary>
 		/// Открыть диалог назначения задачи
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentNumber">номер документа</param>
 		public TaskAssignmentPage OpenAssignDialog(string projectName, int documentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Открыть диалог назначения задачи.");

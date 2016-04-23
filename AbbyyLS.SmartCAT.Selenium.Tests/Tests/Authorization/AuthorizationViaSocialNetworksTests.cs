@@ -82,5 +82,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
+
+		[Test, Description("S-13739")]
+		public void AuthorizationViaProZ()
+		{
+			var password = ConfigurationManager.SocialNetworksUserList[0].Password;
+			var nickname = ConfigurationManager.SocialNetworksUserList[0].NickName;
+
+			_signInPage.ClickProZIcon();
+
+			_proZPage.FillAuthorizationForm(nickname, password);
+
+			_proZConfirmLogInPage.ClickAllowAccessButton();
+
+			_selectAccountForm.SelectAccount(LoginHelper.TestAccountName);
+
+			_workspacePage.SetLocale();
+
+			Assert.AreEqual(_workspacePage.GetUserName(), nickname,
+				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
+
+			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(LoginHelper.TestAccountName),
+				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
+		}
 	}
 }

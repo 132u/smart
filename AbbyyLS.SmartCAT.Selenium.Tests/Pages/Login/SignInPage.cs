@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Threading;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
@@ -159,6 +159,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		}
 
 		/// <summary>
+		/// Нажать иконку ProZ
+		/// </summary>
+		public ProZPage ClickProZIcon()
+		{
+			CustomTestContext.WriteLine("Нажать иконку ProZ.");
+			ProZIcon.JavaScriptClick();
+
+			return new ProZPage(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Получить информационное сообщение
 		/// </summary>
 		public string GetMessageText()
@@ -168,6 +179,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			Thread.Sleep(3000); // Часть текста элемента (имя) прилетает AJAX запросом уже после появления элемента
 
 			return Message.Text;
+		}
+
+		/// <summary>
+		/// Перейти к форме восстановления пароля.
+		/// </summary>
+		public RecoveryPasswordPage ClickForgotPasswordLink()
+		{
+			CustomTestContext.WriteLine("Перейти к форме восстановления пароля.");
+			ForgotPasswordLink.Click();
+
+			return new RecoveryPasswordPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Поставить галку 'Запомнить меня.'
+		/// </summary>
+		public SignInPage ClickRememberMeCheckBox()
+		{
+			CustomTestContext.WriteLine("Поставить галку 'Запомнить меня.'");
+			RememberMeCheckBox.Click();
+
+			return LoadPage();
 		}
 
 		#endregion
@@ -230,6 +263,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			return new CreateAccountPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public SignInPage SubmitFormExpectingErrorMessage(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButtonExpectingError();
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -290,6 +337,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		}
 
 		/// <summary>
+		/// Проверить, что на странице отображается ссылка регистрации аккаунта.
+		/// </summary>
+		public bool IsSignUpLinkDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что на странице отображается ссылка регистрации аккаунта.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SIGN_UP_LINK));
+		}
+
+		/// <summary>
 		/// Проверить, открыта ли станица авторизации
 		/// </summary>
 		public bool IsSignInPageOpened()
@@ -331,6 +388,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = LINKED_IN_ICON)]
 		protected IWebElement LinkedInIcon { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROZ_ICON)]
+		protected IWebElement ProZIcon { get; set; }
+
 		[FindsBy(How = How.XPath, Using = SIGN_UP_FREELANCE_BTN)]
 		protected IWebElement SignUpAsFreelancerButton { get; set; }
 
@@ -340,6 +400,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		[FindsBy(How = How.XPath, Using = MESSAGE)]
 		protected IWebElement Message { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FORGOT_PASSWORD_LINK)]
+		protected IWebElement ForgotPasswordLink { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REMBEBER_ME_CHECK_BOX)]
+		protected IWebElement RememberMeCheckBox { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIGN_UP_LINK)]
+		protected IWebElement CreateAccountLink { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -348,7 +417,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 
 		protected const string EMAIL_INPUT_ID = "email";
 		protected const string PASSWORD_INPUT_ID = "password";
-		protected const string SING_IN_BUTTON= "//button[@click='signin']";
+		protected const string SING_IN_BUTTON = "//button[@click='signin']";
+		protected const string FORGOT_PASSWORD_LINK = "//span[contains(@class, 'g-form__link')]//a";
+		protected const string SIGN_UP_LINK = "//div[contains(@class, 'g-form__error')]//a";
+		protected const string REMBEBER_ME_CHECK_BOX = "//input[contains(@type, 'checkbox')]";
 
 		protected const string ERROR_WRONG_PASSWORD = "//div[contains(text(),'Wrong password')]";
 		protected const string ERROR_USER_NOT_FOUND = "//div[contains(text(), 'user with this email address does not exist')]";
@@ -358,6 +430,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		protected const string FACEBOOK_ICON = "//a[contains(@class, 'fb')]";
 		protected const string GOOGLE_ICON = "//a[contains(@class, 'gplus')]";
 		protected const string LINKED_IN_ICON = "//a[contains(@class, 'link_in')]";
+		protected const string PROZ_ICON = "//a[contains(@class, 'g-social__link_proz')]";
 
 		protected const string SIGN_UP_FREELANCE_BTN = "//a[@translate='FREELANCE']";
 		protected const string SIGN_UP_COMPANY_BTN = "//a[@translate='CORPORATE']";

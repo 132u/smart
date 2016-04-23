@@ -47,6 +47,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Нажать на дропдаун в виде стрелки.
+		/// </summary>
+		public ExamplesTab ClickArrowButton()
+		{
+			CustomTestContext.WriteLine("Нажать на дропдаун в виде стрелки.");
+			ArrowButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Получить название проекта.
+		/// </summary>
+		public string GetProjectName()
+		{
+			CustomTestContext.WriteLine("Получить название проекта.");
+
+			return ProjectName.Text;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -135,6 +156,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 		[FindsBy(How = How.Id, Using = ADVANCED_SEARCH_FIELD)]
 		protected IWebElement AdvancedSearchField { get; set; }
 
+		[FindsBy(How = How.XPath, Using = ARROW_BUTTON)]
+		protected IWebElement ArrowButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROJECT_NAME)]
+		protected IWebElement ProjectName { get; set; }
+
 		protected IWebElement TargetElement { get; set; }
 
 		protected IWebElement SourcElement { get; set; }
@@ -149,6 +176,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 		protected const string TAB_LOCATION = "//li[contains(@class, 'active')]//a[contains(text(), 'Examples')]//parent::li";
 		protected const string SOURCE_IN_RESULT = "//table[contains(@class, 'js-tmtable')]//tr[*#*]//td[1]//em[contains(text(), '*##*')]";
 		protected const string TARGET_IN_RESULT = "//table[contains(@class, 'js-tmtable')]//tr[*#*]//td[2]//div[contains(text(), '*##*')]//em[contains(text(), '*###*')]";
+		protected const string ARROW_BUTTON = "//table[contains(@class, 'js-tmtable')]//tr[1]//td[3]//img";
+		protected const string PROJECT_NAME = "//table[contains(@class, 'js-tmtable')]//tr[2]//div//p";
 
 		#endregion
 	}

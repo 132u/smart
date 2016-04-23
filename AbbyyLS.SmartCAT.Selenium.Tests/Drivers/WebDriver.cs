@@ -458,6 +458,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		}
 
 		/// <summary>
+		/// Открыть новую вкладку и переключиться в неё введя указанный url.
+		/// </summary>
+		/// <param name="url">url новой страницы</param>
+		public void OpenAndSwitchToNewTab(string url)
+		{
+			CustomTestContext.WriteLine("Открыть новую вкладку и переключиться в неё введя указанный url.");
+
+			_driver.ExecuteScript("window.open('" + url + "')");
+			//открываем новую вкладку с указанным url
+			SwitchTo().Window(WindowHandles.Last());
+			//переключиться в последнюю открытую вкладку
+		}
+
+		/// <summary>
 		/// Открыть новую вкладку, удалив старую и почистив cookies
 		/// </summary>
 		public void SwitchToNewTab()
@@ -502,6 +516,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 			{
 				throw new Exception("Произошла ошибка:\n время ожидания открытия новой вкладки истекло");
 			}
+		}
+
+		/// <summary>
+		/// Переключиться в ранее открытую вкладку браузера из текущей.
+		/// </summary>
+		public void SwitchToPreviousTabFromCurrentTab()
+		{
+			CustomTestContext.WriteLine("Переключиться в ранее открытую вкладку браузера из текущей.");
+
+			SwitchTo().Window(WindowHandles.Last()).Close();
+			SwitchTo().Window(WindowHandles.First());
 		}
 
 		/// <summary>

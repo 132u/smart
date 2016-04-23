@@ -107,6 +107,10 @@
     <Compile Include="ConfigurationManager.cs" />
     <Compile Include="Pages\Glossaries\TermAlreadyExistsDialog.cs" />
     <Compile Include="Pages\Login\CreateAccountPage.cs" />
+    <Compile Include="Pages\Login\SetNewPasswordPage.cs" />
+    <Compile Include="Pages\Login\ProZConfirmLogInPage.cs" />
+    <Compile Include="Pages\Login\ProZPage.cs" />
+    <Compile Include="Pages\Login\RecoveryPasswordPage.cs" />
     <Compile Include="Pages\Login\SelectProfileForm.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DatePicker.cs" />
@@ -166,6 +170,7 @@
     <Compile Include="Pages\Vendors\AddRightsDialog.cs" />
     <Compile Include="Pages\Workspace\EmailConfirmationInformationDialog.cs" />
     <Compile Include="Pages\UsersRights\ChangeUserDataDialog.cs" />
+    <Compile Include="Pages\Workspace\UserProfileDialog.cs" />
     <Compile Include="Pages\Vendors\EditVendorDialog.cs" />
     <Compile Include="Pages\Vendors\VendorPage.cs" />
     <Compile Include="RelativeUrlProvider.cs" />
@@ -292,9 +297,11 @@
     <Compile Include="TestHelpers\UserRightsHelper.cs" />
     <Compile Include="TestSettingDefinition.cs" />
     <Compile Include="Tests\Authorization\AuthorizationBaseTest.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationCookiesTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationDifferentAccountTypeTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationWithCorrectCredentialsTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationViaSocialNetworksTests.cs" />
+    <Compile Include="Tests\Authorization\AuthorizationWithDifferentAccountsTests.cs" />
     <Compile Include="Tests\Authorization\AuthorizationWithIncorectCredentials.cs" />
     <Compile Include="Tests\Clients\BaseClientsTests.cs" />
     <Compile Include="Tests\Clients\CreateClientTests.cs" />
@@ -357,7 +364,9 @@
     <Compile Include="Tests\LoadTests\CrossFileRepetitions.cs" />
     <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
+    <Compile Include="Tests\Authorization\PasswordRecoveryWithoutSetNewPasswordTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceBaseTests.cs" />
+    <Compile Include="Tests\Authorization\PasswordRecoveryTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceReportTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountAdminRegistrationTests.cs" />
     <Compile Include="Tests\Search\SearchPageTests.cs" />

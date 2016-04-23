@@ -29,26 +29,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Ввести email
+		/// Ввести email пользователя на странице LinkedIn.
 		/// </summary>
 		/// <param name="email">email пользователя</param>
 		public LinkedInPage SetEmail(string email)
 		{
-			CustomTestContext.WriteLine("Ввести email пользователя на странице LinkedIn {0}.", email);
-
+			CustomTestContext.WriteLine("Ввести email {0} пользователя на странице LinkedIn.", email);
 			Email.SetText(email);
 
 			return LoadPage();
 		}
 
 		/// <summary>
-		/// Ввести password
+		/// Ввести пароль пользователя на странице LinkedIn.
 		/// </summary>
 		/// <param name="password">password пользователя</param>
 		public LinkedInPage SetPassword(string password)
 		{
-			CustomTestContext.WriteLine("Ввести пароль пользователя на странице LinkedIn {0}.", password);
-
+			CustomTestContext.WriteLine("Ввести пароль {0} пользователя на странице LinkedIn.", password);
 			Password.SetText(password);
 
 			return LoadPage();
@@ -60,7 +58,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 		public SelectAccountForm ClickSubmitButton()
 		{
 			CustomTestContext.WriteLine("Нажать 'Sign In'.");
-
 			SubmitButton.JavaScriptClick();
 
 			return new SelectAccountForm(Driver).LoadPage();

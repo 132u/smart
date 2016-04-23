@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка: \n на странице не появилось сообщение о неправильном пароле.");
 		}
 
-		[Test, Description("S-71114")]
+		[Test, Description("S-7114")]
 		public void AuthorizationWithUnregisteredUser()
 		{
 			var email = "ringo@mailforspam.com";
@@ -48,6 +48,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			Assert.IsTrue(_signInPage.IsUserNotFoundMessageDisplayed(),
 				"Произошла ошибка: \n на странице не появилось сообщение о ненайденном пользователе.");
+
+			Assert.IsTrue(_signInPage.IsSignUpLinkDisplayed(),
+				"Произошла ошибка: \n на странице не отображается ссылка для создания аккаунта.");
 		}
 
 		[Test]

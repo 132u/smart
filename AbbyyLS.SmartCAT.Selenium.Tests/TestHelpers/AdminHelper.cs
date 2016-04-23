@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_adminDictionaryPackage = new AdminDictionaryPackagePage(Driver);
 			_adminManagementPaidServicesPage = new AdminManagementPaidServicesPage(Driver);
 			_accountInvitationPage = new AccountInvitationPage(Driver);
-			_adminEmailsSearchPage = new AdminEmailsSearchPage(Driver);
+			_adminLettersSearchPage = new AdminLettersSearchPage(Driver);
 			_adminLetterPage = new AdminLetterPage(Driver);
 			_adminEmailConfirmationPage = new AdminEmailConfirmationPage(Driver);
 		}
@@ -154,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_adminLingvoProPage.ClickAdminLettersSearchReference();
 
-			_adminEmailsSearchPage
+			_adminLettersSearchPage
 				.SetEmail(email)
 				.ClickFindButton()
 				.OpenLetter(email);
@@ -176,17 +176,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			_adminLingvoProPage.ClickAdminLettersSearchReference();
 
-			_adminEmailsSearchPage
+			_adminLettersSearchPage
 				.SetEmail(email)
 				.ClickFindButton();
 
 			if (resend)
 			{
-				_adminEmailsSearchPage.OpenResendedEmailConfirmationLetter(email);
+				_adminLettersSearchPage.OpenResendedEmailConfirmationLetter(email);
 			}
 			else
 			{
-				_adminEmailsSearchPage.OpenEmailConfirmationLetter(email);
+				_adminLettersSearchPage.OpenEmailConfirmationLetter(email);
 			}
 
 			_adminLetterPage.ClickVerifyEmailLink();
@@ -402,6 +402,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
+		/// <summary>
+		/// Добавить пользователя во все аккаунты указанные в списке.
+		/// </summary>
+		/// <param name="accountList">список аккаунтов, в которые необходимо добавить пользователя</param>
+		/// <param name="email">email пользователя</param>
+		/// <param name="firstName">имя пользователя</param>
+		/// <param name="lastName">фамилия пользователя</param>
+		public AdminHelper AddUserToAllAccountInList(
+			List<string> accountList,
+			string email,
+			string firstName,
+			string lastName
+			)
+		{
+			int count = 0;
+
+			while (accountList.Count > count)
+			{
+				AddUserToAdminGroupInAccountIfNotAdded(
+				email,
+				firstName,
+				lastName,
+				accountList[count]);
+
+				count++;
+			}
+
+			return this;
+		}
+
 		private AdminHelper assertDictionariesListsMatch(
 			List<string> firstDictionariesList, 
 			List<string> secondDictionariesList)
@@ -446,7 +476,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly AdminDictionariesPackagesPage _adminDictionariesPackages;
 		private readonly AdminDictionaryPackagePage _adminDictionaryPackage;
 		private readonly AdminManagementPaidServicesPage _adminManagementPaidServicesPage;
-		private AdminEmailsSearchPage _adminEmailsSearchPage;
+		private AdminLettersSearchPage _adminLettersSearchPage;
 		private AdminLetterPage _adminLetterPage;
 		protected AccountInvitationPage _accountInvitationPage;
 		protected AdminEmailConfirmationPage _adminEmailConfirmationPage;
