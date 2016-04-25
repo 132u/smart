@@ -218,17 +218,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.StatisticsTests
 
 			if (_secondUser != null)
 			{
-				ReturnUser(ConfigurationManager.Users, ThreadUser);
-			}
-
-			if (_thirdUser != null)
-			{
-				ReturnUser(ConfigurationManager.Users, ThreadUser);
+				ReturnUser(ConfigurationManager.Users, _secondUser);
 			}
 		}
 
-		private TestUser _secondUser ;
-		private TestUser _thirdUser;
+		private TestUser _secondUser;
 		private AddAccessRightDialog _addAccessRightDialog;
 		private GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		private NewGroupDialog _newGroupDialog;
