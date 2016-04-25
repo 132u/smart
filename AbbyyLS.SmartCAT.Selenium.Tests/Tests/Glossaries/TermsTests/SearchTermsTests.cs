@@ -153,6 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var targetSentense = firstWordInTarget + " " +"предложение.";
 			var uniqueProjectName = _createProjectHelper.GetProjectUniqueName();
 			var comment = "Comment" + Guid.NewGuid();
+			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 
 			_filePaths.Add(PathProvider.LongTxtFile);
 
@@ -160,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_createProjectHelper.CreateNewProject(
 				uniqueProjectName,
-				glossaryName: _glossaryUniqueName,
+				glossaryName: glossaryUniqueName,
 				createNewTm:true,
 				filesPaths: _filePaths
 				);
@@ -174,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.ConfirmSegmentTranslation()
 				.ClickAddTermButton();
 
-			_addTermDialog.AddNewTerm(firstWordInSource, firstWordInTarget, comment, _glossaryUniqueName);
+			_addTermDialog.AddNewTerm(firstWordInSource, firstWordInTarget, comment, glossaryUniqueName);
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
