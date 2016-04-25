@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 
 using OpenQA.Selenium;
@@ -179,6 +181,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Кликнуть по результату конкордансного поиска
+		/// </summary>
+		public EditorPage DoubleClickConcordanceSearchResult()
+		{
+			CustomTestContext.WriteLine("Кликнуть по результату конкордансного поиска.");
+			ConcordanceSearchResult.DoubleClick();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по сорсу сегмента
+		/// </summary>
+		/// <param name="rowNumber">номер сегмента</param>
+		public EditorPage ClickOnSourceCellInSegment(int rowNumber = 1)
+		{
+			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
+			SourceCell = Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (rowNumber - 1).ToString());
+			SourceCell.JavaScriptClick();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Специальные символы'
 		/// </summary>
 		public SpecialCharactersForm ClickCharacterButton()
@@ -258,6 +284,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Search' в конкордансном поиске.
+		/// </summary>
+		public EditorPage ClickSearchButtonInConcordanceTable()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Search' в конкордансном поиске.");
+			ConcordanceSearchButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Go to Last Unconfirmed Segment'
 		/// </summary>
 		public EditorPage ClickLastUnconfirmedButton()
@@ -291,6 +328,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Ввести текст в поле поиска конкордансного поиска.
+		/// </summary>
+		/// <param name="searchText">текст поиска</param>
+		public EditorPage SetConcordanceSearch(string searchText)
+		{
+			CustomTestContext.WriteLine("Ввести текст '{0}' в поле поиска конкордансного поиска.", searchText);
+			ConcordanceSearchText.SetText(searchText);
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Получить название этапа
 		/// </summary>
 		public string GetStage()
@@ -298,6 +347,60 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Получить название этапа");
 
 			return StageName.Text;
+		}
+
+		/// <summary>
+		///Получить текст из сорса в результирующей таблице конкордансного поиска.
+		/// </summary>
+		public string GetSourceConcordanceResultBySourceSearch()
+		{
+			CustomTestContext.WriteLine("Получить текст из сорса в результирующей таблице конкордансного поиска.");
+			var sourceElemntList = Driver.GetTextListElement(By.XPath(CONCORDANCE_SEARCH_SOURCE_RESULT));
+			StringBuilder builder = new StringBuilder();
+
+			foreach (var el in sourceElemntList)
+			{
+				builder.Append(el).Append(" ");
+			}
+
+			return builder.ToString().Trim();
+		}
+
+		/// <summary>
+		///Получить текст из таргета в результирующей таблице конкордансного поиска по сорсу..
+		/// </summary>
+		public string GetTargetConcordanceResultBySourceSearch()
+		{
+			CustomTestContext.WriteLine("Получить текст из таргета в результирующей таблице конкордансного поиска по сорсу.");
+
+			return ConcordanceSearchTargetResult.Text;
+		}
+
+		/// <summary>
+		///Получить текст из сорса в результирующей таблице конкордансного поиска по таргету.
+		/// </summary>
+		public string GetSourceConcordanceResultByTargetSearch()
+		{
+			CustomTestContext.WriteLine("Получить текст из сорса в результирующей таблице конкордансного поиска по таргету.");
+
+			return ConcordanceSearchSourceResultByTarget.Text.Replace(".", "");
+		}
+
+		/// <summary>
+		///Получить текст из таргета в результирующей таблице конкордансного поиска.
+		/// </summary>
+		public string GetTargetConcordanceResultByTargetSearch()
+		{
+			CustomTestContext.WriteLine("Получить текст из таргета в результирующей таблице конкордансного поиска.");
+			var targetElemntList = Driver.GetTextListElement(By.XPath(CONCORDANCE_SEARCH_TARGET_RESULT));
+			StringBuilder builder = new StringBuilder();
+
+			foreach (var el in targetElemntList)
+			{
+				builder.Append(el).Append(" ");
+			}
+
+			return builder.ToString().Trim();
 		}
 
 		/// <summary>
@@ -377,16 +480,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Получить текст из CAT-панели
+		/// Получить текст  в конкордансном поиске
+		/// </summary>
+		public string GetTextFromConcordanceSearchField()
+		{
+			CustomTestContext.WriteLine("Получить текст  в конкордансном поиске.");
+
+			return ConcordanceSearchText.GetAttribute("value");
+		}
+
+		/// <summary>
+		/// Получить текст из CAT-панели для таргета
 		/// </summary>
 		/// <param name="rowNumber">номер строки</param>
-		public string GetCatTranslationText(int rowNumber)
+		public string GetTargetCatTranslationText(int rowNumber)
 		{
-			CustomTestContext.WriteLine("Получить текст из CAT-панели, строка №{0}.", rowNumber);
-			var catRowText = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			CustomTestContext.WriteLine("Получить текст таргета из CAT-панели, строка №{0}.", rowNumber);
+			var catRowText = Driver.SetDynamicValue(How.XPath, TARGET_CAT_TRANSLATION, rowNumber.ToString());
 
 			return catRowText.Text;
 		}
+
+		/// <summary>
+		/// Получить текст из CAT-панели для сорса
+		/// </summary>
+		/// <param name="rowNumber">номер строки</param>
+		public string GetSourceCatTranslationText(int rowNumber)
+		{
+			CustomTestContext.WriteLine("Получить текст сорса из CAT-панели, строка №{0}.", rowNumber);
+			var catRowText = Driver.SetDynamicValue(How.XPath, SOURCE_CAT_TRANSLATION, rowNumber.ToString());
+
+			return catRowText.Text;
+		}
+
 		/// <summary>
 		/// Получить термины первой колонкив в Cat-панели.
 		/// </summary>
@@ -507,22 +633,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Нажать кнопку 'Конкордансный поиск'
+		/// Нажать кнопку 'конкордансный поиск'
 		/// </summary>
 		public EditorPage ClickConcordanceSearchButton()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Конкордансный поиск'");
+			CustomTestContext.WriteLine("Нажать кнопку 'конкордансный поиск'");
 			ConcordanceButton.Click();
 
 			return LoadPage();
 		}
 
 		/// <summary>
-		/// Открыть 'Конкордансный поиск' с помощью сочетания клавиш Ctrl+k
+		/// Открыть 'конкордансный поиск' с помощью сочетания клавиш Ctrl+k
 		/// </summary>
 		public EditorPage OpenConcordanceSearchByHotKey()
 		{
-			CustomTestContext.WriteLine("Открыть 'Конкордансный поиск' с помощью сочетания клавиш Ctrl+k");
+			CustomTestContext.WriteLine("Открыть 'конкордансный поиск' с помощью сочетания клавиш Ctrl+k");
 			Driver.SendHotKeys("k", control: true);
 
 			return LoadPage();
@@ -893,7 +1019,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ScrollToTranslationInCatPanel(int rowNumber = 1)
 		{
 			CustomTestContext.WriteLine("Прокрутить страницу до перевода в сегменте №{0} в кат панели.", rowNumber);
-			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			var cat = Driver.SetDynamicValue(How.XPath, TARGET_CAT_TRANSLATION, rowNumber.ToString());
 			cat.Scroll();
 
 			return LoadPage();
@@ -906,7 +1032,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage HoverToTranslationInCatPanel(int rowNumber = 1)
 		{
 			CustomTestContext.WriteLine("Навести курсор на перевод сегмента №{0} в кат панели.", rowNumber);
-			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			var cat = Driver.SetDynamicValue(How.XPath, TARGET_CAT_TRANSLATION, rowNumber.ToString());
 			cat.HoverElement();
 
 			return LoadPage();
@@ -929,7 +1055,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			
 			CustomTestContext.WriteLine("Двойной клик по строке №{0} с переводом в CAT-панели.", rowNumber);
 
-			var cat = Driver.SetDynamicValue(How.XPath, CAT_TRANSLATION, rowNumber.ToString());
+			var cat = Driver.SetDynamicValue(How.XPath, TARGET_CAT_TRANSLATION, rowNumber.ToString());
 			cat.DoubleClick();
 
 			return LoadPage();
@@ -1054,6 +1180,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			
 			return LoadPage();
 		}
+
+		/// <summary>
+		/// Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage SelectAllTextByHotkeyInSource(int segmentNumber)
+		{
+			CustomTestContext.WriteLine(
+				"Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home. Номер строки: {0}",
+				segmentNumber);
+			ClickOnSourceCellInSegment(segmentNumber);
+			Driver.SendHotKeys(Keys.End);
+			Driver.SendHotKeys(Keys.Home, control: true, shift: true);
+
+			return LoadPage();
+		}
 		
 		/// <summary>
 		/// Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home
@@ -1133,11 +1275,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			DoubleClickCatPanelRow(catRowNumber);
 
-			if (GetTargetText(targetRowNumber) != GetCatTranslationText(catRowNumber))
+			if (GetTargetText(targetRowNumber) != GetTargetCatTranslationText(catRowNumber))
 			{
 				throw new Exception(
 					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
-					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
+					GetTargetText(targetRowNumber), GetTargetCatTranslationText(catRowNumber)));
 			}
 
 			return LoadPage();
@@ -1166,11 +1308,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			Driver.SendHotKeys(catRowNumber.ToString(), control: true);
 
-			if (GetTargetText(targetRowNumber) != GetCatTranslationText(catRowNumber))
+			if (GetTargetText(targetRowNumber) != GetTargetCatTranslationText(catRowNumber))
 			{
 				throw new Exception(
 					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
-					GetTargetText(targetRowNumber), GetCatTranslationText(catRowNumber)));
+					GetTargetText(targetRowNumber), GetTargetCatTranslationText(catRowNumber)));
 			}
 
 			return LoadPage();
@@ -1179,6 +1321,36 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что отображается таблица с результатами конкордансного поиска.
+		/// </summary>
+		public bool IsConcordanceSearchResultTableDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается таблица с результатами конкордансного поиска.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CONCORDANCE_SEARCH_RESULT_TABLE));
+		}
+
+		/// <summary>
+		/// Проверить, что радиокнопка Source отменчена в конкордансном поиске.
+		/// </summary>
+		public bool IsSourceRadioButtonChecked()
+		{
+			CustomTestContext.WriteLine("Проверить, что радиокнопка Source отменчена в конкордансном поиске.");
+
+			return SourceRadiobutton.GetAttribute("aria-checked") == "true";
+		}
+
+		/// <summary>
+		/// Проверить, что радиокнопка Target отменчена в конкордансном поиске.
+		/// </summary>
+		public bool IsTargetRadioButtonChecked()
+		{
+			CustomTestContext.WriteLine("Проверить, что радиокнопка Target отменчена в конкордансном поиске.");
+
+			return TargetRadiobutton.GetAttribute("aria-checked") == "true";
+		}
 
 		/// <summary>
 		/// Проверить, что все термины сохранены
@@ -1250,11 +1422,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Проверить, что Конкордансный поиск появился
+		/// Проверить, что конкордансный поиск появился
 		/// </summary>
 		public bool IsConcordanceSearchDisplayed()
 		{
-			CustomTestContext.WriteLine("Проверить, что Конкордансный поиск появился.");
+			CustomTestContext.WriteLine("Проверить, что конкордансный поиск появился.");
 
 			return ConcordanceSearch.Displayed;
 		}
@@ -1644,6 +1816,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = CONCORDANCE_SEARCH)]
 		protected IWebElement ConcordanceSearch { get; set; }
 
+		[FindsBy(How = How.Id, Using = CONCORDANCE_SEARCH_RESULT)]
+		protected IWebElement ConcordanceSearchResult { get; set; }
+
 		[FindsBy(How = How.Id, Using = ROLLBACK_BUTTON)]
 		protected IWebElement RollbackButton { get; set; }
 
@@ -1707,12 +1882,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = QA_ERROR_TABLE)]
 		protected IWebElement QAErrorTable { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_TEXT)]
+		protected IWebElement ConcordanceSearchText { get; set; }
+
 		protected IWebElement YellowErrorTriangle { get; set; }
 		protected IWebElement Error { get; set; }
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_BUTTON)]
+		protected IWebElement ConcordanceSearchButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SOURCE_RADIO_BUTTON)]
+		protected IWebElement SourceRadiobutton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TARGET_RADIO_BUTTON)]
+		protected IWebElement TargetRadiobutton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_RESULT_TABLE)]
+		protected IWebElement ConcordanceSearchResultTable { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_TARGET_RESULT)]
+		protected IWebElement ConcordanceSearchTargetResult { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_SOURCE_RESULT_BY_TARGET)]
+		protected IWebElement ConcordanceSearchSourceResultByTarget { get; set; }
+
 		protected IWebElement VoteDownButton { get; set; }
 		protected IWebElement VoteUpButton { get; set; }
 		protected IWebElement VoteCount{ get; set; }
-
+		protected IWebElement SourceCell { get; set; }
 		protected IWebElement SegmentTranslationUserColumn { get; set; }
 		protected IWebElement Revision;
 		protected IWebElement DeleteChangedPart;
@@ -1740,6 +1936,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
 		protected const string COPY_BUTTON = "//span[contains(@id, 'copysourcebutton')]";
 		protected const string CONCORDANCE_BUTTON = "concordance-search-btn";
+		protected const string CONCORDANCE_SEARCH_TEXT = "//input[contains(@id,'smartcatsearchfield')]";
+		protected const string CONCORDANCE_SEARCH_RESULT_TABLE = "//div[@id='concordance-search-body']//table[contains(@id, 'tableview')]";
+		protected const string CONCORDANCE_SEARCH_RESULT = "//div[@id='concordance-search-body']//table[contains(@id, 'tableview')]//tr//td[2]";
+		protected const string CONCORDANCE_SEARCH_SOURCE_RESULT = "//div[@id='concordance-search-body']//table[contains(@id, 'tableview')]//div[contains(@class, 'cell-inner')]/div//span";
+		protected const string CONCORDANCE_SEARCH_SOURCE_RESULT_BY_TARGET = "//div[@id='concordance-search-body']//table[contains(@id, 'tableview')]//div[contains(@class, 'cell-inner')]/div";
+		protected const string CONCORDANCE_SEARCH_TARGET_RESULT = "(//div[@id='concordance-search-body']//table[contains(@id, 'tableview')]//div[contains(@class, 'cell-inner')]//div)[2]";
+		protected const string SOURCE_RADIO_BUTTON = "//label[text()='Source']/..//input";
+		protected const string TARGET_RADIO_BUTTON = "//label[text()='Target']/..//input";
 		protected const string ROLLBACK_BUTTON = "step-rollback-btn";
 		protected const string HOME_BUTTON = "back-btn";
 		protected const string DICTIONARY_BUTTON = "dictionary-btn";
@@ -1761,6 +1965,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
+		protected const string CONCORDANCE_SEARCH_BUTTON = "(//span[text()='Search'])[2]";
 
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//divc[contains(@id, 'segmentsavingindicator') and contains(text(),'Saving')]";
@@ -1769,7 +1974,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
 		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
-		protected const string CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
+		protected const string TARGET_CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
+		protected const string SOURCE_CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[contains(text(),'*#*')]";
 		protected const string CAT_SOURCE = ".//div[@id='cat-body']//table//td[contains(@class, 'test-cat-source')]/div[text()='*#*']";
 

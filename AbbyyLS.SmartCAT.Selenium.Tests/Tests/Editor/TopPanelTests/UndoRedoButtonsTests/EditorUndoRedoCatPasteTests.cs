@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorPage.ClickRedoButton();
 
 			Assert.AreEqual(
-				_editorPage.GetCatTranslationText(_segmentNumber),
+				_editorPage.GetTargetCatTranslationText(_segmentNumber),
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверное значение в таргете.");
 		}
@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorPage.PressRedoHotkey();
 
 			Assert.AreEqual(
-				_editorPage.GetCatTranslationText(_segmentNumber),
+				_editorPage.GetTargetCatTranslationText(_segmentNumber),
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверное значение в таргете.");
 		}

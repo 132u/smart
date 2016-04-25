@@ -307,6 +307,7 @@
     <Compile Include="Tests\Editor\BottomPanelTests\RevisionsTests\EditorRevisionTBCatTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\RevisionsTests\EditorRevisionTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\RevisionsTests\EditorRevisionXliffTests.cs" />
+    <Compile Include="Tests\Editor\TopPanelTests\EditorResourceConcordanceSearchTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoCatPasteTests.cs" />
     <Compile Include="Tests\GlobalSetup.cs" />
