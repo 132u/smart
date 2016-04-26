@@ -410,7 +410,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 
 		#region Описание XPath элементов
 
-		protected const string TRANSLATION_WORD = "//a[contains(@class,'js-show-examples') and contains(text(),'*#*')]";
+		protected const string TRANSLATION_WORD = "//div[contains(@class, 'js-article-html g-card')]//a//span[contains(text(), '*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_FIELD= "searchText";
 		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//div[contains(@class, 'js-srcpanel-long')]//input[@type='submit']";
