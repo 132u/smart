@@ -214,8 +214,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.StatisticsTests
 		[TearDown]
 		public void TestFixtureTearDown()
 		{
-			ReturnUser(ConfigurationManager.Users, ThreadUser);
-
 			if (_secondUser != null)
 			{
 				ReturnUser(ConfigurationManager.Users, _secondUser);
