@@ -1,15 +1,16 @@
 ﻿using System.IO;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class ManageProjectProjectSettingsTests<TWebDriverProvider> : ManageProjectBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

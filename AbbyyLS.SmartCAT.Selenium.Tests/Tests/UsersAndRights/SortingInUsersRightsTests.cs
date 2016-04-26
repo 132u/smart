@@ -9,6 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
+	[UsersAndRights]
 	internal class SortingInUsersRightsTests<TWebDriverSettings> : BaseTest<TWebDriverSettings>
 		where TWebDriverSettings : IWebDriverProvider, new()
 	{

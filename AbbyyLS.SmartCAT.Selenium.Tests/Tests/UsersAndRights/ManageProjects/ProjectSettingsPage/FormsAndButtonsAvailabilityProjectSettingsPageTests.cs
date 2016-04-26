@@ -1,15 +1,16 @@
 ﻿using System;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class FormsAndButtonsAvailabilityProjectSettingsPageTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]

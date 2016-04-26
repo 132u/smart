@@ -3,10 +3,12 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class ManageGlossariesExportImportTests<TWebDriverProvider> : ManageGlossariesBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{

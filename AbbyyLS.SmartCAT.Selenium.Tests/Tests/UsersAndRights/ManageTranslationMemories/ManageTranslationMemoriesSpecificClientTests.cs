@@ -4,11 +4,13 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class ManageTranslationMemoriesSpecificClientTests<TWebDriverProvider> : ManageTranslationMemoriesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]

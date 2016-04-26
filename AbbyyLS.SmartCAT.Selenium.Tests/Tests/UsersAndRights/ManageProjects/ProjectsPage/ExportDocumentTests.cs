@@ -2,10 +2,12 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class ExportDocumentTests<TWebDriverProvider> : FormsAndButtonsAvailabilityBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]

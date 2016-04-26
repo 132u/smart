@@ -80,6 +80,7 @@
     <Compile Include="FeatureAttributes\ProjectsAttribute.cs" />
     <Compile Include="FeatureAttributes\RegistrationAttribute.cs" />
     <Compile Include="FeatureAttributes\TranslationMemoriesAttribute.cs" />
+    <Compile Include="FeatureAttributes\UsersAndRightsAttribute.cs" />
     <Compile Include="Pages\Admin\AdminEmailConfirmationPage.cs" />
     <Compile Include="Pages\Admin\AdminLetterPage.cs" />
     <Compile Include="Pages\Coursera\CompleteRegistrationDialog.cs" />
@@ -394,7 +395,7 @@
     <Compile Include="Tests\UsersAndRights\SearchInTranslationMemories\TranslationMemoriesSearchTests.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesBaseTests.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesTests.cs" />
-    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesWithoutRightsBaseTests.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightSpecificClientTests.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesAndCreateProjectRightTests.cs" />
     <Compile Include="Tests\UsersAndRights\SuggestTermsWithoutSpecifyingGlossary\SuggestTermsWithoutRight.cs" />

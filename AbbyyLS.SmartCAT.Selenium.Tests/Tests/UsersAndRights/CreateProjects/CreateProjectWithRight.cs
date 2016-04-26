@@ -2,11 +2,13 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class CreateProjectWithRight<TWebDriverProvider> : CreateProjectWithRightBaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{

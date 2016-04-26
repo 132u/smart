@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -9,6 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class UserRightsWorkflowPersonalAccountTests<TWebDriverSettings> : BaseTest<TWebDriverSettings> where TWebDriverSettings : IWebDriverProvider, new()
 	{
 		public UserRightsWorkflowPersonalAccountTests()

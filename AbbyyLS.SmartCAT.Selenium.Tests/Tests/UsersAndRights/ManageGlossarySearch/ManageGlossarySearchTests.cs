@@ -5,6 +5,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -15,6 +16,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossarySearch
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[UsersAndRights]
 	class ManageGlossarySearchTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
