@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 using OpenQA.Selenium;
@@ -140,10 +141,75 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			return GroupValue.Text;
 		}
 
+		/// <summary>
+		/// Навести курсор на строку пользователя
+		/// </summary>
+		/// <param name="userName">имя </param>
+		public UsersTab HoverUserRow(string userName)
+		{
+			CustomTestContext.WriteLine("Навести курсор на строку пользователя {0}.", userName);
+			NameValue = Driver.SetDynamicValue(How.XPath, NAME_VALUE, userName);
+			NameValue.HoverElement();
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(EDIT_BUTTON.Replace("*#*", userName))))
+			{
+				throw new Exception("Произошла ошибка: не появилась кнопка редактирования пользователя.");
+			}
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку редактирования пользователя
+		/// </summary>
+		/// <param name="userName">имя </param>
+		public ChangeUserDataDialog ClickEditButton(string userName)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку редактирования пользователя.");
+			EditButton = Driver.SetDynamicValue(How.XPath, EDIT_BUTTON, userName);
+			EditButton.Click();
+
+			return new ChangeUserDataDialog(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления пользователя
+		/// </summary>
+		/// <param name="userName">имя </param>
+		public RemoveUserDialog ClickDeleteButton(string userName)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления пользователя.");
+			DeleteButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, userName);
+			DeleteButton.Click();
+
+			return new RemoveUserDialog(Driver).LoadPage();
+		}
+
 		#endregion
 		
 		#region Составные методы страницы
 
+		/// <summary>
+		/// Открыть диалог редактирования пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public ChangeUserDataDialog OpenChangeUserDialog(string userName)
+		{
+			HoverUserRow(userName);
+			
+			return ClickEditButton(userName);
+		}
+
+		/// <summary>
+		/// Удалить пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public RemoveUserDialog DeleteUser(string userName)
+		{
+			HoverUserRow(userName);
+
+			return ClickDeleteButton(userName);
+		}
 
 		#endregion
 		
@@ -165,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// </summary>
 		public bool IsUsersTabOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_USER_BUTTON));
+			return IsDialogBackgroundDisappeared() && Driver.WaitUntilElementIsDisplay(By.XPath(USER_SURNAME_LIST));
 		}
 
 		#endregion
@@ -186,10 +252,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			{
 				throw new Exception("Произошла ошибка:\n размеры списка фамилий и списка имён не совпадают.");
 			}
-
+			var d = nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
 			return nameList.Select((t, i) => (t + " " + surnameList[i]).Trim()).ToList();
 		}
-		
+
+		/// <summary>
+		/// Получить фамилию пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public string GetSurname(string userName)
+		{
+			CustomTestContext.WriteLine("Получить фамилию пользователя {0}.", userName);
+			SurnameValue = Driver.SetDynamicValue(How.XPath, SURNAME_VALUE, userName);
+
+			return SurnameValue.Text;
+		}
+
+		/// <summary>
+		/// Получить email пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public string GetEmail(string userName)
+		{
+			CustomTestContext.WriteLine("Получить email пользователя {0}.", userName);
+			EmailValue = Driver.SetDynamicValue(How.XPath, EMAIL_VALUE, userName);
+
+			return EmailValue.Text;
+
+		}
+
+		/// <summary>
+		/// Получить дату создания пользователя
+		/// </summary>
+		/// <param name="userName">имя пользователя</param>
+		public DateTime GetCreatedDate(string userName)
+		{
+			CustomTestContext.WriteLine("Получить дату создания пользователя {0}.", userName);
+			CreatedDateValue = Driver.SetDynamicValue(How.XPath, CREATED_DATE_VALUE, userName);
+
+			return DateTime.ParseExact(CreatedDateValue.Text, "M/d/yyyy", CultureInfo.InvariantCulture).Date;
+		}
+
 		#endregion
 		
 		#region Объявление элементов страницы
@@ -223,12 +326,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected IWebElement StatusValue { get; set; }
 		protected IWebElement GroupValue { get; set; }
 
+		protected IWebElement EditButton { get; set; }
+
+		protected IWebElement DeleteButton { get; set; }
+		protected IWebElement CreatedDateValue { get; set; }
+		protected IWebElement SurnameValue { get; set; }
+		protected IWebElement NameValue { get; set; }
+		protected IWebElement EmailValue { get; set; }
 		#endregion
 		
 		#region Описание XPath элементов
 
 		protected const string USER_SURNAME_LIST = ".//table[contains(@class, 'js-users')]//tr[contains(@class, 'js-users-trwork')]//td[contains(@class, 'js-user-surname')]/p";
 		protected const string USER_NAME_LIST = ".//table[contains(@class, 'js-users')]//tr[contains(@class, 'js-users-trwork')]//td[contains(@class, 'js-user-name')]/p";
+		protected const string SURNAME_VALUE = "//td[contains(@class, 'user-name')]//p[text()='*#*']/..//following-sibling::td[contains(@class, 'surname')]/p";
+		protected const string EMAIL_VALUE = "//td[contains(@class, 'user-name')]//p[text()='*#*']/..//following-sibling::td[contains(@class, 'email')]/p";
+		protected const string CREATED_DATE_VALUE = "//td[contains(@class, 'user-name')]//p[text()='*#*']/..//following-sibling::td[contains(@class, 'created')]/p";
+		protected const string NAME_VALUE = "//td[contains(@class, 'user-name')]//p[text()='*#*']";
 
 		protected const string SORT_BY_FIRST_NAME = "(//th[contains(@data-sort-by,'Name')]//a)[1]";
 		protected const string SORT_BY_LAST_NAME = "//th[contains(@data-sort-by,'Surname')]//a";
@@ -240,7 +354,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string ADD_USER_BUTTON = "//div[contains(@class, 'adduser')]//a[contains(@class, 'purplebtn')]";
 		protected const string STATUS_VALUE = "//td//p[text()='*#*']/../following-sibling::td[contains(@class, 'user-status')]//p";
 		protected const string GROUP_VALUE = "//td//p[text()='*#*']/../following-sibling::td[contains(@class, 'user-groups')]//p";
-
+		protected const string EDIT_BUTTON = "//td//p[text()='*#*']/../following-sibling::td//i[contains(@class, 'edit-btn')]";
+		protected const string DELETE_BUTTON = "//td//p[text()='*#*']/../following-sibling::td//i[contains(@class, 'delete-btn')]";
 		#endregion
 	}
 }

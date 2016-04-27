@@ -179,6 +179,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			return new AdminManagementPaidServicesPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Кликнуть по ссылке 'Управление вендорами'
+		/// </summary>
+		public VendorsManagementPage ClickVendorsManagementLink()
+		{
+			CustomTestContext.WriteLine("Кликнуть по ссылке 'Управление вендорами'");
+			VendorsManagementLink.Click();
+
+			return new VendorsManagementPage(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -321,7 +332,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = INPUT_VENTURE)]
 		protected IWebElement Venture { get; set; }
 
+		[FindsBy(How = How.XPath, Using = VENDORS_MANAGEMENT_LINK)]
+		protected IWebElement VendorsManagementLink { get; set; }
+
 		[FindsBy(How = How.XPath, Using = SUBDOMAIN_NAME)]
+
 		protected IWebElement Subdomain { get; set; }
 
 		[FindsBy(How = How.XPath, Using = WORKFLOW_CHECKBOX)]
@@ -356,7 +371,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string ADD_ALL_DISASSEMBLES_BUTTON = "//table[@name='DisassembleDocumentMethodNames']//input[@name='allToRight']";
 		protected const string MANAGEMENT_PAID_SERVICES_REFERENCE = "//a[contains(@href,'PaidServices')]";
 		protected const string ENTERPRISE_ACCOUNT_TYPE_DROPDOWN = "//select[@id='EnterpriseAccountType']";
-
+		protected const string VENDORS_MANAGEMENT_LINK = "//a[contains(@href, 'EnterpriseAccountVendors')]";
 		#endregion
 	}
 }

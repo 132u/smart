@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -18,8 +19,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		public void SetUpInitialDataTests()
 		{
 			_adminHelper = new AdminHelper(Driver);
+			_adminCreateAccountPage = new AdminCreateAccountPage(Driver);
+			_vendorsManagementPage = new VendorsManagementPage(Driver);
 		}
 
 		protected AdminHelper _adminHelper;
+		protected AdminCreateAccountPage _adminCreateAccountPage;
+		protected VendorsManagementPage _vendorsManagementPage;
 	}
 }

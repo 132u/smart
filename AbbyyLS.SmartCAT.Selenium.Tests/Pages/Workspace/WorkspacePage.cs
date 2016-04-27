@@ -21,6 +21,8 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
@@ -86,6 +88,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			UsersRightsButton.Click();
 
 			return new UsersTab(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку "Поставщики услуг"
+		/// </summary>
+		public VendorPage ClickVendorsButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Поставщики услуг'.");
+			VendorsButton.Click();
+
+			return new VendorPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -155,12 +168,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
-		/// Нажать на 'Licenses and Services'
+		/// Нажать на 'Services'
 		/// </summary>
-		public BillingPage ClickLicenseAndServices()
+		public BillingPage ClickServices()
 		{
 			CustomTestContext.WriteLine("Нажать на 'Licenses and Services'.");
-			LicenseAndServices.Click();
+			Services.Click();
 
 			return new BillingPage(Driver);
 		}
@@ -417,6 +430,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Перейти на страницу "Поставщики услуг"
+		/// </summary>
+		public VendorPage GoVendorsPage()
+		{
+			OpenHideMenuIfClosed();
+
+			return ClickVendorsButton();
+		}
+
+		/// <summary>
 		/// Перейти на страницу поиска
 		/// </summary>
 		public SearchPage GoToSearchPage()
@@ -468,7 +491,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		public BillingPage GoToBillingPage()
 		{
 			ClickAccount();
-			ClickLicenseAndServices();
+			ClickServices();
 			SwitchToLicenseAndServicesWindow();
 
 			return new BillingPage(Driver).LoadPage();
@@ -801,6 +824,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = USERS_RIGHTS_BUTTON)]
 		protected IWebElement UsersRightsButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = VENDORS_BUTTON)]
+		protected IWebElement VendorsButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = CLIENTS_BUTTON)]
 		protected IWebElement ClientsButton { get; set; }
 
@@ -852,8 +878,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = CLOSE_HELP_BUTTON)]
 		protected IWebElement CloseHelpButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = LICENSES_AND_SERVICES)]
-		protected IWebElement LicenseAndServices { get; set; }
+		[FindsBy(How = How.XPath, Using = SERVICES)]
+		protected IWebElement Services { get; set; }
 
 		[FindsBy(How = How.XPath, Using = LINGVO_DICTIONARIES_MENU)]
 		protected IWebElement LingvoDictionaries { get; set; }
@@ -900,16 +926,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
 		protected const string LINGVO_DICTIONARIES_MENU = ".//a[contains(@href,'/LingvoDictionaries')]";
 		protected const string SEARCH_MENU = "//div[contains(@class, 'menu-wrapper')]//a[contains(@href,'/Start')]";
+		protected const string VENDORS_BUTTON = "//a[contains(@href,'/Vendors/Index') and contains(@class,'mainmenu')]";
 
 		protected const string USER_PICTURE = "//i[contains(@class, 'upic')]";
 		protected const string LOCALE_REF = "//div[contains(@class, 'langTools')]//i[contains(@class, '*#*')]";
 		protected const string LANGUAGE_BUTTON = "//div[contains(@class, 'language-menu')]//button[contains(@class, 'language-button')]//i";
-		protected const string ACCOUNT = "//div[contains(@class,'js-usermenu')]";
+		protected const string ACCOUNT = "//span[@class='g-topbox__nameuser']";
 		protected const string USER_NAME = "//div[contains(@class,'js-usermenu')]//span[contains(@class,'nameuser')]//b//span";
 		protected const string LOGOFF = ".//a[contains(@href,'Logout')]";
 		protected const string NOTIFIER_LIST = "//div[@id='notifications-block']//div[contains(@class,'notifications-item')]";
 		protected const string SIGN_OUT_BUTTON = ".//a[contains(@href,'Logout')]";
-		protected const string LICENSES_AND_SERVICES = "//a[contains(@class,'billing')]";
+		protected const string SERVICES = "//a[contains(@class,'billing')]";
 		protected const string HELP_MENU = "//div[contains(@class, 'js-menu-help')]";
 		protected const string HELP_PAGE = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'/Support/ShowHelp')]";
 		protected const string VIDEO_LESSONS_PAGE = "//div[contains(@class, 'js-help-submenu')]//a[contains(@href,'/Support/HelpPage')]";

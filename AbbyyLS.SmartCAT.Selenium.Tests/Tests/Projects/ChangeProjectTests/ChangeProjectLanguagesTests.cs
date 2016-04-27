@@ -9,7 +9,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]

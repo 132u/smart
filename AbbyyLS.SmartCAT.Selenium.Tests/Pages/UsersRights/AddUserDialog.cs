@@ -1,4 +1,6 @@
-﻿using OpenQA.Selenium;
+﻿using System;
+
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -8,8 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
 	public class AddUserDialog : UsersAndRightsBasePage, IAbstractPage<AddUserDialog>
 	{
-		public AddUserDialog(WebDriver driver)
-			: base(driver)
+		public AddUserDialog(WebDriver driver) : base(driver)
 		{
 		}
 

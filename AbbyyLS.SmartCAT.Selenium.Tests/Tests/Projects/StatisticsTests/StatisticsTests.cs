@@ -10,7 +10,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.StatisticsTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]

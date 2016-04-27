@@ -1,4 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+﻿using System.Collections.Generic;
+
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
@@ -55,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public LoginHelper Authorize(StartPage startPage, TestUser user)
+		public LoginHelper Authorize(StartPage startPage, TestUser user, string accountName = TestAccountName)
 		{
 			if (ConfigurationManager.Standalone)
 			{
@@ -83,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				case StartPage.Workspace:
 					_signInPage.GetPage();
-					LogInSmartCat(user.Login, user.NickName, user.Password);
+					LogInSmartCat(user.Login, user.NickName, user.Password, accountName);
 					break;
 
 				case StartPage.PersonalAccount:
@@ -97,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 				default:
 					_signInPage.GetPage();
-					LogInSmartCat(user.Login, user.NickName, user.Password);
+					LogInSmartCat(user.Login, user.NickName, user.Password, accountName);
 					break;
 			}
 			return this;
@@ -114,6 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public const string PersonalAccountName = "Personal";
 		public const string PerevedemAccountName = "Perevedem";
 		public const string CourseraAccountName = "Coursera";
+		public static List<string> TestVendorNames = new List<string> { "TestVendor1", "TestVendor2", "TestVendor3", "TestVendor4", "TestVendor5" };
 
 		public const string PerevedemVenture = "Perevedem.ru";
 		public const string SmartCATVenture = "SmartCAT";

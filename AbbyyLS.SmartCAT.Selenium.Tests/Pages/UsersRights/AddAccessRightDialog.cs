@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		{
 			if (!IsAddRightDialogOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть диалог добавления права.");
+				throw new XPathLookupException("Произошла ошибка: Не удалось открыть диалог добавления права.");
 			}
 
 			return this;
@@ -43,7 +43,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		public AddAccessRightDialog ClickRightRadio(RightsType right)
 		{
 			CustomTestContext.WriteLine("Выбрать из списка право {0}.", right);
-
 			RightRadio = Driver.SetDynamicValue(How.XPath, RIGHT_RADIO, right.ToString());
 			RightRadio.Click();
 
@@ -223,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string NEXT_BTN_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'click : moveToNextStep')]//a[string() = 'Next']";
 		protected const string FOR_ANY_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'hasUnrestrictedAccessScope')]";
 		protected const string FOR_SPECIFIC_PROJECT_RADIO_XPATH = "//div[contains(@class, 'add-access-right-popup')][2]//div[contains(@data-bind, 'specificObjectsList')]";
-		protected const string RIGHT_RADIO = "//input[@id='*#*']/../../label[@class='g-radiobtn']";
+		protected const string RIGHT_RADIO = "//input[@id='*#*']/../../label[@class='g-radiobtn']//em";
 		protected const string PROJECTS_DROPDOWN = "//div[contains(@class, 'add-access-right-popup')][2]//span[contains(@class, 'js-dropdown')]";
 		protected const string PROJECT_OPTION = "//span[@title='*#*']";
 

@@ -151,8 +151,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 				ClickGroupRow(groupName);
 			}
 
-			ClickEditGroupButton(groupName);
-			
+			if (IsEditGroupButtonDisplayed(groupName))
+			{
+				ClickEditGroupButton(groupName);
+			}
+
 			if (!IsUserExistInGroup(groupName, userName))
 			{
 				ClickAddUsersSearchbox(groupName);
@@ -161,6 +164,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			}
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Открыть диалог удаления группы.
+		/// </summary>
+		/// <param name="groupName">название группы</param>
+		public GroupsAndAccessRightsTab OpenRemoveGroupDialog(string groupName)
+		{
+			if (!IsGroupInfoOpened(groupName))
+			{
+				ClickGroupRow(groupName);
+			}
+
+			if (IsEditGroupButtonDisplayed(groupName))
+			{
+				ClickEditGroupButton(groupName);
+			}
+
+			DeleteButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, groupName);
+			DeleteButton.Click();
+
+			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -402,7 +427,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected IWebElement ViewProjectsRightText { get; set; }
 
 		protected IWebElement CreateProjectsRightText { get; set; }
-
+		protected IWebElement DeleteButton { get; set; }
 		#endregion
 
 		#region Описание XPath элементов
@@ -418,7 +443,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string DELETE_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//ul[contains(@data-bind, 'foreach: users')]//li//span[text()='*##*']/..//span[contains(@data-bind,'removeUser')]";
 		protected const string ADD_GROUP_USERS_INPUT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')][1]//input[contains(@class, 'tblgrp_finduser')]";
 		protected const string ADD_GROUP_USER_BUTTON = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//div[contains(@class, 'users-add-list')]//table//tr//td[string()='*##*']//following-sibling::td//a[text() = 'Add']";
-
+		protected const string DELETE_BUTTON = "//td[text()='*#*']/../following-sibling::tr[1]//div[contains(@data-bind, 'click: remove')]//a";
 		protected const string VIEW_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'View all projects')]";
 		protected const string MANAGE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Manage all projects')]";
 		protected const string CREATE_PROJECTS_RIGHT_TEXT = "//tr[contains(string(),'*#*')]//following-sibling::tr[contains(@data-bind, 'if: isExpanded')]//li[contains(string(), 'Create any projects')]";
