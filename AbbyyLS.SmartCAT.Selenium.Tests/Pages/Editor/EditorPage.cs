@@ -46,6 +46,85 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать на поле комментария
+		/// </summary>
+		public EditorPage ClickDocumentCommentTextarea()
+		{
+			CustomTestContext.WriteLine("Нажать на поле комментария.");
+			DocumentCommentsTextarea.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Ввести комментарий документа
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public EditorPage FillDocumentComment(string comment)
+		{
+			CustomTestContext.WriteLine("Ввести комментарий документа '{0}'.", comment);
+			DocumentCommentsTextarea.SetText(comment);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку отправки комментария документа
+		/// </summary>
+		public EditorPage ClickSendDocumentCommentButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку отправки комментария документа.");
+			SendButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Ввести комментарий сегмента
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public EditorPage FillSegmentComment(string comment)
+		{
+			CustomTestContext.WriteLine("Ввести комментарий сегмента '{0}'.", comment);
+			SegmentCommentsTextarea.SetText(comment);
+
+			return LoadPage();
+		}
+		
+		/// <summary>
+		/// Нажать кнопку отправки комментария сегмента
+		/// </summary>
+		public EditorPage ClickSegmentSendCommentButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку отправки комментария сегмента.");
+			SegmentSendButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на вкладку комментариев сегмента
+		/// </summary>
+		public EditorPage ClickSegmentCommentTab()
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку комментариев сегмента.");
+			SegmentCommentsTab.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на вкладку комментария
+		/// </summary>
+		public EditorPage ClickDocumentCommentTab()
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку комментариев документа.");
+			DocumentCommentsTab.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Навести курсор на знак ошибки (желтый треугольник)
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
@@ -73,6 +152,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			HomeButton.Click();
 
 			return new ProjectSettingsPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку удаления комментария.
+		/// </summary>
+		public EditorPage ClickDeleteCommentButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления комментария.");
+			DeleteCommentButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на комментарий
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="comment">комментарий</param>
+		public EditorPage HoverComment(string author, string comment)
+		{
+			CustomTestContext.WriteLine("Навести курсор на комментарий.");
+			Comment = Driver.SetDynamicValue(How.XPath, COMMENT, author, comment);
+			Comment.HoverElement();
+
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -1043,6 +1147,41 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Составные методы страницы
 
 		/// <summary>
+		/// Отправить комментарий документа
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public EditorPage SendDocumentComment(string comment)
+		{
+			FillDocumentComment(comment);
+			ClickSendDocumentCommentButton();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Отправить комментарий сегмента
+		/// </summary>
+		/// <param name="comment">комментарий</param>
+		public EditorPage SendSegmentComment(string comment)
+		{
+			FillSegmentComment(comment);
+			ClickSegmentSendCommentButton();
+			
+			return LoadPage();
+		}
+		/// <summary>
+		/// Отправить комментарий
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="comment">комментарий</param>
+		public EditorPage DeleteComment(string author, string comment)
+		{
+			HoverComment(author, comment);
+			ClickDeleteCommentButton();
+
+			return LoadPage();
+		}
+		/// <summary>
 		/// Двойной клик по переводу в CAT-панели
 		/// </summary>
 		/// <param name="rowNumber">номер строки в CAT-панели</param>
@@ -1196,7 +1335,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return LoadPage();
 		}
-		
+
+		/// <summary>
+		/// Нажать хоткей выделения комментария.
+		/// </summary>
+		public EditorPage SelectCommentText(string author, string comment)
+		{
+			CustomTestContext.WriteLine("Нажать хоткей выделения комментария.");
+			Comment = Driver.SetDynamicValue(How.XPath, COMMENT, author, comment);
+			Comment.Click();
+			Comment.DoubleClick();
+			
+			return LoadPage();
+		}
+
 		/// <summary>
 		/// Нажать хоткей выделения всего содержимого ячейки Ctrl+Shift+Home
 		/// </summary>
@@ -1209,6 +1361,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ClickOnTargetCellInSegment(segmentNumber);
 			Driver.SendHotKeys(Keys.End);
 			Driver.SendHotKeys(Keys.Home, control: true, shift: true);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей копирования Ctrl+c.
+		/// </summary>
+		public EditorPage CopyByHotkey()
+		{
+			CustomTestContext.WriteLine("Нажать хоткей копирования Ctrl+c.");
+			Driver.SendHotKeys("c", control: true);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать хоткей вставки Ctrl+v.
+		/// </summary>
+		public EditorPage PasteByHotkey()
+		{
+			CustomTestContext.WriteLine("Нажать хоткей вставки Ctrl+v.");
+			Driver.SendHotKeys("v", control: true);
 
 			return LoadPage();
 		}
@@ -1321,6 +1495,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что отображается комментарий.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="comment">комментарий</param>
+		public bool IsCommentDisplayed(string author, string comment)
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается комментарий '{0}' автора {1}.", comment, author);
+			Comment = Driver.SetDynamicValue(How.XPath, COMMENT, author, comment);
+
+			return Comment.Displayed;
+		}
+
+		/// <summary>
+		/// Проверить, что не отображается комментарий.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="comment">комментарий</param>
+		public bool IsCommentNotDisplayed(string author, string comment)
+		{
+			CustomTestContext.WriteLine("Проверить, что не отображается комментарий '{0}' автора {1}.", comment, author);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(COMMENT.Replace("*#*", author).Replace("*##*", comment)));
+		}
+
+		/// <summary>
+		/// Проверить, что вкладка комментариев сегмента подсвечена.
+		/// </summary>
+		public bool IsSegmentCommentTabHighlighted()
+		{
+			CustomTestContext.WriteLine("Проверить, что вкладка комментариев сегмента подсвечена.");
+
+			return SegmentCommentsTab.GetAttribute("class").Contains("highlight");
+		}
+
+		/// <summary>
+		/// Проверить, что вкладка комментариев документа подсвечена.
+		/// </summary>
+		public bool IsDocumentCommentTabHighlighted()
+		{
+			CustomTestContext.WriteLine("Проверить, что вкладка комментариев документа подсвечена.");
+
+			return DocumentCommentsTab.GetAttribute("class").Contains("highlight");
+		}
 
 		/// <summary>
 		/// Проверить, что отображается таблица с результатами конкордансного поиска.
@@ -1884,7 +2103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_TEXT)]
 		protected IWebElement ConcordanceSearchText { get; set; }
-
+		
 		protected IWebElement YellowErrorTriangle { get; set; }
 		protected IWebElement Error { get; set; }
 		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_BUTTON)]
@@ -1905,6 +2124,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_SOURCE_RESULT_BY_TARGET)]
 		protected IWebElement ConcordanceSearchSourceResultByTarget { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SEGMENT_COMMENTS_TAB)]
+		protected IWebElement SegmentCommentsTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DOCUMENT_COMMENTS_TAB)]
+		protected IWebElement DocumentCommentsTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DOCUMENT_COMMENTS_TEXTAREA)]
+		protected IWebElement DocumentCommentsTextarea { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEGMENTS_COMMENTS_TEXTAREA)]
+		protected IWebElement SegmentCommentsTextarea { get; set; }
+
+		[FindsBy(How = How.XPath, Using = DELETE_COMMENT_BUTTON)]
+		protected IWebElement DeleteCommentButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEND_BUTTON)]
+		protected IWebElement SendButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEGMENTS_SEND_BUTTON)]
+		protected IWebElement SegmentSendButton { get; set; }
+
+		protected IWebElement Comment { get; set; }
+		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
 		protected IWebElement VoteUpButton { get; set; }
 		protected IWebElement VoteCount{ get; set; }
@@ -2018,6 +2260,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string QA_CHECK_TAB = "//span[contains(@id, 'errors-tab')]//span[contains(text(), 'QA')]";
 		protected const string QA_ERROR = "//div[@id='errors-body']//tr[*#*]//td[2]//div";
 		protected const string QA_ERROR_TABLE = "//div[@id='errors-body']//table";
+
+		protected const string SEGMENT_COMMENTS_TAB = "//a[@id='segment-comments-tab']";
+		protected const string DOCUMENT_COMMENTS_TAB = "//a[@id='document-comments-tab']";
+		protected const string DOCUMENT_COMMENTS_TEXTAREA = "//div[contains(@class, 'comments')]//textarea";
+		protected const string SEGMENTS_COMMENTS_TEXTAREA = "//div[contains(@id,'segment-comments')]//textarea";
+		protected const string SEGMENTS_SEND_BUTTON = "//div[contains(@id,'segment-comments')]//span[text()='Send']";
+		protected const string SEND_BUTTON = "//div[contains(@class, 'comments')]//span[text()='Send']";
+		protected const string COMMENT = "//div[text()='*#*']/../..//div[text()= '*##*']";
+		protected const string COMMENT_CELL = "//div[text()='*#*']";
+		protected const string DELETE_COMMENT_BUTTON = "//div[@data-qtip='Delete' and @role='button']";
 
 		#endregion
 	}

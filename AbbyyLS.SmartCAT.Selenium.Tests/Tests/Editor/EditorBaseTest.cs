@@ -15,8 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 {
 	public class EditorBaseTest<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void SetupTest()
+		[OneTimeSetUp]
+		public void OneTimeSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
@@ -29,6 +29,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_workspacePage = new WorkspacePage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
+		}
+
+		[SetUp]
+		public virtual void SetupTest()
+		{
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
@@ -36,8 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
