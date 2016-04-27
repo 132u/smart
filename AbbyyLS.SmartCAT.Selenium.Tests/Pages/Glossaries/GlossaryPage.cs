@@ -1869,7 +1869,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SEARCH_INPUT = "//input[@name='searchTerm']";
 		protected const string SEARCH_FIELD_WITH_TERM = "//div[contains(@class, 'l-corpr__hd right')]//input[contains(@value, '*#*')]";
 		protected const string SEARCH_BUTTON = "//a[@title='Search']";
-		protected const string TERM = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
+		protected const string TERM = "//tr[contains(@class, 'js-concept-row')]//td[*#*]//p";
 		protected const string LANGUAGE_COLUMNS = "//tr[@class='js-table-header']//th[contains(@data-sort-by, 'Language')]";
 		protected const string EDIT_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row')]//i[contains(@class,'js-edit-btn')]";
 		protected const string EDIT_ENTRY_BUTTON = "//div[contains(@class,'js-edit-btn')]";

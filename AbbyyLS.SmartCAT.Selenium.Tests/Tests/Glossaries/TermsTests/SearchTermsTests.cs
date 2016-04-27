@@ -322,8 +322,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		{
 			var term1 = "term1" + Guid.NewGuid();
 			var term2 = "term2" + Guid.NewGuid();
-			var firstNotAddedTerm = "First tot added term" + DateTime.Now;
-			var secondNotAddedTerm = "Second tot added term" + DateTime.Now;
+			var firstNotAddedTerm = "First not added term" + DateTime.Now;
+			var secondNotAddedTerm = "Second not added term" + DateTime.Now;
 
 			_glossaryPage.CreateTerm(term1, term2);
 
@@ -332,7 +332,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_searchPage.OpenSearchHistory();
 
 			if (!_searchHistoryPage.IsSearchHistoryButtonOn())
+			{
 				_searchHistoryPage.ClickOnSearchHistoryButton();
+			}
 
 			_searchPage.InitSearch(term1);
 			Assert.IsFalse(_searchPage.IsNoExamplesFoundMessageDisplayed(), 
