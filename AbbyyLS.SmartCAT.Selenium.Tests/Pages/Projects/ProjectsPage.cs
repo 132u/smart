@@ -379,7 +379,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Отметить чекбокс джоба языка {2} документа {0} в проекте {1}", documentName, projectName, jobLanguage.Description());
 			DocumentJob = Driver.SetDynamicValue(How.XPath, DOCUMENT_JOB, projectName, documentName, jobLanguage.Description());
 			DocumentJob.Click();
-
+			
 			return LoadPage();
 		}
 
@@ -996,11 +996,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
 		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../..//following-sibling::td[contains(@class, 'status-td')]//input";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
-		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../td[contains(@class,'checkbox')]";
+		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
-		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*###*')]/../../..//input";
+		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
@@ -1012,8 +1012,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//div[contains(@data-bind, 'click: importDocument')]";
 		protected const string PROJECT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr//div[contains(@data-bind, 'click: assign')]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//a[@title='*##*']/../..//preceding-sibling::td";
-		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//a[text()='*#*']/../../../following-sibling::tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*##*']/../..//preceding-sibling::td//input";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//a[@title='*##*']/../..//preceding-sibling::td";
+		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//a[text()='*#*']/../../../../following-sibling::tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*##*']/../..//preceding-sibling::td//input";
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
 		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
 		protected const string PROJECT_SETTINGS_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'edit')]";
@@ -1025,11 +1025,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
 		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
 		protected const string MY_TASK = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//td[contains(@class,'my-assignments') and contains(text(),'*###*')]";
-		protected const string JOB_LIST = "//a[text()='*#*']/../../../following-sibling::tr//../../../following-sibling::tr[contains(@class, 'js-document-row')]//a[contains(@class, 'project__doc-link')]";
+		protected const string JOB_LIST = "//a[text()='*#*']/../../../../following-sibling::tr//../../../../following-sibling::tr[contains(@class, 'js-document-row')]//a[contains(@class, 'project__doc-link')]";
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
 		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
-		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
+		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
 
 		#endregion
 	}
