@@ -181,9 +181,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_workspacePage.GoToSearchPage();
 
-			_searchPage
-				.InitSearch(firstWordInTarget)
-				.ClickTranslationWord(firstWordInSource);
+			_searchPage.InitSearch(firstWordInTarget);
+
+			_translationsTab.ClickTranslationWordFromGlossary(firstWordInSource);
 
 			Assert.IsTrue(_examplesFromTextsDialog.IsExamplesFromTextsDialogOpened(),
 				"Не открылся диалог 'Примеры из текста'");
@@ -210,9 +210,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_workspacePage.GoToSearchPage();
 
-			_searchPage
-				.InitSearch(term1)
-				.ClickTranslationWord(term2);
+			_searchPage.InitSearch(term1);
+
+			_translationsTab.ClickTranslationWordFromGlossary(term2);
 
 			_examplesFromTextsDialog.ClickOnFoundedTranslationWord();
 

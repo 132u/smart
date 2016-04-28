@@ -65,6 +65,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 			return new GlossaryPage(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Кликнуть по слову-переводу найденному в словаре Lingvo.
+		/// </summary>
+		/// <param name="text">текст перевода</param>
+		public SearchPage ClickTranslationWordFromLingvoDictionary(string text)
+		{
+			CustomTestContext.WriteLine("Кликнуть по слову-переводу найденному в словаре Lingvo.");
+			WordFromLingvoDictionary = Driver.SetDynamicValue(How.XPath, WORD_FROM_LINGVO_DICTIONARY, text);
+			WordFromLingvoDictionary.Click();
+
+			return new SearchPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по слову-переводу найденному в глоссарии.
+		/// </summary>
+		/// <param name="text">текст перевода</param>
+		public SearchPage ClickTranslationWordFromGlossary(string text)
+		{
+			CustomTestContext.WriteLine("Кликнуть по слову-переводу найденному в глоссарии.");
+			TranslationWordFromGlossary = Driver.SetDynamicValue(How.XPath, TRANSLATION_WORD_FROM_GLOSSARY, text);
+			TranslationWordFromGlossary.Click();
+
+			return new SearchPage(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -77,9 +103,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 			return Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATIONS_TAB));
 		}
 
+		/// <summary>
+		/// Проверить, есть ли ссылка на перевод
+		/// </summary>
+		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
+		public bool IsTranslationReferenceExist(string text)
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка на перевод.");
+
+			return Driver.ElementIsDisplayed(By.XPath(WORD_FROM_LINGVO_DICTIONARY.Replace("*#*", text)));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
+
+		[FindsBy(How = How.XPath, Using = WORD_FROM_LINGVO_DICTIONARY)]
+		protected IWebElement WordFromLingvoDictionary { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TRANSLATION_WORD_FROM_GLOSSARY)]
+		protected IWebElement TranslationWordFromGlossary { get; set; }
 
 		protected IWebElement GoToTheGlossary { get; set; }
 
@@ -94,6 +137,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs
 		protected const string GO_TO_THE_GLOSSARY = "//div[contains(@class, 'l-glossary__data js-section-data')]//h2//span/following-sibling::text()[contains(.,'*#*')]//parent::h2//span//a[contains(text(), 'Go to the glossary')]";
 		protected const string SUGGEST_TERM_BUTTON = "//div[contains(@class, 'l-glossary__data js-section-data')]//h2//span/following-sibling::text()[contains(.,'*#*')]//parent::h2//span//a[contains(text(), 'Suggest Term')]";
 		protected const string ADD_ENTRY_BUTTON = "//div[contains(@class, 'l-glossary__data js-section-data')]//h2//span/following-sibling::text()[contains(.,'*#*')]//parent::h2//span//a[contains(text(), 'Add Entry')]";
+		protected const string WORD_FROM_LINGVO_DICTIONARY = "//a//span[contains(text(), '*#*')]";
+		protected const string TRANSLATION_WORD_FROM_GLOSSARY = "//table[contains(@class, 'l-glossary__tbltrgword')]//tr//span//a";
 
 		#endregion
 	}

@@ -2,12 +2,13 @@
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search.SearchPageTabs;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -28,10 +29,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		{
 			_adminHelper = new AdminHelper(Driver);
 			_signInPage = new SignInPage(Driver);
-			_loginHelper = new LoginHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-
 			_searchPage = new SearchPage(Driver);
+			_translationsTab = new TranslationsTab(Driver);
 			_lingvoDictionariesPage = new LingvoDictionariesPage(Driver);
 
 			if (!ConfigurationManager.Standalone)
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 
 			_searchPage.InitSearch(search_query);
 
-			Assert.IsTrue(_searchPage.IsTranslationReferenceExist(translation_reference),
+			Assert.IsTrue(_translationsTab.IsTranslationReferenceExist(translation_reference),
 				"Произошла ошибка:\n ссылка на перевод отсутствует.");
 		}
 
@@ -120,9 +120,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			var search_query = "tester";
 			var translation_word = "испытательное устройство";
 
-			_searchPage
-				.InitSearch(search_query)
-				.ClickTranslationWord(translation_word)
+			_searchPage.InitSearch(search_query);
+
+			_translationsTab
+				.ClickTranslationWordFromLingvoDictionary(translation_word)
 				.ClickTranslationFormReference();
 
 			Assert.IsTrue(_searchPage.IsWordByWordTranslationAppear(),
@@ -152,11 +153,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 		}
 
 		private AdminHelper _adminHelper;
-		private LoginHelper _loginHelper;
 		private WorkspacePage _workspacePage;
 		private SignInPage _signInPage;
-
 		private SearchPage _searchPage;
+		private TranslationsTab _translationsTab;
 		private LingvoDictionariesPage _lingvoDictionariesPage;
 	}
 }

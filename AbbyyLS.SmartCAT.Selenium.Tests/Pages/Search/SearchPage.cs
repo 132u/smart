@@ -54,19 +54,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
-		/// Кликнуть по слову-переводу
-		/// </summary>
-		/// <param name="text">текст перевода</param>
-		public SearchPage ClickTranslationWord(string text)
-		{
-			CustomTestContext.WriteLine("Кликнуть по слову-переводу");
-			TranslationWord = Driver.SetDynamicValue(How.XPath, TRANSLATION_WORD, text);
-			TranslationWord.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Выбрать исходный язык
 		/// </summary>
 		public SearchPage SelectSourceLanguage(string source)
@@ -271,17 +258,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
-		/// Проверить, есть ли ссылка на перевод
-		/// </summary>
-		/// <param name="text">слово, у которого должна быть ссылка на перевод</param>
-		public bool IsTranslationReferenceExist(string text)
-		{
-			CustomTestContext.WriteLine("Проверить, есть ли ссылка на перевод.");
-
-			return Driver.ElementIsDisplayed(By.XPath(TRANSLATION_WORD.Replace("*#*", text)));
-		}
-
-		/// <summary>
 		/// Проверить, появилось ли сообщение об автоматическом изменении языка
 		/// </summary>
 		public bool IsAutoreversedMessageExist()
@@ -410,7 +386,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 
 		#region Описание XPath элементов
 
-		protected const string TRANSLATION_WORD = "//div[contains(@class, 'l-glossary__data')]//table[contains(@class, 'g-tblresult')]//tr//td[3]//a[contains(text(), '*#*')]";
 		protected const string SEARCH_FORM_XPATH = "//form[contains(@class,'js-search-form')]";
 		protected const string SEARCH_FIELD= "searchText";
 		protected const string TRANSLATE_BUTTON = "//form[contains(@class,'js-search-form')]//div[contains(@class, 'js-srcpanel-long')]//input[@type='submit']";
