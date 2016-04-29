@@ -101,7 +101,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 			foreach (var e in targetLangItemsSelected)
 			{
-				e.Click();
+				if (e.GetIsInputChecked())
+				{
+					e.Click();
+				}
 			}
 
 			return LoadPage();
@@ -759,12 +762,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string SOURCE_LANG_SELECTED = "//div[@class='source_lang']//input[@title='*#*']";
 		protected const string SOURCE_LANG_ITEM = "//div[@class='source_lang']//li[@title = '*#*']";
 		protected const string TARGET_LANG_DROPDOWN = "//div[contains(@class,'target_langs')]//i";
-		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input[@checked='checked']";
+		protected const string TARGET_LANG_ITEMS_SELECTED = "//ul//li//input";
 		protected const string TARGET_MULTISELECT_XPATH = "//div[contains(@class,'js-popup-create-project')][2]//div[contains(@class,'js-languages-multiselect')]";
 		protected const string TARGET_LANG_SELECTED = "//div[contains(@class, 'target_langs')]//span[contains(@class, 'ui-multiselect-value') and text()='*#*']";
 		protected const string ADD_TARGET_LANGUAGE_BUTTON = "//div[contains(@data-bind, 'allTargetLanguagesList')]//textarea";
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
-		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']";
+		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']//input";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
 		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
