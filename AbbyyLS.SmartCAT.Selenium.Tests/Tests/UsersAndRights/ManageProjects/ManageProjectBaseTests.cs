@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 				_loginHelper = new LoginHelper(Driver);
 				_loginHelper.Authorize(StartPage, AdditionalUser);
-				_exportNotification.CancelAllNotifiers<Pages.Projects.ProjectsPage>();
+				_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			}
 			catch (Exception ex)
