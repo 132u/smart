@@ -144,7 +144,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSaveTranslationMemoryButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
-			SaveChangesButton.ScrollAndClick();
+			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
+			SaveChangesButton.Scroll();
+			SaveChangesButton.AdvancedClick();
+			SaveChangesButton.DoubleClick();
 
 			if (!IsEditionFormDisappeared())
 			{
@@ -160,7 +163,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSaveTranslationMemoryButtonExpectingError()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранить в форме редактирования TM.");
-			SaveChangesButton.Click();
+			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
+			SaveChangesButton.Scroll();
+			SaveChangesButton.AdvancedClick();
+			SaveChangesButton.DoubleClick();
 
 			return LoadPage();
 		}
@@ -1014,7 +1020,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TM_EDIT_BUTTON = "//tr[@class='js-tm-panel']//div[contains(@data-bind, 'switchToEditing')]//a";
 		protected const string TM_EDIT_NAME = "//tr[contains(@class,'js-tm-panel')]//input[contains(@data-bind, 'value: name')]";
 		protected const string TM_EDIT_COMMENT = "//tr[contains(@class,'js-tm-panel')]//textarea";
-		protected const string TM_EDIT_SAVE_BTN = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'click: save')]";
+		protected const string TM_EDIT_SAVE_BTN = "//tr[contains(@class,'js-tm-panel')]//div[contains(@data-bind,'click: save')]//a";
 		protected const string TM_EDIT_TARGET_LANGUAGE = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[1]//div[contains(@class,'ui-multiselect')]/div";
 		protected const string TM_EDIT_TARGET_LANGUAGE_LIST = "/html/body/div[21]/div";
 		protected const string TM_EDIT_PROJECT_GROUPS = "//tr[contains(@class,'js-tm-panel')]//.//span[contains(@class,'ui-multiselect-txtdef')]";
