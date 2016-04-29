@@ -68,6 +68,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу QANavigationFile
+		/// </summary>
+		public static string QANavigationFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "QANavigationFile.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу txt с повторами
 		/// </summary>
 		public static string RepetitionsTxtFile

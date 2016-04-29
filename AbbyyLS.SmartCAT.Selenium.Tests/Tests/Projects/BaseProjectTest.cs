@@ -35,6 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newLanguageSettingsDialog = new NewLanguageSettingsDialog(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
+			_glossaryPage = new GlossaryPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -60,5 +61,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected TranslationMemoriesPage _translationMemoriesPage;
 		protected GlossariesHelper _glossariesHelper;
 		protected GlossariesPage _glossariesPage;
+		protected GlossaryPage _glossaryPage;
 	}
 }

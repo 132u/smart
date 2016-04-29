@@ -314,7 +314,6 @@
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileValidTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\EditorCommentsTests.cs" />
-    <Compile Include="Tests\Editor\SegmentsPanelTests\AppearanceTriangleWithErrorTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\CatPanelTests\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorLastUnconfirmedSegmentTests.cs" />
@@ -367,6 +366,7 @@
     <Compile Include="Tests\Authorization\PasswordRecoveryWithoutSetNewPasswordTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceBaseTests.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryTests.cs" />
+    <Compile Include="Tests\QualityAssurance\QualityAssuranceNavigationTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceReportTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountAdminRegistrationTests.cs" />
     <Compile Include="Tests\Search\SearchPageTests.cs" />

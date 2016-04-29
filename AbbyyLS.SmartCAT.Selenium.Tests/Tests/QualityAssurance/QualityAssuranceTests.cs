@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_editorPage
 				.FillSegmentTargetField("first         .")
 				.ConfirmSegmentTranslation()
-				.ClickQACheckTab();
+				.ClickQualityAssuranceCheckTab();
 			
 			Assert.AreEqual(_error1, _editorPage.GetErrorTextFromQaCheckTab(),
 				"Произошла ошибка: неверная ошибка в вкладке 'QA Check'.");
@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_editorPage
 				.ClickOnTargetCellInSegment()
 				.ConfirmSegmentTranslation()
-				.ClickQACheckTab();
+				.ClickQualityAssuranceCheckTab();
 
 			Assert.IsTrue(_editorPage.IsQAErrorTableDissapeared(),
 				"Произошла ошибка: таблица с ошибками отображается.");
@@ -208,7 +208,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_editorPage
 				.ClickOnTargetCellInSegment()
 				.ConfirmSegmentTranslation()
-				.ClickQACheckTab();
+				.ClickQualityAssuranceCheckTab();
 			
 			Assert.IsTrue(_editorPage.IsMessageWithCrititcalErrorDisplayed(),
 				"Произошла ошибка: не появилось сообщение о том, что перевод содержит критическую ошибку.");
@@ -228,6 +228,85 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			Assert.IsTrue(_editorPage.IsCriticalError(_error1),
 				"Произошла ошибка: ошибка {0} не отмечена, как критическая.", _error1);
+		}
+
+		[Test, Description("S-7231")]
+		public void IdenticalSourceAndTargetErrorTest()
+		{
+			_qualityAssuranceAdvancedSettingsSection.SetErrorType(_error3, ErrorType.setCritical);
+
+			_newProjectSettingsPage.ClickNextButton();
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
+
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.ClickSaveButton();
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+
+			_selectTaskDialog.SelectTask();
+
+			_editorPage
+				.ClickCopySourceToTargetButton()
+				.ConfirmSegmentTranslation();
+
+			Assert.IsTrue(_editorPage.IsYellowTriangleErrorLogoDisplayed(),
+				"Произошла ошибка: логотип с ошибкой не появился после подтверждения таргета, содержащего ошибку.");
+
+			_editorPage
+				.CloseCriticalErrorMessageIfExist()
+				.HoverYellowTriangle();
+
+			Assert.IsTrue(_editorPage.IsErrorsPopupContainsCorrectError(_error3),
+				"Произошла ошибка: попап не содержит ошибку {0}.", _error3);
+
+			Assert.IsTrue(_editorPage.IsCriticalError(_error3),
+				"Произошла ошибка: ошибка {0} не отмечена, как критическая.", _error3);
+
+			_editorPage.ClickYellowTriangle();
+
+			Assert.IsTrue(_editorPage.IsQAErrorTableDisplayed(),
+				"Произошла ошибка: не открылась вкладка 'QA Check'.");
+		}
+
+		[Test, Description("S-7233")]
+		public void FixQualityAssuranceErrorTest()
+		{
+			_qualityAssuranceAdvancedSettingsSection.SetErrorType(_error2, ErrorType.setCritical);
+
+			_newProjectSettingsPage.ClickNextButton();
+			_newProjectWorkflowPage.ClickCreateProjectButton();
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName);
+
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.ClickSaveButton();
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+
+			_selectTaskDialog.SelectTask();
+
+			_editorPage
+				.FillSegmentTargetField("first first")
+				.ConfirmSegmentTranslation()
+				.CloseCriticalErrorMessageIfExist();
+			
+			Assert.IsTrue(_editorPage.IsYellowTriangleErrorLogoDisplayed(),
+				"Произошла ошибка: не появился желтый треуголник в первом сегменте.");
+
+			_editorPage
+				.FillSegmentTargetField("first")
+				.ConfirmSegmentTranslation();
+
+			Assert.True(_editorPage.IsYellowTriangleErrorInactive(),
+				"Произошла ошибка: желтый треуголник в первом сегменте активен.");
 		}
 	}
 }

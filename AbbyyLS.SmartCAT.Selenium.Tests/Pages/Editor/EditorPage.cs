@@ -46,6 +46,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать стрелку перехода к следующей терминологической ошибке
+		/// </summary>
+		/// <param name="term">термин</param>
+		public EditorPage ClickNextTerminologyErrorArrow(string term)
+		{
+			CustomTestContext.WriteLine("Нажать стрелку перехода к следующей терминологической ошибке , термин {0}.", term);
+			NextTerminologyErrorArrow = Driver.SetDynamicValue(How.XPath, NEXT_TERMINOLOGY_ERROR_ARROW, term);
+			NextTerminologyErrorArrow.JavaScriptClick();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать стрелку перехода к предыдущей терминологической ошибке
+		/// </summary>
+		/// <param name="term">термин</param>
+		public EditorPage ClickPreviousTerminologyErrorArrow(string term)
+		{			
+			CustomTestContext.WriteLine("Нажать стрелку перехода к предыдущей терминологической ошибке , термин {0}.", term);
+			PreviousTerminologyErrorArrow = Driver.SetDynamicValue(How.XPath, PREVIOUS_TERMINOLOGY_ERROR_ARROW, term);
+			PreviousTerminologyErrorArrow.JavaScriptClick();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать на поле комментария
 		/// </summary>
 		public EditorPage ClickDocumentCommentTextarea()
@@ -140,6 +166,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				throw new Exception("Произошла ошибка: не появился попап с ошибками.");
 			}
 
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на желтый треугольник
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage ClickYellowTriangle(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Нажать на желтый треугольник сегмента №{0}.", segmentNumber);
+			YellowErrorTriangle = Driver.SetDynamicValue(How.XPath, SEGMENT_ERROR_LOGO, segmentNumber.ToString());
+			YellowErrorTriangle.Click();
+			
 			return LoadPage();
 		}
 
@@ -674,7 +713,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Нажать на вкладку 'QA Check'
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
-		public EditorPage ClickQACheckTab(int segmentNumber = 1)
+		public EditorPage ClickQualityAssuranceCheckTab(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать на вкладку 'QA Check'.");
 			ClickOnTargetCellInSegment(segmentNumber);
@@ -1497,6 +1536,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что отображается терминологическая ошибка
+		/// </summary>
+		/// <param name="term">термин</param>
+		public bool IsTerminilogyErrorDisplayed(string term)
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается терминологическая ошибка термина '{0}'.", term);
+
+			return Driver.WaitUntilElementIsAppear(By.XPath(TERM_ERROR.Replace("*#*", term)));
+		}
+
+		/// <summary>
 		/// Проверить, что отображается комментарий.
 		/// </summary>
 		/// <param name="author">автор</param>
@@ -1928,9 +1978,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="segmentNumber">номер сегмента</param>
 		public bool IsYellowTriangleErrorLogoDisplayed(int segmentNumber = 1)
 		{
-			CustomTestContext.WriteLine("Проверить, что появился треугольник с ошибкой, после подтверждения сегмента.");
+			CustomTestContext.WriteLine("Проверить, что появился треугольник с ошибкой, после подтверждения сегмента №{0}.", segmentNumber);
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, треугольник с ошибкой неактивен.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public bool IsYellowTriangleErrorInactive(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, треугольник с ошибкой неактивен для сегмента №{0}.", segmentNumber);
+
+			return Driver.FindElement(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString()))).GetAttribute("class").Contains("inactive");
 		}
 
 		/// <summary>
@@ -1975,6 +2036,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Проверить, что таблица с ошибками отсутствует (вкладка 'QA Check').");
 
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(QA_ERROR_TABLE));
+		}
+
+		/// <summary>
+		/// Проверить, что таблица с ошибками приотсутствует (вкладка 'QA Check').
+		/// </summary>
+		public bool IsQAErrorTableDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что таблица с ошибками приотсутствует (вкладка 'QA Check').");
+
+			return Driver.WaitUntilElementIsAppear(By.XPath(QA_ERROR_TABLE));
 		}
 
 		#endregion
@@ -2145,6 +2216,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = SEGMENTS_SEND_BUTTON)]
 		protected IWebElement SegmentSendButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = NEXT_TERMINOLOGY_ERROR_ARROW)]
+		protected IWebElement NextTerminologyErrorArrow { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PREVIOUS_TERMINOLOGY_ERROR_ARROW)]
+		protected IWebElement PreviousTerminologyErrorArrow { get; set; }
+		
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2194,7 +2271,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REDO_BUTTON = "//a[contains(@id, 'redo') and @aria-disabled='false']";
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
-	
+
+		protected const string SEGMENT = "//div[@id='segments-body']//div//div[2]//table[]*#*";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'sci-check')]";
@@ -2260,7 +2338,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string QA_CHECK_TAB = "//span[contains(@id, 'errors-tab')]//span[contains(text(), 'QA')]";
 		protected const string QA_ERROR = "//div[@id='errors-body']//tr[*#*]//td[2]//div";
 		protected const string QA_ERROR_TABLE = "//div[@id='errors-body']//table";
+		protected const string TERM_ERROR = "//div[contains(text(),'No translation of the source term') and contains(text(), '*#*')]";
 
+		protected const string NEXT_TERMINOLOGY_ERROR_ARROW = "//div[contains(text(),'No translation of the source term') and contains(text(), '*#*')]/../..//div[contains(@class, 'next-error-action')]";
+		protected const string PREVIOUS_TERMINOLOGY_ERROR_ARROW = "//div[contains(text(),'No translation of the source term') and contains(text(), '*#*')]/../..//div[contains(@class, 'prev-error-action')]";
 		protected const string SEGMENT_COMMENTS_TAB = "//a[@id='segment-comments-tab']";
 		protected const string DOCUMENT_COMMENTS_TAB = "//a[@id='document-comments-tab']";
 		protected const string DOCUMENT_COMMENTS_TEXTAREA = "//div[contains(@class, 'comments')]//textarea";

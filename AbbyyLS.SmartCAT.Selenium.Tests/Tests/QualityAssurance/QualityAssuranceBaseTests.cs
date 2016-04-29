@@ -23,8 +23,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_qualityAssuranceSettings = new QualityAssuranceSettings(Driver);
 			_qualityAssuranceDialog = new QualityAssuranceDialog(Driver);
+			_errorsDialog = new ErrorsDialog(Driver);
 		}
 
+		protected ErrorsDialog _errorsDialog;
 		protected QualityAssuranceDialog _qualityAssuranceDialog;
 		protected EditorPage _editorPage;
 		protected SelectTaskDialog _selectTaskDialog;
@@ -36,5 +38,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 		protected const string _error1 = "Unexpected whitespace at the end of the segment";
 		protected const string _error2 = "Repeated word";
+		protected const string _error3 = "Source and target are identical";
 	}
 }
