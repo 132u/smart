@@ -1181,6 +1181,87 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Отфильтровать сегменты по слову в source
+		/// </summary>
+		/// <param name="text">слово в source</param>
+		public EditorPage FilterSegmentsBySource(string text)
+		{
+			CustomTestContext.WriteLine("Отфильтровать сегменты по слову {0} в source", text);
+			SourceFilterField.SetText(text);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Отфильтровать сегменты по слову в target
+		/// </summary>
+		/// <param name="text">слово в target</param>
+		public EditorPage FilterSegmentsByTarget(string text)
+		{
+			CustomTestContext.WriteLine("Отфильтровать сегменты по слову {0} в target", text);
+			TargetFilterField.SetText(text);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Вернуть кол-во видимых сегментов
+		/// </summary>
+		public int GetVisibleSegmentsCount()
+		{
+			CustomTestContext.WriteLine("Вернуть кол-во видимых сегментов");
+
+			return Driver.GetElementsCount(By.XPath(VISIBLE_SEGMENTS_COUNT));
+		}
+
+		/// <summary>
+		/// Открыть меню замены
+		/// </summary>
+		public EditorPage OpenReplaceMenu()
+		{
+			CustomTestContext.WriteLine("Открыть меню замены");
+			ReplaceMenuButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Заменить'
+		/// </summary>
+		public EditorPage ClickReplaceButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Заменить'");
+			ReplaceButton.Click();
+			Thread.Sleep(1000); // Для выделения слова
+			ReplaceButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Заменить все'
+		/// </summary>
+		public EditorPage ClickReplaceAllButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Заменить все'");
+			ReplaceAllButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Ввести слово в поле для замены
+		/// </summary>
+		/// <param name="text">слово в target</param>
+		public EditorPage FillTextForReplace(string text)
+		{
+			CustomTestContext.WriteLine("Ввести слово {0} в поле для замены", text);
+			ReplaceField.SetText(text);
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -2218,10 +2299,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = NEXT_TERMINOLOGY_ERROR_ARROW)]
 		protected IWebElement NextTerminologyErrorArrow { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = SOURCE_FILTER_FIELD)]
+		protected IWebElement SourceFilterField { get; set; }
 
 		[FindsBy(How = How.XPath, Using = PREVIOUS_TERMINOLOGY_ERROR_ARROW)]
 		protected IWebElement PreviousTerminologyErrorArrow { get; set; }
 		
+		[FindsBy(How = How.XPath, Using = TARGET_FILTER_FIELD)]
+		protected IWebElement TargetFilterField { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REPLACE_MENU_BUTTON)]
+		protected IWebElement ReplaceMenuButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REPLACE_BUTTON)]
+		protected IWebElement ReplaceButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REPLACE_ALL_BUTTON)]
+		protected IWebElement ReplaceAllButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REPLACE_FIELD)]
+		protected IWebElement ReplaceField { get; set; }
+
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2351,6 +2450,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string COMMENT = "//div[text()='*#*']/../..//div[text()= '*##*']";
 		protected const string COMMENT_CELL = "//div[text()='*#*']";
 		protected const string DELETE_COMMENT_BUTTON = "//div[@data-qtip='Delete' and @role='button']";
+
+		protected const string SOURCE_FILTER_FIELD = "//input[@name='source-text']";
+		protected const string TARGET_FILTER_FIELD = "//input[@name='target-text']";
+		protected const string VISIBLE_SEGMENTS_COUNT = "//div[@class='number']";
+		protected const string REPLACE_MENU_BUTTON = "//span[@class='x-btn-icon-el x-btn-icon-el-default-medium x-sci sci-replace ']";
+		protected const string REPLACE_FIELD = "//input[@name='replace-text']";
+		protected const string REPLACE_BUTTON = "//span[text()='Replace']";
+		protected const string REPLACE_ALL_BUTTON = "//span[text()='Replace All']";
 
 		#endregion
 	}

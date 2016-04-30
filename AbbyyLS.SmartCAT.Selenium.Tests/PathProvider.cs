@@ -13,6 +13,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		#region Файлы для тестов редактора
 
 		/// <summary>
+		/// Путь к тестовому файлу для проверки фильтров
+		/// </summary>
+		public static string EditorFilterFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "FilterFile.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу xlf
 		/// </summary>
 		public static string EditorXliffFile
