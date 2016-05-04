@@ -118,6 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
 			AssignTasksButtonInDocumentInfo.Click();
+			Driver.SwitchToNewBrowserTab();
 
 			return new TaskAssignmentPage(Driver).LoadPage();
 		}

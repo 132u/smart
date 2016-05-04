@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public TaskAssignmentPage OpenAssigneeDropbox(int taskNumber = 1)
 		{
 			CustomTestContext.WriteLine("Открыть выпадающий список для задачи с номером строки {0}", taskNumber);
-			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, TASK_ASSIGN_DROPDOWN, taskNumber.ToString());
+			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, SELECT_ASSIGNEES_DROPDOWN, taskNumber.ToString());
 			AssigneeDropbox.Click();
 
 			return LoadPage();
@@ -122,25 +122,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку сохранения исполнителя задачи
 		/// </summary>
-		public ProjectsPage ClickSaveButton()
+		public TaskAssignmentPage ClickSaveButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
 			Thread.Sleep(1000);
 			SaveButton.Click();
-
-			return new ProjectsPage(Driver).LoadPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку сохранения исполнителя задачи
-		/// </summary>
-		public ProjectSettingsPage ClickSaveButtonProjectSettingsPage()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
 			Thread.Sleep(1000);
-			SaveButton.Click();
 
-			return new ProjectSettingsPage(Driver).LoadPage();
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -350,9 +339,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			OpenAssigneeDropbox(taskNumber);
 			SelectResponsible(name, isGroup);
-			ClickAssignButton(taskNumber);
 
-			return this;
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -522,15 +510,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описание XPath элементов
 
-		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: saveDeadlines')]//a";
-		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//div[contains(@data-bind, 'setAssignment()')]";
+		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: save, css: {disabled: !hasChanges()}')]//a";
+		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//button[@data-bind='click: switchToSelectMode']";
 		protected const string SIMPLE_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'first')]";
 		protected const string SPLIT_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'last')]";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
 		protected const string TASK_ASSIGNMENT_TABLE = "//table[contains(@class, 'assignment-table')]";
 		protected const string TASK_ASSIGN_DROPDOWN = "//tr[*#*]//div[contains(@class, 'assignment_dropdown')]//input";
 		protected const string ASSIGNEE_LIST = "//div[contains(@class, 'assignment_dropdown')]//ul//li[not(@title='')]";
-		protected const string ASSIGNEE_OPTION = "//div[contains(@class, 'assignment_dropdown')]//ul//li[text()='*#*']";
+		protected const string ASSIGNEE_OPTION = "//div[contains(@class, 'g-dropbox__body')]//ul//li[@title='*#*']";
 		protected const string ASSIGN_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'click: assignSingleExecutive')]";
 		protected const string CANCEL_ASSIGN_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'click: unassignSingleExecutive')]";
 		protected const string CONFIRM_CANCEL_BUTTON = "//div[contains(@class,'l-confirm')]//span[span[input[@value='Cancel Assignment']]]";

@@ -37,13 +37,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocumentProgress(filePath)
 				.ClickAssignButtonInDocumentInfo();
 
-			_taskAssignmentPage.SelectAssigneesForEntireDocument(taskNumber);
-
-			_selectAssigneePage
-				.SelectAssignee(nickName)
-				.ClickClose();
-
-			_taskAssignmentPage.ClickSaveButtonProjectSettingsPage();
+			_taskAssignmentPage
+				.SetResponsible(nickName, false)
+				.ClickSaveButton();
 
 			return this;
 		}

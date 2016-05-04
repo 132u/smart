@@ -18,6 +18,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
@@ -56,6 +57,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать на ссылку с именем проекта в футере
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectSettingsPage ClickProjectLink(string projectName)
+		{
+			CustomTestContext.WriteLine("Нажать на ссылку с именем проекта {0} в футере", projectName);
+			ProjectLink = Driver.SetDynamicValue(How.XPath, PROJECT_LINK, projectName);
+			ProjectLink.Click();
+
+			return new ProjectSettingsPage(Driver).LoadPage();
+		}
 
 		public EmailConfirmationInformationDialog ClickSendAgainButton()
 		{
@@ -918,6 +932,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected IWebElement Notification { get; set; }
 
+		protected IWebElement ProjectLink { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -965,6 +981,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string LIMITED_ACCESS_MESSAGE = "//div[@class='g-limited-access-msg']";
 		protected const string SEND_AGAIN_BUTTON = "//div[@class='g-limited-access-msg']//a[text()='Send Again']";
+
+		protected const string PROJECT_LINK = "//a[text()='*#*']";
 
 		#endregion
 	}

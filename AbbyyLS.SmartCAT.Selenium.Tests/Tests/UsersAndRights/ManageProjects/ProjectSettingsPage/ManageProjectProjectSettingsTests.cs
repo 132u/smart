@@ -87,7 +87,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
-				.ClickSaveButtonProjectSettingsPage();
+				.ClickSaveButton();
+
+			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentProgress(PathProvider.DocumentFile);
 
@@ -112,7 +114,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
-				.ClickSaveButtonProjectSettingsPage();
+				.ClickSaveButton();
+
+			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 			_selectTaskDialog.SelectTask();
@@ -135,7 +139,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
-				.ClickSaveButtonProjectSettingsPage();
+				.ClickSaveButton();
+
+			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentProgress(PathProvider.DocumentFile)
