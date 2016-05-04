@@ -48,6 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminEnterpriseAccountUsersPage ClickManageUsersReference(string accountName)
 		{
 			CustomTestContext.WriteLine("Нажать ссылку для редактирования пользователей аккаунта {0}.", accountName);
+			Driver.WaitUntilElementIsDisplay(By.XPath(MANAGE_USERS_REF.Replace("*#*", accountName)));
 			ManageUsersRef = Driver.SetDynamicValue(How.XPath, MANAGE_USERS_REF, accountName);
 			ManageUsersRef.Click();
 

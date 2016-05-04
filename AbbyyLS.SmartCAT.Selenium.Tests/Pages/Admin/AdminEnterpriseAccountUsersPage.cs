@@ -87,7 +87,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminEnterpriseAccountUsersPage ClickAddUserButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить' (администратора в аккаунт).");
-			AddUserButton.Click();
+			AddUserButton.HoverElement();
+			ActiveAddUserButton = Driver.FindElement(By.XPath(ACTIVETED_ADD_USER_BTN));
+			ActiveAddUserButton.Click();
 
 			return LoadPage();
 		}
@@ -202,6 +204,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(Using = ADD_USER_BTN_ID)]
 		protected IWebElement AddUserButton { get; set; }
 
+		protected IWebElement ActiveAddUserButton { get; set; }
+
 		protected IWebElement FoundUserSurnameInput { get; set; }
 
 		protected IWebElement FoundUserNameInput { get; set; }
@@ -216,6 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		protected const string FOUND_USER_SURNAME_INPUT_XPATH = "//table//tbody[@id = 'usersTable']//tr[contains(string(), '*#*')]//input[@name = 'surnames']";
 		protected const string FOUND_USER_NAME_INPUT_XPATH = "//table//tbody[@id = 'usersTable']//tr[contains(string(), '*#*')]//input[@name = 'names']";
 		protected const string ADD_USER_BTN_ID = "addUsersBtn";
+		protected const string ACTIVETED_ADD_USER_BTN = "//input[contains(@class, 'ui-state-hover') and contains(@id, 'addUsersBtn')]";
 
 		#endregion
 	}
