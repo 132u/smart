@@ -127,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { PathProvider.DocumentFile })
-				.AssignTasksOnDocument(PathProvider.DocumentFile, AdditionalUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, AdditionalUser.NickName, _projectUniqueName);
 
 			_loginHelper.Authorize(StartPage.Workspace, AdditionalUser);
 

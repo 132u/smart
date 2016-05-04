@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.ClickProject(projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, projectUniqueName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.TxtFileForMatchTest);

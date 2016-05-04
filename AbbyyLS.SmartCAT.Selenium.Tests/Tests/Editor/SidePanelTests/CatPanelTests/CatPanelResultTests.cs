@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
 			
@@ -115,7 +115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);

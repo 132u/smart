@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -132,8 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
-				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, _projectUniqueName, taskNumber: 2);
 
 			_workspacePage.SignOut();
 
@@ -167,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -198,7 +198,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -246,8 +246,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
-				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, _projectUniqueName, taskNumber: 2);
 
 			_workspacePage.SignOut();
 
@@ -284,8 +284,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(
-				document1,
-				AdditionalUser.NickName);
+				document1, AdditionalUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -316,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(document1, AdditionalUser.NickName);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -366,8 +365,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.SaveSettings();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(document1, AdditionalUser.NickName)
-				.AssignTasksOnDocument(document2, AdditionalUser.NickName, taskNumber: 2);
+				.AssignTasksOnDocument(document1, AdditionalUser.NickName, _projectUniqueName)
+				.AssignTasksOnDocument(document2, AdditionalUser.NickName, _projectUniqueName, taskNumber: 2);
 
 			_workspacePage.SignOut();
 

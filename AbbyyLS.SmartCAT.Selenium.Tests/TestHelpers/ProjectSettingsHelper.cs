@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
@@ -24,14 +25,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_projectPage = new ProjectSettingsPage(Driver);
 			_addFilesStep = new AddFilesStep(Driver);
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
-			_selectAssigneePage = new SelectAssigneePage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_editorPage = new EditorPage(Driver);
 			_deleteDocumentDialog = new DeleteDocumentDialog(Driver);
 			_settingResourceStep = new SettingsResourcesStep(Driver);
+			_workspacePage = new WorkspacePage(Driver);
 		}
 
-		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, int taskNumber = 1)
+		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, string projectName, int taskNumber = 1)
 		{
 			_projectPage
 				.ClickDocumentProgress(filePath)
@@ -40,6 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_taskAssignmentPage
 				.SetResponsible(nickName, false)
 				.ClickSaveButton();
+
+			_workspacePage.ClickProjectLink(projectName);
 
 			return this;
 		}
@@ -135,8 +138,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		private readonly DocumentSettingsDialog _documentSettingsDialog;
 		private readonly AddFilesStep _addFilesStep;
 		private readonly TaskAssignmentPage _taskAssignmentPage;
-		private readonly SelectAssigneePage _selectAssigneePage;
 		private readonly EditorPage _editorPage;
 		private readonly SelectTaskDialog _selectTaskDialog;
+		private readonly WorkspacePage _workspacePage;
 	}
 }

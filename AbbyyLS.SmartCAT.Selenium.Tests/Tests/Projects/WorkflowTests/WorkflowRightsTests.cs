@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileName(PathProvider.EditorTxtFile), AdditionalUser.NickName);
+				.AssignTasksOnDocument(Path.GetFileName(PathProvider.EditorTxtFile), AdditionalUser.NickName, _projectUniqueName);
 		}
 
 		[Test, Description("ТС-56 Пользователь назначен  на один этап одного документа")]

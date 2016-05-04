@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm1, ThreadUser.NickName)
+				.AssignTasksOnDocument(PathProvider.DocumentFileToConfirm1, ThreadUser.NickName, _projectUniqueName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1));
 
 			_workspacePage.GoToProjectsPage();
@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { document2 })
-				.AssignTasksOnDocument(document2, ThreadUser.NickName)
+				.AssignTasksOnDocument(document2, ThreadUser.NickName, _projectUniqueName)
 				.CreateRevision(Path.GetFileNameWithoutExtension(document2));
 
 			_workspacePage.GoToProjectsPage();

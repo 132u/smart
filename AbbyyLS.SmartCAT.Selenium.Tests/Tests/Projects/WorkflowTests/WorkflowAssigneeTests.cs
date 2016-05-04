@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-0511 Отказ после подтверждения")]
 		public void DeclineTaskTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.RepetitionsTxtFile);
 
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-053 Отмена участия исполнителя назначенного этапа")]
 		public void DeclineAssigneeTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
 
 			_workspacePage
 				.GoToProjectsPage()

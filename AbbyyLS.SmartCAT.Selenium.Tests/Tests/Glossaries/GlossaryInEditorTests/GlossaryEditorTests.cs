@@ -45,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectSettingsHelper
 				.UploadDocument(new []{PathProvider.DocumentFile})
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName);
+				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);

@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage.ClickProject(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.QANavigationFile, ThreadUser.NickName);
+			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.QANavigationFile, ThreadUser.NickName, _projectUniqueName);
 			
 			_projectSettingsPage
 				.SelectGlossaryByName(glossaryUniqueName)

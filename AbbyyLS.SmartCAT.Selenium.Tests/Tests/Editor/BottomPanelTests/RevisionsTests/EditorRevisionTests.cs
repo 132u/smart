@@ -216,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectSettingsHelper.AssignTasksOnDocument(
 				Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile),
-				_secondUser.NickName);
+				_secondUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
