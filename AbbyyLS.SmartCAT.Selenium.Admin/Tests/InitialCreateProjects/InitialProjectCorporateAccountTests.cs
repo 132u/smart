@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 				.FillGeneralProjectInformation(
 					projectUniqueName,
 					sourceLanguage: Language.English,
-					targetLanguage: Language.Russian)
+					targetLanguages: new[] { Language.Russian })
 				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
