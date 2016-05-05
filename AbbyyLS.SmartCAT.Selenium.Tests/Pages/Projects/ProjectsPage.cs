@@ -1145,6 +1145,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
 		protected const string MY_TASKS_TAB = "//a[@href='/Workspace?tab=MyTasks']";
 		protected const string CANCELLED_PROJECTS_TAB = "//a[@href='/Workspace?tab=Canceled']";
+		protected const string HELP_DOCUMENT_TRANSLATION_POPUP = "//div[@class='hopscotch-bubble animated']";
 
 		#endregion
 	}
