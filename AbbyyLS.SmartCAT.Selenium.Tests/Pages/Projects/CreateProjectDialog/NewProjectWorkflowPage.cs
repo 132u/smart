@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using OpenQA.Selenium;
@@ -183,6 +184,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return expectedTaskCount == GetWorkflowAddedTaskList().Count;
 		}
 
+		/// <summary>
+		/// Проверить, что есть анимация для кнопки Finish
+		/// </summary>
+		public bool IsFinishButtonAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация для кнопки Finish.");
+			var animationDuration = CreateProjectButton.GetCssValue("animation-duration");
+			var animationName = CreateProjectButton.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -203,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		#region Описания XPath элементов
 
-		protected const string CREATE_PROJECT_BUTTON = "//div[contains(@data-bind,'complete')]//a[contains(@class, 'g-greenbtn')]";
+		protected const string CREATE_PROJECT_BUTTON = "//div[contains(@data-bind,'click: $parent.completeStep')]";
 		protected const string WORKFLOW_ADDED_TASK_LIST = "//td[@class='task-item']/div";
 		protected const string WORKFLOW_ADDED_TASK_ITEM = "(//td[@class='task-item']/div)[*#*]";
 		protected const string WORKFLOW_TASK_TYPE_LIST = "//div[@class='clearfix']//div[contains(@class,'task-name')]";

@@ -370,6 +370,7 @@
     <Compile Include="Tests\QualityAssurance\QualityAssuranceNavigationTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceReportTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountAdminRegistrationTests.cs" />
+    <Compile Include="Tests\Registration\Help\HelpTests.cs" />
     <Compile Include="Tests\Search\SearchPageTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationInvalidDataTests.cs" />
     <Compile Include="Tests\Registration\CorporateAccountRegistration\CorporateAccountRegistrationValidDataTests.cs" />

@@ -662,6 +662,66 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.GetIsElementExist(By.XPath(TRANSLATION_MEMORY_ROW.Replace("*#*", translationMemory)));
 		}
 
+		/// <summary>
+		/// Проверить, что есть анимация названия поля исходного языка
+		/// </summary>
+		public bool IsSourceLanguageFieldNameAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация названия поля исходного языка.");
+			var animationDuration = SourceLanguageFieldName.GetCssValue("animation-duration");
+			var animationName = SourceLanguageFieldName.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("tremor", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Проверить, что есть анимация названия поля целевого языка
+		/// </summary>
+		public bool IsTargetLanguageFieldNameAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация названия поля целевого языка.");
+			var animationDuration = TargetLanguageFieldName.GetCssValue("animation-duration");
+			var animationName = TargetLanguageFieldName.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("tremor", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Проверить, что нет анимации названия поля исходного языка
+		/// </summary>
+		public bool IsSourceLanguageFieldNameAnimationNotExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что нет анимации названия поля исходного языка.");
+			var animationDuration = SourceLanguageFieldName.GetCssValue("animation-duration");
+			var animationName = SourceLanguageFieldName.GetCssValue("animation-name");
+
+			return animationDuration.Equals("0s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("none", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Проверить, что нет анимации названия поля целевого языка
+		/// </summary>
+		public bool IsTargetLanguageFieldNameAnimationNotExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что нет анимации названия поля целевого языка.");
+			var animationDuration = TargetLanguageFieldName.GetCssValue("animation-duration");
+			var animationName = TargetLanguageFieldName.GetCssValue("animation-name");
+
+			return animationDuration.Equals("0s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("none", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Проверить, что есть анимация для кнопки Next
+		/// </summary>
+		public bool IsNextButtonAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация для кнопки Next.");
+			var animationDuration = NextButton.GetCssValue("animation-duration");
+			var animationName = NextButton.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -731,7 +791,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		
 		[FindsBy(How = How.XPath, Using = CLIENT_DROPDOWN)]
 		protected IWebElement ClientDropdown { get; set; }
-		protected IWebElement ClientOption { get; set; }
+
 		[FindsBy(How = How.XPath, Using = ADD_EXISTING_TM)]
 		protected IWebElement AddExistingTMButton { get; set; }
 
@@ -743,10 +803,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		
 		[FindsBy(How = How.XPath, Using = PROJECT_GROUP_DROPDOWN)]
 		protected IWebElement ProjectGroupDropdown { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SOURCE_LANGUAGE_FIELD_NAME)]
+		protected IWebElement SourceLanguageFieldName { get; set; }
+
+		[FindsBy(How = How.XPath, Using = TARGET_LANGUAGE_FIELD_NAME)]
+		protected IWebElement TargetLanguageFieldName { get; set; }
+
+		protected IWebElement ClientOption { get; set; }
+
 		protected IWebElement ProjectGroupOption { get; set; }
 
 		protected IWebElement WriteTranslationMemoryRadioButton { get; set; }
+
 		protected IWebElement TranslationMemoryRow { get; set; }
+
 		protected IWebElement SourceLangItem { get; set; }
 
 		protected IWebElement TargetLangItem { get; set; }
@@ -776,7 +847,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']//input";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
-		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//i[@class='icon-sc-arrow-right']";
+		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
@@ -803,6 +874,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string PROJECT_GROUP_DROPDOWN = "//div[contains(@data-bind, 'domainId')]//input[contains(@placeholder, 'Select a project group')]";
 		protected const string PROJECT_GROUP_OPTION = "//li[@title='*#*']";
 		protected const string TM_SOURCE_LANGUAGE = "(//div[contains(text(),'*#*')]/../../..//span[contains(@data-bind, 'sourceLanguageId')])[1]";
+
+		protected const string SOURCE_LANGUAGE_FIELD_NAME = "//div[@class='source_lang']/p";
+		protected const string TARGET_LANGUAGE_FIELD_NAME = "//div[@class='source_lang']//following-sibling::div/p";
 
 		#endregion
 	}

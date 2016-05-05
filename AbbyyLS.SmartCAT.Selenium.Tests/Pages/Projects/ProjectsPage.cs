@@ -239,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его) ожидая открытие редактора
 		/// </summary>
-		public EditorPage ClickDocumentRefExpectingEditorPage(string documentPath)
+		public EditorPage ClickDocumentRefExpectingEditorPage(string documentPath, bool needCloseTutorial = true)
 		{
 			var documentname = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая открытие редактора.", documentname);
@@ -248,7 +248,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			Driver.SwitchToNewBrowserTab();
 
-			return new EditorPage(Driver).LoadPage();
+			return new EditorPage(Driver, needCloseTutorial).LoadPage();
 		}
 
 		/// <summary>
@@ -916,6 +916,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Проверить, что отображается кнопка экспорта для документа {0} в проекте {1}.", documentNumber, projectName);
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(DOWNLOAD_IN_DOCUMENT_BUTTON.Replace("*#*", projectName).Replace("*##*", documentNumber.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что отображается подсказка о том, как начать перевод документа
+		/// </summary>
+		public bool IsHelpDocumentTranslationPopupExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается подсказка о том, как начать перевод документа.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(HELP_DOCUMENT_TRANSLATION_POPUP));
 		}
 
 		#endregion

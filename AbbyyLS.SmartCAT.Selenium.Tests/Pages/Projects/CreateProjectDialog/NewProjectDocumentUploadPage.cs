@@ -227,6 +227,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return actualProjectName == expectedProjectName;
 		}
 
+		/// <summary>
+		/// Проверить, что есть анимация кнопки выбора документа
+		/// </summary>
+		public bool IsSelectDocumentButtonAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация кнопки выбора документа");
+			var animationDuration = SelectDocumentButton.GetCssValue("animation-duration");
+			var animationName = SelectDocumentButton.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
+		}
+
+		/// <summary>
+		/// Проверить, что есть анимация кнопки перехода к настройкам проекта
+		/// </summary>
+		public bool IsSettingsButtonAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация кнопки перехода к настройкам проекта");
+			var animationDuration = SettingsButton.GetCssValue("animation-duration");
+			var animationName = SettingsButton.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
+		}
+
 		#endregion
 
 		#region Вспомогательные методы
@@ -263,6 +287,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = PROJECT_NAME_INPUT)]
 		protected IWebElement ProjectNameInput { get; set; }
 
+		[FindsBy(How = How.XPath, Using = SELECT_DOCUMENT_BUTTON)]
+		protected IWebElement SelectDocumentButton { get; set; }
+
 		protected IWebElement UploadedDocument { get; set; }
 
 		protected IWebElement DeleteFileButton { get; set; }
@@ -282,6 +309,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string DUPLICATE_NAME_ERROR = "//div[contains(@class,'js-info-popup')]//span[contains(string(),'The following files have already been added to the project')]";
 		protected const string ERROR_FORMAT_DOCUMENT_MESSAGE = "//span[contains(text(),'*#*')]/following-sibling::span[contains(@data-bind, 'unsupportedFormat')]";
 		protected const string PROJECT_NAME_INPUT = "//div[@class='edit_proj_title']//input[@name='name']";
+		protected const string SELECT_DOCUMENT_BUTTON = "//div[@data-bind='click: addFile']";
 
 		#endregion
 	}

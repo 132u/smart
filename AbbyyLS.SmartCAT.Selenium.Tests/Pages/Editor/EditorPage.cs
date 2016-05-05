@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 
@@ -23,10 +22,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 	{
 		public WebDriver Driver { get; set; }
 
-		public EditorPage(WebDriver driver)
+		private bool _needCloseTutorial { get; set; }
+
+		public EditorPage(WebDriver driver, bool needCloseTutorial = true)
 		{
 			Driver = driver;
 			PageFactory.InitElements(Driver, this);
+			_needCloseTutorial = needCloseTutorial;
 		}
 
 		public EditorPage LoadPage()
@@ -35,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			{
 				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
 			}
-			if (IsEditorDialogBackgroundDisplayed())
+			if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
 			{
 				CloseTutorial();
 			}
@@ -697,7 +699,79 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return LoadPage();
 		}
-		
+
+		/// <summary>
+		/// Кликнуть Next в окне подсказки к ячейке исходного языка
+		/// </summary>
+		public EditorPage ClickNextButtonOnSourceFieldHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к ячейке исходного языка");
+
+			NextButtonOnSourceFieldHelp.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть Next в окне подсказки к ячейке целевого языка
+		/// </summary>
+		public EditorPage ClickNextButtonOnTargetFieldHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к ячейке целевого языка");
+
+			NextButtonOnTargetFieldHelp.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть Next в окне подсказки к Cat-панели
+		/// </summary>
+		public EditorPage ClickNextButtonOnCatPanelHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к Cat-панели");
+
+			NextButtonOnCatPanelHelp.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть Next в окне подсказки к кнопке подтверждения
+		/// </summary>
+		public EditorPage ClickNextButtonOnConfirmHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к кнопке подтверждения.");
+
+			NextButtonOnConfirmHelp.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть Next в окне подсказки к панели кнопок
+		/// </summary>
+		public EditorPage ClickNextButtonOnButtonBarHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к панели кнопок.");
+
+			NextButtonOnButtonBarHelp.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть Finish в окне подсказки к инструментам обратной связи
+		/// </summary>
+		public EditorPage ClickFinishButtonOnFeedbackHelp()
+		{
+			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к инструментам обратной связи.");
+
+			FinishButtonOnFeedbackHelp.Click();
+
+			return LoadPage();
+		}
+
 		/// <summary>
 		/// Нажать кнопку 'Копировать оригинал в перевод'
 		/// </summary>
@@ -2129,6 +2203,76 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsAppear(By.XPath(QA_ERROR_TABLE));
 		}
 
+		/// <summary>
+		/// Проверить, что есть подсказка к ячейке исходного текста.
+		/// </summary>
+		public bool IsSourceColumnHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к ячейке исходного текста.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEXT_BUTTON_ON_SOURCE_FIELD_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что есть подсказка к ячейке целевого текста.
+		/// </summary>
+		public bool IsTargetColumnHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к ячейке целевого текста.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEXT_BUTTON_ON_TARGET_FIELD_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что есть подсказка к Cat-панели.
+		/// </summary>
+		public bool IsCatPanelHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к Cat-панели.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEXT_BUTTON_ON_CAT_PANEL_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что есть подсказка к кнопке подтверждения.
+		/// </summary>
+		public bool IsConfirmHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к кнопке подтверждения.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEXT_BUTTON_ON_CONFIRM_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что есть подсказка к панели кнопок.
+		/// </summary>
+		public bool IsButtonBarHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к панели кнопок.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NEXT_BUTTON_ON_BUTTON_BAR_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что есть подсказка к инструментам обратной связи.
+		/// </summary>
+		public bool IsFeedbackHelpDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть подсказка к инструментам обратной связи.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_BUTTON_ON_FEEDBACK_HELP));
+		}
+
+		/// <summary>
+		/// Проверить, что закрылась подсказка к инструментам обратной связи.
+		/// </summary>
+		public bool IsFeedbackHelpDisappeared()
+		{
+			CustomTestContext.WriteLine("Проверить, что закрылась подсказка к инструментам обратной связи.");
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_BUTTON_ON_FEEDBACK_HELP));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -2150,6 +2294,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = FINISH_TUTORIAL_BUTTON)]
 		protected IWebElement FinishTutorialButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON_ON_SOURCE_FIELD_HELP)]
+		protected IWebElement NextButtonOnSourceFieldHelp { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON_ON_TARGET_FIELD_HELP)]
+		protected IWebElement NextButtonOnTargetFieldHelp { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON_ON_CAT_PANEL_HELP)]
+		protected IWebElement NextButtonOnCatPanelHelp { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON_ON_CONFIRM_HELP)]
+		protected IWebElement NextButtonOnConfirmHelp { get; set; }
+
+		[FindsBy(How = How.XPath, Using = NEXT_BUTTON_ON_BUTTON_BAR_HELP)]
+		protected IWebElement NextButtonOnButtonBarHelp { get; set; }
+
+		[FindsBy(How = How.XPath, Using = FINISH_BUTTON_ON_FEEDBACK_HELP)]
+		protected IWebElement FinishButtonOnFeedbackHelp { get; set; }
 
 		[FindsBy(Using = DICTIONARY_BUTTON)]
 		protected IWebElement SpellcheckDictionaryButton { get; set; }
@@ -2458,6 +2620,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REPLACE_FIELD = "//input[@name='replace-text']";
 		protected const string REPLACE_BUTTON = "//span[text()='Replace']";
 		protected const string REPLACE_ALL_BUTTON = "//span[text()='Replace All']";
+
+		protected const string NEXT_BUTTON_ON_SOURCE_FIELD_HELP = "//div[text()='Source Column']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
+		protected const string NEXT_BUTTON_ON_TARGET_FIELD_HELP = "//div[text()='Target Field']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
+		protected const string NEXT_BUTTON_ON_CAT_PANEL_HELP = "//div[text()='CAT Pane']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
+		protected const string NEXT_BUTTON_ON_CONFIRM_HELP = "//div[text()='Confirm Button']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
+		protected const string NEXT_BUTTON_ON_BUTTON_BAR_HELP = "//div[text()='Button Bar']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
+		protected const string FINISH_BUTTON_ON_FEEDBACK_HELP = "//div[text()='Feedback']//ancestor::div[4]//following-sibling::div//span[text()='Finish']";
 
 		#endregion
 	}

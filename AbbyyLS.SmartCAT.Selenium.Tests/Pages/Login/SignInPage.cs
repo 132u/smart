@@ -7,6 +7,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 {
@@ -87,6 +88,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			SignInButton.Click();
 
 			return new WorkspacePage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку "Sign In"
+		/// </summary>
+		public NewProjectDocumentUploadPage ClickSubmitButtonExpectingNewProjectDocumentUploadPage()
+		{
+			CustomTestContext.WriteLine("Нажать 'Sign In'.");
+			SignInButton.Click();
+
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -233,6 +245,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login
 			ClickSubmitButtonExpectingWorkspacePage();
 
 			return new WorkspacePage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Авторизация
+		/// </summary>
+		/// <param name="login">логин (email)</param>
+		/// <param name="password">пароль</param>
+		public NewProjectDocumentUploadPage SubmitFormExpectingNewProjectDocumentUploadPage(string login, string password)
+		{
+			SetLogin(login);
+			SetPassword(password);
+			ClickSubmitButtonExpectingNewProjectDocumentUploadPage();
+
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
 		}
 
 		/// <summary>
