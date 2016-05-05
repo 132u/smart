@@ -1,10 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Linq;
-using System.Windows.Forms;
-
-using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -368,7 +363,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Выбрать дату дэдлайна
 		/// </summary>
 		/// <param name="deadline">тип дэдлайна</param>
-		/// <param name="date">дата дэдлайна. Используется только с типом 'FillDeadlineDate'</param>
 		public NewProjectSettingsPage SetDeadline(Deadline deadline)
 		{
 			CustomTestContext.WriteLine("Выбрать дату дэдлайна.");
@@ -425,10 +419,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// Выбрать язык перевода
 		/// </summary>
 		/// <param name="targetLanguage">язык перевода</param>
-		public NewProjectSettingsPage SetTargetLanguage(Language targetLanguage = Language.Russian)
+		/// <param name="deselectAllLanguages">снять ли выбор с других языков</param>
+		public NewProjectSettingsPage SetTargetLanguage(Language targetLanguage = Language.Russian, bool deselectAllLanguages = true)
 		{
 			ClickAddTargetLanguageButton();
-			DeselectAllTargetLanguagesInList();
+
+			if (deselectAllLanguages)
+			{
+				DeselectAllTargetLanguagesInList();	
+			}
+			
 			SelectTargetLanguageInList(targetLanguage);
 			ClickTargetLanguageDropdownHeader();
 
@@ -441,14 +441,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectSettingsPage FillGeneralProjectInformation(
 			string projectName,
 			Language sourceLanguage = Language.English,
-			Language targetLanguage = Language.Russian,
+			Language[] targetLanguages = null,
 			Deadline deadline = Deadline.CurrentDate,
 			bool useMachineTranslation = false)
 		{
 			FillProjectName(projectName);
 			SetDeadline(deadline);
 			SetSourceLanguage(sourceLanguage);
-			SetTargetLanguage(targetLanguage);
+
+			targetLanguages = targetLanguages ?? new[] { Language.Russian };
+			bool deselectAllLanguages = targetLanguages.Length < 2;
+
+			foreach (var targetLanguage in targetLanguages)
+			{
+				SetTargetLanguage(targetLanguage, deselectAllLanguages);
+			}
 
 			if (useMachineTranslation ^ IsUseMachineTranslationInutSelected())
 			{

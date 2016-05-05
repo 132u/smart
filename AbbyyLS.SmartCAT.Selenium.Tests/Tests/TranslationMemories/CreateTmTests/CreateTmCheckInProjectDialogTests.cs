@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			NewProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
 			NewProjectSettingsPage
-				.FillGeneralProjectInformation(UniqueTMName, targetLanguage: Language.Lithuanian)
+				.FillGeneralProjectInformation(UniqueTMName, targetLanguages: new []{ Language.Lithuanian })
 				.ExpandAdvancedSettings();
 
 			_translationMemoryAdvancedSettingsSection.ClickSelectTmButton();

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -430,9 +431,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">название проекта</param>
 		public string GetProjectStatus(string projectName)
 		{
-			CustomTestContext.WriteLine("Получить статус проекта");
+			CustomTestContext.WriteLine("Получить статус проекта {0}", projectName);
 
 			return Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName).GetAttribute("title");
+		}
+
+		/// <summary>
+		/// Кликнуть на статус проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public ProjectsPage ClickProjectStatus(string projectName)
+		{
+			CustomTestContext.WriteLine("Кликнуть на статус проекта {0}", projectName);
+			ProjectStatus = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS, projectName);
+			ProjectStatus.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть на вкладку 'Отменённые проекты'
+		/// </summary>
+		public ProjectsPage ClickCancelledProjectsTab()
+		{
+			CustomTestContext.WriteLine("Кликнуть на вкладку 'Отменённые проекты'");
+			CancelledProjectsTab.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Выбрать статус проекта
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		/// <param name="projectStatus">статус проекта</param>
+		public ProjectsPage SelectProjectStatus(string projectName, ProjectStatus projectStatus)
+		{
+			CustomTestContext.WriteLine("Выбрать статус {0} для проекта {1}", projectStatus.ToString(), projectName);
+			ProjectStatusItem = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS_ITEM, projectName, projectStatus.ToString());
+			ProjectStatusItem.Click();
+
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -441,7 +480,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">название проекта</param>
 		public string GetProjectStatusRights(string projectName)
 		{
-			CustomTestContext.WriteLine("Получить статус проекта");
+			CustomTestContext.WriteLine("Получить статус проекта {0}", projectName);
 			ProjectStatusRights = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS_RIGHTS, projectName);
 			
 			return ProjectStatusRights.Text;
@@ -466,7 +505,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return new TaskDeclineDialog(Driver).LoadPage();
 		}
 
-		///<summary>
+		/// <summary>
 		/// Открыть диалог назначения задачи
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -499,6 +538,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			ClickProjectAssignButton(projectName);
 
 			return new TaskAssignmentPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Отменить проект
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public ProjectsPage CancelProject(string projectName)
+		{
+			ClickProjectStatus(projectName);
+			SelectProjectStatus(projectName, DataStructures.ProjectStatus.Cancelled);
+			// проект перемещается на вкладку отменённых проектов только после перезагрузки страницы
+			RefreshPage<ProjectsPage>();
+
+			return LoadPage();
 		}
 
 		#endregion
@@ -715,7 +768,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Проверить, присутствует ли ссылка на документ на странице
+		/// Проверить, что ссылка на документ пропала из проекта
 		/// </summary>
 		/// <param name="documentPath">имя документа</param>
 		/// <param name="projectName">имя проекта</param>
@@ -724,12 +777,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileName(documentPath);
 
 			CustomTestContext.WriteLine(
-				"Проверить, присутствует ли документ {0} на в проекте {1}", documentName, projectName);
+				"Проверить, присутствует ли документ {0} в проекте {1}", documentName, projectName);
 
 			return Driver.WaitUntilElementIsDisappeared(
 				By.XPath(DOCUMENT_REF_IN_PROJECT.Replace("*#*", projectName).Replace("*##*", documentName)));
 		}
 
+		/// <summary>
+		/// Проверить, присутствует ли ссылка(или ссылки для мультиязычного проекта) на документ на странице
+		/// </summary>
+		/// <param name="documentPath">имя документа</param>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="languages">список языков(на случай мультиязычного проекта)</param>
+		public bool IsDocumentInProjectExist(string projectName, string documentPath, Language[] languages = null)
+		{
+			var baseDocumentName = Path.GetFileNameWithoutExtension(documentPath);
+
+			IEnumerable<string> documentNames = languages != null && languages.Length > 1
+				? languages.Select(l => String.Format("{0}_{1}", baseDocumentName, l.Description()))
+				: new[] {baseDocumentName};
+
+			foreach (var documentName in documentNames)
+			{
+				CustomTestContext.WriteLine("Проверить, присутствует ли документ {0} в проекте {1}", documentName, projectName);
+
+				if(!Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_REF_IN_PROJECT.Replace("*#*", projectName).Replace("*##*", documentName))))
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
 
 		/// <summary>
 		/// Проверить, что кнопка 'Add Files' отображается
@@ -783,12 +862,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.GetIsElementExist(By.XPath(DELETE_BUTTON));
 		}
 		
+		/// <summary>
+		/// Проверить, что отображается нужная задача
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentNumber">номер документа</param>
+		/// <param name="task">тип задачи</param>
 		public bool IsMyTaskDisplayed(string projectName, int documentNumber = 1, WorkflowTask task = WorkflowTask.Translation)
 		{
 			CustomTestContext.WriteLine("Проверить, что отображается задача {0} для текущего пользователя в проекте {1}.", task, projectName);
 			
 			return Driver.WaitUntilElementIsDisplay(By.XPath(
 				MY_TASK.Replace("*#*", projectName).Replace("*##*", documentNumber.ToString()).Replace("*###*", task.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что отображается вкладка 'Мои задачи'
+		/// </summary>
+		public bool IsMyTasksTabDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается вкладка 'Мои задачи'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MY_TASKS_TAB));
 		}
 
 		/// <summary>
@@ -951,6 +1046,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = GREEN_CREATE_PROJECT_BUTTON)]
 		protected IWebElement GreenCreateProjectButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CANCELLED_PROJECTS_TAB)]
+		protected IWebElement CancelledProjectsTab { get; set; }
+		
 		protected IWebElement DownloadInProjectButton { get; set; }
 
 		protected IWebElement DownloadInDocumentButton { get; set; }
@@ -975,6 +1073,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement ProjectAssignTaskButton { get; set; }
 		protected IWebElement QualityAssuranceCheckButton { get; set; }
 		protected IWebElement ProjectStatusRights { get; set; }
+		protected IWebElement ProjectStatus { get; set; }
+		protected IWebElement ProjectStatusItem { get; set; }
 
 		protected IWebElement DeleteButtonInProjectPanel { get; set; }
 
@@ -997,13 +1097,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
 		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
+		protected const string PROJECT_STATUS_ITEM = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
 		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
-		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
+		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON ="//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
@@ -1032,6 +1133,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
 		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
 		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
+		protected const string MY_TASKS_TAB = "//a[@href='/Workspace?tab=MyTasks']";
+		protected const string CANCELLED_PROJECTS_TAB = "//a[@href='/Workspace?tab=Canceled']";
 
 		#endregion
 	}

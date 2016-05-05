@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.FillGeneralProjectInformation(
 					_projectUniqueName,
 					sourceLanguage: Language.Japanese,
-					targetLanguage: Language.Lithuanian,
+					targetLanguages: new []{ Language.Lithuanian },
 					deadline: Deadline.CurrentDate)
 				.ClickNextButton();
 

@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 
 using NUnit.Framework;
 
@@ -19,29 +20,184 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			StartPage = StartPage.PersonalAccount;
 		}
 
-		[Test, Description("S-7168")]
-		public void CreateProjectNoFileTest()
+		[TestCase(true, Description = "S-7169")]
+		[TestCase(false, Description = "S-7168")]
+		public void CreateProjectNoFileTest(bool useGreenCreateProjectButton)
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true, useGreenCreateProjectButton: useGreenCreateProjectButton);
 
-			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
+		}
 
-			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
-				"Произошла ошибка:\n проект {0} не появился в списке проектов.", projectUniqueName);
+		[Test, Description("S-7170")]
+		public void CreateMultiLanguageProjectTest()
+		{
+			var targetLanguages = new[]
+			{
+				Language.Russian,
+				Language.German
+			};
+
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new []{ PathProvider.DocumentFile },
+				targetLanguages: targetLanguages, 
+				personalAccount: true);
+
+			_projectsPage.OpenProjectInfo(_projectUniqueName);
+
+			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, PathProvider.DocumentFile, targetLanguages),
+				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.", 
+				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+		}
+
+		[Test, Description("S-7171")]
+		public void AddTargetLanguageToProjectTest()
+		{
+			var targetLanguages = new[]
+			{
+				Language.Russian,
+				Language.German
+			};
+
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[] { PathProvider.DocumentFile },
+				targetLanguages: new[]{ targetLanguages[0] },
+				personalAccount: true);
+
+			_projectsPage.OpenProjectInfo(_projectUniqueName);
+
+			_projectsPage.ClickProjectSettingsButton(_projectUniqueName);
+
+			_projectSettingsDialog
+				.SelectTargetLanguages(targetLanguages[1])
+				.SaveSettingsExpectingProjectsPage();
+
+			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, PathProvider.DocumentFile, targetLanguages),
+				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.",
+				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+		}
+
+		[Test, Description("S-7172")]
+		[TestCase(1)]
+		[TestCase(2)]
+		public void AddDocumentToProjectTest(int targetLanguagesCount)
+		{
+			var targetLanguages = (new[]
+			{
+				Language.Russian, 
+				Language.German
+			})
+			.Take(targetLanguagesCount)
+			.ToArray();
+
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				filesPaths: new[] { PathProvider.TtxFile },
+				targetLanguages: targetLanguages,
+				personalAccount: true);
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFile});
+
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile, targetLanguages),
+				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.",
+				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+		}
+
+		[Test, Description("S-7066")]
+		public void OpenProjectSettingsDialogOnProjectsPageTest()
+		{
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickProjectSettingsButton(_projectUniqueName);
+
+			Assert.IsTrue(_projectSettingsDialog.IsSettingsDialogOpened(),
+				"Произошла ошибка:\n Не открылся диалог настроек проекта {0}.", _projectUniqueName);
+		}
+
+		[Test]
+		public void OpenProjectSettingsDialogOnProjectSettingsPageTest()
+		{
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			_projectSettingsPage.ClickSettingsButton();
+
+			Assert.IsTrue(_projectSettingsDialog.IsSettingsDialogOpened(),
+				"Произошла ошибка:\n Не открылся диалог настроек проекта {0}.", _projectUniqueName);
+		}
+
+		[Test, Description("S-7173")]
+		public void ChangeProjectNameTest()
+		{
+			string newProjectUniqueName = "changed_" + _projectUniqueName;
+
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickProjectSettingsButton(_projectUniqueName);
+
+			_projectSettingsDialog
+				.FillName(newProjectUniqueName)
+				.SaveSettingsExpectingProjectsPage();
+
+			Assert.IsTrue(_projectsPage.IsProjectNotExistInList(_projectUniqueName),
+				"Произошла ошибка:\n проект {0} остался в списке.", newProjectUniqueName);
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(newProjectUniqueName),
+				"Произошла ошибка:\n проект {0} не появился в списке проектов.", newProjectUniqueName);
+
+			_projectsPage.ClickProject(newProjectUniqueName);
+
+			Assert.AreEqual(_projectSettingsPage.GetProjectName(), newProjectUniqueName,
+				"Произошла ошибка:\n имя проекта не изменилось на странице настроек проекта.");
+		}
+
+		[Test, Description("S-7181")]
+		public void CancelProjectTest()
+		{
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
+
+			_projectsPage
+				.CancelProject(_projectUniqueName)
+				.ClickCancelledProjectsTab();
+
+			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
+					"Произошла ошибка:\n проект {0} не появился в списке отменённых проектов проектов.", _projectUniqueName);
+		}
+
+		[Test, Description("S-7178")]
+		public void RepetitionsButtonTest()
+		{
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
+
+			_projectsPage.ClickProject(_projectUniqueName);
+
+			Assert.IsFalse(_projectSettingsPage.IsRepetitionsButtonDisplayed(),
+					"Произошла ошибка:\n кнопка 'Repetitions' присутствует на странице проекта.");
 		}
 
 		[Test]
 		public void CreateProjectDuplicateNameTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-
-			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
 
-			_newProjectSettingsPage.FillGeneralProjectInformation(projectUniqueName);
+			_newProjectSettingsPage.FillGeneralProjectInformation(_projectUniqueName);
 
 			Assert.IsTrue(_newProjectSettingsPage.IsDuplicateNameErrorMessageDisplayed(),
 				"Произошла ошибка:\n не появилось сообщение о существующем имени");
@@ -61,19 +217,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", longProjectUniqueName.Substring(0, 100));
 		}
 
-		[Test]
-		public void AssignTaskButtonTest()
+		[Test, Description("S-7180")]
+		public void AssignTasksTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
+			Assert.IsFalse(_projectsPage.IsMyTasksTabDisplayed(),
+				"Произошла ошибка:\n вкладка 'Мои задачи' отображается на странице списка проектов.");
 
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
 
-			_projectSettingsPage
-				.ClickDocumentProgress(Path.GetFileName(PathProvider.DocumentFile));
+			_projectSettingsPage.ClickDocumentProgress(Path.GetFileName(PathProvider.DocumentFile));
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignButtonExist(),
 				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа");
@@ -98,11 +254,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteDocumentFromProjectTest()
 		{
-			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_createProjectHelper.CreateNewProject(projectUniqueName, personalAccount: true);
-
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { PathProvider.DocumentFile })

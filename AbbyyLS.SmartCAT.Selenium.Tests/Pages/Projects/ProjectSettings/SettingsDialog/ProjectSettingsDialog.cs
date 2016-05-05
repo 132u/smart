@@ -162,6 +162,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		}
 
 		/// <summary>
+		/// Заполнить поле имени проекта
+		/// </summary>
+		/// <param name="name">имя</param>
+		public ProjectSettingsDialog FillName(string name)
+		{
+			CustomTestContext.WriteLine("Вписать в поле имени проекта: '{0}'.", name);
+			Name.SetText(name);
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Получить название клиента
 		/// </summary>
 		public string GetClientName()
@@ -385,6 +397,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		[FindsBy(How = How.XPath, Using = SET_UP_LANGUAGES_ADDITIONAL_OPTIONS)]
 		protected IWebElement SetUpLanguagesOptionsButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = NAME)]
+		protected IWebElement Name { get; set; }
+
 
 		protected IWebElement TargetLanguageOption { get; set; }
 
@@ -421,6 +436,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		protected const string SET_UP_QA_SETTINGS_BUTTON = "(//div[contains(@data-bind, 'setupQaSettings')])[2]";
 		protected const string SET_UP_LANGUAGES_ADDITIONAL_OPTIONS = "//div[contains(@style, 'display: block')]//a[contains(@data-bind, 'showLanguagesPopup')]";
 		protected const string LANGUAGES_SETTINGS_DIALOG = "//div[contains(@class, 'js-popup-languages') and contains(@style, 'display: block')]";
+
+		protected const string NAME = "(//div[contains(@class,'js-popup-edit')])[2]//input[@data-bind = 'value: name']";
 
 		#endregion
 	}

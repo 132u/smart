@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectSettingsPage.FillGeneralProjectInformation(
 				_projectUniqueName,
 				sourceLanguage: Language.English,
-				targetLanguage: Language.English);
+				targetLanguages: new []{ Language.English });
 
 			Assert.True(_newProjectSettingsPage.IsDuplicateLanguageErrorMessageDisplayed(),
 				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают");

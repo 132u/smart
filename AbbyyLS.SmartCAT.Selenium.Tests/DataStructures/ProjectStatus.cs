@@ -2,13 +2,15 @@
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 {
-	enum ProjectStatus
+	public enum ProjectStatus
 	{
 		[Description("In Progress")]
 		InProgress,
 		[Description("Completed")]
 		Completed,
 		[Description("Created")]
-		Created
+		Created,
+		[Description("Cancelled")]
+		Cancelled
 	}
 }

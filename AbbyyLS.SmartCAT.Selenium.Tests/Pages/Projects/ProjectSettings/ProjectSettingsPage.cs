@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -18,7 +19,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 {
 	public class ProjectSettingsPage : WorkspacePage, IAbstractPage<ProjectSettingsPage>
 	{
-		public ProjectSettingsPage(WebDriver driver) : base(driver)
+		public ProjectSettingsPage(WebDriver driver)
+			: base(driver)
 		{
 		}
 
@@ -75,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return new BuildStatisticsPage(Driver).LoadPage();
 		}
-		
+
 		/// <summary>
 		/// Нажать кнопку "Загрузить файлы"
 		/// </summary>
@@ -110,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return LoadPage();
 		}
-		
+
 		/// <summary>
 		/// Нажать на кнопку 'Назначить задачу' в открытой свёртке документа
 		/// </summary>
@@ -304,7 +306,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public void ClickSortByTypeAssumingAlert()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку сортировки по типу документа, ожидая алерт.");
-			
+
 			SortByType.Click();
 		}
 
@@ -474,7 +476,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			CustomTestContext.WriteLine("Проверить, что глоссарий выбран.");
 			GlossaryCheckboxByName = Driver.SetDynamicValue(How.XPath, GLOSSARY_CHECKBOX_BY_NAME, glossary);
 			GlossaryCheckboxByName.Scroll();
-			
+
 			return GlossaryCheckboxByName.Selected;
 		}
 
@@ -507,7 +509,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 			return AssignTasksButtonOnPanel.GetAttribute("class").Contains("disable");
 		}
-		
+
 		/// <summary>
 		/// Проверить, что кнопка Download неактивна.
 		/// </summary>
@@ -571,16 +573,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
-		/// Проверить, что документ есть в проекте
+		/// Проверить, что документ есть в проекте (для всех языков)
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public bool IsDocumentExist(string documentName)
+		/// <param name="documentPath">путь до документа</param>
+		/// <param name="languages">массив языков</param>
+		public bool IsDocumentExist(string documentPath, Language[] languages = null)
 		{
-			CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте.", Path.GetFileNameWithoutExtension(documentName));
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", Path.GetFileNameWithoutExtension(documentName))));
+			var baseDocumentName = Path.GetFileNameWithoutExtension(documentPath);
+
+			IEnumerable<string> documentNames = languages != null && languages.Length > 1
+				? languages.Select(l => String.Format("{0}_{1}", baseDocumentName, l.Description()))
+				: new[] { baseDocumentName };
+
+			foreach (var documentName in documentNames)
+			{
+				CustomTestContext.WriteLine("Проверить, что документ '{0}' есть в проекте для всех языков.", documentName);
+
+				if (!Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_LIST_ITEM.Replace("*#*", documentName))))
+				{
+					return false;
+				}
+			}
+
+			return true;
 		}
-		
+
 		/// <summary>
 		/// Проверить, что отображается кнопка статистики.
 		/// </summary>
@@ -611,6 +629,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.WaitUntilElementIsDisplay(By.XPath(QA_CHECK_BUTTON));
 		}
 
+		/// <summary>
+		/// Проверить, что кнопка 'Repetitions' присутствует
+		/// </summary>
+		public bool IsRepetitionsButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка 'Repetitions' присутствует.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(REPETITIONS_BUTTON));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -623,7 +651,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_ON_PANEL)]
 		protected IWebElement AssignTasksButtonOnPanel { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)]
 		protected IWebElement AssignTasksButtonInDocumentInfo { get; set; }
 
@@ -635,7 +663,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = DELETE_BUTTON)]
 		protected IWebElement DeleteButton { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = DOWNLOAD_BUTTON)]
 		protected IWebElement DownloadButton { get; set; }
 
@@ -670,7 +698,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
 		protected IWebElement SortByQA { get; set; }
-		
+
 		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS_BUTTON)]
 		protected IWebElement DocumentSettingsButton { get; set; }
 
@@ -698,7 +726,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected IWebElement DocumentProgress { get; set; }
 		protected IWebElement ProjectStatus { get; set; }
 		protected IWebElement DocumentRefference { get; set; }
-		
+
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 		protected IWebElement TaskForCurrentUser { get; set; }
 		protected IWebElement GlossaryCheckboxByName { get; set; }
@@ -730,7 +758,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
 		protected const string SETTINGS_BUTTON = "//i[contains(@data-bind,'click: edit')]";
-		
+
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";
 		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'statusName')]//a";
@@ -754,6 +782,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
 		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
 		protected const string GLOSSARY_CHECKBOX_BY_NAME = "//td//p[text()='*#*']/../preceding-sibling::td//input";
+
+		protected const string REPETITIONS_BUTTON = "//div[@data-bind='click: setupRepetitions']";
+
 		#endregion
 	}
 }

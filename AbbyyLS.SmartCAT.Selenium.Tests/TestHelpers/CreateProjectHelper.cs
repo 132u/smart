@@ -34,13 +34,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			IList<string> tmxFilesPaths = null,
 			bool useMachineTranslation = false,
 			Language sourceLanguage = Language.English,
-			Language targetLanguage = Language.Russian,
+			Language[] targetLanguages = null,
 			IEnumerable<WorkflowTask> tasks = null,
 			bool personalAccount = false,
 			Deadline deadline = Deadline.CurrentDate,
-			bool expectingError = false)
+			bool expectingError = false,
+			bool useGreenCreateProjectButton = false)
 		{
-			_projectsPage.ClickCreateProjectButton();
+			if (useGreenCreateProjectButton)
+			{
+				_projectsPage.ClickGreenCreateProjectButton();	
+			}
+			else
+			{
+				_projectsPage.ClickCreateProjectButton();
+			}
 
 			if (filesPaths == null && tmxFilesPaths == null)
 			{
@@ -61,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectDocumentUploadPage.ClickSettingsButton();
 			}
 
-			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguage, useMachineTranslation: useMachineTranslation, deadline: deadline);
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguages, useMachineTranslation: useMachineTranslation, deadline: deadline);
 
 			if (glossaryName != null)
 			{
