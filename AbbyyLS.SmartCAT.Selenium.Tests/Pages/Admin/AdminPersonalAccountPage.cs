@@ -50,9 +50,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		}
 
 		/// <summary>
+		/// Навести курсор на кнопку 'Сохранить' при создании персонального аккаунта
+		/// </summary>
+		public AdminPersonalAccountPage HoverSavePersonalAccountButton()
+		{
+			CustomTestContext.WriteLine("Навести курсор на кнопку 'Сохранить' при создании персонального аккаунта");
+			SaveButton.HoverElement();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку 'Сохранить' при создании перс аккаунт
 		/// </summary>
-		public AdminPersonalAccountPage ClickSaveButtonPersonalAccount()
+		public AdminPersonalAccountPage ClickSavePersonalAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
 			SaveButton.Click();
@@ -63,6 +74,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		#endregion
 
 		#region Составные методы
+
+		/// <summary>
+		/// Навести курсор и нажать кнопку 'Сохранить' при создании перс аккаунт
+		/// </summary>
+		/// <returns></returns>
+		public AdminPersonalAccountPage SavePersonalAccount()
+		{
+			HoverSavePersonalAccountButton();
+			ClickSavePersonalAccountButton();
+
+			return LoadPage();
+		}
 
 		#endregion
 

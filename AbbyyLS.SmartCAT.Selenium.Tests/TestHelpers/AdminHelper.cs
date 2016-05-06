@@ -256,7 +256,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_adminPersonalAccountPage.SelectActiveCheckbox();
 			}
 
-			_adminPersonalAccountPage.ClickSaveButtonPersonalAccount();
+			_adminPersonalAccountPage.SavePersonalAccount();
 
 			return this;
 		}
