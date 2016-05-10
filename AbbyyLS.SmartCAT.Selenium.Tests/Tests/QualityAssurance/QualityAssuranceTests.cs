@@ -175,6 +175,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
@@ -247,6 +249,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
