@@ -1,16 +1,17 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
-
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
@@ -23,6 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_deleteDialog = new DeleteDialog(Driver);
+			_editorPage = new EditorPage(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_workspacePage = new WorkspacePage(Driver);
@@ -36,6 +38,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_glossariesPage = new GlossariesPage(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
+			_cancelledProjectsPage = new CancelledProjectsPage(Driver);
+			_adminHelper = new AdminHelper(Driver);
+			_adminSignInPage = new AdminSignInPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -45,6 +50,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected string _projectUniqueName;
 		protected const string _longName = "12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
 
+		protected AdminSignInPage _adminSignInPage;
+		protected AdminHelper _adminHelper;
 		protected NewLanguageSettingsDialog _newLanguageSettingsDialog;
 		protected ProjectSettingsDialog _projectSettingsDialog;
 		protected DublicateFileErrorDialog _dublicateFileErrorDialog;
@@ -52,7 +59,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected CreateProjectHelper _createProjectHelper;
 		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected ProjectsPage _projectsPage;
+		protected CancelledProjectsPage _cancelledProjectsPage;
 		protected DeleteDialog _deleteDialog;
+		protected EditorPage _editorPage;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
 		protected ProjectSettingsPage _projectSettingsPage;

@@ -403,6 +403,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.SetDynamicValue(How.XPath, DOCUMENT_STATUS, fileName).Text;
 		}
 
+		/// <summary>
+		/// Кликнуть на статус документа.
+		/// </summary>
+		public ProjectSettingsPage ClickProjectStatus()
+		{
+			CustomTestContext.WriteLine("Кликнуть на статус документа.");
+			ProjectStatus.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по статусу 'Отменён'.
+		/// </summary>
+		public ProjectSettingsPage ClickCancelledStatus()
+		{
+			CustomTestContext.WriteLine("Кликнуть по статусу 'Отменён'.");
+			ProjectCancelledStatus.Click();
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -460,6 +482,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			{
 				throw new NoSuchElementException("Произошла ошибка:\n глоссарий не найден.");
 			}
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Установить статус проекта 'Отменён'.
+		/// </summary>
+		public ProjectSettingsPage SetCancelledStatus()
+		{
+			ClickProjectStatus();
+			ClickCancelledStatus();
 
 			return LoadPage();
 		}
@@ -724,13 +757,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PROJECT_NAME)]
 		protected IWebElement ProjectName { get; set; }
 
-		protected IWebElement DocumentProgress { get; set; }
+		[FindsBy(How = How.XPath, Using = PROJECT_STATUS)]
 		protected IWebElement ProjectStatus { get; set; }
-		protected IWebElement DocumentRefference { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECT_CANCELLED_STATUS)]
+		protected IWebElement ProjectCancelledStatus { get; set; }
+
+		protected IWebElement DocumentProgress { get; set; }
+		protected IWebElement DocumentRefference { get; set; }
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 		protected IWebElement TaskForCurrentUser { get; set; }
 		protected IWebElement GlossaryCheckboxByName { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов страницы
@@ -743,6 +781,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECTS_TABLE_ALL_CHECKBOXES = ".//table[contains(@id,'JColResizer')]//tr[@class = 'js-table-header']//th[1]//input";
 		protected const string PROJECTS_TABLE_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[1]//input";
 		protected const string PROJECTS_TABLE_STATUS_COMPLITED = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[5][contains(string(), 'Completed')]";
+		protected const string PROJECT_STATUS = "//div[contains(@class, 'row')]//input[contains(@class, 'status')]";
+		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//div[contains(@data-bind, 'click: assign')]";
 		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//div[contains(@class,'doc-panel-btns')]//div[@data-bind='click: actions.assign']//a";
 		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";

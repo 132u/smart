@@ -258,6 +258,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			}
 		}
 
+		/// <summary>
+		/// Путь к короткому текстовому файлу
+		/// </summary>
+		public static string OneLineTxtFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(projectsFilesFolder, "OneLineText.txt")).LocalPath;
+			}
+		}
+
 		#endregion
 
 		#region Файлы для тестов TM

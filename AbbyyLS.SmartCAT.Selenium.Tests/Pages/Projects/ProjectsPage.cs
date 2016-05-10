@@ -493,6 +493,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return ProjectStatusRights.Text;
 		}
 
+		/// <summary>
+		/// Кликнуть на статус проекта.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage ClickOnProjectStatus(string projectName)
+		{
+			CustomTestContext.WriteLine("Кликнуть на статус проекта - {0}.", projectName);
+			ProjectStatus = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS_DROP_DOWN_MENU, projectName);
+			ProjectStatus.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу отменённых проектов.
+		/// </summary>
+		public CancelledProjectsPage GoToCancelledProjectsPage()
+		{
+			CustomTestContext.WriteLine("Перейти на страницу отменённых проектов.");
+			CancelledProjectsTab.Click();
+
+			return new CancelledProjectsPage(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -550,7 +574,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Отменить проект
+		/// Отменить проект.
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
 		public ProjectsPage CancelProject(string projectName)
@@ -937,6 +961,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.WaitUntilElementIsDisplay(By.XPath(HELP_DOCUMENT_TRANSLATION_POPUP));
 		}
 
+		/// <summary>
+		/// Проверить, что статус проекта 'Выполнен'.
+		/// </summary>
+		/// <param name="projectName">название проекта</param>
+		public bool IsProjectStatusCompleted(string projectName)
+		{
+			CustomTestContext.WriteLine("Проверить, что статус проекта {0} 'Выполнен'.", projectName);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(COMPLETED_STATUS.Replace("*#*", projectName)));
+		}
+
 		#endregion
 
 		#region Методы, ожидающие определенного состояния страницы
@@ -1062,26 +1097,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
 		protected IWebElement DeclineButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CANCELLED_PROJECTS_TAB)]
+		protected IWebElement CancelledProjectsTab { get; set; }
+
 		[FindsBy(How = How.XPath, Using = GREEN_CREATE_PROJECT_BUTTON)]
 		protected IWebElement GreenCreateProjectButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = CANCELLED_PROJECTS_TAB)]
-		protected IWebElement CancelledProjectsTab { get; set; }
-		
 		protected IWebElement DownloadInProjectButton { get; set; }
-
 		protected IWebElement DownloadInDocumentButton { get; set; }
-
 		protected IWebElement ProjectRef { get; set; }
-
 		protected IWebElement ProjectCheckbox { get; set; }
-
 		protected IWebElement OpenProjectFolder { get; set; }
-
 		protected IWebElement DocumentRow { get; set; }
-
 		protected IWebElement DocumentProgress { get; set; }
-
 		protected IWebElement DocumentTaskAssignButton {get; set;}
 		protected IWebElement MyTask {get; set;}
 		protected IWebElement DocumentRef { get; set; }
@@ -1094,8 +1122,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement ProjectStatusRights { get; set; }
 		protected IWebElement ProjectStatus { get; set; }
 		protected IWebElement ProjectStatusItem { get; set; }
-
 		protected IWebElement DeleteButtonInProjectPanel { get; set; }
+		protected IWebElement CancelledStatus { get; set; }
+		protected IWebElement CompletedStatus { get; set; }
 
 		#endregion
 
@@ -1115,8 +1144,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SEARCH_PROJECT_BUTTON = "//div[contains(@class, 'js-search-btn')]";
 
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
+
 		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
 		protected const string PROJECT_STATUS_ITEM = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
+		protected const string PROJECT_STATUS_DROP_DOWN_MENU = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//label//input";
+		protected const string CANCELLED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//ul//li[contains(@title, 'Cancelled')]";
+		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../td[contains(@class,'checkbox')]";
 		protected const string OPEN_PROJECT = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/ancestor-or-self::tr";

@@ -1,4 +1,4 @@
-﻿﻿using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 {
@@ -11,6 +11,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 		[Description("Created")]
 		Created,
 		[Description("Cancelled")]
-		Cancelled
+		Cancelled,
+		[Description("Pretranslated")]
+		Pretranslated,
+		[Description("Manager Review")]
+		ManagerReview
 	}
 }

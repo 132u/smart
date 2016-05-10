@@ -70,6 +70,7 @@
     <Compile Include="DataStructures\DateRange.cs" />
     <Compile Include="DataStructures\DocumentStatus.cs" />
     <Compile Include="DataStructures\ErrorType.cs" />
+    <Compile Include="DataStructures\PreTranslateRulles.cs" />
     <Compile Include="DataStructures\ProjectStatus.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\AuthorizationAttribute.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="Pages\Projects\AssignmentPages\DatePicker.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\ReassignDialog.cs" />
+    <Compile Include="Pages\Projects\CancelledProjectsPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\AdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\GlossariesAdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectEditGlossaryDialog.cs" />
@@ -366,6 +368,8 @@
     <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryWithoutSetNewPasswordTests.cs" />
+    <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
+    <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceBaseTests.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceNavigationTests.cs" />

@@ -85,6 +85,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать на кнопку 'Done', подтвердить готовность проекта.
+		/// </summary>
+		public EditorPage ClickDoneButton()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку 'Done', подтвердить готовность проекта.");
+			DoneButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Ввести комментарий документа
 		/// </summary>
 		/// <param name="comment">комментарий</param>
@@ -1442,7 +1453,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage OpenRevisionTab()
 		{
 			CustomTestContext.WriteLine("Открыть вкладку ревизий");
-			if (!IsRevisionTableDisplayed())
+			if (!isRevisionTableDisplayed())
 			{
 				ClickRevisionTab();
 			}
@@ -1810,7 +1821,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, что отображается таблица ревизий.
 		/// </summary>
-		private bool IsRevisionTableDisplayed()
+		private bool isRevisionTableDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что отображается таблица ревизий.");
 
@@ -2277,6 +2288,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		#region Объявление элементов страницы
 
+		[FindsBy(How = How.XPath, Using = DONE_BUTTON)]
+		protected IWebElement DoneButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = CONFIRM_BTN)]
 		protected IWebElement ConfirmButton { get; set; }
 
@@ -2483,6 +2497,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = REPLACE_FIELD)]
 		protected IWebElement ReplaceField { get; set; }
 
+		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
+		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
+
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2496,12 +2513,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement User;
 		protected IWebElement Type;
 		protected IWebElement QAError;
-		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
-		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов страницы
 
+		protected const string DONE_BUTTON = "//a[contains(@aria-disabled, 'false')]//span[contains(text(), 'Done')]";
 		protected const string CONFIRM_BTN = "//a[contains(@class, 'confirm-btn')]";
 		protected const string FIND_ERROR_BTN_ID = "qa-error-btn";
 		protected const string FINISH_TUTORIAL_BUTTON = "//span[contains(text(),'Finish')]";

@@ -39,11 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool personalAccount = false,
 			Deadline deadline = Deadline.CurrentDate,
 			bool expectingError = false,
-			bool useGreenCreateProjectButton = false)
+			bool useGreenCreateProjectButton = false,
+			PreTranslateRulles rulle = 0)
 		{
 			if (useGreenCreateProjectButton)
 			{
-				_projectsPage.ClickGreenCreateProjectButton();	
+				_projectsPage.ClickGreenCreateProjectButton();
 			}
 			else
 			{
@@ -114,6 +115,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					{
 						_newProjectWorkflowPage.ClickNewTaskButton(task);
 					}
+				}
+
+				if (rulle != 0)
+				{
+					_newProjectWorkflowPage.SetTranslationsRulles(rulle);
 				}
 				
 				_newProjectWorkflowPage.ClickCreateProjectButton();

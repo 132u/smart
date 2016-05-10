@@ -153,12 +153,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 		
 		/// <summary>
-		/// Ввести дату вручную.
+		/// Отркыть календарь для задачи.
 		/// </summary>
-		/// <param name="dateTime">дата</param>
+		/// <param name="taskNumber">номер задачи</param>
 		public DatePicker OpenDatePicker(int taskNumber = 1 )
 		{
-			CustomTestContext.WriteLine("Отркыть календарь для аздачи №{0}.", taskNumber);
+			CustomTestContext.WriteLine("Отркыть календарь для задачи №{0}.", taskNumber);
 			DeadlineIcon = Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString());
 			DeadlineIcon.Click();
 
@@ -172,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Раскрыть календарь дедлайна.");
 			Deadline.Click();
-			
+
 			return LoadPage();
 		}
 
@@ -407,6 +407,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected IWebElement CancelAssignButton { get; set; }
 		protected IWebElement DeadlineIcon { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
