@@ -12,15 +12,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void AssignResponsibleDistributeDocumentTestsSetUp()
 		{
-			startRange = 1;
-			endRange = 3;
+			_startRange = 1;
+			_endRange = 3;
 			
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new []{ PathProvider.LongTxtFile});
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
-			_taskAssignmentPage.SelectAssigneesForSegmentsDocument();
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName)
+				.SelectDistributeDocumentAssignmentType();
 		}
 
 		[Test(Description = "ТС-19")]
@@ -35,15 +37,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignSegmentRangeOneUserTest()
 		{
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.ClickSaveButton();
 
-			Assert.AreEqual(startRange + "-" + endRange, _distributeDocumentBetweenAssigneesPage.GetSegmentsRange(),
+			Assert.AreEqual(_startRange + "-" + _endRange, _distributeDocumentBetweenAssigneesPage.GetSegmentsRange(),
 				"Произошла ошибка:\nНеверный диапазон сегментов в таблице.");
 
 			Assert.AreEqual(ThreadUser.NickName, _distributeDocumentBetweenAssigneesPage.GetAssigneeName(),
@@ -57,15 +57,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AnotherAssigneeButtonTest()
 		{
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickAnotherAssigneeButton();
-			
-			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeEmptyDropdownDisplayed(rowNumber: 2),
-				"Произошла ошибка:\nНе отображаестя дропдаун исполнителя в строке №2");
+			_distributeDocumentBetweenAssigneesPage.ClickAnotherAssigneeButton();
 
-			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAnotherAssigneeButtonInactive(),
-				"Произошла ошибка:\nКнопка 'Another Assignee' неактивна.");
+			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeDropdownDisplayed(),
+				"Произошла ошибка:\nНе отображается кнопка выбора другого исполнителя.");
 		}
 
 		[Test(Description = "ТС-36")]
@@ -73,31 +68,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void DeleteAssigneeTest()
 		{
 			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
 				.ClickDeleteButtonEditMode(rowNumber: 1)
 				.ClickBackToTaskButton();
 
-			_taskAssignmentPage.SelectAssigneesForSegmentsDocument();
+			Assert.IsTrue(_taskAssignmentPage.IsAssigneeDropdownDisplayed(),
+				"Произошла ошибка:\nНе отображается кнопка выбора другого исполнителя.");
 
-			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeEmptyDropdownDisplayed(),
-				"Произошла ошибка:\nНе отображется пустой дропдаун в таблице.");
+			Assert.IsTrue(_taskAssignmentPage.IsAssignedUserDisappeared(ThreadUser.NickName),
+				"Произошла ошибка:\n назначений быть не должно.");
 		}
 
-		[Test(Description = "ТС-36")]
+		[Test]
 		[Standalone]
 		public void CancelAssigneeTest()
 		{
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.ClickRemoveRangeButton()
 				.ClickSaveButton();
-
-			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeEmptyDropdownDisplayed(),
-				"Произошла ошибка:\nНе отображется пустой дропдаун в таблице.");
 
 			_workspacePage.GoToProjectsPage();
 
@@ -121,11 +111,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_secondUser = TakeUser(ConfigurationManager.Users);
 			_thirdUser = TakeUser(ConfigurationManager.Users);
 
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
-			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(rangeStart: startRange, rangeEnd: endRange);
+			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(rangeStart: _startRange, rangeEnd: _endRange);
 			var wordsCountForFirstAssignee = _distributeSegmentsBetweenAssigneesPage.GetWordsCount();
 
 			_distributeSegmentsBetweenAssigneesPage
@@ -133,8 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_secondUser.NickName, assigneeNumber: 2)
+				.SelectAssignee(_secondUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 2);
 
 			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(rangeStart: startRangeForSecondAssignee, rangeEnd: endRangeForSecondAssignee);
@@ -145,8 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_thirdUser.NickName, assigneeNumber: 3)
+				.SelectAssignee(_thirdUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 3);
 
 			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(rangeStart: startRangeForThirdAssignee, rangeEnd: endRangeForThirdAssignee);
@@ -156,7 +142,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickAssignButton()
 				.ClickSaveButton();
 
-			Assert.AreEqual(startRange + "-" + endRange, _distributeDocumentBetweenAssigneesPage.GetSegmentsRange(assigneeNumber: 3),
+			Assert.AreEqual(_startRange + "-" + _endRange, _distributeDocumentBetweenAssigneesPage.GetSegmentsRange(assigneeNumber: 3),
 				"Произошла ошибка:\nНеверный диапазон сегментов в таблице.");
 
 			Assert.AreEqual(startRangeForSecondAssignee + "-" + endRangeForSecondAssignee, _distributeDocumentBetweenAssigneesPage.GetSegmentsRange(assigneeNumber: 2),
@@ -179,12 +165,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void OneSegmentNotDistributedTest()
 		{
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(rangeStart: startRange, rangeEnd: _distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent() - 1);
+				.AssignSegmentsRange(rangeStart: _startRange, rangeEnd: _distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent() - 1);
 
 			Assert.AreEqual(
 				_distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent(),
@@ -198,19 +182,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void TwoSegmentRangeNotDistributedTest()
 		{
-			var startSecondRange = startRange + 5;
-			var endSecondRange = startRange + 8;
+			var startSecondRange = _startRange + 5;
+			var endSecondRange = _startRange + 8;
 
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage.AssignSegmentsRange(rangeStart: startSecondRange, rangeEnd: endSecondRange);
 
 			Assert.AreEqual(2, _distributeSegmentsBetweenAssigneesPage.GetNotDistributedSegmentsRangeCount(),
 				"Произошла ошибка:\n Неверное количество нераспределнных диапазонов.");
 
-			Assert.AreEqual(startRange + "-" + (startSecondRange - 1),
+			Assert.AreEqual(_startRange + "-" + (startSecondRange - 1),
 				_distributeSegmentsBetweenAssigneesPage.GetNotDistributedRange(rangeNumber: 1),
 				"Произошла ошибка:\nНеверный первый нераспрделенный диапазон.");
 
@@ -228,29 +210,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_secondUser = TakeUser(ConfigurationManager.Users);
 			_thirdUser = TakeUser(ConfigurationManager.Users);
 
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_secondUser.NickName, assigneeNumber: 2)
+				.SelectAssignee(_secondUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 2);
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(endRange + 1, endRange + 4)
+				.AssignSegmentsRange(_endRange + 1, _endRange + 4)
 				.ClickSaveButton();
 			
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_thirdUser.NickName, assigneeNumber: 3)
+				.SelectAssignee(_thirdUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 3);
 
-			_distributeSegmentsBetweenAssigneesPage.AssignSegmentsRange(startRange + 1, endRange + 3);
+			_distributeSegmentsBetweenAssigneesPage.AssignSegmentsRange(_startRange + 1, _endRange + 3);
 				
 			Assert.IsTrue(
 				_reassigneDialog.IsReassigneDialogOpened(),
@@ -271,28 +249,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_thirdUser = TakeUser(ConfigurationManager.Users);
 
 			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
 				.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_secondUser.NickName, assigneeNumber: 2)
+				.SelectAssignee(_secondUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 2);
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(endRange + 1, endRange + 4)
+				.AssignSegmentsRange(_endRange + 1, _endRange + 4)
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(_thirdUser.NickName, assigneeNumber: 3)
+				.SelectAssignee(_thirdUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 3);
 
-			_distributeSegmentsBetweenAssigneesPage.AssignSegmentsRange(startRange + 1, endRange + 3);
+			_distributeSegmentsBetweenAssigneesPage.AssignSegmentsRange(_startRange + 1, _endRange + 3);
 
 			Assert.IsTrue(
 				_reassigneDialog.IsReassigneDialogOpened(),
@@ -300,7 +275,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_reassigneDialog.ClickContinueReassignePopUpButton();
 
-			Assert.AreEqual((startRange + 1) + "-" + (endRange + 3), 
+			Assert.AreEqual((_startRange + 1) + "-" + (_endRange + 3), 
 				_distributeSegmentsBetweenAssigneesPage.GetDistributedRange());
 		}
 
@@ -309,11 +284,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AssigneAutomaticallyGeneratedRangeFromNotDistributedTest()
 		{
 			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
 				.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.AssignSegmentsRange(_distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent() - 4, _distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent());
 
 			var distributedRangeCount = _distributeSegmentsBetweenAssigneesPage.GetDistributedSegmentsRangeCount();
@@ -332,22 +306,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void ChangeDistributedRangeTest()
 		{
-			var newStartRange = startRange + 2;
-			var newEndRange = endRange +5;
+			var newStartRange = _startRange + 2;
+			var newEndRange = _endRange +5;
 
 			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
 				.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(startRange, endRange)
+				.AssignSegmentsRange(_startRange, _endRange)
 				.ChangeRange(rangeNumber: 1, newRangeStart: newStartRange, newRangeEnd: newEndRange);
 
 			Assert.AreEqual(newStartRange + "-" + newEndRange, _distributeSegmentsBetweenAssigneesPage.GetDistributedRange(rangeNumber: 1),
 				"Произошла ошибка:\n Неверный распределенный диапазон после редактирования.");
 		}
 
-		private int startRange;
-		private int endRange;
+		private int _startRange;
+		private int _endRange;
 	}
 }

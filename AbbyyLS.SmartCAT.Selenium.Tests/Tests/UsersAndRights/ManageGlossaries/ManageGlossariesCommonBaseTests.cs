@@ -108,7 +108,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspacePage _workspacePage;
 		protected LoginHelper _loginHelper;
-		protected string _projectUniqueName;
 		protected UsersTab _usersTab;
 		protected AddAccessRightDialog _addAccessRightDialog;
 		protected ProjectsPage _projectsPage;

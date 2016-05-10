@@ -67,6 +67,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
 
 			_taskAssignmentPage
@@ -74,12 +76,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
 				.SetResponsible(_secondUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { document1, document2, document3 });
 
@@ -89,14 +95,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.AreEqual(assignee, _taskAssignmentPage.GetAssignneeName(1),
 				"Произошла ошибка:\n Неверное имя в колонке Assignnees для задачи №1.");
 
-			Assert.IsTrue(_taskAssignmentPage.IsCancelButtonDisplayed(1),
+			Assert.IsTrue(_taskAssignmentPage.IsCancelButtonDisplayed(ThreadUser.NickName, taskNumber: 1),
 				"Произошла ошибка:\n Не отображается кнопка Cancel для задачи №1.");
 
 			Assert.AreEqual("Different assignees", _taskAssignmentPage.GetAssignneeColumn(2),
 				"Произошла ошибка:\n Неверное значение в колонке Assignnees для задачи №2.");
 
-			Assert.IsTrue(_taskAssignmentPage.IsAssignButtonDisplayed(3),
-				"Произошла ошибка:\n Не отображается кнопка Assign для задачи №3.");
+			Assert.IsTrue(_taskAssignmentPage.IsAssigneeDropdownDisplayed(3),
+				"Произошла ошибка:\n Не отображается кнопка открытия дропдауна назначения для задачи №3.");
 		}
 
 		[Test]
@@ -114,9 +120,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 2)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.ClickProject(_projectUniqueName);
 

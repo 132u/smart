@@ -221,6 +221,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
 			DocumentTaskAssignButton.Click();
 
+			Driver.SwitchToNewBrowserTab();
+
 			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
@@ -232,6 +234,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке проекта.");
 			Driver.SetDynamicValue(How.XPath, PROJECT_TASK_ASSIGN_BUTTON, projectName).Click();
+
+			Driver.SwitchToNewBrowserTab();
 
 			return new TaskAssignmentPage(Driver).LoadPage();
 		}

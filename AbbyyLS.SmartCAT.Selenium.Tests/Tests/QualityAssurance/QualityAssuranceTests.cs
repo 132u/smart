@@ -58,8 +58,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -116,8 +118,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -168,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
 
 			_projectsPage
@@ -241,7 +245,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
 
 			_projectsPage
@@ -284,8 +288,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(ThreadUser.NickName, isGroup: false)
+				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

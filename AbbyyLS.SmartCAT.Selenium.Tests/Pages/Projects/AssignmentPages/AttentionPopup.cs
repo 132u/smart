@@ -38,12 +38,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// <summary>
 		/// Нажать на кнопку Save.
 		/// </summary>
-		public ProjectsPage ClickSaveButton()
+		public TaskAssignmentPage ClickSaveButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку Save.");
 			SaveButton.Click();
 
-			return new ProjectsPage(Driver).LoadPage();
+			return new TaskAssignmentPage(Driver).LoadPage();
 		}
 
 		#endregion

@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.ClickCancelAssignButton()
+				.ClickCancelAssignButton(ThreadUser.NickName)
 				.ClickSaveButton();
 
 			_workspacePage
@@ -96,19 +96,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
-			_taskAssignmentPage.SelectAssigneesForSegmentsDocument();
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName)
+				.SelectDistributeDocumentAssignmentType();
 
-			_distributeDocumentBetweenAssigneesPage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickSelectSegmentsAndAssignLink();
+			_distributeDocumentBetweenAssigneesPage.ClickSelectSegmentsAndAssignLink();
 
 			_distributeSegmentsBetweenAssigneesPage
 				.AssignSegmentsRange(startRange, endRange)
 				.ClickSaveButton();
 
 			_distributeDocumentBetweenAssigneesPage
-				.ClickAnotherAssigneeButton()
-				.SelectAssignee(AdditionalUser.NickName, assigneeNumber: 2)
+				.SelectAssignee(AdditionalUser.NickName)
 				.ClickSelectSegmentsAndAssignLink(assigneeNumber: 2);
 
 			_distributeSegmentsBetweenAssigneesPage.SelectSegmentsRange(endRange + 1 , 12);

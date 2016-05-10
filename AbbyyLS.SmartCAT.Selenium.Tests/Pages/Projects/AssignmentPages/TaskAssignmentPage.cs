@@ -4,12 +4,11 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -34,12 +33,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Простые методы страницы
 
 		/// <summary>
-		/// Открыть выпадющий список для задачи с заданным номером
+		/// Кликнуть кнопку открытия\закрытия дропбокса списка пользователей для назначения на задачу с заданным номером
 		/// </summary>
 		/// <param name="taskNumber"> номер задачи</param>
-		public TaskAssignmentPage OpenAssigneeDropbox(int taskNumber = 1)
+		public TaskAssignmentPage ClickAssigneeDropboxButton(int taskNumber = 1)
 		{
-			CustomTestContext.WriteLine("Открыть выпадающий список для задачи с номером строки {0}", taskNumber);
+			CustomTestContext.WriteLine("Кликнуть кнопку открытия\\закрытия дропбокса списка пользователей для назначения на задачу № {0}.", taskNumber);
 			AssigneeDropbox = Driver.SetDynamicValue(How.XPath, SELECT_ASSIGNEES_DROPDOWN, taskNumber.ToString());
 			AssigneeDropbox.Click();
 
@@ -75,20 +74,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Нажать кнопку 'Назначить'
-		/// </summary>
-		/// <param name="taskNumber">номер задачи</param>
-		public TaskAssignmentPage ClickAssignButton(int taskNumber = 1)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Назначить'");
-
-			AssignButton = Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON, taskNumber.ToString());
-			AssignButton.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку подтверждения удаления назначения пользователя
 		/// </summary>
 		public TaskAssignmentPage ClickConfirmCancelButton()
@@ -108,15 +93,38 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Нажать кнопку отмены назначения исполнителя задачи
 		/// </summary>
+		/// <param name="nickName"> nickName пользователя </param>
 		/// <param name="taskNumber"> номер задачи </param>
-		public TaskAssignmentPage ClickCancelAssignButton(int taskNumber = 1)
+		public TaskAssignmentPage ClickCancelAssignButton(string nickName, int taskNumber = 1)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку отмены назначения исполнителя для задачи с номером '{0}'", taskNumber);
+			CustomTestContext.WriteLine("Нажать кнопку отмены назначения исполнителя задачи с номером '{0}' для пользователя {1}", taskNumber, nickName);
 
-			CancelAssignButton = Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString());
+			CancelAssignButton = Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString(), nickName);
 			CancelAssignButton.Click();
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку возврата к проекту
+		/// </summary>
+		public ProjectSettingsPage ClickBackToProjectButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку возврата к проекту");
+
+			BackToProjectButton.Click();
+
+			return new ProjectSettingsPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку возврата к проекту, ожидая алерт
+		/// </summary>
+		public void ClickBackToProjectButtonExpectingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку возврата к проекту, ожидая алерт");
+
+			BackToProjectButton.Click();
 		}
 
 		/// <summary>
@@ -142,29 +150,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			SaveButton.Click();
 
 			return LoadPage();
-		}
-
-		/// <summary>
-		/// Проверить, что кнопка назначения отображается для задачи
-		/// </summary>
-		/// <param name="taskNumber">номер задачи</param>
-		public bool IsAssignButtonDisplayed(int taskNumber)
-		{
-			CustomTestContext.WriteLine("Проверить, что кнопка назначения отображается для задачи №{0}.", taskNumber);
-
-			return Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON, taskNumber.ToString()).Displayed;
-		}
-
-		/// <summary>
-		/// Кликнуть кнопку Cancel.
-		/// </summary>
-		public ProjectsPage ClickCancelButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть кнопку Cancel.");
-			Thread.Sleep(1000);
-			CancelButton.Click();
-
-			return new ProjectsPage(Driver).LoadPage();
 		}
 		
 		/// <summary>
@@ -203,26 +188,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Нажать кнопку сохранения исполнителя задачи
-		/// </summary>
-		public ProjectSettingsPage ClickSaveAssignButtonProjectSettingPage()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку сохранения исполнителя задачи");
-			SaveButton.Click();
-
-			return new ProjectSettingsPage(Driver).LoadPage();
-
-		}
-
-		/// <summary>
-		/// Получить имя из колонки Assignnees.
+		/// Получить имена из колонки Assignnees для задачи с нужным номером.
 		/// </summary>
 		/// <param name="taskNumber">номер задачи</param>
 		public List<string> GetAssignneeName(int taskNumber)
 		{
-			CustomTestContext.WriteLine("Получить имя из колонки Assignnees.");
-			var assigneeColumn = Driver.SetDynamicValue(How.XPath, ASSIGNEE_NAME, taskNumber.ToString()).Text;
-			var assignees = assigneeColumn.Split(new[] { ',' }).Select(a => a.Trim()).ToList();
+			CustomTestContext.WriteLine("Получить имена из колонки Assignnees для задачи №{0}.", taskNumber);
+
+			var assignees = Driver.GetTextListElement(By.XPath(ASSIGNEE_NAME_LIST.Replace("*#*", taskNumber.ToString())));
 			assignees.Sort();
 
 			return assignees;
@@ -237,31 +210,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Получить текст из колонки Assignnees.");
 
 			return Driver.SetDynamicValue(How.XPath, ASSIGNEES_COLUMN, taskNumber.ToString()).Text;
-		}
-		
-		/// <summary>
-		/// Раскрыть 'Select Assignees' дропдаун.
-		/// </summary>
-		/// <param name="taskNumber">номер таски</param>
-		public TaskAssignmentPage ExpandSelectAssigneesDropdown(int taskNumber)
-		{
-			CustomTestContext.WriteLine("Раскрыть 'Select Assignees' дропдаун.");
-			var assigneesDropdownForTask = Driver.SetDynamicValue(How.XPath, SELECT_ASSIGNEES_DROPDOWN, taskNumber.ToString());
-			assigneesDropdownForTask.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Выбрать тип назначения 'На весь документ' 
-		/// </summary>
-		/// <param name="taskNumber">номер задачи</param>
-		public SelectAssigneePage SelectAssignmentForEntireDocumentType(int taskNumber)
-		{
-			CustomTestContext.WriteLine("Выбрать тип назначения 'На весь документ' для задачи №{0}.", taskNumber);
-			Driver.FindElement(By.XPath(SIMPLE_ASSIGNMENT_OPTION.Replace("*#*", taskNumber.ToString()))).Click();
-		
-			return new SelectAssigneePage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -303,42 +251,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Составные методы страницы
 
 		/// <summary>
-		/// Ввести невалидную дату вручную.
-		/// </summary>
-		/// <param name="dateTime">дата</param>
-		public TaskAssignmentPage FillInvalidDeadlineManually(string dateTime, int taskNumber = 1)
-		{
-			CustomTestContext.WriteLine("Ввести дату вручную.");
-			Driver.SetDynamicValue(How.XPath, DEADLINE, taskNumber.ToString()).SendKeys(dateTime);
-			CloseDeadlineCalendar();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Выбрать дату в календаре дедлайна.
-		/// </summary>
-		/// <param name="day">день</param>
-		public TaskAssignmentPage SelectDateInDeadlineDatepicker(int day = 30)
-		{
-			CustomTestContext.WriteLine("Выбрать дату в календаре дедлайна.");
-			OpenDeadlineDatepicker();
-			Driver.SetDynamicValue(How.XPath, DAY, day.ToString()).Click();
-			CloseDeadlineCalendar();
-
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Назначить исполнителя
 		/// </summary>
 		/// <param name="name">имя</param>
 		/// <param name="isGroup">является ли группой</param>
 		/// <param name="taskNumber">номер задачи</param>
-		public TaskAssignmentPage SetResponsible(string name, bool isGroup, int taskNumber = 1)
+		public TaskAssignmentPage SetResponsible(string name, bool isGroup = false, int taskNumber = 1)
 		{
-			OpenAssigneeDropbox(taskNumber);
+			ClickAssigneeDropboxButton(taskNumber);
 			SelectResponsible(name, isGroup);
+			ClickAssigneeDropboxButton(taskNumber);
 
 			return LoadPage();
 		}
@@ -360,43 +282,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return DateTime.ParseExact(date, "MM/dd/yyyy", CultureInfo.InvariantCulture).Date;
 		}
 
-		/// <summary>
-		/// Выбрать исполнителя на весь документ
-		/// </summary>
-		/// <param name="taskNumber">номер задачи</param>
-		public SelectAssigneePage SelectAssigneesForEntireDocument(int taskNumber = 1)
-		{
-			ExpandSelectAssigneesDropdown(taskNumber);
-			SelectAssignmentForEntireDocumentType(taskNumber);
-
-			return new SelectAssigneePage(Driver).LoadPage();
-		}
-
-		/// <summary>
-		/// Выбрать исполнителя на cегмент документ
-		/// </summary>
-		/// <param name="taskNumber">номер задачи</param>
-		public DistributeDocumentBetweenAssigneesPage SelectAssigneesForSegmentsDocument(int taskNumber = 1)
-		{
-			ExpandSelectAssigneesDropdown(taskNumber);
-			SelectDistributeDocumentAssignmentType(taskNumber);
-
-			return new DistributeDocumentBetweenAssigneesPage(Driver).LoadPage();
-		}
-
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
-
-		/// <summary>
-		/// Проверить, что отображается сообщение 'Please, specify the deadline in the format: MM/DD/YYYY'.
-		/// </summary>
-		public bool IsWrongDeadlineFormatErrorMessage()
-		{
-			CustomTestContext.WriteLine("Проверить, что отображается сообщение 'Please, specify the deadline in the format: MM/DD/YYYY'.");
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(WRONG_DEADLINE_FORMAT_ERROR));
-		}
 
 		/// <summary>
 		/// Проверить, что пользователь есть в списке на назначение.
@@ -421,14 +309,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Проверить, что кнопка назначения отображается для задачи
+		/// Проверить, что кнопка Cancel отображается для задачи у нужного пользователя
 		/// </summary>
+		/// <param name="nickName"> nickName пользователя </param>
 		/// <param name="taskNumber">номер задачи</param>
-		public bool IsCancelButtonDisplayed(int taskNumber)
+		public bool IsCancelButtonDisplayed(string nickName, int taskNumber = 1)
 		{
-			CustomTestContext.WriteLine("Проверить, что кнопка Cancel отображается для задачи №{0}.", taskNumber);
+			CustomTestContext.WriteLine("Проверить, что кнопка Cancel отображается для задачи №{0} у пользователя {1}.", taskNumber, nickName);
 
-			return Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString()).Displayed;
+			return Driver.SetDynamicValue(How.XPath, CANCEL_ASSIGN_BUTTON, taskNumber.ToString(), nickName).Displayed;
 		}
 
 		/// <summary>
@@ -451,17 +340,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Проверить, что открылся выпадающий список для задачи
-		/// </summary>
-		/// <param name="taskRowNumber">номер задачи</param>
-		public bool IsTaskAssigneeListDisplayed(int taskRowNumber = 1)
-		{
-			CustomTestContext.WriteLine("Подтвердить, что открылся выпадающий список для задачи с номером строки {0}", taskRowNumber);
-
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TASK_ASSIGN_DROPBOX_OPTION.Replace("*#*", taskRowNumber.ToString())));
-		}
-
-		/// <summary>
 		/// Проверить, отображается ли надпись 'Different deadlines'.
 		/// </summary>
 		public bool IsDifferentDeadlineDisplayed(int taskNumber = 1)
@@ -481,6 +359,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.WaitUntilElementIsDisplay(By.XPath(ATTENTION_ICON_IN_DATEPICKER));
 		}
 
+		/// <summary>
+		/// Проверить, что отображается дропдаун выбора исполнителя
+		/// </summary>
+		/// <param name="taskNumber"> номер задачи</param>
+		public bool IsAssigneeDropdownDisplayed(int taskNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается дропдаун выбора исполнителя для задачи № {0}.", taskNumber);
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SELECT_ASSIGNEES_DROPDOWN.Replace("*#*", taskNumber.ToString())));
+		}
+
+		/// <summary>
+		/// Проверить, что пользователь не назначен на задачу
+		/// </summary>
+		/// <param name="nickName">nickName пользователя</param>
+		/// <param name="taskNumber"> номер задачи</param>
+		public bool IsAssignedUserDisappeared(string nickName, int taskNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что пользователь {0} не назначен на задачу № {1}.", nickName, taskNumber);
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(ASSIGNEE_NAME_EDIT.Replace("*#*", taskNumber.ToString()).Replace("*##*", nickName)));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -490,15 +391,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
-		
-		[FindsBy(How = How.XPath, Using = CANCEL_BUTTON)]
-		protected IWebElement CancelButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DEADLINE_VALUE)]
 		protected IWebElement Deadline { get; set; }
 
 		[FindsBy(How = How.XPath, Using = FOOTER)]
 		protected IWebElement Footer { get; set; }
+
+		[FindsBy(How = How.XPath, Using = BACK_TO_PROJECT_BUTON)]
+		protected IWebElement BackToProjectButton { get; set; }
 		
 		protected IWebElement AssigneeDropbox { get; set; }
 
@@ -512,21 +413,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: save, css: {disabled: !hasChanges()}')]//a";
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//button[@data-bind='click: switchToSelectMode']";
-		protected const string SIMPLE_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'first')]";
-		protected const string SPLIT_ASSIGNMENT_OPTION = "//tr[*#*]//div[contains(@class, 'sublist assignExecutives')]//div[contains(@class,'last')]";
+		protected const string SPLIT_ASSIGNMENT_OPTION = "//div[@data-bind='visible: hasExecutives']/div";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
 		protected const string TASK_ASSIGNMENT_TABLE = "//table[contains(@class, 'assignment-table')]";
 		protected const string TASK_ASSIGN_DROPDOWN = "//tr[*#*]//div[contains(@class, 'assignment_dropdown')]//input";
-		protected const string ASSIGNEE_LIST = "//div[contains(@class, 'assignment_dropdown')]//ul//li[not(@title='')]";
+		protected const string ASSIGNEE_LIST = "//div[contains(@class, 'g-dropbox__body')]//ul//li";
 		protected const string ASSIGNEE_OPTION = "//div[contains(@class, 'g-dropbox__body')]//ul//li[@title='*#*']";
-		protected const string ASSIGN_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'click: assignSingleExecutive')]";
-		protected const string CANCEL_ASSIGN_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'click: unassignSingleExecutive')]";
+		protected const string CANCEL_ASSIGN_BUTTON = "//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//span[@data-title='*##*']//following-sibling::span/button[@data-bind='click: $parent.deselectExecutive']";
 		protected const string CONFIRM_CANCEL_BUTTON = "//div[contains(@class,'l-confirm')]//span[span[input[@value='Cancel Assignment']]]";
-		protected const string CANCEL_BUTTON = "//div[contains(@data-bind, 'click: close')]//a";
 		protected const string ASSIGN_STATUS = "(//span[@data-bind='text: status()' and text()='*#*'])[*##*]";
 		protected const string TASK_ASSIGN_DROPBOX_OPTION = "//table[*#*]//ul[contains(@class, 'list newDropdown')]";
 		protected const string ASSIGNEES_COLUMN = "//tr[*#*]//td[contains(@data-bind, 'l-assignments-different-values')][1]";
-		protected const string ASSIGNEE_NAME = "//tr[*#*]//td[contains(@data-bind, 'l-assignments-different-values')][1]//p[contains(@class, 'a-user_table-name')]";
+		protected const string ASSIGNEE_NAME_LIST = "//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//span[@data-bind='text: name, titleOnOverflow']";
+		protected const string ASSIGNEE_NAME_EDIT = "//tr[*#*]//td[2]//span[@class='g-tag__name'][text()='*##*']";
 		protected const string SELECT_SEVERAL_ASSIGNEES_DROPDOWN = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
 
 		protected const string DIFFERENT_DEADLINE = "//tr[*#*]//td[contains(@class, 'l-assignments-different-values')]";
@@ -537,7 +436,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string WRONG_DEADLINE_FORMAT_ERROR = "//p[@data-message-id='wrong-deadline-format']";
 		protected const string DEADLINE_IS_EARLIER_THAT_PREVIOUS_ERROR = "//p[contains(@data-message-id, 'deadline-is-earlier-that-previous')]";
 		protected const string DEADLINE_IS_LATER_THAT_PROJECT_DEADLINE_POP_UP = "//div[contains(text(), 'later than the project deadline')]";
-		protected const string ATTENTION_ICON_IN_DATEPICKER = "//div[contains(@data-bind, 'marked: isDeadlineLaterThanProject()')]";
+		protected const string ATTENTION_ICON_IN_DATEPICKER = "//div[@class='g-datetimepicker g-datetimepicker_stage g-datetimepicker_marked']";
+		protected const string BACK_TO_PROJECT_BUTON = "(//a[@data-bind='click: close'])[1]";
 
 		#endregion
 	}

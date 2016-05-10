@@ -190,14 +190,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton();
 
 			_workspacePage.GoToProjectsPage();
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
-			_taskAssignmentPage.SelectAssigneesForEntireDocument(taskNumber: 3);
 
-			_selectAssigneePage
-				.SelectAssignee(ThreadUser.NickName)
-				.ClickClose();
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName, taskNumber: 3)
+				.ClickSaveButton();
 
-			_taskAssignmentPage.ClickSaveButton();
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

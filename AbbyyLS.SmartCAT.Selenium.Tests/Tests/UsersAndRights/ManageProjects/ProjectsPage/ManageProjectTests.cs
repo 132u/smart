@@ -73,15 +73,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void AssignUserOneTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName, isGroup: false)
+				.SetResponsible(AdditionalUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.DocumentFile2);
+
 			_selectTaskDialog.SelectTask();
 			
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
@@ -96,11 +99,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName, isGroup: false)
+				.SetResponsible(AdditionalUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -126,8 +131,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName, isGroup: false)
+				.SetResponsible(AdditionalUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

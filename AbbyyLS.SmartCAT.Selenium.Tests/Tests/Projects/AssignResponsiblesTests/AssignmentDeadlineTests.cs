@@ -6,6 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
@@ -14,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	class AssignmentDeadlineTests<TWebDriverProvider> : AssignResponsiblesBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test(Description = "ТС-140")]
-		public void CancelDeadlineTest()
+		public void NoSaveDeadlineTest()
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile});
@@ -24,9 +25,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>();
 
-			_taskAssignmentPage.ClickCancelButton();
+			_taskAssignmentPage.ClickBackToProjectButtonExpectingAlert();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			Assert.IsTrue(_workspacePage.IsAlertExist(),
+				"Произошла ошибка: \n Не появился алерт о несохраненных данных.");
+
+			_workspacePage.AcceptAlert<ProjectSettingsPage>();
+
+			_projectSettingsPage
+				.ClickDocumentProgress(PathProvider.EditorTxtFile)
+				.ClickAssignButtonInDocumentInfo();
 
 			Assert.AreEqual(null, _taskAssignmentPage.GetDeadlineDate(),
 				"Произошла ошибка:\nНеверное значение в поле дедлайна.");
@@ -46,6 +54,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
@@ -69,6 +79,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
 
 			_taskAssignmentPage.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\nНе открылась страница проектов.");
@@ -121,6 +133,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_taskAssignmentPage.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
 
 			_taskAssignmentPage.OpenDatePicker();
@@ -134,6 +148,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_taskAssignmentPage.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
 
 			_taskAssignmentPage.OpenDatePicker();
@@ -143,6 +159,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_datePicker.SetDate<TaskAssignmentPage>(date2.Day, nextMonth: nextMonth2);
 			
 			_taskAssignmentPage.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { document1, document2, document3 });
 
@@ -223,11 +241,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_taskAssignmentPage.ClickSaveButton();
 
+			_workspacePage.GoToProjectsPage();
+
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(),
 				"Произошла ошибка:\n Не открылась страница проектов.");
 		}
 		
-		[Test(Description = "ТС-16"), Ignore("Контрол не доделан")]
+		[Test(Description = "ТС-16")]
 		public void DeadlineIsLaterThatProjectDeadlineCancelTest()
 		{
 			var date = DateTime.Now;
@@ -260,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Не отображается предупреждение(желтый восклицательный знак) в поле дедлайна.");
 		}
 
-		[Test(Description = "ТС-16"), Ignore("Контрол не доделан")]
+		[Test(Description = "ТС-16")]
 		public void DeadlineIsLaterThatProjectDeadlineSaveTest()
 		{
 			var date = DateTime.Now.AddYears(1);
@@ -288,6 +308,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Не открылось сообщением о том что дедлайн позже дедлайна проекта.");
 
 			_attentionPopup.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(), "Произошла ошибка:\n Не открылась страница проектов.");
 

@@ -25,13 +25,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName, isGroup: false)
+				.SetResponsible(AdditionalUser.NickName)
 				.ClickSaveButton();
+
+			_workspacePage.GoToProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
 
 			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName, isGroup: false)
+				.SetResponsible(AdditionalUser.NickName)
 				.ClickSaveButton();
 
 			_workspacePage.SignOut();

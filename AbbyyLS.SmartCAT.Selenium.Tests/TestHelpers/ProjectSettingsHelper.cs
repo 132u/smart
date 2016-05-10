@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
-				.SetResponsible(nickName, false)
+				.SetResponsible(nickName, false, taskNumber: taskNumber)
 				.ClickSaveButton();
 
 			_workspacePage.ClickProjectLink(projectName);

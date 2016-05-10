@@ -137,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.ClickCancelAssignButton(taskNumber: 1)
+				.ClickCancelAssignButton(AdditionalUser.NickName)
 				.ClickSaveButton();
 
 			_workspacePage.SignOut();
@@ -189,7 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenAssignDialog(_projectUniqueName);
 
 			_taskAssignmentPage
-				.ClickCancelAssignButton()
+				.ClickCancelAssignButton(AdditionalUser.NickName)
 				.ClickSaveButton();
 
 			_workspacePage.GoToProjectsPage();

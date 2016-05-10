@@ -132,6 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Назначить задачу' на панели");
 			AssignTasksButtonOnPanel.Click();
+			Driver.SwitchToNewBrowserTab();
 
 			return new TaskAssignmentPage(Driver).LoadPage();
 		}
