@@ -191,9 +191,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.FillProjectName(_projectUniqueName)
 				.SetDeadline(Deadline.NextMonth)
 				.SetSourceLanguage(Language.English)
-				.SetTargetLanguage(Language.French)
-				.SetTargetLanguage(Language.Russian)
-				.SetTargetLanguage(Language.Japanese)
+				.SetTargetLanguage(Language.French, deselectAllLanguages: false)
+				.SetTargetLanguage(Language.Russian, deselectAllLanguages: false)
+				.SetTargetLanguage(Language.Japanese, deselectAllLanguages: false)
 				.ClickNextButton();
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();

@@ -67,7 +67,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
 				filesPaths: new[] { PathProvider.EditorTxtFile },
-				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
 				createNewTm: true,
 				useMachineTranslation: true);
 
@@ -81,7 +80,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToTranslationMemoriesPage();
 
-			Assert.AreEqual(targetLanguages, _translationMemoriesPage.GetTranslationMemoryTargetLanguages(Path.GetFileNameWithoutExtension(PathProvider.EditorTmxFile)),
+			_translationMemoriesPage.SearchForTranslationMemory(_projectUniqueName);
+
+			Assert.AreEqual(targetLanguages, _translationMemoriesPage.GetTranslationMemoryTargetLanguages(_projectUniqueName),
 				"Произошла ошибка: Неверно указаны целевые языки.");
 		}
 
