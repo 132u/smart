@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminPersonalAccountPage ClickSavePersonalAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
-			HoverSaveButton.JavaScriptClick();
+			ActiveSaveButton.Click();
 
 			return LoadPage();
 		}
@@ -119,11 +119,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		[FindsBy(How = How.XPath, Using = ACTIVE_CHECKBOX)]
 		protected IWebElement ActiveCheckbox { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SAVE_BUTTON_NEW_PEERS_ACC)]
+		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = HOVER_SAVE_BUTTON_NEW_PEERS_ACC)]
-		protected IWebElement HoverSaveButton { get; set; }
+		[FindsBy(How = How.XPath, Using = ACTIVE_SAVE_BUTTON)]
+		protected IWebElement ActiveSaveButton { get; set; }
 
 		#endregion
 
@@ -131,8 +131,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 
 		protected const string INPUT_SURNAME = "//input[(@id = 'Surname')]";
 		protected const string ACTIVE_CHECKBOX = "//input[@type='checkbox' and @id='IsActive']";
-		protected const string SAVE_BUTTON_NEW_PEERS_ACC = "//p[@class='submit-area']/input";
-		protected const string HOVER_SAVE_BUTTON_NEW_PEERS_ACC = "//p[@class='submit-area']/input[contains(@class, 'ui-state-hover')]";
+		protected const string SAVE_BUTTON = "//p[@class='submit-area']/input";
+		protected const string ACTIVE_SAVE_BUTTON = "//p[@class='submit-area']/input[contains(@class, 'ui-state-hover')]";
 
 		#endregion
 	}

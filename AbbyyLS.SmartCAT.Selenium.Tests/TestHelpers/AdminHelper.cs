@@ -45,6 +45,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		}
 
 		/// <summary>
+		/// Создать все аккаунты из списка если они еще не существуют, кроме персонального.
+		/// </summary>
+		/// <param name="accountsList">список аккаунтов для создания</param>
+		/// <param name="workflow">true - включить функцию Workflow, иначе false</param>
+		/// <param name="venture">затея</param>
+		/// <param name="features">список фич, значение null означает все фичи из множества Feature</param>
+		/// <param name="packagesNeed">пакеты словарей</param>
+		/// <param name="accountType">тип аккаунта</param>
+		public AdminHelper CreateAllAccountInListIfNotExist(
+			List<string> accountsList,
+			bool workflow = false,
+			string venture = LoginHelper.SmartCATVenture,
+			List<string> features = null,
+			bool packagesNeed = false,
+			AccountType accountType = AccountType.LanguageServiceProvider
+			)
+		{
+			_adminLingvoProPage.ClickEnterpriseAccountsLink();
+
+			foreach (var account in accountsList)
+			{
+				if (!_adminEnterpriseAccountsPage.IsAccountExists(account))
+				{
+					_adminEnterpriseAccountsPage
+						.ClickCreateAccount()
+						.SwitchToAdminCreateAccountWindow();
+
+					_adminCreateAccountPage
+						.FillAccountCreationForm(venture, account, workflow, features, packagesNeed, accountType)
+						.ClickEnterpriseAccountsLink();
+				}
+			}
+
+			return this;
+		}
+
+		/// <summary>
 		/// Проверить, есть нужный аккаунт с заданной затеей, если нет создаем
 		/// </summary>
 		/// <param name="venture">затея</param>
@@ -53,6 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="features">список фич, значение null означает все фичи из множества Feature</param>
 		/// <param name="packagesNeed">пакеты словарей</param>
 		/// <param name="unlimitedUseServices">true - включить безлимитное использование услуг, иначе false</param>
+		/// <param name="accountType">тип аккаунта</param>
 		public AdminHelper CreateAccountIfNotExist(
 			string venture = LoginHelper.SmartCATVenture,
 			string accountName = null,

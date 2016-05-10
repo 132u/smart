@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
@@ -19,20 +20,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		public AuthorizationWithDifferentAccountsTests()
 		{
 			StartPage = StartPage.Admin;
-		}
-
-		[SetUp]
-		public void SetUp()
-		{
-			_accountList = new List<string>
-			{
-				"Аэрофлот",
-				"TestAccount",
-				"Perevedem",
-				"TestAccount2",
-				"Personal",
-				"For Ivannikov"
-			};
 		}
 
 		[Test, Description("S-7111"), ShortCheckList]
@@ -58,7 +45,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		[Test, Description("S-7046"), ShortCheckList]
 		public void AuthorizationWithCorporateAccountAndAccountSortTest()
 		{
+			_accountList = new List<string>
+			{
+				"B" + Guid.NewGuid(),
+				"A" + Guid.NewGuid(),
+				"D" + Guid.NewGuid(),
+				"C" + Guid.NewGuid(),
+			};
+
 			_adminHelper
+				.CreateAllAccountInListIfNotExist(
+					_accountList,
+					workflow: true,
+					features: new List<string>
+					{
+						Feature.Clients.ToString(),
+						Feature.Domains.ToString(),
+						Feature.DocumentUpdate.ToString(),
+						Feature.Vendors.ToString()
+					})
 				.CreateNewUser(_email, _firstAndLastName, _password)
 				.CreateNewPersonalAccount(_lastName, true)
 				.AddUserToAllAccountInList(_accountList, _email, _firstName, _lastName);
@@ -66,6 +71,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_registrationPage.GetPageExpectingRedirectToSignInPage(_email);
 
 			_signInPage.SubmitForm(_email, _password);
+
+			_accountList.Add(LoginHelper.PersonalAccountName);
 
 			Assert.IsTrue(_selectAccountForm.IsSortAndContentInAccountsListCorrect(_accountList),
 				"Произошла ошибка:\n Список аккаунтов некорректный, не совпадает либо количество, либо сортировка.");
