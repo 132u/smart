@@ -148,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsNewProjectWorkflowPageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(CREATE_PROJECT_BUTTON)); 
+			return Driver.WaitUntilElementIsDisplay(By.XPath(WORKFLOW_TASK_TYPE_LIST)); 
 		}
 
 		/// <summary>

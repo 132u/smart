@@ -722,6 +722,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
 		}
 
+		/// <summary>
+		/// Проверить, что есть анимация для кнопки создания проекта
+		/// </summary>
+		public bool IsCreateProjectButtonAnimationExist()
+		{
+			CustomTestContext.WriteLine("Проверить, что есть анимация для кнопки создания проекта.");
+			var animationDuration = CreateProjectButton.GetCssValue("animation-duration");
+			var animationName = CreateProjectButton.GetCssValue("animation-name");
+
+			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -856,7 +868,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string ERROR_NO_NAME = "//input[@placeholder='Enter the project name']";
 		protected const string ERROR_DEADLINE_DATE = "//div[@class='proj_deadline pull-right']//span[text()='Specify the deadline in the MM/DD/YYYY format.']";
 
-		protected const string CREATE_PROJECT_BUTTON = "//div[contains(@data-bind,'complete')]//a[contains(@class, 'g-greenbtn')]";
+		protected const string CREATE_PROJECT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]";
 
 		protected const string ADVANCED_SETTINGS_SECTION = "//div[@class='additional-settings-tabs']";
 		protected const string ADVANCED_SETTINGS_SWITCHER = "//label[@for='advancedSettingsSwitch']";

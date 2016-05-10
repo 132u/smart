@@ -177,15 +177,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_newProjectSettingsPage.IsTargetLanguageFieldNameAnimationNotExist(),
 				"Произошла ошибка:\n анимация для названия поля целевого языка должна отключиться после заполнения этого поля.");
 
-			Assert.IsTrue(_newProjectSettingsPage.IsNextButtonAnimationExist(),
-				"Произошла ошибка:\n анимация для для кнопки 'Next' не работает.");
+			Assert.IsTrue(_newProjectSettingsPage.IsCreateProjectButtonAnimationExist(),
+				"Произошла ошибка:\n анимация для кнопки создания проекта не работает.");
 
-			_newProjectSettingsPage.ClickNextButton();
-
-			Assert.IsTrue(_newProjectWorkflowPage.IsFinishButtonAnimationExist(),
-				"Произошла ошибка:\n анимация для для кнопки 'Finish' не работает.");
-
-			_newProjectWorkflowPage.ClickCreateProjectButton();
+			_newProjectSettingsPage.ClickCreateProjectButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName);
 
@@ -214,9 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_newProjectSettingsPage
 				.FillGeneralProjectInformation(_projectUniqueName)
-				.ClickNextButton();
-
-			_newProjectWorkflowPage.ClickCreateProjectButton();
+				.ClickCreateProjectButton();
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
