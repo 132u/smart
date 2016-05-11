@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 		public AdminPersonalAccountPage ClickSavePersonalAccountButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Сохранить' при создании персонального аккаунта");
-			HoverSaveButton.Click();
+			HoverSaveButton.JavaScriptClick();
 
 			return LoadPage();
 		}
