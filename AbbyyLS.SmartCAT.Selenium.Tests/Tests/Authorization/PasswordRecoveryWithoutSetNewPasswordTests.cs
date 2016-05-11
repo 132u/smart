@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_recoveryPasswordPage = new RecoveryPasswordPage(Driver);
 		}
 
-		[Test, Description("S-7049")]
+		[Test, Description("S-7049"), ShortCheckList]
 		public void PasswordRecoveryValidEmailTest()
 		{
 			_signInPage.ClickForgotPasswordLink();
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n Не отобразилась справка для дальнейших действий по смене пароля.");
 		}
 
-		[Test, Description("S-11724")]
+		[Test, Description("S-11724"), ShortCheckList]
 		public void PasswordRecoveryNonExistEmailTest()
 		{
 			var invalidEmail = "email" + Guid.NewGuid() + "@forspam.com";
@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n Не отобразилось сообщение об ошибке при восстановлении пароля с несуществующим email.");
 		}
 
-		[Test, Description("S-7118")]
+		[Test, Description("S-7118"), ShortCheckList]
 		public void SignInWithOldPasswordWithoutGenerateNewPasswordTest()
 		{
 			_signInPage.ClickForgotPasswordLink();

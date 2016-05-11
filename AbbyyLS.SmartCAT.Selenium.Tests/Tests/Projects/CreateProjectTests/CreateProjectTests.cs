@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	class CreateProjectTests<TWebDriverProvider>
 		: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7136")]
+		[Test, Description("S-7136"), ShortCheckList]
 		public void CreateProjectNoFileTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7137")]
+		[Test, Description("S-7137"), ShortCheckList]
 		public void CreateProjectViaGreenCreateProjectButtonTest()
 		{
 			_projectsPage.ClickGreenCreateProjectButton();
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7142")]
+		[Test, Description("S-7142"), ShortCheckList]
 		public void ImportDocumentAfterCreationTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -163,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
 		}
 
-		[Test, Description("S-7138")]
+		[Test, Description("S-7138"), ShortCheckList]
 		public void CreateProjectFewLanguagesTest()
 		{
 			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
@@ -213,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: Неверный список джобов.");
 		}
 
-		[Test, Description("S-7144")]
+		[Test, Description("S-7144"), ShortCheckList]
 		public void OpenProjectSettingsPageTest()
 		{
 			_createProjectHelper.CreateNewProject(

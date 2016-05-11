@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			_projectsPage = new ProjectsPage(Driver);
 		}
 
-		[Test(Description = "S-7296")]
+		[Test(Description = "S-7296"), ShortCheckList]
 		public void SearchTranslationExampleInTmTest()
 		{
 			var _uniquePhraseForSearch = "Hello world! (8a4fcecf-b9ec-419c-a947-89f44ac2ea63)";
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 				"Произошла ошибка: \n не нашелся пример перевода в созданной ТМ");
 		}
 
-		[Test, Description("S-14645")]
+		[Test, Description("S-14645"), ShortCheckList]
 		public void AdvancedSearchTranslationExampleInTmTest()
 		{
 			var projectName = "Project Name" + Guid.NewGuid();

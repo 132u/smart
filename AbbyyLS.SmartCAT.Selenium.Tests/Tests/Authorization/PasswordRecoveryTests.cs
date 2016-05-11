@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			_registrationPage.GetPageExpectingRedirectToSignInPage(_email);
 		}
 
-		[Test, Description("S-7117")]
+		[Test, Description("S-7117"), ShortCheckList]
 		public void RecoveryMailWithPasswordTest()
 		{
 			_signInPage.ClickForgotPasswordLink();
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n Не открылась страница для ввода нового пароля.");
 		}
 
-		[Test, Description("S-7119")]
+		[Test, Description("S-7119"), ShortCheckList]
 		public void AuthorizationWithNewPasswordTest()
 		{
 			var newPassword = "S-7119" + "NewPassword" + Guid.NewGuid();
@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n После смены пароля и авторизации под ним не отобразилась стартовая страница.");
 		}
 
-		[Test, Description("S-7120")]
+		[Test, Description("S-7120"), ShortCheckList]
 		public void ChangePasswordAfterSignInTest()
 		{
 			var newPassword = "S-7120 newPassword" + Guid.NewGuid();

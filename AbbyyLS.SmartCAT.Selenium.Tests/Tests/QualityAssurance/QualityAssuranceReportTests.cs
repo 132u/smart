@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 {
@@ -39,14 +40,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.ClickQACheckButton(_projectUniqueName);
 		}
 
-		[Test, Description("S-7060"), Ignore("PRX-16345")]
+		[Test, Description("S-7060"), Ignore("PRX-16345"), ShortCheckList]
 		public void BuildQAReportTest()
 		{
 			// TODO: допилить тест после фикса PRX-16345
 			_qualityAssuranceDialog.ClickCheckerrorsButton();
 		}
 
-		[Test, Description("S-7149"), Ignore("PRX-16345")]
+		[Test, Description("S-7149"), Ignore("PRX-16345"), ShortCheckList]
 		public void DownloadQAReportTest()
 		{
 			// TODO: допилить тест после фикса PRX-16345

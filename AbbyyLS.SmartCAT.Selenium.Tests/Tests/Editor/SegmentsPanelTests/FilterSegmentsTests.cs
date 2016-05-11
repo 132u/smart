@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.SegmentsPanelTests
 				"Произошла ошибка: сегменты сорса не содержат искомое слово.");
 		}
 
-		[Test, Description("S-7250")]
+		[Test, Description("S-7250"), ShortCheckList]
 		public void ReplaceTest()
 		{
 			var word = "translation";
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.SegmentsPanelTests
 				"Произошла ошибка: сегменты сорса не содержат искомое слово.");
 		}
 
-		[Test, Description("S-7251")]
+		[Test, Description("S-7251"), ShortCheckList]
 		public void ReplaceAllTest()
 		{
 			var word = "translation";

@@ -20,8 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			StartPage = StartPage.PersonalAccount;
 		}
 
-		[TestCase(true, Description = "S-7169")]
-		[TestCase(false, Description = "S-7168")]
+		[TestCase(true, Description = "S-7169"), ShortCheckList]
+		[TestCase(false, Description = "S-7168"), ShortCheckList]
 		public void CreateProjectNoFileTest(bool useGreenCreateProjectButton)
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true, useGreenCreateProjectButton: useGreenCreateProjectButton);
@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7170")]
+		[Test, Description("S-7170"), ShortCheckList]
 		public void CreateMultiLanguageProjectTest()
 		{
 			var targetLanguages = new[]
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test, Description("S-7171")]
+		[Test, Description("S-7171"), ShortCheckList]
 		public void AddTargetLanguageToProjectTest()
 		{
 			var targetLanguages = new[]
@@ -80,8 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test, Description("S-7172")]
-		[TestCase(1)]
+		[TestCase(1, Description = "S-7172"), ShortCheckList]
 		[TestCase(2)]
 		public void AddDocumentToProjectTest(int targetLanguagesCount)
 		{
@@ -111,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
 
-		[Test, Description("S-7066")]
+		[Test, Description("S-7066"), ShortCheckList]
 		public void OpenProjectSettingsDialogOnProjectsPageTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
@@ -137,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Не открылся диалог настроек проекта {0}.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7173")]
+		[Test, Description("S-7173"), ShortCheckList]
 		public void ChangeProjectNameTest()
 		{
 			string newProjectUniqueName = "changed_" + _projectUniqueName;
@@ -164,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n имя проекта не изменилось на странице настроек проекта.");
 		}
 
-		[Test, Description("S-7181")]
+		[Test, Description("S-7181"), ShortCheckList]
 		public void CancelProjectTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
@@ -177,7 +176,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					"Произошла ошибка:\n проект {0} не появился в списке отменённых проектов проектов.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7178")]
+		[Test, Description("S-7178"), ShortCheckList]
 		public void RepetitionsButtonTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
@@ -217,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", longProjectUniqueName.Substring(0, 100));
 		}
 
-		[Test, Description("S-7180")]
+		[Test, Description("S-7180"), ShortCheckList]
 		public void AssignTasksTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);

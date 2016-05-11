@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 	public class CorporateAccountRegistrationValidDataTests<TWebDriverProvider> :
 		RegistrationBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7100")]
+		[Test, Description("S-7100"), ShortCheckList]
 		public void CorporateAccountAndUserRegistrationTest()
 		{
 			_registrationPage
@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-7102")]
+		[Test, Description("S-7102"), ShortCheckList]
 		public void CorporateAccountAndUserRegistrationWithSimpleDataTest()
 		{
 			var password = "123456";
@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-7104")]
+		[Test, Description("S-7104"), ShortCheckList]
 		public void ConfirmNewCompanyUserEmailTest()
 		{
 			var projectName = "Project-" + Guid.NewGuid();
@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-10527")]
+		[Test, Description("S-10527"), ShortCheckList]
 		public void ConfirmNewCompanyUserEmailAgainTest()
 		{
 			var projectName = "Project-" + Guid.NewGuid();

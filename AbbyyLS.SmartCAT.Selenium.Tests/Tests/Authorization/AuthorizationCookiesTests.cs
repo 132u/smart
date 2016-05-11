@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			StartPage = StartPage.Admin;
 		}
 
-		[Test, Description("S-7121")]
+		[Test, Description("S-7121"), ShortCheckList]
 		public void RemeberMeCheckBoxTest()
 		{
 			var data = DateTime.Now.AddYears(2);

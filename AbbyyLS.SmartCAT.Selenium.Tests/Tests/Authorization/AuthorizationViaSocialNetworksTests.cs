@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			StartPage = StartPage.SignIn;
 		}
 
-		[Test, Description("S-13738")]
+		[Test, Description("S-13738"), ShortCheckList]
 		public void AuthorizationViaFacebook()
 		{
 			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
-		[Test, Description("S-13737")]
+		[Test, Description("S-13737"), ShortCheckList]
 		public void AuthorizationViaGooglePlus()
 		{
 			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
-		[Test, Description("S-13740")]
+		[Test, Description("S-13740"), ShortCheckList]
 		public void AuthorizationViaLinkedIn()
 		{
 			var login = ConfigurationManager.SocialNetworksUserList[0].Login;
@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
 		}
 
-		[Test, Description("S-13739")]
+		[Test, Description("S-13739"), ShortCheckList]
 		public void AuthorizationViaProZ()
 		{
 			var password = ConfigurationManager.SocialNetworksUserList[0].Password;

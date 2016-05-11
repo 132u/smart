@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_selectAssigneePage = new SelectAssigneePage(Driver);
 		}
 
-		[Test, Description("S-7061")]
+		[Test, Description("S-7061"), ShortCheckList]
 		public void CollapseAndExpandBuildStatisticTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -122,7 +122,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("sdlxliffFile.sdlxliff")]
 		[TestCase("xlsxFile.xlsx")]
 		[TestCase("Source.zip")]
-		[Description("S-7152")]
+		[Description("S-7152"), ShortCheckList]
 		public void DownloadStatisticTest(string file)
 		{
 			var exportFile = Path.Combine(PathProvider.SupportedFormatsFiles, file);
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл xlsx не загрузился");
 		}
 
-		[Test, Description("S-7153")]
+		[Test, Description("S-7153"), ShortCheckList]
 		public void DownloadStatisticByAssigneesTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);

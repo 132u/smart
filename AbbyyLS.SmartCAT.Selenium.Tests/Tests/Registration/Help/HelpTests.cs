@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Description("S-7132")]
+		[Test, Description("S-7132"), ShortCheckList]
 		public void NewUserInNewCorporateAccountInWorkspaceHelpTest()
 		{
 			_adminHelper
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n подсказка о том, как начать перевод документа не показывается.");
 		}
 
-		[Test, Description("S-13743")]
+		[Test, Description("S-13743"), ShortCheckList]
 		public void NewUserInNewCorporateAccountInEditorHelpTest()
 		{
 			_adminHelper
@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n подсказка к Cat-панели не закрылась.");
 		}
 
-		[Test, Description("S-7131")]
+		[Test, Description("S-7131"), ShortCheckList]
 		public void NewFreelancerInWorkspaceHelpTest()
 		{
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);
@@ -188,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n подсказка о том, как начать перевод документа не показывается.");
 		}
 
-		[Test, Description("S-13742")]
+		[Test, Description("S-13742"), ShortCheckList]
 		public void NewFreelancerInEditorHelpTest()
 		{
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);

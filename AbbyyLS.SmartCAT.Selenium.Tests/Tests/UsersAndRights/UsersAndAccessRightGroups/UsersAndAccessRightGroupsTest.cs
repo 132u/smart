@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.GoToUsersPage();
 		}
 
-		[Test, Description("S-7123")]
+		[Test, Description("S-7123"), ShortCheckList]
 		public void CreateAndActivateNewUserTest()
 		{
 			_usersTab.ClickAddUserButton();
@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверный статус пользователя {0} после активации.", _name);
 		}
 
-		[Test, Description("S-7053")]
+		[Test, Description("S-7053"), ShortCheckList]
 		public void CreateNewUserAndLogInTest()
 		{
 			_usersTab.ClickAddUserButton();
@@ -77,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: не открылась страница WS.");
 		}
 
-		[Test, Description("S-13741")]
+		[Test, Description("S-13741"), ShortCheckList]
 		public void CreateNewUserCheckRightsTest()
 		{
 			_usersTab.ClickAddUserButton();
@@ -110,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: пользователь добавился в группу.");
 		}
 
-		[Test, Description("S-7125")]
+		[Test, Description("S-7125"), ShortCheckList]
 		public void AddUserToGroupTest()
 		{
 			_usersTab.ClickAddUserButton();
@@ -162,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверная группа у пользователя {0}.", _name);
 		}
 
-		[Test, Description("S-15120")]
+		[Test, Description("S-15120"), ShortCheckList]
 		public void DeleteUserFromGroupTest()
 		{
 			_usersTab.ClickAddUserButton();

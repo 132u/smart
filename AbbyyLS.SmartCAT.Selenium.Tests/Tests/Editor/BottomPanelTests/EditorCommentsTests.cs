@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_selectTaskDialog.SelectTask();
 		}
 
-		[Test, Description("S-7227")]
+		[Test, Description("S-7227"), ShortCheckList]
 		public void AddSegmentCommentTest()
 		{
 			_editorPage
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не отображается комментарий '{0}'.", _comment);
 		}
 
-		[Test, Description("S-7228")]
+		[Test, Description("S-7228"), ShortCheckList]
 		public void AddDocumentCommentTest()
 		{
 			_editorPage
@@ -91,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 
-		[Test, Description("S-11725")]
+		[Test, Description("S-11725"), ShortCheckList]
 		public void DeleteDocumentCommentTest()
 		{
 			_editorPage
@@ -119,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: отображается комментарий '{0}'.", _comment);
 		}
 
-		[Test] //TODO Добавить Description после разделения кейса S-11725
+		[Test, ShortCheckList] //TODO Добавить Description после разделения кейса S-11725
 		public void DeleteSegmentCommentTest()
 		{
 			_editorPage
@@ -146,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: отображается комментарий '{0}'.", _comment);
 		}
 
-		[Test, Description("S-7230")]
+		[Test, Description("S-7230"), ShortCheckList]
 		public void PasteToCommentTest()
 		{
 			var text = _editorPage.GetSourceText(rowNumber: 1);

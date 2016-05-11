@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		}
 
 
-		[Test, Description("S-7288")]
+		[Test, Description("S-7288"), ShortCheckList]
 		public void CreateDefaultTermTest()
 		{
 			_glossaryPage.CreateTerm();

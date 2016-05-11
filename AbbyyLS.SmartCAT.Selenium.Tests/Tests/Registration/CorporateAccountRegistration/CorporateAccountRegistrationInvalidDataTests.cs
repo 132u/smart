@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 	class CorporateAccountRegistrationInvalidDataTests<TWebDriverProvider> :
 		RegistrationBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7101")]
+		[Test, Description("S-7101"), ShortCheckList]
 		public void TwoTheSameCorporateUsersRegistrationTest()
 		{
 			var email = Guid.NewGuid() + "@mailforspam.com";
@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n не появилось сообщение о том, что аккаунт уже существует.");
 		}
 
-		[TestCase("", Description = "S-13720")]
+		[TestCase("", Description = "S-13720"), ShortCheckList]
 		[TestCase("      ")]
 		public void EmptyPasswordTest(string password)
 		{
@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'Password'");
 		}
 
-		[Test, Description("S-13721")]
+		[Test, Description("S-13721"), ShortCheckList]
 		public void EmptyFirstAndLastNameTest()
 		{
 			_registrationPage
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'First and last name'");
 		}
 
-		[Test, Description("S-13722")]
+		[Test, Description("S-13722"), ShortCheckList]
 		public void EmptyPhoneTest()
 		{
 			_registrationPage
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'Phone'");
 		}
 
-		[Test, Description("S-13723")]
+		[Test, Description("S-13723"), ShortCheckList]
 		public void EmptyCompanyNameTest()
 		{
 			_registrationPage
@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'Company Name'");
 		}
 
-		[Test, Description("S-13727")]
+		[Test, Description("S-13727"), ShortCheckList]
 		public void ShortPasswordTest()
 		{
 			var password = "12345";
@@ -110,7 +110,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение о слишком коротком пароле");
 		}
 
-		[Test, Description("S-13729")]
+		[Test, Description("S-13729"), ShortCheckList]
 		public void ShortCompanyNameTest()
 		{
 			var companyName = "A";

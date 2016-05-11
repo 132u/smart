@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
-		[Test, Description("S-13753")]
+		[Test, Description("S-13753"), ShortCheckList]
 		public void DeleteProjectWithFileTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} найден в списке проектов", _projectUniqueName);
 		}
 
-		[Test, Description("S-13750")]
+		[Test, Description("S-13750"), ShortCheckList]
 		public void DeleteDocumentFromProject()
 		{
 			var document = PathProvider.DocumentFile;
@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n файл {0} не удалился.", document);
 		}
 
-		[Test, Description("S-7166")]
+		[Test, Description("S-7166"), ShortCheckList]
 		public void DeleteFewProjectsTest()
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
@@ -112,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} найден в списке проектов", projectUniqueName3);
 		}
 
-		[Test, Description("S-13755")]
+		[Test, Description("S-13755"), ShortCheckList]
 		public void DeleteMultiLingualDocumentTest()
 		{
 			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
@@ -146,7 +146,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName, _projectUniqueName);
 		}
 
-		[Test, Description("S-13754")]
+		[Test, Description("S-13754"), ShortCheckList]
 		public void DeleteDocumentJobTest()
 		{
 			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
@@ -172,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: кнопка проекта '{0}' активна.", _projectUniqueName);
 		}
 
-		[Test, Description("S-13751")]
+		[Test, Description("S-13751"), ShortCheckList]
 		public void DeleteFewDocumentsTest()
 		{
 			var fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
@@ -204,7 +204,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName2, _projectUniqueName);
 		}
 
-		[Test, Description("S-13752")]
+		[Test, Description("S-13752"), ShortCheckList]
 		public void DeleteAllDocumentsFromProjectTest()
 		{
 			var fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);

@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 {
@@ -25,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_qualityAssuranceAdvancedSettingsSection.SetErrorTypeForAllErrors();
 		}
 
-		[Test, Description("S-7059")]
+		[Test, Description("S-7059"), ShortCheckList]
 		public void AddQualityAssuranceErrorsTest()
 		{
 			_qualityAssuranceAdvancedSettingsSection
@@ -107,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: ошибка {0} отмечена, как критическая.", _error2 );
 		}
 
-		[Test, Description("S-7145")]
+		[Test, Description("S-7145"), ShortCheckList]
 		public void NoReportedErrorsTest()
 		{
 			_qualityAssuranceAdvancedSettingsSection.SetErrorType(_error1, ErrorType.setCritical);
@@ -163,7 +164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: таблица с ошибками отображается.");
 		}
 		
-		[Test, Description("S-7146")]
+		[Test, Description("S-7146"), ShortCheckList]
 		public void CriticalErrorsTest()
 		{
 			_newProjectSettingsPage.ClickNextButton();
@@ -236,7 +237,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: ошибка {0} не отмечена, как критическая.", _error1);
 		}
 
-		[Test, Description("S-7231")]
+		[Test, Description("S-7231"), ShortCheckList]
 		public void IdenticalSourceAndTargetErrorTest()
 		{
 			_qualityAssuranceAdvancedSettingsSection.SetErrorType(_error3, ErrorType.setCritical);
@@ -281,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: не открылась вкладка 'QA Check'.");
 		}
 
-		[Test, Description("S-7233")]
+		[Test, Description("S-7233"), ShortCheckList]
 		public void FixQualityAssuranceErrorTest()
 		{
 			_qualityAssuranceAdvancedSettingsSection.SetErrorType(_error2, ErrorType.setCritical);

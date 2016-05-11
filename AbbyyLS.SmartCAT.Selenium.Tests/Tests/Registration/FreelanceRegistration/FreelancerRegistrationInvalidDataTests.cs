@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			StartPage = StartPage.Registration;
 		}
 
-		[Test, Description("S-7106")]
+		[Test, Description("S-7106"), ShortCheckList]
 		public void TwoTheSameFreelancersRegistrationTest()
 		{
 			var email = Guid.NewGuid() + "@mailforspam.com";
@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n не появилось сообщение о том, что аккаунт уже существует.");
 		}
 
-		[Test, Description("S-13734")]
+		[Test, Description("S-13734"), ShortCheckList]
 		public void EmptyPasswordTest()
 		{
 			_registrationPage
@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'Password'");
 		}
 
-		[Test, Description("S-13735")]
+		[Test, Description("S-13735"), ShortCheckList]
 		public void EmptyFirstAndLastNameTest()
 		{
 			_registrationPage
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка: не появилось сообщение об ошибке в поле 'Password'");
 		}
 
-		[Test, Description("S-13736")]
+		[Test, Description("S-13736"), ShortCheckList]
 		public void ShortPasswordTest()
 		{
 			var password = "12345";

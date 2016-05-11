@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[Projects]
 	class ChangeProjectLanguagesTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7058")]
+		[Test, Description("S-7058"), ShortCheckList]
 		public void AddLanguageJobsTest()
 		{
 			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: Неверный список джобов.");
 		}
 
-		[Test, Description("S-7140")]
+		[Test, Description("S-7140"), ShortCheckList]
 		public void AddLanguageInProjectWithTranslationMemoryTest()
 		{
 			var targetLanguages = new List<string> { Language.Russian.Description(), Language.German.Description() };
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: Неверно указаны целевые языки.");
 		}
 
-		[Test, Description("S-7141")]
+		[Test, Description("S-7141"), ShortCheckList]
 		public void AddLanguageInProjectWithGlossaryTest()
 		{
 			var languages = new List<string> { Language.Russian.Description(), Language.English.Description(), Language.German.Description()};

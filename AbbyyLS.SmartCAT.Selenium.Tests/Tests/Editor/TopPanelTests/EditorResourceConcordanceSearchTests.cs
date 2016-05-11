@@ -53,7 +53,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.TopPanelTests
 			_selectTaskDialog.SelectTask();
 		}
 
-		[Test, Description("S-7239")]
+		[Test, Description("S-7239"), ShortCheckList]
 		public void SourceConcordanceSearchTest()
 		{
 			var sourceText = _editorPage.GetSourceText(rowNumber: 1);
@@ -92,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.TopPanelTests
 				"Произошла ошибка: неверный таргет в результирующей таблице конкордансного поиска.");
 		}
 
-		[Test, Description("S-7240")]
+		[Test, Description("S-7240"), ShortCheckList]
 		public void TargetConcordanceSearchTest()
 		{
 			var targetText = _editorPage.GetTargetText(rowNumber: 2);
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.TopPanelTests
 				"Произошла ошибка: неверный таргет в результирующей таблице конкордансного поиска.");
 		}
 
-		[Test, Description("S-7241")]
+		[Test, Description("S-7241"), ShortCheckList]
 		public void TargetConcordanceSearchSubstitutionTest()
 		{
 			_editorPage

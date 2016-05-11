@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
@@ -8,7 +9,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 	[Parallelizable(ParallelScope.Fixtures)]
 	class QualityAssuranceNavigationTests<TWebDriverProvider> : QualityAssuranceBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-10531")] // TODO немного переделать xpath-ы стрелок после фикса PRX-16527
+		[Test, Description("S-10531"), ShortCheckList] // TODO немного переделать xpath-ы стрелок после фикса PRX-16527
 		public void TerminologicalErrorsNavigationTest()
 		{
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();

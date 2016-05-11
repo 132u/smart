@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n текст в термине не совпадает с ожидаемым.");
 		}
 
-		[Test, Description("S-7295")]
+		[Test, Description("S-7295"), ShortCheckList]
 		public void SearchTermTest()
 		{
 			var uniqueData = DateTime.UtcNow.Ticks + "SearchTest";
@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n найденные термины не совпадает с заданным термином '{0}'.", firstTerm);
 		}
 
-		[Test, Description("S-14637")]
+		[Test, Description("S-14637"), ShortCheckList]
 		public void SearchExistingTermsTest()
 		{
 			var term1 = "Term1" + Guid.NewGuid();
@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n списки имён глоссариев не совпадают.");
 		}
 
-		[Test, Description("S-14638")]
+		[Test, Description("S-14638"), ShortCheckList]
 		public void ExampleFromGlossaryTermTest()
 		{
 			var firstWordInSource = "first";
@@ -200,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Имя созданного проекта не совпадает с найденным");
 		}
 
-		[Test, Description("S-14642")]
+		[Test, Description("S-14642"), ShortCheckList]
 		public void ReverseSearchForGlossaryTermTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -220,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Не сработал обратный поиск термина по переводу."); 
 		}
 
-		[Test, Description("S-14639")]
+		[Test, Description("S-14639"), ShortCheckList]
 		public void AddNewTermInGlossaryFromSearchTabTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -248,7 +248,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Указанная пара терми-перевод, не отобразилась.");
 		}
 
-		[Test, Description("S-14640")]
+		[Test, Description("S-14640"), ShortCheckList]
 		public void SuggestTermsTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -277,7 +277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Предложенные термины не совпадают с введёнными ранее или не отображаются.");
 		}
 
-		[Test, Description("S-14641")]
+		[Test, Description("S-14641"), ShortCheckList]
 		public void SwitchToGlossaryFromSearchPageTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -298,7 +298,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Поле поиска после перехода со страницы поиска не заполнилось значение термина.");
 		}
 
-		[Test, Description("S-14643")]
+		[Test, Description("S-14643"), ShortCheckList]
 		public void AutoReverseLanguageTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -317,7 +317,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Результаты поиска не появились.");
 		}
 
-		[Test, Description("S-14644")]
+		[Test, Description("S-14644"), ShortCheckList]
 		public void SearchQueryHistoryTest()
 		{
 			var term1 = "term1" + Guid.NewGuid();
@@ -359,7 +359,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_searchHistoryPage.ClickOnSearchHistoryButton();
 		}
 
-		[Test, Description("S-14647")]
+		[Test, Description("S-14647"), ShortCheckList]
 		public void SearchDefinitionsFromGlossary()
 		{
 			var forTerm1 = new Random();

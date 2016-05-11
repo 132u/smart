@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			StartPage = StartPage.Registration;
 		}
 
-		[Test, Description("S-7105")]
+		[Test, Description("S-7105"), ShortCheckList]
 		public void NewFreelancerRegistrationTest()
 		{
 			_registrationPage
@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-7107")]
+		[Test, Description("S-7107"), ShortCheckList]
 		public void NewFreelancerRegistrationWithSimpleDataTest()
 		{
 			var firstAndLastName = "Иван Иванов";
@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-7109")]
+		[Test, Description("S-7109"), ShortCheckList]
 		public void ConfirmNewFreelancerEmailTest()
 		{
 			var projectName = "Project-" + Guid.NewGuid();
@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n Имя пользователя в черной плашке не совпадает с ожидаемым именем");
 		}
 
-		[Test, Description("S-10528")]
+		[Test, Description("S-10528"), ShortCheckList]
 		public void ConfirmNewFreelancerEmailAgainTest()
 		{
 			var projectName = "Project-" + Guid.NewGuid();

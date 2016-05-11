@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		}
 
 		[TestCase(false)]
-		[TestCase(true), Description("S-7110")]
+		[TestCase(true), Description("S-7110"), ShortCheckList]
 		public void ExistingUserWithPersonalAccountRegistrationTest(bool active)
 		{
 			_adminHelper

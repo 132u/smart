@@ -10,7 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 	public class ImportGlossaryTests<TWebDriverProvider>
 		: BaseGlossaryTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7293")]
+		[Test, Description("S-7293"), ShortCheckList]
 		public void ImportGlossaryTest()
 		{
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);

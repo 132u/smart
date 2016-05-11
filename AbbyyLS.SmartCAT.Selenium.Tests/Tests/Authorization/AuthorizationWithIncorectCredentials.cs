@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			StartPage = StartPage.SignIn;
 		}
 
-		[Test, Description("S-7113")]
+		[Test, Description("S-7113"), ShortCheckList]
 		public void AuthorizationWithWrongPassword()
 		{
 			var email = "ringo123@mailforspam.com";
@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка: \n на странице не появилось сообщение о неправильном пароле.");
 		}
 
-		[Test, Description("S-7114")]
+		[Test, Description("S-7114"), ShortCheckList]
 		public void AuthorizationWithUnregisteredUser()
 		{
 			var email = "ringo@mailforspam.com";

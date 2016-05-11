@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.GoToUsersPage();
 		}
 
-		[Test, Description("S-7124")]
+		[Test, Description("S-7124"), ShortCheckList]
 		public void CreateGroupTest()
 		{
 			_groupsAndAccessRightsTab.OpenNewGroupDialog();

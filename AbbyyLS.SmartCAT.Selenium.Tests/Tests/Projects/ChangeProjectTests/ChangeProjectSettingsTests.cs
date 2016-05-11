@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectSettingsButton(_projectUniqueName);
 		}
 
-		[Test, Description("S-7143")]
+		[Test, Description("S-7143"), ShortCheckList]
 		public void ChangeClientTest()
 		{
 			_projectSettingsDialog
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошикба: неверное название клиента.");
 		}
 
-		[Test, Description("S-7143")]
+		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
 		public void ChangeProjectGroupTest()
 		{
 			_projectSettingsDialog
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошикба: неверное название группы проекта.");
 		}
 
-		[Test, Description("S-7143")]
+		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
 		public void ChangeDeadlineTest()
 		{
 			var tomorrow = DateTime.Now.AddDays(1);
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошикба: неверная дата в дедлайне.");
 		}
 
-		[Test, Description("S-7143")]
+		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
 		public void ChangeDescriptionTest()
 		{
 			var description = "description text";

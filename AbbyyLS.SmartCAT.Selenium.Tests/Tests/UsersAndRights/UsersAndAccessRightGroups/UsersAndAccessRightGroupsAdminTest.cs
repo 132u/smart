@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_adminHelper.CreateNewUser(_email, _nickName, _password, aolUser: false);
 		}
 
-		[Test, Description("S-7127")]
+		[Test, Description("S-7127"), ShortCheckList]
 		public void AddUserPersonalAccountToGroupTest()
 		{
 			_adminHelper.CreateNewPersonalAccount(_surname, state: true);
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: не открылась страница WAddUserCorporateAccountToGroupTest()S.");
 		}
 
-		[Test, Description("S-7128")]
+		[Test, Description("S-7128"), ShortCheckList]
 		public void AddUserCorporateAccountToGroupTest()
 		{
 			var testAccount = "AddUserCorporateAccountToGroupTest";

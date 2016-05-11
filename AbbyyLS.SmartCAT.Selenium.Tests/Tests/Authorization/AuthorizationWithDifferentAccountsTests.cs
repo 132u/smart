@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			};
 		}
 
-		[Test, Description("S-7111")]
+		[Test, Description("S-7111"), ShortCheckList]
 		public void AuthorizationWithSingleCorporateAccountTest()
 		{
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);
@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"не произошел автоматический переход на галавную страницу.");
 		}
 
-		[Test, Description("S-7046")]
+		[Test, Description("S-7046"), ShortCheckList]
 		public void AuthorizationWithCorporateAccountAndAccountSortTest()
 		{
 			_adminHelper
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n Список аккаунтов некорректный, не совпадает либо количество, либо сортировка.");
 		}
 
-		[Test, Description("S-7115")]
+		[Test, Description("S-7115"), ShortCheckList]
 		public void WorkInSeveralTabsTest()
 		{
 			_registrationPage.GetPageExpectingRedirectToSignInPage(ThreadUser.Login);
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n После авторизации и повторного заходна на сайт не отобразилась страница workspace.");
 		}
 
-		[Test, Description("S-7116")]
+		[Test, Description("S-7116"), ShortCheckList]
 		public void WorkInSeveralTabsTestAfterSignOutTest()
 		{
 			_registrationPage.GetPageExpectingRedirectToSignInPage(ThreadUser.Login);
