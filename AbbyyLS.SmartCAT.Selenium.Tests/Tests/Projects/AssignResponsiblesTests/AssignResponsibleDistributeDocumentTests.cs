@@ -16,9 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_endRange = 3;
 			
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new []{ PathProvider.LongTxtFile});
+				_projectUniqueName, filesPaths: new []{ PathProvider.LongTxtFile });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.LongTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)

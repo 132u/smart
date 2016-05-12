@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n кнопка удаления файла отображается.");
@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectsPage.IsDocumentUploadButtonDisplayed(),
 				"Произошла ошибка:\n Кнопка загрузки документа присутсвует на странице проектов.");
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile);
 			
 			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInDocumentPanelDisabled(_projectUniqueName),
 				"Произошла ошибка:\n Кнопка назначения неактивна.");
@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.ClickDocumentSettings(_projectUniqueName);
 
 			Assert.IsTrue(_documentSettingsDialog.IsDocumentSettingsDialogOpened(),

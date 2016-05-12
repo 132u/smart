@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 						WorkflowTask.Postediting}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(groupName, isGroup: true, taskNumber: 1)
@@ -191,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, taskNumber: 3)

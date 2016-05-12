@@ -1056,7 +1056,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string FILTER_BUTTON = "//div[contains(@class, 'js-set-filter')]";
 		protected const string REMOVE_FILTER_BUTTON = "//div[contains(@title, '*#*')]//em//i";
 		protected const string CLIENT_VIEW_MODE = "//div[contains(@data-bind,'clientName')]";
-		protected const string IMPOSSIBLE_TO_CHANGE_LANGUAGE_ERROR = "//p[contains(text(), 'The language cannot be changed because TM is already used in SmartCAT')]";
+		protected const string IMPOSSIBLE_TO_CHANGE_LANGUAGE_ERROR = "//p[contains(text(), 'The language cannot be changed because TM is already used in SmartCAT')][last()]";
 		#endregion
 	}
 }

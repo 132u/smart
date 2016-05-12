@@ -15,15 +15,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ExpandAdvancedSettings();
 
 			_advancedSettingsSection.ClickQualityAssuranceTab();
-			_qualityAssuranceAdvancedSettingsSection.SetErrorTypeForAllErrors()
+
+			_qualityAssuranceAdvancedSettingsSection
+				.SetErrorTypeForAllErrors()
 				.SetErrorType(_error1, ErrorType.setCritical);
 
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
-			_taskAssignmentPage.SetResponsible(ThreadUser.NickName, isGroup: false)
+			_taskAssignmentPage
+				.SetResponsible(ThreadUser.NickName, isGroup: false)
 				.ClickSaveButton();
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName)

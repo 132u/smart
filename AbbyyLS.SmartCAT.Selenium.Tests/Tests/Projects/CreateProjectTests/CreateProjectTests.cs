@@ -203,8 +203,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 1)
-				.OpenDocumentInfoForProject(_projectUniqueName, documentNumber: 2);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.TtxFile);
 
 			expectedJobList.Sort();
 			var jobList = _projectsPage.GetJobList(_projectUniqueName);

@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void AssignUserOneTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.DocumentFile2);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName)
@@ -99,17 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
-
-			_taskAssignmentPage
-				.SetResponsible(AdditionalUser.NickName)
-				.ClickSaveButton();
-
-			_workspacePage.GoToProjectsPage();
-
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
+			_projectsPage.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
 			
 			_editorPage
 				.FillTarget("translation")
@@ -128,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile2)
-				.OpenAssignDialog(_projectUniqueName);
+				.OpenAssignDialog(_projectUniqueName, PathProvider.DocumentFile2);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName)
@@ -138,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile2);
 
 			Assert.IsTrue(_projectsPage.IsMyTaskDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n Задача перевода не отображается для текущего пользователя.");
@@ -149,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile2);
 
 			Assert.IsFalse(_projectsPage.IsMyTaskDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n Задача перевода отображается для текущего пользователя.");

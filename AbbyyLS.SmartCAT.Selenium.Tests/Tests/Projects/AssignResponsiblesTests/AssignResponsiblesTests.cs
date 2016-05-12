@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 1);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document1);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document2);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document3);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
@@ -117,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 						WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)

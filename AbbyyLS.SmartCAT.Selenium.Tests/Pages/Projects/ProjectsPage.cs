@@ -200,11 +200,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку Progress определенного документа в проекте
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
-		/// <param name="documentNumber"> Номер документа </param>
-		public ProjectsPage ClickProgressDocument(string projectName, int documentNumber = 1)
+		/// <param name="documentPath"> Путь до документа </param>
+		public ProjectsPage ClickProgressDocument(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Progress документа №{0} в проекте '{1}'.", documentNumber, projectName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, projectName, documentNumber.ToString());
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Нажать кнопку Progress документа {0} в проекте '{1}'.", documentName, projectName);
+			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, projectName, documentName);
 			DocumentProgress.Click();
 
 			return LoadPage();
@@ -214,11 +215,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать на кнопку прав пользователя в свертке документа
 		/// </summary>
 		/// <param name="projectName"> Название проекта </param>
-		/// <param name="documentNumber"> Номер документа </param>
-		public TaskAssignmentPage ClickDocumentAssignButton(string projectName, int documentNumber = 1)
+		/// <param name="documentPath"> Путь до документа </param>
+		public TaskAssignmentPage ClickDocumentAssignButton(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке документа");
-			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке документа {0}", documentName);
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentName);
 			DocumentTaskAssignButton.Click();
 
 			Driver.SwitchToNewBrowserTab();
@@ -312,14 +314,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Открыть свёртку документа
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentNumber">номер документа</param>
-		public ProjectsPage OpenDocumentInfoForProject(string projectName, int documentNumber = 1)
+		/// <param name="documentPath">путь до документа</param>
+		public ProjectsPage OpenDocumentInfoForProject(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Открыть свёртку документа №{0} в проекте '{1}'", documentNumber, projectName);
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Открыть свёртку документа №{0} в проекте '{1}'", documentName, projectName);
 
-			if (!getDocumentPanelIsOpened(projectName, documentNumber))
+			if (!getDocumentPanelIsOpened(projectName, documentName))
 			{
-				ClickProgressDocument(projectName, documentNumber);
+				ClickProgressDocument(projectName, documentName);
 			}
 
 			return LoadPage();
@@ -498,12 +501,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Отменить задачу в свертке документа.
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
-		/// <param name="documentNumber">номер документа</param>
-		public TaskDeclineDialog DeclineTaskInDocumentInfo(string projectName, int documentNumber = 1)
+		/// <param name="documentPath">путь до документа</param>
+		public TaskDeclineDialog DeclineTaskInDocumentInfo(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Отменить задачу в свертке документа.");
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Отменить задачу в свертке документа {0}.", documentName);
 			OpenProjectInfo(projectName);
-			OpenDocumentInfoForProject(projectName, documentNumber);
+			OpenDocumentInfoForProject(projectName, documentName);
 			ClickDeclineButton();
 
 			return new TaskDeclineDialog(Driver).LoadPage();
@@ -513,13 +517,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Открыть диалог назначения задачи
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentNumber">номер документа</param>
-		public TaskAssignmentPage OpenAssignDialog(string projectName, int documentNumber = 1)
+		/// <param name="documentPath">путь до документа</param>
+		public TaskAssignmentPage OpenAssignDialog(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Открыть диалог назначения задачи.");
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Открыть диалог назначения задачи для документа {0}.", documentName);
 			OpenProjectInfo(projectName);
-			OpenDocumentInfoForProject(projectName, documentNumber);
-			var taskAssignmentPage = ClickDocumentAssignButton(projectName, documentNumber);
+			OpenDocumentInfoForProject(projectName, documentName);
+			var taskAssignmentPage = ClickDocumentAssignButton(projectName, documentName);
 
 			return taskAssignmentPage.LoadPage();
 		}
@@ -995,11 +1000,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Получить открыта ли свертка документа
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentNumber">номер документа в проекте</param>
-		private bool getDocumentPanelIsOpened(string projectName, int documentNumber = 1)
+		/// <param name="documentName">имя документа</param>
+		private bool getDocumentPanelIsOpened(string projectName, string documentName)
 		{
-			CustomTestContext.WriteLine("Получить, открыта ли свёртка документа №{0} проекта '{1}'.", documentNumber, projectName);
-			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, projectName, documentNumber.ToString());
+			CustomTestContext.WriteLine("Получить, открыта ли свёртка документа {0} проекта '{1}'.", documentName, projectName);
+			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, projectName, documentName);
 
 			return DocumentRow.GetElementAttribute("class").Contains("opened");
 		}
@@ -1122,10 +1127,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON ="//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
-		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]";
-		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//div[@class='ui-progressbar__container']";
+		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]";
+		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@data-bind, 'actions.edit')]";
-		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//div[contains(@data-bind, 'click: actions.assign')]//a";
+		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]/following-sibling::tr[contains(@class, 'js-document-panel')]//div[contains(@data-bind, 'click: actions.assign')]//a";
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//div[contains(@data-bind, 'click: importDocument')]";
 		protected const string PROJECT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr//div[contains(@data-bind, 'click: assign')]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";

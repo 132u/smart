@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void UpdateTranslationMemoryTest()
 		{
-			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile);
+			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile, client: _clientName);
 
 			var unitsCountBefore = _translationMemoriesPage
 				.OpenTranslationMemoryInformation(_translationMemory)
@@ -163,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void UploadTmxToExistingTranslationMemoryTest()
 		{
-			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile);
+			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: PathProvider.EditorTmxFile, client: _clientName);
 
 			var unitsCountBefore = _translationMemoriesPage
 				.OpenTranslationMemoryInformation(_translationMemory)

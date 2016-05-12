@@ -415,7 +415,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//button[@data-bind='click: switchToSelectMode']";
 		protected const string SPLIT_ASSIGNMENT_OPTION = "//div[@data-bind='visible: hasExecutives']/div";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
-		protected const string TASK_ASSIGNMENT_TABLE = "//table[contains(@class, 'assignment-table')]";
+		protected const string TASK_ASSIGNMENT_TABLE = "//table[@class = 'g-table g-table_design_old']";
 		protected const string TASK_ASSIGN_DROPDOWN = "//tr[*#*]//div[contains(@class, 'assignment_dropdown')]//input";
 		protected const string ASSIGNEE_LIST = "//div[contains(@class, 'g-dropbox__body')]//ul//li";
 		protected const string ASSIGNEE_OPTION = "//div[contains(@class, 'g-dropbox__body')]//ul//li[@title='*#*']";

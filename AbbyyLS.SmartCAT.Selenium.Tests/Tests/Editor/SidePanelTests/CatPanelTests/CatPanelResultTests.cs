@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
 				.SelectMachineTranslation(machineTranslation);
 
@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1);
 
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),

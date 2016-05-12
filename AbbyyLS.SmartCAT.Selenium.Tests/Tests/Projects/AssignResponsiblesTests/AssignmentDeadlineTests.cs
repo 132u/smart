@@ -18,9 +18,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void NoSaveDeadlineTest()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile});
+				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>();
@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
@@ -57,7 +57,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(date.Date, _taskAssignmentPage.GetDeadlineDate(),
 				"Произошла ошибка:\nНеверное значение в поле дедлайна.");
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_workspacePage.SelectLocale(Language.Russian);
 
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline: Deadline.NextMonth
 				);
 			
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document1);
 
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
@@ -135,7 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 2);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document2);
 
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, documentNumber: 3);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document3);
 
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
@@ -203,7 +203,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				deadline:Deadline.NextMonth
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 			
 			_taskAssignmentPage.OpenDatePicker();
 			_datePicker.SetDate<TaskAssignmentPage>(date1.Day, nextMonth: nextMonth1);
@@ -231,7 +231,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 1);
 			_datePicker.SetDate<TaskAssignmentPage>(date.Day);
@@ -262,7 +262,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
 			_datePicker
@@ -295,7 +295,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 			
 			_taskAssignmentPage.OpenDatePicker(taskNumber: 3);
 			_datePicker
@@ -313,7 +313,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			Assert.IsTrue(_projectsPage.IsProjectsPageOpened(), "Произошла ошибка:\n Не открылась страница проектов.");
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 			
 			Assert.AreEqual(date.Date, _taskAssignmentPage.GetDeadlineDate(taskNumber: 3),
 				"Произошла ошибка:\n Неверное значение даты в поле дедлайн.");

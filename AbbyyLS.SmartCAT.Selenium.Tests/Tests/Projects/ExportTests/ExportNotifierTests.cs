@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.ClickExportType(ExportType.Source);
 
@@ -306,7 +306,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.OpenProjectInfo(projectUniqueName2)
-				.OpenDocumentInfoForProject(projectUniqueName2, documentNumber: 2)
+				.OpenDocumentInfoForProject(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
 				.ClickDownloadInDocumentButton(projectUniqueName2, documentNumber: 2)
 				.ClickExportType(ExportType.Source);
 
@@ -378,7 +378,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentSettings(_projectUniqueName);
 
 			_documentSettingsDialog

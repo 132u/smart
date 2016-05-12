@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void OpenAssignDialogDocumentInfoOnProjectsPageTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
 		}
@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			var responsibleUsersList = _taskAssignmentPage
 				.ClickAssigneeDropboxButton()
@@ -116,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage.ClickAssigneeDropboxButton();
 
@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserOneTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void DeleteUserTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -191,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -224,7 +224,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void UnAssignUserTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -242,7 +242,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage
 				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName);
+				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 			
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -258,7 +258,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -267,7 +267,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			var assignees = new List<string> { ThreadUser.NickName, _secondUser.NickName };
 			assignees.Sort();
@@ -281,7 +281,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -301,8 +301,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_workspacePage.GoToProjectsPage();
-			
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)

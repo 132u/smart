@@ -114,7 +114,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInDocumentButton(_projectUniqueName)
 				.ClickExportType(exportType);
 

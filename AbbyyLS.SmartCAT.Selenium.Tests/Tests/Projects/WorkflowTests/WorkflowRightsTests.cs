@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(), "Произошла ошибка:\n Редактор не открылся.");
@@ -87,8 +87,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
-				.OpenAssignDialog(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
@@ -103,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(2, _selectTaskDialog.GetTaskCount(),
@@ -125,8 +125,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
-				.OpenAssignDialog(_projectUniqueName);
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 2)
@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage
 				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName);
+				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(AdditionalUser.NickName)
@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
@@ -171,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			_editorPage
@@ -186,7 +186,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_loginHelper.LogInSmartCat(ThreadUser.Login, ThreadUser.NickName, ThreadUser.Password);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(AdditionalUser.NickName)
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName)
+				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 1),
