@@ -414,9 +414,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: save, css: {disabled: !hasChanges()}')]//a";
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//button[@data-bind='click: switchToSelectMode']";
-		protected const string SPLIT_ASSIGNMENT_OPTION = "//div[@data-bind='visible: hasExecutives']/div";
+		protected const string SPLIT_ASSIGNMENT_OPTION = "//div[contains(@data-bind,'click: goToSplitAssignment')]/a";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
-		protected const string TASK_ASSIGNMENT_TABLE = "//table[@class = 'g-table g-table_design_old']";
+		protected const string TASK_ASSIGNMENT_TABLE = "//table[@class = 'g-table g-table_design_old at-assignment-table']";
 		protected const string TASK_ASSIGN_DROPDOWN = "//tr[*#*]//div[contains(@class, 'assignment_dropdown')]//input";
 		protected const string ASSIGNEE_LIST = "//div[contains(@class, 'g-dropbox__body')]//ul//li";
 		protected const string ASSIGNEE_OPTION = "//div[contains(@class, 'g-dropbox__body')]//ul//li[@title='*#*']";
@@ -424,7 +424,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string CONFIRM_CANCEL_BUTTON = "//div[contains(@class,'l-confirm')]//span[span[input[@value='Cancel Assignment']]]";
 		protected const string ASSIGN_STATUS = "(//span[@data-bind='text: status()' and text()='*#*'])[*##*]";
 		protected const string TASK_ASSIGN_DROPBOX_OPTION = "//table[*#*]//ul[contains(@class, 'list newDropdown')]";
-		protected const string ASSIGNEES_COLUMN = "//tr[*#*]//td[contains(@data-bind, 'l-assignments-different-values')][1]";
+		protected const string ASSIGNEES_COLUMN = "//tbody[@data-bind='foreach: workflowStages']//tr[*#*]/td[2]";
 		protected const string ASSIGNEE_NAME_LIST = "//tbody[@data-bind='foreach: workflowStages']//tr[*#*]//span[@data-bind='text: name, titleOnOverflow']";
 		protected const string ASSIGNEE_NAME_EDIT = "//tr[*#*]//td[2]//span[@class='g-tag__name'][text()='*##*']";
 		protected const string SELECT_SEVERAL_ASSIGNEES_DROPDOWN = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
@@ -438,7 +438,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DEADLINE_IS_EARLIER_THAT_PREVIOUS_ERROR = "//p[contains(@data-message-id, 'deadline-is-earlier-that-previous')]";
 		protected const string DEADLINE_IS_LATER_THAT_PROJECT_DEADLINE_POP_UP = "//div[contains(text(), 'later than the project deadline')]";
 		protected const string ATTENTION_ICON_IN_DATEPICKER = "//div[@class='g-datetimepicker g-datetimepicker_stage g-datetimepicker_marked']";
-		protected const string BACK_TO_PROJECT_BUTON = "(//a[@data-bind='click: close'])[1]";
+		protected const string BACK_TO_PROJECT_BUTON = "//button[@data-bind='click: close']";
 
 		#endregion
 	}
