@@ -337,11 +337,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			}
 
 			_searchPage.InitSearch(term1);
-			Assert.IsFalse(_searchPage.IsNoExamplesFoundMessageDisplayed(), 
+			Assert.IsFalse(_searchPage.IsNothingFoundInGlossariesDisplayed(), 
 				"Не отобразился результат поиска для добавленного термина.");
 
 			_searchPage.InitSearch(firstNotAddedTerm);
-			Assert.IsTrue(_searchPage.IsNoExamplesFoundMessageDisplayed(),
+			Assert.IsTrue(_searchPage.IsNothingFoundInGlossariesDisplayed(),
 				"Отобразился результат поиска для недобавленного в глоссарий термина.");
 
 			_searchPage.OpenSearchHistory();

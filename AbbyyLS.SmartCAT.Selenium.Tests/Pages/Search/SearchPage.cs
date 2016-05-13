@@ -306,6 +306,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		}
 
 		/// <summary>
+		/// Проверить, появилась ли надпись 'Поиск в корпоративных глоссариях не дал результатов'"
+		/// </summary>
+		public bool IsNothingFoundInGlossariesDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, появилась ли надпись, 'Поиск в корпоративных глоссариях не дал результатов'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(NOTHING_FOUND_IN_GLOSSARIES_MESSAGE));
+		}
+
+		/// <summary>
 		/// Проверить, совпадает ли слово в поисковой строке с заданным.
 		/// </summary>
 		/// <param name="word">слово, которое ожидается в поисковой строке</param>
@@ -406,6 +416,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		protected const string EXAMPLES_TAB = "//div[contains(@class, 'g-srctabs')]//a[text()='Examples']";
 
 		protected const string NO_EXAMPLES_FOUND_IMAGE = "//div[contains(@class, 'js-empty-icon-box')]";
+		protected const string NOTHING_FOUND_IN_GLOSSARIES_MESSAGE = "//p[contains(@class, 'l-glossary__nothingFound')]";
 
 		protected const string AUTOREVERSED_MESSAGE = "//div[contains(@class,'js-language-autoreversed')]";
 		protected const string AUTOREVERSED_REFERENCE = "//div[contains(@class,'js-language-autoreversed')]//a[contains(@href,'/Translate')]";

@@ -1881,7 +1881,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string SOURCE_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '$$')]";
 		protected const string SOURCE_TARGET_TERM_WITH_COMMENT = "//tr[contains(@class, 'js-concept-row') and contains(string(), '#') and contains(string(), '**') and contains(string(), '$$')]";
 		protected const string DELETE_TERM_BUTTON = "//tr[contains(@class, 'js-concept-row') and contains(string(), '*#*')]//i[@title='Delete']";
-		protected const string TERM_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'glossaryShort')][*#*]//p";
+		protected const string TERM_TEXT = "//tr[contains(@class, 'js-concept-row')]//td[contains(@class,'js-terms-list')][*#*]//p";
 		protected const string CUSTOM_FIELD_NAME = "//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]";
 		protected const string CUSTOM_FIELD_INPUT = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class,'js-edit')]//p[contains(text(),'*#*')]/..//textarea";
 		protected const string CUSTOM_FIELD_VIEW_MODE = "//div[contains(@class,'js-concept-attrs')]//div[contains(@class, 'js-view')]//p[text() ='*#*']//following-sibling::div";
