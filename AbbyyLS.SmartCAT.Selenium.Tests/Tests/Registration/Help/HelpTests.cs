@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Description("S-7132"), ShortCheckList]
+		[Test, Description("S-7132"), ShortCheckList, Ignore("PRX-16834")]
 		public void NewUserInNewCorporateAccountInWorkspaceHelpTest()
 		{
 			_adminHelper
@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n подсказка о том, как начать перевод документа не показывается.");
 		}
 
-		[Test, Description("S-13743"), ShortCheckList]
+		[Test, Description("S-13743"), ShortCheckList, Ignore("PRX-16834")]
 		public void NewUserInNewCorporateAccountInEditorHelpTest()
 		{
 			_adminHelper
