@@ -136,7 +136,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors
 		public bool IsEditVendorDialogOpened()
 		{
 			return Driver.WaitUntilElementIsAppear(By.XPath(SAVE_BUTTON))
-				&& Driver.WaitUntilElementIsEnabled(By.XPath(SAVE_BUTTON));
+				&& Driver.WaitUntilElementIsEnabled(By.XPath(SAVE_BUTTON))
+				&& Driver.WaitUntilElementIsEnabled(By.XPath(VENDOR_NAME))
+				&& Driver.WaitUntilElementIsEnabled(By.XPath(CONTACT_PERSON))
+				&& Driver.WaitUntilElementIsEnabled(By.XPath(PHONE_NUMBER));
 		}
 
 		#endregion

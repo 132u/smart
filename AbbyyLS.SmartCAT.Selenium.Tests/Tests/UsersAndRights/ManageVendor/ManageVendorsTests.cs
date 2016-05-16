@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_vendorPage.OpenEditVendorDialog(vendor);
 			_editVendorDialog.EditVendor(newVendorName, contactPerson, email, phoneNumber);
 
-			Assert.AreEqual(newVendorName, _vendorPage.GetVendorName(vendorNumber: 1),
+			Assert.AreEqual(newVendorName, _vendorPage.GetVendorName(vendorName: newVendorName),
 				"Произошла ошибка: неверное название поставщика услуг.");
 
 			Assert.AreEqual(vendor, _vendorPage.GetVendorAccount(newVendorName),

@@ -62,11 +62,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors
 		/// <summary>
 		/// Получить название поставщика услуг из таблицы.
 		/// </summary>
-		/// <param name="vendorName">номер поставщика услуг</param>
-		public string GetVendorName(int vendorNumber)
+		/// <param name="vendorName">имя поставщика услуг</param>
+		public string GetVendorName(string vendorName)
 		{
-			CustomTestContext.WriteLine("Получить название поставщика №{0} услуг из таблицы.", vendorNumber);
-			VendorNameValue = Driver.SetDynamicValue(How.XPath, VENDOR_NAME_VALUE, vendorNumber.ToString());
+			CustomTestContext.WriteLine("Получить название поставщика №{0} услуг из таблицы.", vendorName);
+			VendorNameValue = Driver.SetDynamicValue(How.XPath, VENDOR_NAME_VALUE, vendorName);
 
 			return VendorNameValue.Text;
 		}
@@ -206,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors
 		protected const string VENDOR_NAME_HEAD_COLUMN = "//th[contains(text(), 'Vendor Name')]";
 		protected const string VENDOR_NAME = "//td[contains(@data-bind, 'vendorName') and text()='*#*']";
 		protected const string EDIT_BUTTON = "//div[contains(@data-bind, 'showEditPopup')]//a";
-		protected const string VENDOR_NAME_VALUE = "//tbody[contains(@data-bind, 'vendors')]//tr[*#*]//td[1][contains(@data-bind, 'vendorName')]";
+		protected const string VENDOR_NAME_VALUE = "//tbody[contains(@data-bind, 'vendors')]//tr//td[@data-bind='text: vendorName' and text()='*#*']";
 		protected const string VENDOR_ACCOUNT_VALUE = "//tbody[contains(@data-bind, 'vendors')]//td[text()='*#*']/following-sibling::td[contains(@data-bind, 'vendorAccount')]";
 		protected const string PHONE_NUMBER_VALUE = "//tbody[contains(@data-bind, 'vendors')]//td[text()='*#*']/following-sibling::td//p[contains(@data-bind, 'phoneNumber')]";
 		protected const string EMAIL_VALUE = "//tbody[contains(@data-bind, 'vendors')]//td[text()='*#*']/following-sibling::td[contains(@data-bind, 'email')]";
