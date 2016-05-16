@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Добавить слово {0} в словарь", word);
 			InputWordField.DoubleClick();
-			InputWordField.SendKeys(word);
+			InputWordField.SetText(word);
 
 			return LoadPage();
 		}

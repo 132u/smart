@@ -71,8 +71,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_selectTaskDialog.SelectTask();
 		}
-		
-		[Test]
+
+		[Test, Ignore("PRX-16581")]
 		public void TBRevisionTest()
 		{
 			_editorPage.PasteTranslationFromCAT(catType: CatType.TB);
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\nНеверный тип ревизии.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-16581")]
 		public void TBRevisionByHotKeyTest()
 		{
 			_editorPage.PasteTranslationFromCATByHotkey(catType: CatType.TB);
