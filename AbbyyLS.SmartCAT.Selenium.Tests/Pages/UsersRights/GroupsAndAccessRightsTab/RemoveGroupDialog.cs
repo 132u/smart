@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights.RemoveGroupDialog
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Delete.");
 			Driver.WaitUntilElementIsClickable(By.XPath(DELETE_BUTTON));
-			DeleteButton.Click();
+			DeleteButton.JavaScriptClick();
 
 			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
