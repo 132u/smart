@@ -100,6 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test(Description = "ТС-37")]
+		[Ignore("PRX-16792")]
 		[Standalone]
 		public void DistributeSegmentsBetweenFewAssigneesTest()
 		{
@@ -204,6 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test(Description = "ТС-48")]
+		[Ignore("PRX-16792")]
 		[Standalone]
 		public void CancelReassigneSegmentsBetweenAssigneesTest()
 		{
@@ -242,6 +244,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		}
 
 		[Test(Description = "ТС-48")]
+		[Ignore("PRX-16792")]
 		[Standalone]
 		public void ContinueReassigneSegmentsBetweenAssigneesTest()
 		{
