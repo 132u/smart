@@ -318,7 +318,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectsPage OpenDocumentInfoForProject(string projectName, string documentPath)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Открыть свёртку документа №{0} в проекте '{1}'", documentName, projectName);
+			CustomTestContext.WriteLine("Открыть свёртку документа {0} в проекте '{1}'", documentName, projectName);
 
 			if (!getDocumentPanelIsOpened(projectName, documentName))
 			{

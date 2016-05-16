@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -47,9 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SaveSettingsExpectingProjectsPage();
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.TtxFile);
+				.OpenProjectInfo(_projectUniqueName);
 
 			expectedJobList.Sort();
 			var jobList = _projectsPage.GetJobList(_projectUniqueName);

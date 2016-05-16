@@ -131,7 +131,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile, jobs: true)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
@@ -165,7 +164,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
 				.SelectDocumentJob(_projectUniqueName, fileName, Language.German);
 
 			Assert.IsTrue(_projectsPage.IsDeleteButtonInProjectPanelDisabled(_projectUniqueName),

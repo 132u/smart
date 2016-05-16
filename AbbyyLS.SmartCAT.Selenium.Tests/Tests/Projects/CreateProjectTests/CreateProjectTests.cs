@@ -202,9 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 
 			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.TtxFile);
+				.OpenProjectInfo(_projectUniqueName);
 
 			expectedJobList.Sort();
 			var jobList = _projectsPage.GetJobList(_projectUniqueName);
