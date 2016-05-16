@@ -260,7 +260,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			ClickAssigneeDropboxButton(taskNumber);
 			SelectResponsible(name, isGroup);
-			ClickAssigneeDropboxButton(taskNumber);
 
 			return LoadPage();
 		}
