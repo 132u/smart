@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Threading;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -181,9 +181,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesFilterDialog SelectClient(string client)
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке клиентов.", client);
-			Driver.WaitUntilElementIsDisplay(By.XPath(CLIENT.Replace("*#*", client)), 5);
+			string clientReplaced = CLIENT.Replace("*#*", client);
+			Driver.WaitUntilElementIsDisplay(By.XPath(clientReplaced), 5);
 			Client = Driver.SetDynamicValue(How.XPath, CLIENT, client);
+
 			Client.Scroll();
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(clientReplaced), 5))
+			{
+				throw new Exception("Произошла ошибка:\n после скроллинга клиент всё ещё невидим.");
+			}
+
 			Client.Click();
 
 			return LoadPage();
@@ -384,7 +392,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		protected const string TOPIC_LIST = "//div[@class='js-topics']/div/div";
 		protected const string PROJECT_GROUP = "//div[contains(@class, 'ui-multiselect-menu')][4]//input[@title='*#*']";
 		protected const string PROJECT_GROUP_LIST = "//div[@class='l-filtersrc__control'][2]/div";
-		protected const string CLIENT = "//div[contains(@class, 'ui-multiselect-menu')][5]//input[@title='*#*']";
+		protected const string CLIENT = "//div[contains(@class, 'ui-multiselect-menu')][5]//input[@title='*#*']//parent::span";
 		protected const string CLIENT_LIST = "//div[@class='l-filtersrc__control'][3]/div";
 		protected const string AUTHOR_LIST = "//div[@class='l-filtersrc__control creator']/div";
 		protected const string AUTHOR = "//div[contains(@class, 'ui-multiselect-menu')][3]//input[@title='*#*']";
