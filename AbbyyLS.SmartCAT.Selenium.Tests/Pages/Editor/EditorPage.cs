@@ -2363,7 +2363,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.Id, Using = CONCORDANCE_SEARCH)]
 		protected IWebElement ConcordanceSearch { get; set; }
 
-		[FindsBy(How = How.Id, Using = CONCORDANCE_SEARCH_RESULT)]
+		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_RESULT)]
 		protected IWebElement ConcordanceSearchResult { get; set; }
 
 		[FindsBy(How = How.Id, Using = ROLLBACK_BUTTON)]
