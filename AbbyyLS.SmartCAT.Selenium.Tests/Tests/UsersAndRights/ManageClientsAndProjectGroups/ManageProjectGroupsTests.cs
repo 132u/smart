@@ -5,7 +5,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class ManagePprojectGroupsTests<TWebDriverProvider> : ManageСlientsAndPprojectGroupsBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class ManageProjectGroupsTests<TWebDriverProvider> : ManageСlientsAndProjectGroupsBaseTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void BeforeTest()

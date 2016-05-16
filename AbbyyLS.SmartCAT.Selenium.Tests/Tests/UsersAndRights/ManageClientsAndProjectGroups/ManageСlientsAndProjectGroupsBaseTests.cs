@@ -13,7 +13,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
-	class ManageСlientsAndPprojectGroupsBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class ManageСlientsAndProjectGroupsBaseTests<TWebDriverProvider> : BaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
