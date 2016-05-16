@@ -91,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectStatusTest
 				"Произошла ошибка:\n Статус проекта не {0}.", DocumentStatus.Completed.Description());
 		}
 
-		[Test] //S-7158
+		[Test, Description("S-29235")]
 		public void StatusCheckForProjectWithoutPretranslateTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectStatusTest
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Created.Description());
 		}
 
-		[Test] //S-7158
+		[Test, Description("S-29237")]
 		public void StatusCheckForProjectWithXliffDocxTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -113,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectStatusTest
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Pretranslated.Description());
 		}
 
-		[Test] //S-7158
+		[Test, Description("S-29236")]
 		public void StatusCheckForProjectWithDocTmTest()
 		{
 			_createProjectHelper.CreateNewProject(
