@@ -167,6 +167,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Нажать кнопку 'Lingvo Dictionaries', ожидая алерт
+		/// </summary>
+		public void ClickLingvoDictionariesButtonAssumingAlert()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Lingvo Dictionaries', ожидая алерт.");
+
+			LingvoDictionaries.Click();
+		}
+
+		/// <summary>
 		/// Нажать на имя пользователя и аккаунт, чтобы появилась плашка "Настройки профиля"
 		/// </summary>
 		public WorkspacePage ClickAccount()
@@ -480,6 +490,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			OpenHideMenuIfClosed();
 			ExpandResourcesIfNotExpanded();
 			ClickLingvoDictionariesButton();
+
+			return new LingvoDictionariesPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу со словарями Lingvo, ожидая попутно получить алерт
+		/// </summary>
+		public LingvoDictionariesPage GoToLingvoDictionariesPageExpectingAlert()
+		{
+			OpenHideMenuIfClosed();
+			ExpandResourcesIfNotExpanded();
+			ClickLingvoDictionariesButtonAssumingAlert();
+			Driver.CloseAlertIfExist();
 
 			return new LingvoDictionariesPage(Driver).LoadPage();
 		}

@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
 				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
 
-			_workspacePage.GoToLingvoDictionariesPage();
+			_workspacePage.GoToLingvoDictionariesPageExpectingAlert();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");
@@ -88,11 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 				ThreadUser.Password,
 				_accountUniqueName);
 
-			_workspacePage.GoToLingvoDictionariesPage();
-
-			_workspacePage
-				.OpenHideMenuIfClosed()
-				.ExpandResourcesIfNotExpanded();
+			_workspacePage.GoToLingvoDictionariesPageExpectingAlert();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListMatchExpected(includedDictionaryList),
 				"Произошла ошибка:\n список словарей на странице не совпадает с ожидаемым");
@@ -154,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
 				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
 
-			_workspacePage.GoToLingvoDictionariesPage();
+			_workspacePage.GoToLingvoDictionariesPageExpectingAlert();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");

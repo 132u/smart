@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LingvoDictionaries
 			Assert.IsTrue(_workspacePage.IsLingvoDictionariesMenuItemDisplayed(),
 				"Произошла ошибка:\n в меню отсутствует 'Lingvo Dictionaries'");
 
-			_workspacePage.GoToLingvoDictionariesPage();
+			_workspacePage.GoToLingvoDictionariesPageExpectingAlert();
 
 			Assert.IsTrue(_lingvoDictionariesPage.IsLingvoDictionariesListNotEmpty(),
 				"Произошла ошибка:\n список словарей пуст.");
