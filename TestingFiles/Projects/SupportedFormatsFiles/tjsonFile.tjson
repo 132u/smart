@@ -662,6 +662,354 @@
       }
      }
     }, 
+    "Апрель": {
+     "info": {
+      "context": "WORKER:::Datepicker", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "\nTranslation source key: http://tanker.yandex-team.ru/search/?project-id=yamoney-makeup&branch-id=QWEB-13792&keyset-id=xsl_lib_config_tools_datetime__date.xml&key-id=aprel.__b34d003407&doctype=key&text=", 
+       "author": "RACE", 
+       "change_date": "23:54:31 16.10.2014", 
+       "form": "April"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "Базовое": {
+     "info": {
+      "context": "WORKER:::Образование. Выпадающий список", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "19:33:14 17.10.2014", 
+       "form": "Secondary"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "Беларусь": {
+     "info": {
+      "context": "WORKER:::Название страна", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "00:03:18 17.10.2014", 
+       "form": "Belarus"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "Блокировка": {
+     "info": {
+      "context": "Страница админа: просмотр профиля пользователя, статус пользователя да/нет", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "18:13:48 01.10.2014", 
+       "form": "Banned"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "Блокировки": {
+     "info": {
+      "context": "Вкладка на странице Администратора при просмотре профиля пользователя", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "18:14:32 01.10.2014", 
+       "form": "Bans"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите \"Unblock\" (может отличаться на вашем языке)": {
+     "info": {
+      "context": "WORKER:::Окно с инструкциями по разблокировке смешанного контента", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "23:57:35 16.10.2014", 
+       "form": "In the pop-up window click \"Unblock\"."
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите «Load unsafe script» (может отличаться на вашем языке)": {
+     "info": {
+      "context": "WORKER:::Инструкция о том как настроить браузер для работы со смешанным контеном", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "23:58:44 16.10.2014", 
+       "form": "In the pop-up window click \"Load unsafe script\"."
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите «Show all content» (может отличаться на вашем языке)": {
+     "info": {
+      "context": "WORKER:::Инструкция о том как настроить браузер для работы для правильного просмотра контента", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "23:58:54 16.10.2014", 
+       "form": "In the pop-up window click \"Show all content\"."
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите «Unblock» (может отличаться на вашем языке)": {
+     "info": {
+      "context": "WORKER:::Попап с инструкциями по разблокировке небезопасного контента ", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "00:00:28 17.10.2014", 
+       "form": "In the pop-up window click \"Unblock\"."
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите стрелка справа от «Keep Blocking», а затем «Disable Protection on This Page» (может отличаться на вашем языке)": {
+     "info": {
+      "context": "WORKER:::Попап с инструкциями по разблокировке небезопасного контента ", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "RACE", 
+       "change_date": "00:00:07 17.10.2014", 
+       "form": "In the pop-up window, click the arrow to the right of \"Keep Blocking\" and then \"Disable Protection on this Page\""
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "В появившемся окошке нажмите стрелка справа от «Keep Blocking», а затем «Protection on This Page» (может отличаться на вашем языке)": {
+     "info": {
+      "context": "Инструкция о том как настроить браузер для работы со смешанным контеном", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "yorgan", 
+       "change_date": "19:08:41 17.12.2014", 
+       "form": "In the pop-up window click the arrow to the right of \"Keep Blocking\" and then \"Disable Protection on this Page\""
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "unban": {
+     "info": {
+      "context": "Текст автоматического письма при снятии бана с пользователя.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "13:49:27 11.02.2015", 
+       "form": "Dear %s,\nWelcome back to Yandex.Toloka! You can start doing tasks again.\nThanks,\nYandex.Toloka"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "unban_subject": {
+     "info": {
+      "context": "Тема автоматического письма при снятии бана с пользователя.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "15:51:42 01.10.2014", 
+       "form": "Your system access has been reinstated"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_request_accepted": {
+     "info": {
+      "context": "Текст автоматического письма подтверждающее получение заявки на вывод денег.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "13:56:36 11.02.2015", 
+       "form": "Dear %s,\nYour request to withdraw %s USD from your Yandex.Toloka account to %s wallet has been accepted. The request will be processed within 30 calendar days, after which you will receive a notification. \nIf you still have questions, please write to us at toloka-support@yandex.com.\nThanks,\nYandex.Toloka"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_request_accepted_subject": {
+     "info": {
+      "context": "Тема автоматического письма подтверждающее получение заявки на вывод денег.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "15:51:40 01.10.2014", 
+       "form": "Money withdrawal request accepted"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_request_fail": {
+     "info": {
+      "context": "Тест автоматического письма подтверждающее что заявка пользователя на вывод денег не удалась.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "13:54:39 11.02.2015", 
+       "form": "Dear %s,\nAn error occurred while withdrawing your money and your funds have been returned to your %s account on Yandex.Toloka. Please try requesting a fund withdrawal again.\nIf you still have any questions, please write to us at toloka-support@yandex.com.\nThanks,\nYandex.Toloka"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_request_fail_subject": {
+     "info": {
+      "context": "Тема автоматического письма подтверждающее что заявка пользователя на вывод денег не удалась.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "15:51:51 01.10.2014", 
+       "form": "Error while withdrawing money"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_request_finished": {
+     "info": {
+      "context": "Тест автоматического письма подтверждающее что заявка пользователя на вывод денег удовлетворена.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
+     "translations": {
+      "en": {
+       "status": "approved", 
+       "translator_comment": "", 
+       "author": "bglover", 
+       "change_date": "13:56:21 11.02.2015", 
+       "form": "Dear %s,\nYour request to withdraw %s USD from your Yandex.Toloka account to %s wallet has been processed. You should expect the money to be transferred to your account in the next few hours.\nIf you still have questions, please write to us at toloka-support@yandex.com.\nThanks,\nYandex.Toloka"
+      }, 
+      "id": {
+       "status": "requires_translation"
+      }
+     }
+    }, 
+    "withdrawal_requester_finished_subject": {
+     "info": {
+      "context": "Тема автоматического письма подтверждающее что заявка пользователя на вывод денег удовлетворена.", 
+      "is_plural": false, 
+      "references": ""
+     }, 
      "translations": {
       "en": {
        "status": "approved", 
