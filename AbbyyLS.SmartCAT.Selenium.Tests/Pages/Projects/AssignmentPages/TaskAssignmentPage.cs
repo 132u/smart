@@ -177,11 +177,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Нажать на пустую область в футуре, чтоб закрыть календарь дедлайна.
+		/// Нажать на пустую область в футуре, чтоб закрыть дродаун.
 		/// </summary>
-		public TaskAssignmentPage CloseDeadlineCalendar()
+		public TaskAssignmentPage ClickFooter()
 		{
-			CustomTestContext.WriteLine("Нажать на пустую область в футуре, чтоб закрыть календарь дедлайна.");
+			CustomTestContext.WriteLine("Нажать на пустую область в футуре, чтоб закрыть дродаун.");
 			Footer.Click();
 
 			return LoadPage();
@@ -260,6 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			ClickAssigneeDropboxButton(taskNumber);
 			SelectResponsible(name, isGroup);
+			ClickFooter();
 
 			return LoadPage();
 		}

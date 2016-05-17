@@ -202,7 +202,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 		protected const string DELETE_ASSIGNEE_BUTTON_EDIT_MODE = "//tr[*#*]//i[contains(@class, 'icon-delete')]";
 		protected const string ASSIGNEE_COLUMN = "//tr[*#*]//span[contains(@data-bind, 'text: name')]";
 		protected const string ANOTHER_ASSIGNEE_BUTTON = "//button[@data-bind='click: switchToSelectMode']";
-		protected const string ANOTHER_ASSIGNEE_DROPDOWN = "//button[@data-bind='click: onMarketplaceSearchClick']";
+		protected const string ANOTHER_ASSIGNEE_DROPDOWN = "//div[@class='g-dropbox__search']";
 		protected const string BACK_TO_TASK_BUTTON = "//div[@data-bind='click: close']";
 		protected const string WORDS_COUNT_COLUMN = "//tr[*#*]//span[contains(@data-bind, 'wordsCount')]";
 

@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_distributeDocumentBetweenAssigneesPage.ClickAnotherAssigneeButton();
 
 			Assert.IsTrue(_distributeDocumentBetweenAssigneesPage.IsAssigneeDropdownDisplayed(),
-				"Произошла ошибка:\nНе отображается кнопка выбора другого исполнителя.");
+				"Произошла ошибка:\nНе отображается дропдаун выбора другого исполнителя.");
 		}
 
 		[Test(Description = "ТС-36")]
