@@ -35,11 +35,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			if (!IsEditorPageOpened())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
-			}
-			if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
-			{
-				CloseTutorial();
+				if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
+				{
+					CloseTutorial();
+				}
+				else
+				{
+					throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
+				}
 			}
 
 			return this;
@@ -1954,7 +1957,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsEditorPageOpened()
 		{
 			return IsSavingStatusDisappeared() &&
-				Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60);
+				Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60) &&
+				Driver.WaitUntilElementIsDisappeared(By.XPath(EDITOR_DIALOG_BACKGROUND));
 		}
 
 		/// <summary>
