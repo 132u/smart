@@ -172,7 +172,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		public bool IsStatisticLoadIconDisappeared()
 		{
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(STATISTIC_LOAD), timeout: 60);
+			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(STATISTIC_LOAD), timeout: 60))
+			{
+				CustomTestContext.WriteLine("Иконка построения статистики не исчезала. Перезагрузка страницы.");
+				RefreshPage<StatisticsPage>();
+			}
+
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(STATISTIC_LOAD));
 		}
 
 		#endregion
