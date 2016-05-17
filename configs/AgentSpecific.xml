@@ -15,7 +15,7 @@
 	</ThreadUsers>
 	
 	<TestUsers>
-		<RightsTestUser Login="batman@mailforspam.com" Password="193927" NickName="Bat Man"/>
+		<RightsTestUser Login="batman@mailforspam.com" Password="193927" NickName="Bat Man" Name="Bat" Surname="Man"/>
 	</TestUsers>
 	
 	<UserInfo Login="bobby@mailforspam.com" Password="YrdyNpnnu" NickName="Bobby Test" Name="Bobby" Surname="Test"/>

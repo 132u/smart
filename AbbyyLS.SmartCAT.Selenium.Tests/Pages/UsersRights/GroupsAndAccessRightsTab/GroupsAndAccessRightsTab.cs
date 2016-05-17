@@ -128,7 +128,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// <summary>
 		/// Создать группу, если она еще не создана (выполняется проверка)
 		/// </summary>
-		/// <param name="groupName">имя группы</param>
 		public NewGroupDialog OpenNewGroupDialog()
 		{
 			OpenHideMenuIfClosed();

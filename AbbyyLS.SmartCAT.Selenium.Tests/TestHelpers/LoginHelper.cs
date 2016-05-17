@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -98,9 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					break;
 
 				default:
-					_signInPage.GetPage();
-					LogInSmartCat(user.Login, user.NickName, user.Password, accountName);
-					break;
+					throw new Exception(string.Format("Для данной стартовой страницы {0} в методе не существует сценария авторизации.", startPage));
 			}
 			return this;
 		}

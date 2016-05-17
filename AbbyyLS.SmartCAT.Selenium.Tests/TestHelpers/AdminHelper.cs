@@ -241,6 +241,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		/// <param name="nickName"> nickname </param>
 		/// <param name="password"> пароль </param>
 		/// <param name="admin"> админ или нет </param>
+		/// <param name="aolUser">аол юзер да/нет</param>
 		public AdminHelper CreateNewUser(
 			string email,
 			string nickName,

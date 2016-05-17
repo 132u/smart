@@ -323,16 +323,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 
 		[FindsBy(How = How.XPath, Using = ADD_USER_BUTTON)]
 		protected IWebElement AddUserButton { get; set; }
+
 		protected IWebElement StatusValue { get; set; }
 		protected IWebElement GroupValue { get; set; }
-
 		protected IWebElement EditButton { get; set; }
-
 		protected IWebElement DeleteButton { get; set; }
 		protected IWebElement CreatedDateValue { get; set; }
 		protected IWebElement SurnameValue { get; set; }
 		protected IWebElement NameValue { get; set; }
 		protected IWebElement EmailValue { get; set; }
+
 		#endregion
 		
 		#region Описание XPath элементов
@@ -356,6 +356,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		protected const string GROUP_VALUE = "//td//p[text()='*#*']/../following-sibling::td[contains(@class, 'user-groups')]//p";
 		protected const string EDIT_BUTTON = "//td//p[text()='*#*']/../following-sibling::td//i[contains(@class, 'edit-btn')]";
 		protected const string DELETE_BUTTON = "//td//p[text()='*#*']/../following-sibling::td//i[contains(@class, 'delete-btn')]";
+
 		#endregion
 	}
 }

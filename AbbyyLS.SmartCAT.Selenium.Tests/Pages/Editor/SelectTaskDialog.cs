@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
@@ -24,6 +25,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return this;
 		}
+
+		#region Простые методы страницы
 
 		/// <summary>
 		/// Нажать на кнопку "Перевод"
@@ -80,6 +83,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Получить список этапов в диалоге выбора задачи.
+		/// </summary>
+		public List<string> GetTaskList()
+		{
+			CustomTestContext.WriteLine("Получить список этапов в диалоге выбора задачи.");
+
+			return Driver.GetTextListElement(By.XPath(TASK_LIST));
+		}
+
+		#endregion
+
+		#region Составные методы
+
+		/// <summary>
 		/// Выбрать режим работы
 		/// </summary>
 		/// <param name="mode">режим</param>
@@ -108,6 +125,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return editorPage;
 		}
 
+		#endregion
+
+		#region Методы, проверяющие состояние страницы
+
 		/// <summary>
 		/// Проверить, открылся ли диалог выбора задачи
 		/// </summary>
@@ -115,6 +136,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CONTINUE_BTN_XPATH), 30);
 		}
+
+		/// <summary>
+		/// Проверить, что отобразилась кнопка 'Manager'.
+		/// </summary>
+		public bool IsManagerButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отобразилась кнопка 'Manager'.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(MANAGER_BTN_XPATH));
+		}
+
+		#endregion
+
+		#region Объявление элементов страницы
 
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BTN_XPATH)]
 		protected IWebElement TranslateButton { get; set; }
@@ -128,10 +163,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = EDITING_BUTTON)]
 		protected IWebElement EditingButton { get; set; }
 
+		#endregion
+
+		#region Описания XPath элементов
+
 		protected const string TRANSLATE_BTN_XPATH = "//span[contains(string(), 'Translation')]";
 		protected const string MANAGER_BTN_XPATH = "//span[contains(@id, 'manager')]";
 		protected const string CONTINUE_BTN_XPATH = "//span[contains(string(), 'Continue')]";
 		protected const string EDITING_BUTTON = "//span[contains(string(), 'Editing')]";
 		protected const string TASK_LIST = "//div[contains(@class, 'x-segmented-button-row')]";
+
+		#endregion
 	}
 }
