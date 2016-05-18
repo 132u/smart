@@ -271,6 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		public ProjectSettingsPage SaveSettings()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
+			Driver.WaitUntilElementIsClickable(By.XPath(SAVE_BUTTON));
 			SaveButton.Click();
 
 			return new ProjectSettingsPage(Driver).LoadPage();
@@ -293,6 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		public ProjectsPage SaveSettingsExpectingProjectsPage()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Save и дождаться закрытия окна");
+			Driver.WaitUntilElementIsClickable(By.XPath(SAVE_BUTTON));
 			SaveButton.Click();
 
 			return new ProjectsPage(Driver).LoadPage();

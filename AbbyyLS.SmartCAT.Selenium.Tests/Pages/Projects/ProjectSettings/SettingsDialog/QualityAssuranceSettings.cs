@@ -101,6 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.Setting
 		public GeneralTab ClickApplyButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Apply.");
+			Driver.WaitUntilElementIsClickable(By.XPath(APPLY_BUTTON));
 			ApplyButton.Click();
 
 			return new GeneralTab(Driver).LoadPage();

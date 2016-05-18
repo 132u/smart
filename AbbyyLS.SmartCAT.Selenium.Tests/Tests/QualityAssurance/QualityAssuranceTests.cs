@@ -39,6 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickProjectSettingsButton(_projectUniqueName);
+
 			_projectSettingsDialog.ClickQualityAssuranceSettingsButton();
 
 			Assert.IsTrue(_qualityAssuranceSettings.IsErrorChecked(_error1),
@@ -54,6 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: ошибка '{0}' отмечена, как критическая.", _error2);
 
 			_qualityAssuranceSettings.ClickCancelButtonWithoutChanges();
+
 			_projectSettingsDialog.SaveSettingsExpectingProjectsPage();
 
 			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);

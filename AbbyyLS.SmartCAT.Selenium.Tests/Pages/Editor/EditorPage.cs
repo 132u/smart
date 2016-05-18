@@ -177,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			YellowErrorTriangle.Click();
 			YellowErrorTriangle.HoverElement();
 
-			if (!IsErrorsPopupDisplayed())
+			if (!IsErrorsPopupExist())
 			{
 				throw new Exception("Произошла ошибка: не появился попап с ошибками.");
 			}
@@ -2172,11 +2172,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, что появился попап со списком ошибок.
 		/// </summary>
-		public bool IsErrorsPopupDisplayed()
+		public bool IsErrorsPopupExist()
 		{
 			CustomTestContext.WriteLine("Проверить, что появился попап со списком ошибок.");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERRORS_POPUP));
+			return Driver.WaitUntilElementIsAppear(By.XPath(ERRORS_POPUP));
 		}
 
 		/// <summary>
