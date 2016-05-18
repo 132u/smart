@@ -3,7 +3,7 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[PriorityMajor]
@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Description("S-7143"), Ignore("PRX-14306"), ShortCheckList]
+		[Test, Ignore("PRX-14306"), ShortCheckList] // Description("S-29227")
 		public void ChangeProjectNameOnNew()
 		{
 			_projectsPage.ClickCreateProjectButton();

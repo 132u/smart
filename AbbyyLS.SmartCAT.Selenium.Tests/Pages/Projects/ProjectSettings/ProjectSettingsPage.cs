@@ -425,6 +425,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Получить имя группы проектов.
+		/// </summary>
+		public string GetProjectGroupName()
+		{
+			CustomTestContext.WriteLine("Получить имя группы проектов.");
+
+			return ProjectGroupName.Text;
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -763,6 +773,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PROJECT_CANCELLED_STATUS)]
 		protected IWebElement ProjectCancelledStatus { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PROJECT_GROUP_NAME)]
+		protected IWebElement ProjectGroupName { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 		protected IWebElement DocumentRefference { get; set; }
 		protected IWebElement ProjectsTableCheckbox { get; set; }
@@ -782,6 +795,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECTS_TABLE_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[1]//input";
 		protected const string PROJECTS_TABLE_STATUS_COMPLITED = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[5][contains(string(), 'Completed')]";
 		protected const string PROJECT_STATUS = "//div[contains(@class, 'row')]//input[contains(@class, 'status')]";
+		protected const string PROJECT_GROUP_NAME = "//div[text()='Project group']//parent::div//div[contains(@class, 'l-project-panel-info_content')]";
 		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//div[contains(@data-bind, 'click: assign')]";
 		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//div[contains(@class,'doc-panel-btns')]//div[@data-bind='click: actions.assign']//a";

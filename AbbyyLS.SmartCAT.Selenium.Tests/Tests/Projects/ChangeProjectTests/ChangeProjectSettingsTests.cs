@@ -11,7 +11,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Standalone]
@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectSettingsButton(_projectUniqueName);
 		}
 
-		[Test, Description("S-7143"), ShortCheckList]
+		[Test, Description("S-29229"), ShortCheckList]
 		public void ChangeClientTest()
 		{
 			_projectSettingsDialog
@@ -66,22 +66,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошикба: неверное название клиента.");
 		}
 
-		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
+		[Test, ShortCheckList, Description("S-29230")]
 		public void ChangeProjectGroupTest()
 		{
 			_projectSettingsDialog
 				.SelectProjectGroup(_projectGroup)
 				.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickProjectSettingsButton(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			Assert.AreEqual(_projectGroup, _projectSettingsDialog.GetProjectGroupName(),
+			Assert.AreEqual(_projectGroup, _projectSettingsPage.GetProjectGroupName(),
 				"Произошла ошикба: неверное название группы проекта.");
 		}
 
-		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
+		[Test, ShortCheckList] //Description("S-29228")
 		public void ChangeDeadlineTest()
 		{
 			var tomorrow = DateTime.Now.AddDays(1);
@@ -100,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошикба: неверная дата в дедлайне.");
 		}
 
-		[Test, ShortCheckList] // TODO: после разделения тест-кейса S-7143 присвоить уникальный ID
+		[Test, ShortCheckList] //Description("S-29231")
 		public void ChangeDescriptionTest()
 		{
 			var description = "description text";
