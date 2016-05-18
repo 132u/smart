@@ -1277,6 +1277,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Отфильтровать сегменты по слову {0} в source", text);
 			SourceFilterField.SetText(text);
+			Thread.Sleep(3000); // Фильтрация происходит автоматически после ввода слова
 
 			return LoadPage();
 		}
@@ -1289,6 +1290,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Отфильтровать сегменты по слову {0} в target", text);
 			TargetFilterField.SetText(text);
+			Thread.Sleep(3000); // Фильтрация происходит автоматически после ввода слова
 
 			return LoadPage();
 		}
@@ -1333,7 +1335,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickReplaceAllButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Заменить все'");
+			ReplaceAllButton.HoverElement();
+			Thread.Sleep(1000); // Нужен чтобы успел исчезнуть tooltip
 			ReplaceAllButton.Click();
+			Driver.WaitUntilElementIsDisplay(By.XPath(REPLACE_NOTIFICATION));
 
 			return LoadPage();
 		}
@@ -2641,6 +2646,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REPLACE_FIELD = "//input[@name='replace-text']";
 		protected const string REPLACE_BUTTON = "//span[text()='Replace']";
 		protected const string REPLACE_ALL_BUTTON = "//span[text()='Replace All']";
+		protected const string REPLACE_NOTIFICATION = "//span[text()='Undo replacement']";
 
 		protected const string NEXT_BUTTON_ON_SOURCE_FIELD_HELP = "//div[text()='Source Column']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
 		protected const string NEXT_BUTTON_ON_TARGET_FIELD_HELP = "//div[text()='Target Field']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
