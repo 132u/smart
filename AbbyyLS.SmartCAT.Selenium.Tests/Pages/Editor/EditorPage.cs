@@ -33,7 +33,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public EditorPage LoadPage()
 		{
-			if (!IsEditorPageOpened())
+			CustomTestContext.WriteLine("{0}", _needCloseTutorial);
+			if (!IsEditorPageOpened(_needCloseTutorial))
 			{
 				if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
 				{
@@ -702,7 +703,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage CloseTutorial()
 		{
 			CustomTestContext.WriteLine("Проверить, видна ли подсказка");
-
 			FinishTutorialButton.Click();
 
 			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_TUTORIAL_BUTTON), timeout: 3))
@@ -720,7 +720,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickNextButtonOnSourceFieldHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к ячейке исходного языка");
-
 			NextButtonOnSourceFieldHelp.Click();
 
 			return LoadPage();
@@ -732,7 +731,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickNextButtonOnTargetFieldHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к ячейке целевого языка");
-
 			NextButtonOnTargetFieldHelp.Click();
 
 			return LoadPage();
@@ -744,7 +742,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickNextButtonOnCatPanelHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к Cat-панели");
-
 			NextButtonOnCatPanelHelp.Click();
 
 			return LoadPage();
@@ -756,7 +753,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickNextButtonOnConfirmHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к кнопке подтверждения.");
-
 			NextButtonOnConfirmHelp.Click();
 
 			return LoadPage();
@@ -768,7 +764,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickNextButtonOnButtonBarHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к панели кнопок.");
-
 			NextButtonOnButtonBarHelp.Click();
 
 			return LoadPage();
@@ -780,7 +775,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickFinishButtonOnFeedbackHelp()
 		{
 			CustomTestContext.WriteLine("Кликнуть Next в окне подсказки к инструментам обратной связи.");
-
 			FinishButtonOnFeedbackHelp.Click();
 
 			return LoadPage();
@@ -1959,11 +1953,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, открылся ли редактор
 		/// </summary>
-		public bool IsEditorPageOpened()
+		public bool IsEditorPageOpened(bool closedTutorial = true)
 		{
-			return IsSavingStatusDisappeared() &&
-				Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60) &&
-				Driver.WaitUntilElementIsDisappeared(By.XPath(EDITOR_DIALOG_BACKGROUND));
+			if (!closedTutorial)
+			{
+				return IsSavingStatusDisappeared() &&
+						Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60);
+			}
+			else
+			{
+				return IsSavingStatusDisappeared() &&
+						Driver.WaitUntilElementIsAppear(By.XPath(SEGMENTS_BODY), timeout: 60) &&
+						Driver.WaitUntilElementIsDisappeared(By.XPath(EDITOR_DIALOG_BACKGROUND));
+			}
 		}
 
 		/// <summary>

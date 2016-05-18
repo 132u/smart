@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Admin
 			CustomTestContext.WriteLine("Нажать на кнопку 'Добавить' (администратора в аккаунт).");
 			AddUserButton.HoverElement();
 			ActiveAddUserButton = Driver.FindElement(By.XPath(ACTIVETED_ADD_USER_BTN));
-			ActiveAddUserButton.Click();
+			ActiveAddUserButton.JavaScriptClick();
 
 			return LoadPage();
 		}
