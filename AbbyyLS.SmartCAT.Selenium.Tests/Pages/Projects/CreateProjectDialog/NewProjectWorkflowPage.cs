@@ -161,7 +161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectWorkflowPage ClickAddRulleButton()
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Добавить правило'.");
-			AddRulleButton.Click();
+			AddRulleButton.ScrollAndClick();
 
 			return LoadPage();
 		}

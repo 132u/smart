@@ -6,7 +6,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectStatusTests
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
 	[Parallelizable(ParallelScope.Fixtures)]
 	[Projects]
