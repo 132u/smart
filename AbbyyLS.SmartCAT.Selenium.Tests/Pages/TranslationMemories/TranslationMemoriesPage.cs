@@ -546,6 +546,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="tmName">имя ТМ</param>
 		public TranslationMemoriesPage SearchForTranslationMemory(string tmName)
 		{
+			CloseAllNotifications<TranslationMemoriesPage>();
 			FillSearch(tmName);
 			ClickSearchTMButton();
 
