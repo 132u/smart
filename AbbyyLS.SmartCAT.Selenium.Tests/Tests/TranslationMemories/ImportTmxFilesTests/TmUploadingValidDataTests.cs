@@ -52,11 +52,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			ImportTmxDialog.ImportTmxFile(PathProvider.TmxFile);
 
+			// костыль PRX-13801
+			WorkspacePage.RefreshPage<WorkspacePage>();
+
 			var unitsCountAfter = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(UniqueTMName)
 										.GetUnitsCount();
 
-			Assert.AreEqual(unitsCountBefore, unitsCountAfter,
+			Assert.AreNotEqual(unitsCountBefore, unitsCountAfter,
 				string.Format("Произошла ошибка:\n количество юнитов не изменилось. Кол-во юнитов до: {0}. Кол-во юнитов после: {1}", unitsCountBefore, unitsCountAfter));
 		}
 
