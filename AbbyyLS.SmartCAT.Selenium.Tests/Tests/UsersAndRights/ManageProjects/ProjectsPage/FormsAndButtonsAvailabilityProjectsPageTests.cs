@@ -118,8 +118,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile);
-			
-			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInDocumentPanelDisabled(_projectUniqueName),
+
+			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInDocumentPanelDisabled(_projectUniqueName, PathProvider.DocumentFile),
 				"Произошла ошибка:\n Кнопка назначения неактивна.");
 		}
 

@@ -643,10 +643,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Проверить, что кноgка Assig Task не активна
 		/// </summary>
-		public bool IsAssignTaskButtonInDocumentPanelDisabled(string projectName, int documentNumber = 1)
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentPath">путь до документа</param>
+		public bool IsAssignTaskButtonInDocumentPanelDisabled(string projectName, string documentPath)
 		{
-			CustomTestContext.WriteLine("Проверить, что кнопка Assig Task не активна на вкладке документа.");
-			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentNumber.ToString());
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Проверить, что кнопка Assig Task не активна на вкладке документа {0}.", documentName);
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentName);
 
 			return DocumentTaskAssignButton.GetAttribute("class").Contains("disable");
 		}
@@ -1163,7 +1166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = "(.//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')])[*##*]/following-sibling::tr//div[contains(@data-bind, 'actions.edit')]";
-		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = "(//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tbody//a[@title='*##*'])[1]/../../..//preceding::td//a[contains(text(), 'Assign Tasks')]";
+		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = "(//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tbody//a[@title='*##*'])[1]/../../..//following-sibling::tr[1]//a[contains(text(), 'Assign Tasks')]";
 		protected const string UPLOAD_DOCUMENT_BUTTON = "//div[contains(@data-bind, 'click: importDocument')]";
 		protected const string PROJECT_TASK_ASSIGN_BUTTON = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr//div[contains(@data-bind, 'click: assign')]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";

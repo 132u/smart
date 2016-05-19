@@ -490,6 +490,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="translationMemoryName">имя TM</param>
 		public TranslationMemoriesPage ExportTM(string translationMemoryName)
 		{
+			SearchForTranslationMemory(translationMemoryName);
 			ClickTranslationMemoryRow(translationMemoryName);
 			ClickExportButton();
 
@@ -502,6 +503,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="translationMemoryName">имяTM</param>
 		public TranslationMemoriesPage OpenTranslationMemoryInformation(string translationMemoryName)
 		{
+			SearchForTranslationMemory(translationMemoryName);
 			if (!IsTranslationMemoryInformationOpen(translationMemoryName))
 			{
 				ClickTranslationMemoryRow(translationMemoryName);
@@ -516,6 +518,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		/// <param name="translationMemoryName">имяTM</param>
 		public TranslationMemoriesPage CloseTranslationMemoryInformation(string translationMemoryName)
 		{
+			SearchForTranslationMemory(translationMemoryName);
 			if (IsTranslationMemoryInformationOpen(translationMemoryName))
 			{
 				ClickTranslationMemoryRow(translationMemoryName);

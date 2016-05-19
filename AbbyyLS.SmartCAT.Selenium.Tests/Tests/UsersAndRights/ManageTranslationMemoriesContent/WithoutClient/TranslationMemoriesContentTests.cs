@@ -62,8 +62,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void TranslationMemoriesViewTest()
 		{
+			_translationMemoriesPage.SearchForTranslationMemory(_translationMemoryWithClient);
+
 			Assert.IsTrue(_translationMemoriesPage.IsTranslationMemoryExist(_translationMemoryWithClient),
 				"Произошла ошибка: Отсутсвует память перевод {0}.", _translationMemoryWithClient);
+
+			_translationMemoriesPage.SearchForTranslationMemory(_translationMemoryWithoutClient);
 
 			Assert.IsTrue(_translationMemoriesPage.IsTranslationMemoryExist(_translationMemoryWithoutClient),
 				"Произошла ошибка: Отсутсвует память перевод {0}.", _translationMemoryWithoutClient);
