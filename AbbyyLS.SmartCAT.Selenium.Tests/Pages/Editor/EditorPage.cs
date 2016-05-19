@@ -33,7 +33,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public EditorPage LoadPage()
 		{
-			CustomTestContext.WriteLine("{0}", _needCloseTutorial);
 			if (!IsEditorPageOpened(_needCloseTutorial))
 			{
 				if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
@@ -2125,7 +2124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, что появилось сообщение о том, что перевод содержит критическую ошибку.");
 
-			return Driver.WaitUntilElementIsAppear(By.XPath(MESSAGE_WITH_CRITICAL_ERROR));
+			return Driver.WaitUntilElementIsAppear(By.XPath(MESSAGE_WITH_CRITICAL_ERROR), timeout: 15);
 		}
 
 
