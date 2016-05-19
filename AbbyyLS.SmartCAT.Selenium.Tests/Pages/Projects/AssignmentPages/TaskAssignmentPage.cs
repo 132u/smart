@@ -412,7 +412,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описание XPath элементов
 
-		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: save, css: {disabled: !hasChanges()}')]//a";
+		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'save')]//a";
 		protected const string SELECT_ASSIGNEES_DROPDOWN = "//tr[*#*]//td[2]//button[@data-bind='click: switchToSelectMode']";
 		protected const string SPLIT_ASSIGNMENT_OPTION = "//div[contains(@data-bind,'click: goToSplitAssignment')]/a";
 		protected const string CHANGE_ASSIGNEES_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'setAssignmentsButtonTitle')]";
