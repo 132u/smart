@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage.AcceptAlert<ProjectSettingsPage>();
 
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.EditorTxtFile)
+				.ClickDocumentRow(PathProvider.EditorTxtFile)
 				.ClickAssignButtonInDocumentInfo();
 
 			Assert.AreEqual(null, _taskAssignmentPage.GetDeadlineDate(),

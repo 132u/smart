@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.SaveSettings();
 
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.DocumentFile)
+				.ClickDocumentRow(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
@@ -91,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
-			_projectSettingsPage.ClickDocumentProgress(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickDocumentRow(PathProvider.DocumentFile);
 
 			Assert.IsTrue(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");
@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка:\n Неверный статус документа {0}.", file);
 
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.DocumentFile)
+				.ClickDocumentRow(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DeclineAssignTaskTest()
 		{
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.DocumentFile)
+				.ClickDocumentRow(PathProvider.DocumentFile)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
@@ -144,11 +144,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.DocumentFile)
+				.ClickDocumentRow(PathProvider.DocumentFile)
 				.ClickDeclineButton();
 
 			_confirmDeclineTaskDialog.ClickDeclineButton();
-			_projectSettingsPage.ClickDocumentProgress(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickDocumentRow(PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");

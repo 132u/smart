@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, string projectName, int taskNumber = 1)
 		{
 			_projectPage
-				.ClickDocumentProgress(filePath)
+				.ClickDocumentRow(filePath)
 				.ClickAssignButtonInDocumentInfo();
 
 			_taskAssignmentPage
@@ -120,14 +120,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper AddGlossaryToDocument(string documentName, string glossaryName)
 		{
 			_projectPage
-				.ClickDocumentProgress(documentName)
+				.ClickDocumentRow(documentName)
 				.ClickDocumentSettings();
 			
 			_documentSettingsDialog
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
 				.ClickSaveButtonExpectingProjectSettingsPage()
-				.ClickDocumentProgress(documentName);
+				.ClickDocumentRow(documentName);
 
 			return this;
 		}

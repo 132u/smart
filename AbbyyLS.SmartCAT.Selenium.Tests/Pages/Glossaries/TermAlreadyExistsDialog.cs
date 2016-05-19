@@ -62,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#region Описание XPath элементов
 
 		protected const string ALREADY_EXIST_TERM_ERROR = "//span[contains(text(),'The term already exists')]";
-		protected const string SAVE_CHANGES_BUTTON = "//div[contains(@class, 'g-btn g-greenbtn')]//a[contains(text(), 'Save Changes')]//parent::div";
+		protected const string SAVE_CHANGES_BUTTON = "//span[text()='The term already exists']/../..//following-sibling::div//a[contains(text(), 'Save')]//parent::div";
 
 		#endregion
 	}

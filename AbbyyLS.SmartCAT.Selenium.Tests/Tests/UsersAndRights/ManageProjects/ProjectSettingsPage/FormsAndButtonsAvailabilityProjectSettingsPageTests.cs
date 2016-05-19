@@ -210,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DocumentSettingsButtonTest()
 		{
 			_projectSettingsPage
-				.ClickDocumentProgress(PathProvider.DocumentFile)
+				.ClickDocumentRow(PathProvider.DocumentFile)
 				.ClickDocumentSettings();
 
 			Assert.IsTrue(_documentSettingsDialog.IsDocumentSettingsDialogOpened(),

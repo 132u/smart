@@ -443,20 +443,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// Нажать на прогресс в строке документа
 		/// </summary>
 		/// <param name="filePath">путь до документа</param>
-		public ProjectSettingsPage ClickDocumentProgress(string filePath)
+		public ProjectSettingsPage ClickDocumentRow(string filePath)
 		{
 			var fileName = Path.GetFileNameWithoutExtension(filePath);
-			CustomTestContext.WriteLine("Навести курсор на поле прогресс строке документа {0}.", fileName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
-			DocumentProgress.HoverElement();
-
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_TOOLTIP)))
-			{
-				throw new Exception("Произошла ошибка: не появился тултип.");
-			}
-
 			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_PROGRESS, fileName);
+			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, fileName);
 			DocumentProgress.Click();
 
 			return LoadPage();
@@ -810,7 +801,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//div[contains(@class,'doc-panel')]//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
-		protected const string DOCUMENT_PROGRESS = "//td[div[a[text()='*#*']]]//following-sibling::td//div[contains(@class,'ui-progressbar__container')]";
+		protected const string DOCUMENT_ROW = "//td[div[a[text()='*#*']]]//following-sibling::td[@class='l-corpr__td l-project-td date']";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
 		protected const string SETTINGS_BUTTON = "//i[contains(@data-bind,'click: edit')]";
 
