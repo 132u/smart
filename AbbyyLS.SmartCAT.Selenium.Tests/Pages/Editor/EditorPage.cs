@@ -128,7 +128,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage FillSegmentComment(string comment)
 		{
 			CustomTestContext.WriteLine("Ввести комментарий сегмента '{0}'.", comment);
-			SegmentCommentsTextarea.SetText(comment);
+			InactiveSegmentCommentsTextArea.Click();
+			ActiveSegmentCommentsTextArea.SetText(comment);
 
 			return LoadPage();
 		}
@@ -1721,9 +1722,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsCommentDisplayed(string author, string comment)
 		{
 			CustomTestContext.WriteLine("Проверить, что отображается комментарий '{0}' автора {1}.", comment, author);
-			Comment = Driver.SetDynamicValue(How.XPath, COMMENT, author, comment);
+			InactiveCommentField = Driver.SetDynamicValue(How.XPath, INACTIVE_COMMENT_FIELD, author, comment);
+			InactiveCommentField.HoverElement();
+			ActiveCommentField = Driver.SetDynamicValue(How.XPath, ACTIVE_COMMENT_FIELD, author, comment);
 
-			return Comment.Displayed;
+			return ActiveCommentField.Displayed;
 		}
 
 		/// <summary>
@@ -2471,8 +2474,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = DOCUMENT_COMMENTS_TEXTAREA)]
 		protected IWebElement DocumentCommentsTextarea { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SEGMENTS_COMMENTS_TEXTAREA)]
-		protected IWebElement SegmentCommentsTextarea { get; set; }
+		[FindsBy(How = How.XPath, Using = INACTIVE_SEGMENTS_COMMENTS_TEXTAREA)]
+		protected IWebElement InactiveSegmentCommentsTextArea { get; set; }
+
+		[FindsBy(How = How.XPath, Using = ACTIVE_SEGMENTS_COMMENTS_TEXTAREA)]
+		protected IWebElement ActiveSegmentCommentsTextArea { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DELETE_COMMENT_BUTTON)]
 		protected IWebElement DeleteCommentButton { get; set; }
@@ -2510,6 +2516,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
 
+		protected IWebElement InactiveCommentField { get; set; }
+		protected IWebElement ActiveCommentField { get; set; }
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2633,9 +2641,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENT_COMMENTS_TAB = "//a[@id='segment-comments-tab']";
 		protected const string DOCUMENT_COMMENTS_TAB = "//a[@id='document-comments-tab']";
 		protected const string DOCUMENT_COMMENTS_TEXTAREA = "//div[contains(@class, 'comments')]//textarea";
-		protected const string SEGMENTS_COMMENTS_TEXTAREA = "//div[contains(@id,'segment-comments')]//textarea";
+		protected const string INACTIVE_SEGMENTS_COMMENTS_TEXTAREA = "//div[contains(@id,'segment-comments')]//textarea[contains(@class, 'x-form-textarea')]";
+		protected const string ACTIVE_SEGMENTS_COMMENTS_TEXTAREA = "//div[contains(@id,'segment-comments')]//textarea[contains(@class, 'x-form-textarea x-form-focus')]";
 		protected const string SEGMENTS_SEND_BUTTON = "//div[contains(@id,'segment-comments')]//span[text()='Send']";
 		protected const string SEND_BUTTON = "//div[contains(@class, 'comments')]//span[text()='Send']";
+		protected const string INACTIVE_COMMENT_FIELD = "//table[@class='x-grid-item']//div[text()='*#*']/../..//div[text()= '*##*']";
+		protected const string ACTIVE_COMMENT_FIELD = "//table[@class='x-grid-item x-grid-item-over']//div[text()='*#*']/../..//div[text()= '*##*']";
 		protected const string COMMENT = "//div[text()='*#*']/../..//div[text()= '*##*']";
 		protected const string COMMENT_CELL = "//div[text()='*#*']";
 		protected const string DELETE_COMMENT_BUTTON = "//div[@data-qtip='Delete' and @role='button']";

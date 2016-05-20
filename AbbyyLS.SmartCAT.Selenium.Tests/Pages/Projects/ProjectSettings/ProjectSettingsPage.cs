@@ -152,7 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
+		/// <param name="documentPath">имя документа</param>
 		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentPath)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
