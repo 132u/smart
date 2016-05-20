@@ -157,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.OpenTranslationMemoryInformation(_translationMemory)
 				.GetUnitsCount();
 
-			Assert.AreEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
+			Assert.AreNotEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
 		}
 
 		[Test]
@@ -177,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.OpenTranslationMemoryInformation(_translationMemory)
 				.GetUnitsCount();
 
-			Assert.AreEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
+			Assert.AreNotEqual(unitsCountBefore, unitsCountAfter, "Произошла ошибка: Количество юнитов не изменилось.");
 		}
 
 		// TODO: файл не был включен в проект. После добавления возникли ошибки (отсутствуют методы)

@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		private ImportTmxDialog setFileNameForValidation(string filePath)
 		{
 			CustomTestContext.WriteLine("Выполнить скрипт для прохождения валидации импорта");
-			Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[1].innerHTML='{0}'", Path.GetFileName(filePath)));
+			Driver.ExecuteScript(string.Format("document.getElementsByClassName('g-iblock l-editgloss__filelink js-filename-link')[0].innerHTML='{0}'", Path.GetFileName(filePath)));
 
 			return LoadPage();
 		}
