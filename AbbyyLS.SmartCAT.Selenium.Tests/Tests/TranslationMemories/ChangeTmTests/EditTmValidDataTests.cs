@@ -135,9 +135,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			Assert.IsTrue(TranslationMemoriesPage.IsProjectGroupSelectedForTM(string.Empty),
 				"Произошла ошибка:\n неверно указана группа проектов для ТМ {0}", UniqueTMName);
 
-			TranslationMemoriesPage
-				.AddFirstProjectGroupToTranslationMemory(UniqueTMName, out projectGroup)
-				.OpenTranslationMemoryInformation(UniqueTMName);
+			TranslationMemoriesPage.AddFirstProjectGroupToTranslationMemory(UniqueTMName, out projectGroup);
 
 			Assert.IsTrue(TranslationMemoriesPage.IsProjectGroupSelectedForTM(projectGroup),
 				"Произошла ошибка:\n неверно указана группа проектов для ТМ {0}", projectGroup);
