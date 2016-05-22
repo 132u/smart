@@ -47,8 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_loginHelper.Authorize(StartPage.Workspace, _secondUser);
 
 			_projectsPage.ClickProject(_projectUniqueName);
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(
-				Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
 
