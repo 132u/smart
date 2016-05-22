@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -216,6 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		{
 			CustomTestContext.WriteLine("Выбрать {0} в выпадающем списке авторов.", author);
 			Author = Driver.SetDynamicValue(How.XPath, AUTHOR, author);
+			Thread.Sleep(500);
 			Author.ScrollAndClick();
 
 			return LoadPage();
