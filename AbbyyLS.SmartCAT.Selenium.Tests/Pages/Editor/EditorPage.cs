@@ -1348,6 +1348,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Кликнуть по кнопке пользовательских настроек.
+		/// </summary>
+		public UserPreferencesDialog ClickUserPreferencesButton()
+		{
+			CustomTestContext.WriteLine("Кликнуть по кнопке пользовательских настроек.");
+			UserPreferencesButton.Click();
+
+			return new UserPreferencesDialog(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -2509,6 +2520,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
+		
+		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
+		protected IWebElement UserPreferencesButton { get; set; }
 
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
@@ -2538,7 +2552,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string STAGE_NAME = "//h1/span[contains(@class, 'workflow')]";
 		protected const string LAST_CONFIRMED_BUTTON = "unfinished-btn";
 		protected const string ADD_TERM_BUTTON = "add-term-btn";
-		protected const string SELECTED_SEGMENT = "//table[*#*]//tr[@aria-selected='true']";
+		protected const string SELECTED_SEGMENT = "//div[contains(@id, 'center-body')]//div[contains(@class, 'x-grid-item-container')]//table[contains(@class, 'x-grid-item-selected')]//td//div[contains(text(), '*#*')]";
 		protected const string CHARACTER_BUTTON = "//a[@data-qtip='Insert Special Character (Ctrl+Shift+I)']";
 		protected const string INSERT_TAG_BUTTON = "tag-insert-btn";
 		protected const string COPY_BUTTON = "//span[contains(@id, 'copysourcebutton')]";
@@ -2612,6 +2626,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string REVISION_USER_COLUNM = "//div[@id='revisions-body']//table[*#*]//td[contains(@class,'revision-user-cell')]";
 		protected const string USER_COLUMN = "//div[@id='gridcolumn-1105']//span";
 		protected const string SEGMENT_TRANSLATION_USER_COLUMN = ".//div[@id='translations-body']//table//td[3]//div[contains(text(), '*#*')]/../..//td[2]";
+		protected const string USER_PREF_BTN = "//span[contains(@class, 'sci-settings')]";
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
 
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";

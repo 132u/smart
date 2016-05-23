@@ -79,6 +79,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу с небуквенными символами.
+		/// </summary>
+		public static string EditorAutoSubstitutionFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "AutoSubstitution.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу QANavigationFile
 		/// </summary>
 		public static string QANavigationFile

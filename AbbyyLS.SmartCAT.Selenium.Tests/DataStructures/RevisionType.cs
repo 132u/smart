@@ -17,6 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.DataStructures
 		[Description("TB insertion")]
 		InsertTb,
 		[Description("Pretranslation")]
-		Pretranslation
+		Pretranslation,
+		[Description("Source Insertion")]
+		SourceInsertion
 	}
 }
