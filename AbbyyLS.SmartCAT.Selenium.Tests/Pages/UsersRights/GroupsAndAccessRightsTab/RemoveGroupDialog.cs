@@ -4,9 +4,9 @@ using OpenQA.Selenium.Support.PageObjects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
-namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights.RemoveGroupDialog
+namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 {
-	internal class RemoveGroupDialog : UsersAndRightsBasePage, IAbstractPage<RemoveGroupDialog>
+	public class RemoveGroupDialog : UsersAndRightsBasePage, IAbstractPage<RemoveGroupDialog>
 	{
 		public RemoveGroupDialog(WebDriver driver)
 			: base(driver)
@@ -31,10 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights.RemoveGroupDialog
 		public GroupsAndAccessRightsTab ClickDeleteButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Delete.");
-			Driver.WaitUntilElementIsClickable(By.XPath(DELETE_BUTTON));
-			// много кликов, т.к. на тимсити не прожимается нормально
-			DeleteButton.JavaScriptClick();
-			DeleteButton.DoubleClick();
+			DeleteButton.Click();
 
 			return new GroupsAndAccessRightsTab(Driver).LoadPage();
 		}
@@ -49,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights.RemoveGroupDialog
 		/// </summary>
 		public bool IsRemoveGroupDialogOpened()
 		{
-			return Driver.WaitUntilElementIsAppear(By.XPath(DELETE_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(REMOVE_DIALOG));
 		}
 
 		#endregion
@@ -64,6 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights.RemoveGroupDialog
 		#region Описания XPath элементов
 
 		protected const string DELETE_BUTTON = "//input[@value='Delete']";
+		protected const string REMOVE_DIALOG = "//div[contains(@class,'js-popup-confirm')]/div[contains(@class,'js-popupbox')]";
 
 		#endregion
 	}

@@ -169,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 		/// Открыть диалог удаления группы.
 		/// </summary>
 		/// <param name="groupName">название группы</param>
-		public GroupsAndAccessRightsTab OpenRemoveGroupDialog(string groupName)
+		public RemoveGroupDialog OpenRemoveGroupDialog(string groupName)
 		{
 			if (!IsGroupInfoOpened(groupName))
 			{
@@ -184,7 +184,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights
 			DeleteButton = Driver.SetDynamicValue(How.XPath, DELETE_BUTTON, groupName);
 			DeleteButton.Click();
 
-			return new GroupsAndAccessRightsTab(Driver).LoadPage();
+			return new RemoveGroupDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
