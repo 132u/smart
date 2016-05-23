@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest },
 				useMachineTranslation: true);
 
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, projectUniqueName);

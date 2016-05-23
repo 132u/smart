@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickSettingsButton();
 
@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.UploadDocument(new []{PathProvider.DocumentFile});
 

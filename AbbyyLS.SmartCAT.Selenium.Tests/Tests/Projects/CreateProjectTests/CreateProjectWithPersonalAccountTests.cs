@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFile});
 
@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickSettingsButton();
 
@@ -157,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(newProjectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", newProjectUniqueName);
 
-			_projectsPage.ClickProject(newProjectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(newProjectUniqueName);
 
 			Assert.AreEqual(_projectSettingsPage.GetProjectName(), newProjectUniqueName,
 				"Произошла ошибка:\n имя проекта не изменилось на странице настроек проекта.");
@@ -181,7 +181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			Assert.IsFalse(_projectSettingsPage.IsRepetitionsButtonDisplayed(),
 					"Произошла ошибка:\n кнопка 'Repetitions' присутствует на странице проекта.");
@@ -224,7 +224,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsFalse(_projectsPage.IsMyTasksTabDisplayed(),
 				"Произошла ошибка:\n вкладка 'Мои задачи' отображается на странице списка проектов.");
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
 
@@ -255,7 +255,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { PathProvider.DocumentFile })

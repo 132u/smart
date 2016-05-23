@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 		}
 
 		[Test]

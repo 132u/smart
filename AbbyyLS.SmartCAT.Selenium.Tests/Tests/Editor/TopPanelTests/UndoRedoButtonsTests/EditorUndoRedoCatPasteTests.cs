@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
 				createNewTm: true);
 
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, projectUniqueName);

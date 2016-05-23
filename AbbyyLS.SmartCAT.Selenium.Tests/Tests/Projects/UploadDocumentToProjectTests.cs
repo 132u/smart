@@ -23,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, glossaryName: _projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				glossaryName: _projectUniqueName, 
 				targetLanguages: targetLanguages);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 				

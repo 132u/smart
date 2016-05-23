@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					break;
 
 				case PlaceSearchNotifier.ProjectSettingsPage:
-					_projectsPage.ClickProject(_projectUniqueName);
+					_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 					break;
 
 				case PlaceSearchNotifier.GlossariesPage:
@@ -171,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_createProjectHelper.CreateNewProject(
 				projectUniqueName2, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
 
-			_projectsPage.ClickProject(projectUniqueName2);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName2);
 
 			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
 
@@ -394,7 +394,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(PlaceSearchNotifier.GlossariesPage)]
 		public void ExportSaveNotifierOnProjectSettingsPage(PlaceSearchNotifier placeSearch)
 		{
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
@@ -419,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 					_workspacePage.GoToProjectsPage();
 
-					_projectsPage.ClickProject(_projectUniqueName);
+					_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 					break;
 
 				default:
@@ -444,7 +444,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 					PathProvider.DocumentFileToConfirm2
 				});
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
@@ -453,7 +453,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.ClickProject(projectUniqueName2);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName2);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -462,7 +462,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ExportDocumentFromProjectCheckNotifierText()
 		{
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
@@ -477,7 +477,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ExportDocumentsFromProjectCheckNotifierText()
 		{
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
@@ -497,7 +497,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var expectedDate = DateTime.Now.ToString("MM/dd/yyyy hh", CultureInfo.InvariantCulture);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)

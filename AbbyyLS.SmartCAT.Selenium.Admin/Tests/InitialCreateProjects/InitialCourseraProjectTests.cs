@@ -55,7 +55,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 			Assert.IsTrue(_projectsPage.IsProjectExist(CreateProjectHelper.CourseraProjectName),
 				"Произошла ошибка: \nне найден проект с новым именем");
 
-			_projectsPage.ClickProject(CreateProjectHelper.CourseraProjectName);
+			_projectsPage.OpenProjectSettingsPage(CreateProjectHelper.CourseraProjectName);
+
 			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesFromCourseraFolder());
 		}
 

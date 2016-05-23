@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName);
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, _secondUser.NickName, _projectUniqueName);
@@ -46,7 +46,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_loginHelper.Authorize(StartPage.Workspace, _secondUser);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
@@ -76,7 +77,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_loginHelper.Authorize(StartPage.Workspace, _secondUser);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
@@ -108,7 +110,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_loginHelper.Authorize(StartPage.Workspace, _secondUser);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
@@ -135,7 +138,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_loginHelper.Authorize(StartPage.Workspace, _secondUser);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();

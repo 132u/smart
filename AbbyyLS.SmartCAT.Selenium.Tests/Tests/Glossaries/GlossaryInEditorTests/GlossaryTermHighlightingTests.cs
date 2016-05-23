@@ -42,7 +42,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 					filesPaths: new[] { PathProvider.EditorTxtFile },
 					createNewTm: true);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName);
 
 			_workspacePage.GoToGlossariesPage();
@@ -66,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.SelectGlossaryByName(_glossaryUniqueName)
@@ -100,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_workspacePage.GoToProjectsPage();
 			
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.SelectGlossaryByName(_glossaryUniqueName)

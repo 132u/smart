@@ -22,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading }
 				);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
 				.ClickSettingsButton()
@@ -126,7 +126,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 		}

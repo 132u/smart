@@ -205,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				filesPaths: new[]{ PathProvider.DocumentFile});
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			Assert.IsTrue(_projectSettingsPage.IsProjectSettingsPageOpened(),
 				"Произошла ошибка: не открылась страница проекта {0}.", _projectUniqueName);

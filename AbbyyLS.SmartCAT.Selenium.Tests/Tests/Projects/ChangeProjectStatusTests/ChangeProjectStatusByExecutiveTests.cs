@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				new[] { PathProvider.OneLineTxtFile },
 				tasks: new[] { WorkflowTask.Translation });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickAssignButtonOnPanel();
 
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_signInPage.SubmitFormExpectingWorkspacePage(_mail, _password);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.OneLineTxtFile);
 

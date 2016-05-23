@@ -166,7 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				filesPaths: _filePaths
 				);
 
-			_projectsPage.ClickProject(uniqueProjectName);
+			_projectsPage.OpenProjectSettingsPage(uniqueProjectName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(_filePaths[0]);
 

@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 				new []{PathProvider.EditorTxtFile},
 				tasks: _tasksList);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickAssignButtonOnPanel();
 
@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 				new[] {PathProvider.EditorTxtFile},
 				tasks: _tasksList);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickAssignButtonOnPanel();
 

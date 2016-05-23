@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_createProjectHelper.CreateNewProject(_projectName, glossaryName: _glossaryName);
 
-			_projectsPage.ClickProject(_projectName);
+			_projectsPage.OpenProjectSettingsPage(_projectName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { PathProvider.EditorTxtFile })
@@ -434,7 +434,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.ClickProject(_projectName);
+			_projectsPage.OpenProjectSettingsPage(_projectName);
 
 			_projectSettingsPage
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);

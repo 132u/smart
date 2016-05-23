@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_workspacePage.GoToProjectsPage();
 			_createProjectHelper.CreateNewProject(projectName, glossaryName: glossaryUniqueName);
-			_projectsPage.ClickProject(projectName);
+			_projectsPage.OpenProjectSettingsPage(projectName);
 
 			_projectSettingsHelper
 				.UploadDocument(new[] { PathProvider.DocumentFile })

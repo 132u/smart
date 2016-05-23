@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					createNewTm: true,
 					tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, _projectUniqueName);

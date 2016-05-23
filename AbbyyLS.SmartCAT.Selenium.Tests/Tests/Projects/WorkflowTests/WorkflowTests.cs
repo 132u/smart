@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName, tasks: new[] { task, task });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -92,7 +92,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -119,7 +119,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -167,7 +167,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -214,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
@@ -239,7 +239,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 

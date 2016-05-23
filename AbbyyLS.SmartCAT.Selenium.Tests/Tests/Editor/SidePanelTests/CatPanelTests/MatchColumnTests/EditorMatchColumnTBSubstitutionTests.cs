@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				filesPaths: new[] { PathProvider.TxtFileForMatchTest },
 				glossaryName: _glossaryUniqueName);
 
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, projectUniqueName);

@@ -14,7 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void SetUp()
 		{
 			_workspacePage.GoToProjectsPage();
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			if (!_exportNotification.IsExportNotificationDisappeared())
 			{

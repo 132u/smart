@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				filesPaths: new[] { PathProvider.EditorTxtFile },
 				glossaryName: GlossariesHelper.UniqueGlossaryName());
 
-			_projectsPage.ClickProject(projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, projectUniqueName);

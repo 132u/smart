@@ -76,23 +76,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Навести курсор на строку таблицы с проектом
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage HoverProjectRow(string projectName)
+		{
+			CustomTestContext.WriteLine("Навести курсор на строку таблицы с проектом {0}", projectName);
+			ProjectRow = Driver.SetDynamicValue(How.XPath, PROJECT_ROW, projectName);
+			ProjectRow.HoverElement();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Кликнуть по ссылке проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		public ProjectSettingsPage ClickProject(string projectName)
+		public ProjectSettingsPage ClickProjectPageLink(string projectName)
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке проекта {0}.", projectName);
 			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
-
-			try
-			{
-				ProjectRef.JavaScriptClick();
-			}
-			catch (StaleElementReferenceException)
-			{
-				ClickProject(projectName);
-			}
-
+			ProjectRef.Click();
+	
 			return new ProjectSettingsPage(Driver).LoadPage();
 		}
 
@@ -535,6 +540,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#endregion
 
 		#region Составные методы страницы
+
+		/// <summary>
+		/// Открыть страницу настроек проекта
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectSettingsPage OpenProjectSettingsPage(string projectName)
+		{
+			HoverProjectRow(projectName);
+			ClickProjectPageLink(projectName);
+
+			return new ProjectSettingsPage(Driver).LoadPage();
+		}
 
 		/// <summary>
 		/// Отменить задачу в свертке документа.
@@ -1144,6 +1161,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DeleteButtonInProjectPanel { get; set; }
 		protected IWebElement CancelledStatus { get; set; }
 		protected IWebElement CompletedStatus { get; set; }
+		protected IWebElement ProjectRow { get; set; }
 
 		#endregion
 
@@ -1160,9 +1178,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
 		protected const string DELETE_BUTTON = "//div[contains(@data-bind,'deleteProjects')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
-		protected const string SEARCH_PROJECT_BUTTON = "//div[contains(@class, 'js-search-btn')]";
+		protected const string SEARCH_PROJECT_BUTTON = "//button[contains(@class, 'js-search-btn')]";
 
-		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
+		protected const string PROJECT_REF = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, projectPageUrl)]";
 
 		protected const string DEAD_LINE_VALUE = "//tr//a[contains(text(), '*#*')]//ancestor::tr//td[9]//p//span";
 		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
@@ -1208,6 +1226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string MY_TASKS_TAB = "//a[@href='/Workspace?tab=MyTasks']";
 		protected const string CANCELLED_PROJECTS_TAB = "//a[@href='/Workspace?tab=Canceled']";
 		protected const string HELP_DOCUMENT_TRANSLATION_POPUP = "//div[@class='hopscotch-bubble animated']";
+		protected const string PROJECT_ROW = "//span[text()='*#*']//ancestor::tr";
 
 		#endregion
 	}

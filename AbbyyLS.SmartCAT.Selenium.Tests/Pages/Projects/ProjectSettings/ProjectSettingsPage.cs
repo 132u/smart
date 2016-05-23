@@ -793,7 +793,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
 		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
-		protected const string ADD_FILES_BTN = "//div[contains(@data-bind, 'importDocument')]";
+		protected const string ADD_FILES_BTN = "//button[contains(@data-bind, 'importDocument')]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
 		protected const string PROJECTS_TABLE_ALL_CHECKBOXES = ".//table[contains(@id,'JColResizer')]//tr[@class = 'js-table-header']//th[1]//input";
 		protected const string PROJECTS_TABLE_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[1]//input";
@@ -817,7 +817,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
 		protected const string DOCUMENT_ROW = "//td[div[a[text()='*#*']]]//following-sibling::td[@class='l-corpr__td l-project-td date']";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
-		protected const string SETTINGS_BUTTON = "//i[contains(@data-bind,'click: edit')]";
+		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
 
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";

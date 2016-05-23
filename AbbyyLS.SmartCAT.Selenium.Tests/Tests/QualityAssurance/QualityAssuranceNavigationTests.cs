@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_workspacePage.GoToProjectsPage();
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { PathProvider.QANavigationFile });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.QANavigationFile, ThreadUser.NickName, _projectUniqueName);
 			

@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 				.SelectProjectGroup(_projectGroup)
 				.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			Assert.AreEqual(_projectGroup, _projectSettingsPage.GetProjectGroupName(),
 				"Произошла ошикба: неверное название группы проекта.");
@@ -103,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 				.FillDescription(description)
 				.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			Assert.AreEqual(description, _projectSettingsPage.GetProjectDescription(),
 				"Произошла ошикба: неверное название группы проекта.");

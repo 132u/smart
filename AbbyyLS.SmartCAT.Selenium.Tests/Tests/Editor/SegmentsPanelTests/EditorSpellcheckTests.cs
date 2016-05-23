@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_createProjectHelper.CreateNewProject(
 				projectName, createNewTm: true, filesPaths: new[] { PathProvider.DocumentFile });
 
-			_projectsPage.ClickProject(projectName);
+			_projectsPage.OpenProjectSettingsPage(projectName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, projectName);

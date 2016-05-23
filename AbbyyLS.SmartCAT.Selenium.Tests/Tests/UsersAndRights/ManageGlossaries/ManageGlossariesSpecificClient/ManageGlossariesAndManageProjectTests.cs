@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			Assert.IsTrue(_projectSettingsPage.IsGlossaryChecked(_projectUniqueName),
 				"Произошла ошибка: Не выбран глоссарий '{0}'.", _projectUniqueName);

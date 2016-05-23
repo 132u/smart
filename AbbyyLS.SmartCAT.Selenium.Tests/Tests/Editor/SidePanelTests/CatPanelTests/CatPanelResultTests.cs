@@ -38,7 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 					createNewTm: true,
 					tmxFilesPaths: new[] { PathProvider.EditorTmxFile });
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName);
@@ -76,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
@@ -112,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
 				"Произошла ошибка:\nМашинный перевод не выбран ");
 
-			_projectsPage.ClickProject(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
 				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
