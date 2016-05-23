@@ -12,8 +12,10 @@ using Keys = OpenQA.Selenium.Keys;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
@@ -49,6 +51,95 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		#region Простые методы страницы
+
+		/// <summary>
+		/// Нажать ссылку 'Open in new tab' на вкладке 'Dictionaries'
+		/// </summary>
+		public SearchPage ClickOpenTranslationInNewTabLink()
+		{
+			CustomTestContext.WriteLine("Нажать ссылку 'Open in new tab' на вкладке 'Dictionaries'");
+			OpenTranslationInNewTabLink.Click();
+			Driver.SwitchToNewBrowserTab();
+
+			return new SearchPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Получить текст из поля поиска на вкладке 'Dictionaries'
+		/// </summary>
+		public string GetTextFromSearchFieldInDictionariesTab()
+		{
+			CustomTestContext.WriteLine("Получить текст из поля поиска на вкладке 'Dictionaries'");
+
+			return DictionariesSearchInput.GetAttribute("value");
+		}
+
+		/// <summary>
+		/// Нажать кнопку поиска в словорях Лингво
+		/// </summary>
+		public EditorPage ClickSearchInLingvoDictionariesButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку поиска в словорях Лингво");
+			SearchInLingvoDictionariesButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку поиска в словорях Лингво c помощью хоткея Ctrl+I
+		/// </summary>
+		public EditorPage ClickSearchInLingvoDictionariesButtonByHotkey()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку поиска в словорях Лингво c помощью хоткея Ctrl+I");
+			Driver.SendHotKeys("i", control: true);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку смены направления перевода на вкладке 'Dictionaries' в боковой панели
+		/// </summary>
+		public EditorPage ClickTranslationDirectionSwitchOnDictionariesTab()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку смены направления перевода на вкладке 'Dictionaries' в боковой панели");
+			DictionariesTranslationDirectionSwitch.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на вкладку 'Dictionaries' в боковой панели
+		/// </summary>
+		public EditorPage ClickDictionariesTab()
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку 'Dictionaries' в боковой панели");
+			DictionariesTab.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Ввести поисковый запрос на вкладке 'Dictionaries' в боковой панели
+		/// </summary>
+		/// <param name="searchQuery">поисковый запрос</param>
+		public EditorPage FillSearchQueryInDictionariesTab(string searchQuery)
+		{
+			CustomTestContext.WriteLine("Ввести поисковый запрос на вкладке 'Dictionaries' в боковой панели");
+			DictionariesSearchInput.SetText(searchQuery);
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку поиска на вкладке 'Dictionaries' в боковой панели
+		/// </summary>
+		public EditorPage ClickSearchButtonInDictionariesTab()
+		{
+			CustomTestContext.WriteLine("Нажать на кнопку поиска на вкладке 'Dictionaries' в боковой панели");
+			DictionariesSearchButton.Click();
+
+			return LoadPage();
+		}
 
 		/// <summary>
 		/// Нажать стрелку перехода к следующей терминологической ошибке
@@ -1957,7 +2048,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		public bool IsEditorDialogBackgroundDisplayed()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(EDITOR_DIALOG_BACKGROUND), 5);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(EDITOR_DIALOG_BACKGROUND), 2);
 		}
 
 		/// <summary>
@@ -2305,6 +2396,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsDisappeared(By.XPath(FINISH_BUTTON_ON_FEEDBACK_HELP));
 		}
 
+		/// <summary>
+		/// Проверить, появились ли результаты поиска
+		/// </summary>
+		/// <param name="serachQuery"></param>
+		/// <returns></returns>
+		public bool IsDictionariesSearchResultsAppeared(string serachQuery)
+		{
+			CustomTestContext.WriteLine("Проверить, появились ли результаты поиска по запросу {0}", serachQuery);
+			var elements = Driver.FindElements(By.XPath(SIDE_PANEL_DICTIONARIES_SEARCH_RESULTS.Replace("*#*", serachQuery)));
+
+			return elements.Count > 0;
+		}
+
+		public bool IsDictionariesTabOpened()
+		{
+			CustomTestContext.WriteLine("Проверить, открыта ли вкладка Dictionaries");
+
+			return Driver.WaitUntilElementIsClickable(By.XPath(SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON)) != null;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -2520,9 +2631,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
+
 		
 		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
 		protected IWebElement UserPreferencesButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_TAB)]
+		protected IWebElement DictionariesTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_SEARCH_INPUT)]
+		protected IWebElement DictionariesSearchInput { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON)]
+		protected IWebElement DictionariesSearchButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION)]
+		protected IWebElement DictionariesTranslationDirectionSwitch { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SEARCH_IN_LINGVO_DICTIONARIES)]
+		protected IWebElement SearchInLingvoDictionariesButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK)]
+		protected IWebElement OpenTranslationInNewTabLink { get; set; }
 
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
@@ -2531,12 +2661,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement VoteCount{ get; set; }
 		protected IWebElement SourceCell { get; set; }
 		protected IWebElement SegmentTranslationUserColumn { get; set; }
-		protected IWebElement Revision;
-		protected IWebElement DeleteChangedPart;
-		protected IWebElement InsertChangedPart;
-		protected IWebElement User;
-		protected IWebElement Type;
-		protected IWebElement QAError;
+		protected IWebElement Revision { get; set; }
+		protected IWebElement DeleteChangedPart { get; set; }
+		protected IWebElement InsertChangedPart { get; set; }
+		protected IWebElement User { get; set; }
+		protected IWebElement Type { get; set; }
+		protected IWebElement QAError { get; set; }
+	protected IWebElement DictionariesSearchResults { get; set; }
 
 		#endregion
 
@@ -2670,6 +2801,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string NEXT_BUTTON_ON_CONFIRM_HELP = "//div[text()='Confirm Button']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
 		protected const string NEXT_BUTTON_ON_BUTTON_BAR_HELP = "//div[text()='Button Bar']//ancestor::div[4]//following-sibling::div//span[text()='Next']";
 		protected const string FINISH_BUTTON_ON_FEEDBACK_HELP = "//div[text()='Feedback']//ancestor::div[4]//following-sibling::div//span[text()='Finish']";
+
+		protected const string SIDE_PANEL_DICTIONARIES_TAB = "//span[text()='Dictionaries']//ancestor::span//ancestor::a";
+		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_INPUT = "//div[@id='lingvo-search-body']//input[@name='searchText']";
+		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON = "//div[@id='lingvo-search-body']//span[text()='Search']//ancestor::span//ancestor::a";
+		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_RESULTS = "//div[@id='lingvo-search-body']//h2//span[@class='Bold' and text()='*#*']";
+		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-body']//div[contains(@id,'lingvodirection')]";
+		protected const string SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK = "//div[@id='lingvo-search-body']//span[text()='Open in new tab']//ancestor::span//ancestor::a";
+
+		protected const string SEARCH_IN_LINGVO_DICTIONARIES = "//a[@id='lingvo-lookup-btn']";
 
 		#endregion
 	}

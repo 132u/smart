@@ -321,6 +321,7 @@
     <Compile Include="Tests\Editor\BottomPanelTests\EditorCommentsTests.cs" />
     <Compile Include="Tests\Editor\SegmentsPanelTests\FilterSegmentsTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\CatPanelTests\CatPanelResultTests.cs" />
+    <Compile Include="Tests\Editor\SidePanelTests\SearchInDictionariesTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorChangeCaseButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorLastUnconfirmedSegmentTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorHomeButtonTests.cs" />
@@ -329,6 +330,7 @@
     <Compile Include="Tests\Editor\BottomPanelTests\RevisionsTests\EditorRevisionTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\RevisionsTests\EditorRevisionXliffTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\EditorResourceConcordanceSearchTests.cs" />
+    <Compile Include="Tests\Editor\TopPanelTests\SearchInDictionariesButtonTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoCatPasteTests.cs" />
     <Compile Include="Tests\Editor\UserSettingsTests\UserSettingsTests.cs" />

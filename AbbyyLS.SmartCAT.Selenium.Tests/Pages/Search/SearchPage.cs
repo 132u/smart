@@ -30,6 +30,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Получить поисковый запрос из поля поиска
+		/// </summary>
+		public string GetSearchQueryFromSearchField()
+		{
+			CustomTestContext.WriteLine("Получить поисковый запрос из поля поиска");
+
+			return SearchField.GetAttribute("value");
+		}
+
+		/// <summary>
 		/// Ввести текст в поле поиска
 		/// </summary>
 		/// <param name="text">текст</param>
