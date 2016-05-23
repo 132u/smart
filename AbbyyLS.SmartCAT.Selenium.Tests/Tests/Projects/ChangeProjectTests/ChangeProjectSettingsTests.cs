@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 				"Произошла ошикба: неверное название группы проекта.");
 		}
 
-		[Test, ShortCheckList] //Description("S-29228")
+		[Test, ShortCheckList, Description("S-29228")]
 		public void ChangeDeadlineTest()
 		{
 			var tomorrow = DateTime.Now.AddDays(1);
@@ -90,15 +90,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 
 			_projectSettingsDialog.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickProjectSettingsButton(_projectUniqueName);
-
-			Assert.AreEqual(tomorrow.Date, _projectSettingsDialog.GetDeadine(),
+			Assert.AreEqual(tomorrow.Date, _projectsPage.GetDeadLine(_projectUniqueName),
 				"Произошла ошикба: неверная дата в дедлайне.");
 		}
 
-		[Test, ShortCheckList] //Description("S-29231")
+		[Test, ShortCheckList, Description("S-29231")]
 		public void ChangeDescriptionTest()
 		{
 			var description = "description text";
@@ -107,11 +103,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 				.FillDescription(description)
 				.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName)
-				.ClickProjectSettingsButton(_projectUniqueName);
+			_projectsPage.ClickProject(_projectUniqueName);
 
-			Assert.AreEqual(description, _projectSettingsDialog.GetProjectDescription(),
+			Assert.AreEqual(description, _projectSettingsPage.GetProjectDescription(),
 				"Произошла ошикба: неверное название группы проекта.");
 		}
 

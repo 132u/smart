@@ -435,6 +435,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return ProjectGroupName.Text;
 		}
 
+		/// <summary>
+		/// Получить текст из описания проекта.
+		/// </summary>
+		public string GetProjectDescription()
+		{
+			CustomTestContext.WriteLine("Получить текст из описания проекта.");
+
+			return Description.Text;
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -767,6 +777,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PROJECT_GROUP_NAME)]
 		protected IWebElement ProjectGroupName { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DESCRIPTION)]
+		protected IWebElement Description { get; set; }
+
 		protected IWebElement DocumentProgress { get; set; }
 		protected IWebElement DocumentRefference { get; set; }
 		protected IWebElement ProjectsTableCheckbox { get; set; }
@@ -793,6 +806,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
 		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
+		protected const string DESCRIPTION = "//div[@class='l-project-panel-info_content']";
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
 		protected const string DELETE_BUTTON = "//div[contains(@data-bind, 'deleteDocuments')]";

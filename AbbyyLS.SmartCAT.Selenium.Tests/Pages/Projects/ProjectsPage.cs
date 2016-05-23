@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 
@@ -515,6 +516,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CancelledProjectsTab.Click();
 
 			return new CancelledProjectsPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Получить дату дэдлайна для указанного проекта.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public DateTime GetDeadLine(string projectName)
+		{
+			CustomTestContext.WriteLine("Получить дату дэдлайна для указанного проекта - {0}", projectName);
+			DeadLineValue = Driver.SetDynamicValue(How.XPath, DEAD_LINE_VALUE, projectName);
+			var date = DeadLineValue.Text.TakeWhile(p => p != ' ').ToArray();
+			CustomTestContext.WriteLine("Строка которая хранит дату дэдлайна - {0}", date);
+
+			return DateTime.ParseExact(new string(date), "MM/dd/yyyy", CultureInfo.InvariantCulture);
 		}
 
 		#endregion
@@ -1106,6 +1121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = GREEN_CREATE_PROJECT_BUTTON)]
 		protected IWebElement GreenCreateProjectButton { get; set; }
 
+		protected IWebElement DeadLineValue { get; set; }
 		protected IWebElement DownloadInProjectButton { get; set; }
 		protected IWebElement DownloadInDocumentButton { get; set; }
 		protected IWebElement ProjectRef { get; set; }
@@ -1148,6 +1164,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string PROJECT_REF = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']";
 
+		protected const string DEAD_LINE_VALUE = "//tr//a[contains(text(), '*#*')]//ancestor::tr//td[9]//p//span";
 		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
 		protected const string PROJECT_STATUS_ITEM = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
 		protected const string PROJECT_STATUS_DROP_DOWN_MENU = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//label//input";

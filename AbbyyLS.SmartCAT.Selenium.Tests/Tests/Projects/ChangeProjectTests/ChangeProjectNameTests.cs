@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 			_newProjectName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Ignore("PRX-14306"), ShortCheckList] // Description("S-29227")
+		[Test, Ignore("PRX-14306"), ShortCheckList, Description("S-29227")]
 		public void ChangeProjectNameOnNew()
 		{
 			_projectsPage.ClickCreateProjectButton();
@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
 			Assert.IsTrue(_projectsPage.IsProjectExist(_newProjectName),
-				"Произошла ошибка: \nне найден проект с новым именем");
+				"Произошла ошибка: \n не найден проект с новым именем");
 		}
 
 		[Test]
