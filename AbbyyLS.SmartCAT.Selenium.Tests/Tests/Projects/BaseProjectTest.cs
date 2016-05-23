@@ -41,6 +41,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_cancelledProjectsPage = new CancelledProjectsPage(Driver);
 			_adminHelper = new AdminHelper(Driver);
 			_adminSignInPage = new AdminSignInPage(Driver);
+			_settingResourceStep = new SettingsResourcesStep(Driver);
+			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
@@ -71,5 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected GlossariesHelper _glossariesHelper;
 		protected GlossariesPage _glossariesPage;
 		protected GlossaryPage _glossaryPage;
+		protected SettingsResourcesStep _settingResourceStep;
+		protected DocumentSettingsDialog _documentSettingsDialog;
 	}
 }

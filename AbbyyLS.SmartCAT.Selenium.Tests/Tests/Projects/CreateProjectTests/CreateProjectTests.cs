@@ -150,19 +150,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
 		}
 
-		[Test, Description("S-7142"), ShortCheckList]
-		public void ImportDocumentAfterCreationTest()
-		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName);
-
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
-
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile),
-				"Произошла ошибка:\n документ {0} отсутствует в проекте.", PathProvider.DocumentFile);
-		}
-
 		[Test, Description("S-7138"), ShortCheckList]
 		public void CreateProjectFewLanguagesTest()
 		{

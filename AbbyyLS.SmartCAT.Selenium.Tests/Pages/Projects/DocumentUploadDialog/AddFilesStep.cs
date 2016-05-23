@@ -5,6 +5,7 @@ using System.IO;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 
@@ -64,6 +65,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			return new SettingsResourcesStep(Driver).LoadPage();
 		}
 
+		/// <summary>
+		/// Нажать кнопку удаления таргет языка
+		/// </summary>
+		/// <param name="language">язык</param>
+		public AddFilesStep ClickDeleteTargetLanguageButton(Language language)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления таргет языка {0}.", language);
+			DeleteTargetLanguageButton = Driver.SetDynamicValue(How.XPath, DELETE_TARGET_LANGUAGE_BUTTON, language.ToString());
+			DeleteTargetLanguageButton.Click();
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -71,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		/// <summary>
 		/// Загрузка файлов
 		/// </summary>
-		/// <param name="pathFiles">список путей к файлам</param>
+		/// <param name="filesPaths">список путей к файлам</param>
 		public AddFilesStep UploadDocument(IList<string> filesPaths)
 		{
 			foreach (var filePath in filesPaths)
@@ -80,14 +94,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 				makeInputDialogVisible();
 				SetFileName(filePath);
 			}
-			
+
+			foreach (var filePath in filesPaths)
+			{
+				if (!IsFileUploaded(filePath))
+				{
+					throw new Exception("Произошла ошибка: '\nдокумент " + filePath + " не загружен");
+				}
+			}
+
 			return LoadPage();
 		}
 
 		/// <summary>
 		/// Загрузка файлов
 		/// </summary>
-		/// <param name="pathFiles">список путей к файлам</param>
+		/// <param name="filesPaths">список путей к файлам</param>
 		public DublicateFileErrorDialog UploadDublicateDocument(IList<string> filesPaths)
 		{
 			foreach (var filePath in filesPaths)
@@ -181,6 +203,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Проверить, что все переданные языки есть в списке таргет языков
+		/// </summary>
+		/// <param name="languages">массив языков</param>
+		public bool IsLanguagesExist(Language[] languages)
+		{
+			CustomTestContext.WriteLine("Проверить, что все переданные языки есть в списке таргет языков.");
+
+			foreach (var language in languages)
+			{
+				bool added = Driver.WaitUntilElementIsDisplay(By.XPath(ADDED_TARGET_LANGUAGE.Replace("*#*", language.ToString())));
+
+				CustomTestContext.WriteLine("Результат проверки для языка {0}: {1}", language, added);
+
+				if (!added)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -194,6 +239,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		[FindsBy(How = How.XPath, Using = ADD_FILES_TAB)]
 		protected IWebElement AddFilesTab { get; set; }
 
+		protected IWebElement DeleteTargetLanguageButton { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -203,9 +250,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		protected const string UPLOAD_FILE_INPUT = "//input[contains(@data-bind,'uploadFilesFromFileInput')]";
 		protected const string UPLOADED_FILE = "//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]";
 		protected const string DUPLICATE_NAME_ERROR = "//span[contains(string(),'The following files have already been added to the project')]";
-
-		protected const string UPLOAD_ICON =
-			"//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]//preceding-sibling::span[contains(@class, 'icon_file_loading')]";
+		protected const string UPLOAD_ICON = "//li[contains(@class, 'docs__item')]//span[contains(text(),'*#*')]//preceding-sibling::span[contains(@class, 'icon_file_loading')]";
+		protected const string ADDED_TARGET_LANGUAGE = "//div[@data-bind='foreach: selectedOptions']//span[text()='*#*']";
+		protected const string DELETE_TARGET_LANGUAGE_BUTTON = "//div[@data-bind='foreach: selectedOptions']//span[text()='*#*']/following-sibling::span/span";
 
 		#endregion
 	}

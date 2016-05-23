@@ -76,14 +76,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickDocumentUploadButton()
 				.UploadDocument(filePaths);
 
-			foreach (var filePath in filePaths)
-			{
-				if (!_addFilesStep.IsFileUploaded(filePath))
-				{
-					throw new Exception("Произошла ошибка: '\nдокумент " + filePath + " не загружен");
-				}
-			}
-
 			_addFilesStep.ClickNextButton();
 
 			_settingResourceStep
