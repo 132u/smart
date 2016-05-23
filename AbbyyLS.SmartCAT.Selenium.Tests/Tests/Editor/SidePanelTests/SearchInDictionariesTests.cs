@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_searchPage = new SearchPage(Driver);
 		}
 
-		[Test, Description("S-7242")]
+		[Test, Description("S-7242"), ShortCheckList]
 		public void SearchSourceInDictionariesTest()
 		{
 			var searchQuery = "proton";
@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не появились результаты поиска");
 		}
 
-		[Test, Description("S-29216")]
+		[Test, Description("S-29216"), ShortCheckList]
 		public void SearchTargetInDictionariesTest()
 		{
 			var searchQuery = "электрон";
@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не появились результаты поиска");
 		}
 
-		[Test, Description("S-7243")]
+		[Test, Description("S-7243"), ShortCheckList]
 		public void AutoPasteWordToSearchQueryTest()
 		{
 			var translation = "первый";
@@ -61,7 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не всработала автоподстановка");
 		}
 
-		[Test, Description("S-7244")]
+		[Test, Description("S-7244"), ShortCheckList]
 		public void LinkToSearchPageTest()
 		{
 			var searchQuery = "звезда";

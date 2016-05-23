@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.ChangeProjectTests
 			_newProjectName = _createProjectHelper.GetProjectUniqueName();
 		}
 
-		[Test, Ignore("PRX-14306"), ShortCheckList, Description("S-29227")]
+		[Test, Ignore("PRX-14306"), Description("S-29227"), ShortCheckList]
 		public void ChangeProjectNameOnNew()
 		{
 			_projectsPage.ClickCreateProjectButton();

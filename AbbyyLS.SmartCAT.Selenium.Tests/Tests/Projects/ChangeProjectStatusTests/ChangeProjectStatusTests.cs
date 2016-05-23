@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	class ChangeProjectStatusTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> 
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7157")]
+		[Test, Description("S-7157"), ShortCheckList]
 		public void SetCancelledStatusFromProjectsPageTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Проект с указанным именем не находится на странице отменённых проектов.");
 		}
 
-		[Test, Description("S-13756")]
+		[Test, Description("S-13756"), ShortCheckList]
 		public void SetCancelledStatusFromProjectSettingsPageTest()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Проект с указанным именем не находится на странице отменённых проектов.");
 		}
 
-		[Test, Description("S-7159")]
+		[Test, Description("S-7159"), ShortCheckList]
 		public void InProgressStatusAfterCreateProjectTest()
 		{
 			var targetSegment = "первое предложение.";
@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Статус проекта не {0}.", DocumentStatus.InProgress.Description()); 
 		}
 
-		[Test, Description("S-7161")]
+		[Test, Description("S-7161"), ShortCheckList]
 		public void CompleteStatusAfterConfirmAllSegmentsTest()
 		{
 			var targetSegment = "первое предложение.";
@@ -91,7 +91,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Статус проекта не {0}.", DocumentStatus.Completed.Description());
 		}
 
-		[Test, Description("S-29235")]
+		[Test, Description("S-29235"), ShortCheckList]
 		public void StatusCheckForProjectWithoutPretranslateTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Created.Description());
 		}
 
-		[Test, Description("S-29237")]
+		[Test, Description("S-29237"), ShortCheckList]
 		public void StatusCheckForProjectWithXliffDocxTest()
 		{
 			_createProjectHelper.CreateNewProject(
@@ -113,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Pretranslated.Description());
 		}
 
-		[Test, Description("S-29236")]
+		[Test, Description("S-29236"), ShortCheckList]
 		public void StatusCheckForProjectWithDocTmTest()
 		{
 			_createProjectHelper.CreateNewProject(

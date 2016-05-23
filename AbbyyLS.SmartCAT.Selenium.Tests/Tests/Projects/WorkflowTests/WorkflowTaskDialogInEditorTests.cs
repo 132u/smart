@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 				"Произошла ошибка:\n Не отобразилась кнопка входа для менеджера.");
 		}
 
-		[Test, Description("S-7206")]
+		[Test, Description("S-7206"), ShortCheckList]
 		public void WorkflowTaskDialogForUserWithoutProjectManagementRightsTest()
 		{
 			_groupsAndAccessRightsTab.GoToProjectsPage();

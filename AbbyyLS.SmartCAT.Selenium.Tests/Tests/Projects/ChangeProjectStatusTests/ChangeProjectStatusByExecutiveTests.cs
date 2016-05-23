@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 		}
 
-		[Test, Description("S-7160")]
+		[Test, Description("S-7160"), ShortCheckList]
 		public void ManagerReviewStatusTest()
 		{
 			var targetSegment = "первое предложение.";
