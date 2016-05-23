@@ -810,7 +810,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">имя проекта</param>
 		public bool IsDocumentRemovedFromProject(string projectName, string documentPath)
 		{
-			var documentName = Path.GetFileName(documentPath);
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 
 			CustomTestContext.WriteLine(
 				"Проверить, присутствует ли документ {0} в проекте {1}", documentName, projectName);
