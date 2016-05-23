@@ -43,20 +43,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.OpenDocumentInEditorWithTaskSelect(PathProvider.TxtFileForMatchTest);
 
 			_selectTaskDialog.SelectTask();
-		}
 
-		[Test]
-		public void CheckMatchAfterGlossarySubstitution()
-		{
 			var sourceTerm = _editorPage
-								.ClickOnTargetCellInSegment(1)
-								.GetSourceText(1);
+					.ClickOnTargetCellInSegment(1)
+					.GetSourceText(1);
 
 			_editorPage.ClickAddTermButton();
 
 			_addTermDialog.AddNewTerm(sourceTerm, "термин глоссария");
+		}
 
+		[Test, Description("S-7220"), ShortCheckList]
+		public void CheckMatchAfterGlossarySubstitutionByDoubleClick()
+		{
 			_editorPage.PasteTranslationFromCAT(catType: CatType.TB);
+
+			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.TB),
+				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TB);
+		}
+
+		[Test, Description("S-7220"), ShortCheckList]
+		public void CheckMatchAfterGlossarySubstitutionByHotkey()
+		{
+			_editorPage.PasteTranslationFromCATByHotkey(catType: CatType.TB);
 
 			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.TB),
 				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TB);

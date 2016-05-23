@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -44,11 +46,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.ClickProject(_projectName);
 
 			_projectSettingsHelper
-				.UploadDocument(new []{PathProvider.DocumentFile})
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectName);
+				.UploadDocument(new[] { PathProvider.EditorTxtFile })
+				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -173,15 +174,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
-		[Test(Description = "Проверяет добавление термина с сорсом и таргетом в глоссарий")]
+		[Test(Description = "S-7218"), ShortCheckList]
 		public void AddSourceTargetTermToGlossary()
 		{
-			var source = "Comet";
-			var target = "Комета";
+			var highlightedSegmentTermsExpected = new List<string> { "sentence" };
+			var target = "изречение";
 
 			_editorPage.ClickAddTermButton();
 
-			_addTermDialog.AddNewTerm(source, target);
+			_addTermDialog.AddNewTerm(highlightedSegmentTermsExpected[0], target);
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
@@ -189,11 +190,35 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossariesPage.ClickGlossaryRow(_glossaryName);
 
-			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(source, target),
+			Assert.IsTrue(_glossaryPage.IsSingleTermWithTranslationExists(highlightedSegmentTermsExpected[0], target),
 				"Произошла ошибка:\n термин не обнаружен");
 
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+
+			_workspacePage.GoToProjectsPage();
+
+			_projectsPage
+				.OpenProjectInfo(_projectName)
+				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+
+			_selectTaskDialog.SelectTask();
+
+			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 1);
+
+			Assert.AreEqual(highlightedSegmentTerms, highlightedSegmentTermsExpected,
+				"Произошла ошибка:\n Подсвечен не тот термин.");
+
+			Assert.IsTrue(_editorPage.IsWordsMatchCatWords(highlightedSegmentTerms),
+				"Произошла ошибка:\nПодсвеченные слова в сегменте не соответствуют терминам САТ.");
+
+			highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 3);
+
+			Assert.AreEqual(highlightedSegmentTerms, highlightedSegmentTermsExpected,
+				"Произошла ошибка:\n Подсвечен не тот термин.");
+
+			Assert.IsTrue(_editorPage.IsWordsMatchCatWords(highlightedSegmentTerms),
+				"Произошла ошибка:\nПодсвеченные слова в сегменте не соответствуют терминам САТ.");
 		}
 
 		[Test(Description = "Проверяет добавление термина из сорса с таргетом в глоссарий игнорируя автоподстановку")]
@@ -412,7 +437,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.ClickProject(_projectName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 

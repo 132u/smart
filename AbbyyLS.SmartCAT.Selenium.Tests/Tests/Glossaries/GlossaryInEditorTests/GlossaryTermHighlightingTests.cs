@@ -50,41 +50,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 		}
 
-		[Test]
-		public void HighlightedWordsFromGlossaryInFirstSegment()
-		{
-			var dictionary = new Dictionary<string, string>
-			{ 
-				{"first", "первый"},
-				{"sentence", "предложение"}
-			};
-
-			_glossaryPage.CreateTerms(dictionary);
-
-			_workspacePage.GoToProjectsPage();
-
-			_projectsPage.ClickProject(_projectUniqueName);
-
-			_projectSettingsPage
-				.SelectGlossaryByName(_glossaryUniqueName)
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
-
-			_selectTaskDialog.SelectTask();
-
-			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 1);
-			var catTerms = _editorPage.GetCatSourceTerms();
-			
-			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
-
-			Assert.AreEqual(1, _editorPage.CatTypeRowNumber(CatType.TB),
-				"Произошла ошибка:\nВ CAT-панели отсутствует подстановка {0}.", CatType.TB);
-
-			Assert.AreEqual(highlightedSegmentTerms, catTerms,
-				"Произошла ошибка:\n Подсвеченные слова в сегменте не соответствуют терминам САТ.");
-		}
-
-		[Test]
-		public void HighlightedWordsFromGlossaryInThirdSegment()
+		[Test, Description("S-7217"), ShortCheckList]
+		[TestCase(1)]
+		[TestCase(3)]
+		public void HighlightedWordsFromGlossarySegmentTest(int segmentNumber)
 		{
 			var dictionary = new Dictionary<string, string>
 			{ 
@@ -105,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_selectTaskDialog.SelectTask();
 
-			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 3);
+			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: segmentNumber);
 
 			Assert.IsTrue(_editorPage.IsCatTableExist(), "Произошла ошибка:\nCAT-панель пустая.");
 
@@ -116,8 +85,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\nПодсвеченные слова в сегменте не соответствуют терминам САТ.");
 		}
 
-		[Test]
-		public void HighlightedWordsFromGlossaryInFewSegment()
+		[Test, Description("S-7219"), ShortCheckList]
+		public void HighlightedWordsFromGlossaryInFewSegmentTest()
 		{
 			var dictionary = new Dictionary<string, string>
 			{ 

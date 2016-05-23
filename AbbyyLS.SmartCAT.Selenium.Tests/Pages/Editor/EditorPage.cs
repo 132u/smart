@@ -1666,7 +1666,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			DoubleClickCatPanelRow(catRowNumber);
 
-			if (GetTargetText(targetRowNumber) != GetTargetCatTranslationText(catRowNumber))
+			if (!GetTargetText(targetRowNumber).Equals(GetTargetCatTranslationText(catRowNumber), StringComparison.OrdinalIgnoreCase))
 			{
 				throw new Exception(
 					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
@@ -1699,7 +1699,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			Driver.SendHotKeys(catRowNumber.ToString(), control: true);
 
-			if (GetTargetText(targetRowNumber) != GetTargetCatTranslationText(catRowNumber))
+			if (!GetTargetText(targetRowNumber).Equals(GetTargetCatTranslationText(catRowNumber), StringComparison.OrdinalIgnoreCase))
 			{
 				throw new Exception(
 					string.Format("Текст из таргет сегмента {0} не совпадает с текстом перевода из CAT-панели {1}",
@@ -1934,7 +1934,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Проверить, что подстановка нужного типа есть в CAT-панели
 		/// </summary>
-		/// <param name="type">типа</param>
+		/// <param name="type">название типа</param>
 		public bool IsCatTypeExist(CatType type)
 		{
 			CustomTestContext.WriteLine("Проверить, что подстановка типа {0} есть в CAT-панели", type);
