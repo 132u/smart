@@ -32,6 +32,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку построения статистики.");
 			BuildStatisticsButton.Click();
 
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COLLAPSE_ALL_BUTTON), timeout: 60))
+			{
+				RefreshPage<StatisticsPage>();
+			}
+
 			return new StatisticsPage(Driver).LoadPage();
 		}
 

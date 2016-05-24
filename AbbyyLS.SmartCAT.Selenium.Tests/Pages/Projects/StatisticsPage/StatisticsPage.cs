@@ -1,12 +1,10 @@
 ﻿using System;
 
 using OpenQA.Selenium;
+using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-
-using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 {
@@ -18,7 +16,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		public new StatisticsPage LoadPage()
 		{
-			if (!IsStatisticLoadIconDisappeared() && !IsStatisticsPageOpened())
+			if (!IsStatisticsPageOpened())
 			{
 				throw new XPathLookupException("Произошла ошибка:\n Страница статистики проекта не открылась.");
 			}
@@ -167,20 +165,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return true;
 		}
 
-		/// <summary>
-		/// Проверить, что статистика загрузилась
-		/// </summary>
-		public bool IsStatisticLoadIconDisappeared()
-		{
-			if (!Driver.WaitUntilElementIsDisappeared(By.XPath(STATISTIC_LOAD), timeout: 60))
-			{
-				CustomTestContext.WriteLine("Иконка построения статистики не исчезала. Перезагрузка страницы.");
-				RefreshPage<StatisticsPage>();
-			}
-
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(STATISTIC_LOAD));
-		}
-
 		#endregion
 
 		#region Объявление элементов страницы
@@ -190,9 +174,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		[FindsBy(How = How.XPath, Using = EXPANDE_ALL_BUTTON)]
 		protected IWebElement ExpandAllButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = STATISTIC_LOAD)]
-		protected IWebElement StatisticLoad { get; set; }
 
 		[FindsBy(How = How.XPath, Using = EXPORT_STATISTIC_BUTTON)]
 		protected IWebElement ExportStatisticButton { get; set; }
@@ -212,7 +193,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string COLLAPSE_ALL_BUTTON= "//button[contains(@data-bind,'expandCollapse(false)')]";
 		protected const string EXPANDE_ALL_BUTTON = "//button[contains(@data-bind,'expandCollapse(true)')]";
-		protected const string STATISTIC_LOAD = "//div[contains(@class, 'state-icon_loader')]";
 		protected const string LANGUAGE_PANELS = "//li[contains(@class, 'stats__lang-pair')]";
 		protected const string TOTAL_STATISTICS_PANELS = "//li[contains(@class, 'stats__total')]";
 		protected const string FILE_PANELS = "//li[contains(@class, 'stats__file-item')]";
