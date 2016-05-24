@@ -98,8 +98,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInDocumentButton(_projectUniqueName)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.ClickDownloadInDocumentButton(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickExportType(ExportType.Source);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
@@ -298,8 +298,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.OpenProjectInfo(projectUniqueName2)
-				.OpenDocumentInfoForProject(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
-				.ClickDownloadInDocumentButton(projectUniqueName2, documentNumber: 2)
+				.HoverDocumentRow(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
+				.ClickDownloadInDocumentButton(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
 				.ClickExportType(ExportType.Source);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
@@ -370,7 +370,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentSettings(_projectUniqueName);
 
 			_documentSettingsDialog
@@ -379,7 +379,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.WaitCreateProjectDialogDisappear();
 
 			_projectsPage
-				.ClickDownloadInDocumentButton(_projectUniqueName)
+				.ClickDownloadInDocumentButton(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),

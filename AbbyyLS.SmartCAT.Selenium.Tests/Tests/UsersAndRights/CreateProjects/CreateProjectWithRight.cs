@@ -61,8 +61,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);

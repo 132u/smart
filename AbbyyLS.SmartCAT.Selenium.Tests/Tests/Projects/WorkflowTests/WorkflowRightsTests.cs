@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(), "Произошла ошибка:\n Редактор не открылся.");
@@ -87,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
@@ -103,7 +103,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(2, _selectTaskDialog.GetTaskCount(),
@@ -125,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_taskAssignmentPage
@@ -149,7 +149,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
@@ -171,7 +171,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			_editorPage
@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 1),

@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile2);
+				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile2);
 
 			Assert.IsTrue(_projectsPage.IsMyTaskDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n Задача перевода не отображается для текущего пользователя.");
@@ -139,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.DocumentFile2);
+				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile2);
 
 			Assert.IsFalse(_projectsPage.IsMyTaskDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n Задача перевода отображается для текущего пользователя.");

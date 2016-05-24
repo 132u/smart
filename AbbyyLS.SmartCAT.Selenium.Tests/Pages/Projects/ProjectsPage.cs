@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Выбрать тип экспорта");
 			ExportType = Driver.SetDynamicValue(How.XPath, EXPORT_TYPE, exportType.ToString());
-			ExportType.Click();
+			ExportType.JavaScriptClick();
 
 			return LoadPage();
 		}
@@ -307,11 +307,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// Нажать кнопку экспорта в меню документа
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentNumber">номер документа</param>
-		public ProjectsPage ClickDownloadInDocumentButton(string projectName, int documentNumber = 1)
+		/// <param name="documentPath">номер документа</param>
+		public ProjectsPage ClickDownloadInDocumentButton(string projectName, string documentPath)
 		{
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в меню документа");
-			DownloadInDocumentButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_DOCUMENT_BUTTON, projectName, documentNumber.ToString());
+			DownloadInDocumentButton = Driver.SetDynamicValue(How.XPath, DOWNLOAD_IN_DOCUMENT_BUTTON, projectName, documentName);
 			DownloadInDocumentButton.Click();
 
 			return LoadPage();
@@ -322,15 +323,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="documentPath">путь до документа</param>
-		public ProjectsPage OpenDocumentInfoForProject(string projectName, string documentPath)
+		public ProjectsPage HoverDocumentRow(string projectName, string documentPath)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Открыть свёртку документа {0} в проекте '{1}'", documentName, projectName);
-
-			if (!getDocumentPanelIsOpened(projectName, documentName))
-			{
-				ClickProgressDocument(projectName, documentName);
-			}
+			CustomTestContext.WriteLine("Навести курсор на документ {0} в проекте '{1}'", documentName, projectName);
+			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, projectName, documentName);
+			DocumentRow.HoverElement();
 
 			return LoadPage();
 		}
@@ -564,7 +562,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Отменить задачу в свертке документа {0}.", documentName);
 			OpenProjectInfo(projectName);
-			OpenDocumentInfoForProject(projectName, documentName);
+			HoverDocumentRow(projectName, documentPath);
 			ClickDeclineButton();
 
 			return new TaskDeclineDialog(Driver).LoadPage();
@@ -580,7 +578,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Открыть диалог назначения задачи для документа {0}.", documentName);
 			OpenProjectInfo(projectName);
-			OpenDocumentInfoForProject(projectName, documentName);
+			HoverDocumentRow(projectName, documentName);
 			var taskAssignmentPage = ClickDocumentAssignButton(projectName, documentName);
 
 			return taskAssignmentPage.LoadPage();
@@ -1177,7 +1175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_CRITICAL_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::i[contains(@class,'_critical-error')]";
 		protected const string PROJECT_WARNING_ERROR_LOAD = "//a[text()='*#*']//preceding-sibling::i[contains(@class,'_error')]";
 		protected const string PROJECTS_TABLE_XPATH = "//table[contains(@class,'js-tasks-table')]";
-		protected const string DELETE_BUTTON = "//div[contains(@data-bind,'deleteProjects')]";
+		protected const string DELETE_BUTTON = "//button[contains(@data-bind,'deleteProjects')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//button[contains(@class, 'js-search-btn')]";
 
@@ -1190,15 +1188,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string CANCELLED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//ul//li[contains(@title, 'Cancelled')]";
 		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
-		protected const string PROJECT_CHECKBOX = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../td[contains(@class,'checkbox')]";
+		protected const string PROJECT_CHECKBOX = "//span[text()='*#*']//ancestor::tr//input[@type='checkbox']";
 		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
 		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
-		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON ="//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')][*##*]//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li";
-		protected const string DOCUMENT_ROW = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]";
+		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']/ancestor::tr//button[@title='Download']";
+		protected const string DOCUMENT_ROW = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = "(.//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')])[*##*]/following-sibling::tr//div[contains(@data-bind, 'actions.edit')]";
 		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = "(//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tbody//a[@title='*##*'])[1]/../../..//following-sibling::tr[1]//a[contains(text(), 'Assign Tasks')]";

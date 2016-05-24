@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile);
 
 			Assert.AreEqual(0, _projectsPage.GetTasksCount(),
 				"Произошла ошибка:\n Неверное количество задач.");
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage
 				.GoToProjectsPage()
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile);
 
 			Assert.AreEqual(0, _projectsPage.GetTasksCount(),
 				"Произошла ошибка:\n Неверное количество задач.");
@@ -120,7 +120,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.RepetitionsTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
 				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.RepetitionsTxtFile);
 				
 			_selectTaskDialog.SelectTask();
@@ -154,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.OpenDocumentInfoForProject(_projectUniqueName, PathProvider.RepetitionsTxtFile)
+				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
 				.ClickDocumentRefExpectingEditorPage(PathProvider.RepetitionsTxtFile);
 
 			_editorPage
