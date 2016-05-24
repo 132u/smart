@@ -764,7 +764,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public bool IsProjectAppearInList(string projectName)
 		{
 			CustomTestContext.WriteLine("Дождаться появления проекта {0} в списке", projectName);
-			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
+			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_ROW, projectName);
 
 			return ProjectRef.Displayed;
 		}
