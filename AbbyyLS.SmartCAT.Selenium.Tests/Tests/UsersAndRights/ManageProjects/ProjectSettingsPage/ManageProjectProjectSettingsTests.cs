@@ -80,9 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
@@ -108,9 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectSettingsPage.GetDocumentStatus(file),
 				"Произошла ошибка:\n Неверный статус документа {0}.", file);
 
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
@@ -133,9 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void DeclineAssignTaskTest()
 		{
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)

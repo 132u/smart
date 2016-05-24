@@ -505,7 +505,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 					// Лог необходим для отладки теста SCAT-900 AssignUserOneTaskTest
 					CustomTestContext.WriteLine("Количество вкладок = {0}.", WindowHandles.Count);
 					SwitchTo().Window(WindowHandles.First()).Close();
-
 					SwitchTo().Window(WindowHandles.Last());
 
 					break;

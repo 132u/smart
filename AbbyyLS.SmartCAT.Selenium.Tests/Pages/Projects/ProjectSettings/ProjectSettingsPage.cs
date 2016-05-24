@@ -116,9 +116,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать на кнопку 'Назначить задачу' в открытой свёртке документа
 		/// </summary>
-		public TaskAssignmentPage ClickAssignButtonInDocumentInfo()
+		/// <param name="filePath">путь до документа</param>
+		public TaskAssignmentPage ClickAssignButtonInDocumentInfo(string filePath)
 		{
+			var documentName = Path.GetFileNameWithoutExtension(filePath);
+			HoverDocumentRow(documentName);
 			CustomTestContext.WriteLine("Нажать на кнопку 'Назначить задачу' в открытой свёртке документа.");
+			AssignTasksButtonInDocumentInfo = Driver.SetDynamicValue(How.XPath, ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO, documentName);
 			AssignTasksButtonInDocumentInfo.Click();
 			Driver.SwitchToNewBrowserTab();
 
@@ -150,22 +154,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Навести курсор на строку с документом
+		/// </summary>
+		/// <param name="documentName">путь до документа</param>
+		public ProjectSettingsPage HoverDocumentRow(string documentName)
+		{
+			CustomTestContext.WriteLine("Навести курсор на строку с документом");
+			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, documentName);
+			DocumentRow.HoverElement();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
 		/// <param name="documentName">имя документа</param>
 		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentPath)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			HoverDocumentRow(documentName);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
-			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
-			DocumentRefference.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
+			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);
+			TranslateButton.Click();
+			Driver.SwitchToNewBrowserTab();
 
 			return new SelectTaskDialog(Driver).LoadPage();
 		}
@@ -176,39 +188,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <param name="documentPath">имя документа</param>
 		public EditorPage OpenDocumentInEditorWithoutTaskSelect(string documentPath)
 		{
-			var documetnName = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documetnName);
-			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documetnName);
-			DocumentRefference.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			HoverDocumentRow(documentName);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
+			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);
+			TranslateButton.Click();
+			Driver.SwitchToNewBrowserTab();
 
 			return new EditorPage(Driver).LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть по ссылке на документ
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage ClickOnDocumentExpectingError(string documentName)
-		{
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
-			DocumentRefference = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentName);
-			DocumentRefference.Click();
-			// Sleep нужен, чтоб вторая вкладка успела открыться, иначе количество открытых вкладок посчитается неправильно 
-			Thread.Sleep(1000);
-			if (Driver.WindowHandles.Count > 1)
-			{
-				Driver.SwitchTo().Window(Driver.WindowHandles.First()).Close();
-				Driver.SwitchTo().Window(Driver.WindowHandles.Last());
-			}
-
-			return LoadPage();
 		}
 
 		/// <summary>
@@ -697,7 +684,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_ON_PANEL)]
 		protected IWebElement AssignTasksButtonOnPanel { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO)]
 		protected IWebElement AssignTasksButtonInDocumentInfo { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DEFAULT_MT_CHECKBOX)]
@@ -785,6 +771,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 		protected IWebElement TaskForCurrentUser { get; set; }
 		protected IWebElement GlossaryCheckboxByName { get; set; }
+		protected IWebElement DocumentRow { get; set; }
+		protected IWebElement TranslateButton { get; set; }
 
 		#endregion
 
@@ -802,7 +790,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECT_GROUP_NAME = "//div[text()='Project group']//parent::div//div[contains(@class, 'l-project-panel-info_content')]";
 		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//div[contains(@data-bind, 'click: assign')]";
-		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//div[contains(@class,'doc-panel-btns')]//div[@data-bind='click: actions.assign']//a";
+		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//span[text()='*#*']//ancestor::tr//button[@data-bind='click: actions.assign']";
 		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
 		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";
 		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
@@ -815,7 +803,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//div[contains(@class,'doc-panel')]//div[contains(@class,'js-document-export-block')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
-		protected const string DOCUMENT_ROW = "//td[div[a[text()='*#*']]]//following-sibling::td[@class='l-corpr__td l-project-td date']";
+		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr";
+		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
 		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
 

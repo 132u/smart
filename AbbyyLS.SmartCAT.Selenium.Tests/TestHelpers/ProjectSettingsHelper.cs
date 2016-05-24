@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.IO;
 using OpenQA.Selenium;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -34,9 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 		public ProjectSettingsHelper AssignTasksOnDocument(string filePath, string nickName, string projectName, int taskNumber = 1)
 		{
-			_projectPage
-				.ClickDocumentRow(filePath)
-				.ClickAssignButtonInDocumentInfo();
+			_projectPage.ClickAssignButtonInDocumentInfo(filePath);
 
 			_taskAssignmentPage
 				.SetResponsible(nickName, false, taskNumber: taskNumber)

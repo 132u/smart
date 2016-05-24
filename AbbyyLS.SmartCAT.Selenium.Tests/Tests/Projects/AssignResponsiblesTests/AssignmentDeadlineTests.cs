@@ -32,9 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.AcceptAlert<ProjectSettingsPage>();
 
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.EditorTxtFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(null, _taskAssignmentPage.GetDeadlineDate(),
 				"Произошла ошибка:\nНеверное значение в поле дедлайна.");

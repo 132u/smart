@@ -45,9 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.EditorTxtFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
 		}
@@ -329,8 +327,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage
 				.WaitUntilDocumentProcessed()
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickAssignButtonInDocumentInfo();
+				.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -346,9 +343,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickAssignButtonInDocumentInfo();
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
