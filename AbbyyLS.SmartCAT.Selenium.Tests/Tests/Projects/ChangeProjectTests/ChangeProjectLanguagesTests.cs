@@ -45,9 +45,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SelectTargetLanguages(Language.German)
 				.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage
-				.OpenProjectInfo(_projectUniqueName);
-
 			expectedJobList.Sort();
 			var jobList = _projectsPage.GetJobList(_projectUniqueName);
 
