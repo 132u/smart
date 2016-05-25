@@ -1602,15 +1602,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage SelectFewSymbolsInLastWordByHotkey(int segmentNumber, int symbolsCount)
 		{
 			CustomTestContext.WriteLine("Нажать хоткей выделения {0} символов в последнем слове. Номер строки: {1}", symbolsCount, segmentNumber);
+			var text = GetTargetText(segmentNumber);
+			var array = text.Split(' ');
+			var symbols = array.Last();
+
 			Driver.SendHotKeys(Keys.End, control: true);
 			Driver.SendHotKeys(Keys.Left, control: true);
 			Driver.SendHotKeys(Keys.Right);
+
 			for (int i = 0; i < symbolsCount; i++)
 			{
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
 
-			if (GetSelectedWordInSegment().Length != symbolsCount)
+			var selectedSymbols = GetSelectedWordInSegment();
+
+			if (!symbols.Contains(selectedSymbols) && GetSelectedWordInSegment().Length != symbolsCount)
 			{
 				Driver.SendHotKeys(Keys.End, control: true);
 				Driver.SendHotKeys(Keys.Left, control: true);
@@ -1634,6 +1641,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var text = GetTargetText(segmentNumber);
 			var array = text.Split(' ');
 			var lenght = array[1].Length + array[2].Length + 1;
+			var selectedText = array[1] + " " + array[2];
 
 			ClickOnTargetCellInSegment(segmentNumber);
 			Driver.SendHotKeys(Keys.Home, control: true);
@@ -1644,7 +1652,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
 
-			if (GetSelectedWordInSegment().Length != lenght)
+			if (GetSelectedWordInSegment() != selectedText)
 			{
 				ClickOnTargetCellInSegment(segmentNumber);
 				Driver.SendHotKeys(Keys.Home, control: true);
