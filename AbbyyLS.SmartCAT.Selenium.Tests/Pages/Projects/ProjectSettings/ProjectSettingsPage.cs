@@ -778,7 +778,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
 
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//button[contains(@data-bind, 'click: assign')]";
-		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//span[text()='*#*']//ancestor::tr//button[@data-bind='click: singleTarget().actions.assign']";
+		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//span[text()='*#*']/../../..//span[contains(@class, 'icon_add-user')]";
 
 		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
 		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";

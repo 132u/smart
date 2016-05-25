@@ -1573,11 +1573,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Выделение части строки до первого пробела Home+Shift+Right.");
 			Driver.SendHotKeys(Keys.Home, control:true);
 			var array = text.Split(' ');
-			for (int i = 0; i <= array[0].Length; i++)
+			while (GetSelectedWordInSegment().Length != array[0].Length)
 			{
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
-
+			
 			return LoadPage();
 		}
 
@@ -1602,13 +1602,25 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage SelectFewSymbolsInLastWordByHotkey(int segmentNumber, int symbolsCount)
 		{
 			CustomTestContext.WriteLine("Нажать хоткей выделения {0} символов в последнем слове. Номер строки: {1}", symbolsCount, segmentNumber);
+			Driver.SendHotKeys(Keys.End, control: true);
 			Driver.SendHotKeys(Keys.Left, control: true);
-			Driver.SendHotKeys(Keys.ArrowRight);
+			Driver.SendHotKeys(Keys.Right);
 			for (int i = 0; i < symbolsCount; i++)
 			{
 				Driver.SendHotKeys(Keys.Right, shift: true);
 			}
-			
+
+			if (GetSelectedWordInSegment().Length != symbolsCount)
+			{
+				Driver.SendHotKeys(Keys.End, control: true);
+				Driver.SendHotKeys(Keys.Left, control: true);
+				Driver.SendHotKeys(Keys.Right);
+				for (int i = 0; i < symbolsCount; i++)
+				{
+					Driver.SendHotKeys(Keys.Right, shift: true);
+				}
+			}
+
 			return LoadPage();
 		}
 
@@ -1619,12 +1631,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage SelectSecondThirdWordsByHotkey(int segmentNumber)
 		{
 			CustomTestContext.WriteLine("Нажать хоткей выделения второго и третьего слов. Номер строки: {0}", segmentNumber);
+			var text = GetTargetText(segmentNumber);
+			var array = text.Split(' ');
+			var lenght = array[1].Length + array[2].Length + 1;
+
 			ClickOnTargetCellInSegment(segmentNumber);
-			Driver.SendHotKeys(Keys.Home, control:true);
+			Driver.SendHotKeys(Keys.Home, control: true);
 			Driver.SendHotKeys(Keys.Right, control: true);
-			Driver.SendHotKeys(Keys.Right,control: true, shift: true);
-			Driver.SendHotKeys(Keys.Right, control: true, shift: true);
-			
+
+			for (int i = 0; i <= lenght; i++)
+			{
+				Driver.SendHotKeys(Keys.Right, shift: true);
+			}
+
+			if (GetSelectedWordInSegment().Length != lenght)
+			{
+				ClickOnTargetCellInSegment(segmentNumber);
+				Driver.SendHotKeys(Keys.Home, control: true);
+				Driver.SendHotKeys(Keys.Right, control: true);
+				for (int i = 0; i <= lenght; i++)
+				{
+					Driver.SendHotKeys(Keys.Right, shift: true);
+				}
+			}
+
 			return LoadPage();
 		}
 
@@ -2709,7 +2739,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'sci-check')]";
-		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div";
+		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(text(), '1')]//..//..//..//..//tr[1]//td[4]//div//img[contains(@class,'tag')]";
