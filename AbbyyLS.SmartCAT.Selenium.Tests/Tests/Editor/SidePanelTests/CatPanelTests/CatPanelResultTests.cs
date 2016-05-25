@@ -112,6 +112,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
 				"Произошла ошибка:\nМашинный перевод не выбран ");
 
+			_documentSettingsDialog.ClickSaveButtonExpectingProjectsPage();
+
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
