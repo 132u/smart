@@ -2750,7 +2750,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
-		protected const string TAG = "//div[contains(text(), '1')]//..//..//..//..//tr[1]//td[4]//div//img[contains(@class,'tag')]";
+		protected const string TAG = "//div[contains(@id, 'targeteditor')][*#*]//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '*#*')]//..//..//..//div[contains(@class,'lock')][not(contains(@class,'inactive'))]";
 		protected const string SEGMENT_ERROR_LOGO = "(//table[contains(@class, 'x-grid-item')])[*#*]//div[contains(@class, 'sci-alert')]";
 
