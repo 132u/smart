@@ -228,7 +228,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
 
-			_projectSettingsPage.ClickDocumentRow(Path.GetFileName(PathProvider.DocumentFile));
+			_projectSettingsPage.HoverDocumentRow(Path.GetFileName(PathProvider.DocumentFile));
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignButtonExist(),
 				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа");

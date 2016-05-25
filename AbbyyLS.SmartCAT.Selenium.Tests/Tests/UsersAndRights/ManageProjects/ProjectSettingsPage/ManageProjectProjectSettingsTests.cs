@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
-			_projectSettingsPage.ClickDocumentRow(PathProvider.DocumentFile);
+			_projectSettingsPage.HoverDocumentRow(PathProvider.DocumentFile);
 
 			Assert.IsTrue(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");
@@ -138,11 +138,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
+				.HoverDocumentRow(PathProvider.DocumentFile)
 				.ClickDeclineButton();
 
 			_confirmDeclineTaskDialog.ClickDeclineButton();
-			_projectSettingsPage.ClickDocumentRow(PathProvider.DocumentFile);
+			_projectSettingsPage.HoverDocumentRow(PathProvider.DocumentFile);
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");

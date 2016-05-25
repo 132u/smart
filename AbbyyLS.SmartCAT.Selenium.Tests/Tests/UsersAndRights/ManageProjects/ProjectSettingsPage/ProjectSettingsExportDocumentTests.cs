@@ -28,7 +28,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DocumentDownloadButtoninDocumentPanelTest(ExportType exportType)
 		{
 			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
+				.HoverDocumentRow(PathProvider.DocumentFile)
 				.ClickDocumnetDownloadButton()
 				.ClickExportType(exportType);
 

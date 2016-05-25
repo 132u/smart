@@ -92,9 +92,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать на кнопку "Settings" в разделе "Documents"
 		/// </summary>
-		public DocumentSettingsDialog ClickDocumentSettings()
+		/// <param name="documentName">имя документа</param>
+		public DocumentSettingsDialog ClickDocumentSettings(string documentName)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' в разделе 'Documents'.");
+			DocumentSettingsButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_SETTINGS_BUTTON, documentName);
 			DocumentSettingsButton.JavaScriptClick();
 
 			return new DocumentSettingsDialog(Driver).LoadPage();
@@ -437,20 +439,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		#region Составные методы
 
 		/// <summary>
-		/// Нажать на прогресс в строке документа
-		/// </summary>
-		/// <param name="filePath">путь до документа</param>
-		public ProjectSettingsPage ClickDocumentRow(string filePath)
-		{
-			var fileName = Path.GetFileNameWithoutExtension(filePath);
-			CustomTestContext.WriteLine("Нажать на поле прогресс строке документа {0}.", fileName);
-			DocumentProgress = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, fileName);
-			DocumentProgress.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Выбрать глоссарий по названию
 		/// </summary>
 		/// <param name="nameGlossary">название глоссария</param>
@@ -730,7 +718,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
 		protected IWebElement SortByQA { get; set; }
 
-		[FindsBy(How = How.XPath, Using = DOCUMENT_SETTINGS_BUTTON)]
 		protected IWebElement DocumentSettingsButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = PRETRANSLATE_BUTTON)]
@@ -807,7 +794,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td']";
 		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
-		protected const string DOCUMENT_SETTINGS_BUTTON = "//div[contains(@class, 'doc-panel-btns ')]//a[text()='Settings']";
+		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";
 		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
 
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";

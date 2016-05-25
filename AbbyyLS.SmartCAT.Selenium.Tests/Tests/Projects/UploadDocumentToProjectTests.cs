@@ -45,8 +45,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", fileName);
 
 			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.EditorTxtFile)
-				.ClickDocumentSettings();
+				.HoverDocumentRow(fileName)
+				.ClickDocumentSettings(fileName);
 
 			Assert.IsTrue(_documentSettingsDialog.IsTMChecked(_projectUniqueName),
 				"Произошла ошибка:\n в диалоге настроек должна быть подключена проектная память преводов.");

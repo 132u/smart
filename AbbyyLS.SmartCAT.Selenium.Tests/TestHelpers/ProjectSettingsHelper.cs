@@ -107,17 +107,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			return this;
 		}
 
-		public ProjectSettingsHelper AddGlossaryToDocument(string documentName, string glossaryName)
+		public ProjectSettingsHelper AddGlossaryToDocument(string documentPath, string glossaryName)
 		{
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+
 			_projectPage
-				.ClickDocumentRow(documentName)
-				.ClickDocumentSettings();
-			
+				.HoverDocumentRow(documentName)
+				.ClickDocumentSettings(documentName);
+
 			_documentSettingsDialog
 				.HoverGlossaryTableDocumentSettingsDialog()
 				.ClickGlossaryByName(glossaryName)
-				.ClickSaveButtonExpectingProjectSettingsPage()
-				.ClickDocumentRow(documentName);
+				.ClickSaveButtonExpectingProjectSettingsPage();
 
 			return this;
 		}

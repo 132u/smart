@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -209,9 +209,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void DocumentSettingsButtonTest()
 		{
+			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+
 			_projectSettingsPage
-				.ClickDocumentRow(PathProvider.DocumentFile)
-				.ClickDocumentSettings();
+				.HoverDocumentRow(documentName)
+				.ClickDocumentSettings(documentName);
 
 			Assert.IsTrue(_documentSettingsDialog.IsDocumentSettingsDialogOpened(),
 				"Произошла ошибка:\n не открылся диалог настроек документа.");
