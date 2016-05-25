@@ -257,8 +257,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentname = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая открытие редактора.", documentname);
 			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
-			DocumentRef.Click();
-
+			DocumentRef.HoverElement();
+			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
 			return new EditorPage(Driver, needCloseTutorial).LoadPage();
@@ -1117,6 +1117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = MAIN_CHECKBOXE)]
 		protected IWebElement MainCheckboxe { get; set; }
 
+		[FindsBy(How = How.XPath, Using = TRANSLATE_BUTTON)]
+		protected IWebElement TranslateButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
 		protected IWebElement ExportType { get; set; }
 
@@ -1201,14 +1204,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_REF = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, projectPageUrl)]";
 
 		protected const string DEAD_LINE_VALUE = "//tr//a[contains(text(), '*#*')]//ancestor::tr//td[9]//p//span";
-		protected const string PROJECT_STATUS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
-		protected const string PROJECT_STATUS_ITEM = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
+		protected const string PROJECT_STATUS = ".//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
+		protected const string PROJECT_STATUS_ITEM = "//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
 		protected const string PROJECT_STATUS_DROP_DOWN_MENU = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//label//input";
 		protected const string CANCELLED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//ul//li[contains(@title, 'Cancelled')]";
-		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
+		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//span[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = "//span[text()='*#*']//ancestor::tr//input[@type='checkbox']";
-		protected const string DOCUMENT_REF = "//tr[contains(@class,'js-document-row')]//a[text()='*#*']";
+		protected const string TRANSLATE_BUTTON = "//button[contains(@class,'js-editor-button')]//a";
+		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
 		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";

@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		#region Описания XPath элементов
 
 		protected const string CANCELLED_PROJECTS_TAB = "//div[contains(@class, 'g-nav-tabs')]//a[contains(@class, 'active') and contains(text(), 'Cancelled Projects') ]";
-		protected const string PROJECT_NAME_IN_LIST = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//td[2]//div//a[contains(text(), '*#*')]";
+		protected const string PROJECT_NAME_IN_LIST = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//td[2]//div//span[contains(text(), '*#*')]";
 
 		#endregion
 	}
