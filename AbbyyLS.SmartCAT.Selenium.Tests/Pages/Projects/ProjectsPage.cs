@@ -196,7 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 			if (!getClassAttributeProjectInfo(projectName).Contains("opened"))
 			{
-				ProjectRow = Driver.SetDynamicValue(How.XPath, PROJECT_ROW, projectName);
+				ProjectRow= Driver.SetDynamicValue(How.XPath, PROJECT_ROW, projectName);
 				ProjectRow.Click();
 			}
 
@@ -1080,7 +1080,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		private string getClassAttributeProjectInfo(string projectName)
 		{
 			return Driver
-				.FindElement(By.XPath(PROJECT_ROW.Replace("*#*", projectName)))
+				.FindElement(By.XPath(PROJECT_OPEN.Replace("*#*", projectName)))
 				.GetElementAttribute("class");
 		}
 
@@ -1214,7 +1214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string TRANSLATE_BUTTON = "//button[contains(@class,'js-editor-button')]//a";
 		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
-		protected const string DOCUMENT_JOB = "//a[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//a[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
+		protected const string DOCUMENT_JOB = "//*[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//span[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
@@ -1227,13 +1227,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_TASK_ASSIGN_BUTTON = "(.//table[contains(@class,'js-tasks-table')]//tr//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr//button[contains(@data-bind, 'click: assign')])[1]";
 		protected const string PROJECT_LINK = ".//table[contains(@class,'js-tasks-table')]//tr//a[@class='js-name'][text()='*#*']";
 		protected const string DOCUMENT_CHECKBOX = "(.//table[contains(@class,'js-tasks-table')]//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//span[@title='*##*']//ancestor::tr//td//input)[1]";
-		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//a[text()='*#*']/../../../../following-sibling::tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*##*']/../..//preceding-sibling::td//input";
+		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//*[text()='*#*']/../../../../following-sibling::tr//*[text()='*##*']/../..//preceding-sibling::td//input";
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
 		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
-		protected const string PROJECT_SETTINGS_BUTTON = "//span[text()='*#*']//ancestor::tr//following-sibling::tr[1]//button[contains(@data-bind,'edit')]";
+		protected const string PROJECT_SETTINGS_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//button[contains(@data-bind,'edit')]";
 		protected const string PROJECT_STATISTICS_BUTTON = "//span[text()='*#*']//ancestor::tr//following-sibling::tr//a[text()='Statistics']";
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";
-		protected const string DELETE_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'deleteProject')]";
+		protected const string DELETE_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//button[contains(@data-bind, 'deleteProject')]";
 		protected const string PREPARING_DOWNLOWD_MESSAGE = "//span[contains(text(), 'Preparing documents for download. Please wait')]";
 		protected const string DECLINE_BUTTON = "//div[contains(@data-bind, 'actions.reject')]";
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
@@ -1243,11 +1243,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
 		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
-		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//a[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//div[contains(@data-bind, 'click: deleteProject')]";
+		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//*[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//button[contains(@data-bind, 'click: deleteProject')]";
 		protected const string MY_TASKS_TAB = "//a[@href='/Workspace?tab=MyTasks']";
 		protected const string CANCELLED_PROJECTS_TAB = "//a[@href='/Workspace?tab=Canceled']";
 		protected const string HELP_DOCUMENT_TRANSLATION_POPUP = "//div[@class='hopscotch-bubble animated']";
 		protected const string PROJECT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td l-project-list__projname-td']";
+		protected const string PROJECT_OPEN = "//*[text()='*#*']/../../../..";
 
 		#endregion
 	}

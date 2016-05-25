@@ -786,7 +786,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DESCRIPTION = "//div[@class='l-project-panel-info_content']";
 		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
 		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
-		protected const string DELETE_BUTTON = "//div[contains(@data-bind, 'deleteDocuments')]";
+		protected const string DELETE_BUTTON = "//button[contains(@data-bind, 'deleteDocuments')]";
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//a[text()='*#*']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class,'js-document-export-block')]";
