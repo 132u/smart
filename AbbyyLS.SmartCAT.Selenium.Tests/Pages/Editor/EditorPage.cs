@@ -2738,7 +2738,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENT = "//div[@id='segments-body']//div//div[2]//table[]*#*";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
-		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class,'info-cell')]//div[contains(@class,'sci-check')]";
+		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'confirmed')]";
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
