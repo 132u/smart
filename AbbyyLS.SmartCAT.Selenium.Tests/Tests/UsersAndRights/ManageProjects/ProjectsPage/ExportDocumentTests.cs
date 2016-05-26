@@ -23,9 +23,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.SignOut();
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportProjectFromMainMenuTest(ExportType exportType)
 		{
 			_projectsPage
@@ -43,9 +43,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportProjectFromProjectInfoTest(ExportType exportType)
 		{
 			_projectsPage
@@ -63,9 +63,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportDocumentFromDocumentInfoTest(ExportType exportType)
 		{
 			_projectsPage
@@ -84,9 +84,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportMultiDocumentsTest(ExportType exportType)
 		{
 			_projectsPage

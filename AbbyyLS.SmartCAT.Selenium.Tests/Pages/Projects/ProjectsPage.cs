@@ -89,19 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Кликнуть по ссылке проекта
-		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		public ProjectSettingsPage ClickProjectPageLink(string projectName)
-		{
-			CustomTestContext.WriteLine("Кликнуть по ссылке проекта {0}.", projectName);
-			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
-			ProjectRef.Click();
-	
-			return new ProjectSettingsPage(Driver).LoadPage();
-		}
-
-		/// <summary>
 		/// Кликнуть по ссылке проекта без открытия страницы проекта
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -549,7 +536,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public ProjectSettingsPage OpenProjectSettingsPage(string projectName)
 		{
 			HoverProjectRow(projectName);
-			ClickProjectPageLink(projectName);
+			GoToProjectPageButton = Driver.SetDynamicValue(How.XPath, GO_TO_PROJECT_PAGE_BUTTON, projectName);
+			GoToProjectPageButton.Click();
 
 			return new ProjectSettingsPage(Driver).LoadPage();
 		}
@@ -1152,6 +1140,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = PROJECT_STATISTICS_BUTTON)]
 		protected IWebElement ProjectStatisticsButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = GO_TO_PROJECT_PAGE_BUTTON)]
+		protected IWebElement GoToProjectPageButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = DECLINE_BUTTON)]
 		protected IWebElement DeclineButton { get; set; }
 
@@ -1190,7 +1181,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описания XPath элементов
 
-		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
+		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/a[text()='*#*']";
 		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
@@ -1214,12 +1205,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = "//span[text()='*#*']//ancestor::tr//input[@type='checkbox']";
 		protected const string TRANSLATE_BUTTON = "//button[contains(@class,'js-editor-button')]//a";
+		protected const string GO_TO_PROJECT_PAGE_BUTTON = "//*[text()='*#*']/../../../..//a[contains(@data-bind, 'projectPageUrl')]";
 		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
 		protected const string DOCUMENT_JOB = "//*[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//span[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
-		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//div[contains(@class,'js-document-export-block')]";
-		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@class,'js-buttons-left')]//li/div[contains(@data-bind, 'menuButton')]";
+		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'download')]";
+		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'menuButton')]";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']/ancestor::tr//button[@title='Download']";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";

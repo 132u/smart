@@ -856,7 +856,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		/// <param name="filePath">путь до файла</param>
 		public string GetExportFileNameMask(ExportType exportType, string filePath)
 		{
-			return exportType == ExportType.Tmx
+			return exportType == ExportType.TMX
 				? Path.GetFileNameWithoutExtension(filePath) + "*.tmx"
 				: Path.GetFileNameWithoutExtension(filePath) + "*" + Path.GetExtension(filePath);
 		}

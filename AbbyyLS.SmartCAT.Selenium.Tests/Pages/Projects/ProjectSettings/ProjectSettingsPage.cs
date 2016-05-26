@@ -765,7 +765,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#region Описания XPath элементов страницы
 
-		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'*#*') and contains(@data-bind, 'export')]";
+		protected const string EXPORT_TYPE = "//div[not(contains(@class,'corprsubmn__subitem'))]//a[text()='*#*']";
 		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
 
 		protected const string ADD_FILES_BTN = "//button[contains(@data-bind, 'importDocument')]";
@@ -789,9 +789,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DELETE_BUTTON = "//button[contains(@data-bind, 'deleteDocuments')]";
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//span[text()='*#*' and @class='l-project__name']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string DOWNLOAD_BUTTON = "//div[contains(@class,'js-document-export-block')]";
+		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]";
 		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//div[contains(@class,'doc-panel')]//div[contains(@class,'js-document-export-block')]";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a//ancestor::td//preceding-sibling::td//input";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[contains(string(), '*#*')]/..//tr[contains(@class, 'document-row')]//input";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td']";
 		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";

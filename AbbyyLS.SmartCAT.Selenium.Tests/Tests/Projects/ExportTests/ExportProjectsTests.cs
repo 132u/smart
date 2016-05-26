@@ -45,9 +45,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage.GoToProjectsPage();
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportDocumentTest(ExportType exportType)
 		{
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
@@ -67,9 +67,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportProjectFromMainMenuTest(ExportType exportType)
 		{
 			_projectsPage
@@ -87,9 +87,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportProjectFromProjectInfoTest(ExportType exportType)
 		{
 			_projectsPage
@@ -107,9 +107,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportDocumentFromDocumentInfoTest(ExportType exportType)
 		{
 			_projectsPage
@@ -128,9 +128,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportMultiDocumentsTest(ExportType exportType)
 		{
 			var document2 = PathProvider.DocumentFile2;

@@ -22,9 +22,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			}
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Target)]
-		[TestCase(ExportType.Tmx)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.Translation)]
+		[TestCase(ExportType.TMX)]
 		public void DocumentDownloadButtoninDocumentPanelTest(ExportType exportType)
 		{
 			_projectSettingsPage
@@ -45,9 +45,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Target)]
-		[TestCase(ExportType.Tmx)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.Translation)]
+		[TestCase(ExportType.TMX)]
 		public void DocumentDownloadButtonTest(ExportType exportType)
 		{
 			_projectSettingsPage
@@ -69,9 +69,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Target)]
-		[TestCase(ExportType.Tmx)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.Translation)]
+		[TestCase(ExportType.TMX)]
 		public void MultiDocumentDownloadButtonTest(ExportType exportType)
 		{
 			_projectSettingsPage

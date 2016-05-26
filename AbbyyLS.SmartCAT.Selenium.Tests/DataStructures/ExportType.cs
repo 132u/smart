@@ -2,8 +2,8 @@
 {
 	public enum ExportType
 	{
-		Source,
-		Tmx,
-		Target
+		Original,
+		TMX,
+		Translation
 	};
 }

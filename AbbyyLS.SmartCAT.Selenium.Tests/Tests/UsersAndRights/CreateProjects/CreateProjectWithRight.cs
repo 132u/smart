@@ -51,8 +51,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: появилась пиктограмма предупреждения напротив проекта");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.Translation)]
 		public void DownloadDocumentTest(ExportType exportType)
 		{
 			_createProjectHelper.CreateNewProject(
@@ -74,8 +74,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Target)]
-		[TestCase(ExportType.Source)]
+		[TestCase(ExportType.Translation)]
+		[TestCase(ExportType.Original)]
 		public void DownloadAllProjectDocumentsFromProjectMenuTest(ExportType exportType)
 		{
 			_createProjectHelper.CreateNewProject(
@@ -97,8 +97,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: файл не загрузился");
 		}
 
-		[TestCase(ExportType.Target)]
-		[TestCase(ExportType.Source)]
+		[TestCase(ExportType.Translation)]
+		[TestCase(ExportType.Original)]
 		public void DownloadAllDocumentsFromProjectTest(ExportType exportType)
 		{
 			_createProjectHelper.CreateNewProject(

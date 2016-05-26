@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
-				.ClickExportType(ExportType.Target);
+				.ClickExportType(ExportType.Translation);
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			switch (placeSearch)
 			{
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInDocumentButton(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
@@ -112,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
@@ -134,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			string expextedText = "Documents";
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expextedText),
@@ -157,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expextedText),
 				"Произошла ошибка:\n сообщение не содержит искомый текст: {0}", expextedText);
@@ -180,7 +180,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -189,7 +189,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -210,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			{
 				_projectsPage
 					.ClickDownloadInMainMenuButton()
-					.ClickExportType(ExportType.Source);
+					.ClickExportType(ExportType.Original);
 			}
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: _maxNotifierNumber),
@@ -226,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			{
 				_projectsPage
 					.ClickDownloadInMainMenuButton()
-					.ClickExportType(ExportType.Source);
+					.ClickExportType(ExportType.Original);
 			}
 
 			var notificationCount = _workspacePage.GetCountExportNotifiers();
@@ -252,7 +252,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			var message1 = _exportNotification.GetTextNotificationByNumber(1);
 
@@ -260,7 +260,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			var message2 = _exportNotification.GetTextNotificationByNumber(2);
 
@@ -284,13 +284,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -300,7 +300,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.OpenProjectInfo(projectUniqueName2)
 				.HoverDocumentRow(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
 				.ClickDownloadInDocumentButton(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -328,7 +328,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsFalse(_exportNotification.GetTextNotificationByNumber(1).Contains(secondNotifierDocName),
 				"Произошла ошибка:\n в первом сообщении об экспорте есть название документа '{0}'", secondNotifierDocName);
@@ -337,7 +337,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 2),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -349,7 +349,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(_projectUniqueName)
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
 				"Произошла ошибка:\n не появилось ожидаемое кол-во уведомлений");
@@ -361,9 +361,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка: кликнули по верхнему сообщению - появилось не второе.");
 		}
 
-		[TestCase(ExportType.Source)]
-		[TestCase(ExportType.Tmx)]
-		[TestCase(ExportType.Target)]
+		[TestCase(ExportType.Original)]
+		[TestCase(ExportType.TMX)]
+		[TestCase(ExportType.Translation)]
 		public void ExportRenamedDocument(ExportType exportType)
 		{
 			var newDocumentName = "docName" + DateTime.Now.Ticks;
@@ -379,7 +379,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.WaitCreateProjectDialogDisappear();
 
 			_projectsPage
-				.ClickDownloadInDocumentButton(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.OpenProjectInfo(_projectUniqueName)
+				.HoverDocumentRow(_projectUniqueName, newDocumentName)
+				.ClickDownloadInDocumentButton(_projectUniqueName, newDocumentName)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
@@ -399,7 +401,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			switch (placeSearch)
 			{
@@ -449,7 +451,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			_workspacePage.GoToProjectsPage();
 
@@ -467,7 +469,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
@@ -486,7 +488,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm2)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText("Documents"),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
@@ -502,7 +504,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsPage
 				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
 				.ClickDownloadInMainMenuButton()
-				.ClickExportType(ExportType.Source);
+				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(expectedDate),
 				"Произошла ошибка:\n сообщение не содержит требуемую дату.");
