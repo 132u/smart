@@ -1533,9 +1533,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var highlightedWords = new List<string>();
 
 			var targetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (segmentNumber - 1).ToString());
-			CustomTestContext.WriteLine("Проскролить до таргет ячейки сегмента №{0}.", segmentNumber - 1);
+			CustomTestContext.WriteLine("Проскролить до таргет ячейки сегмента №{0}.", segmentNumber);
 			targetCell.Scroll();
-			CustomTestContext.WriteLine("Кликнуть по таргет ячейке сегмента №{0}.", segmentNumber - 1);
+			CustomTestContext.WriteLine("Кликнуть по таргет ячейке сегмента №{0}.", segmentNumber);
 			targetCell.Click();
 
 			CustomTestContext.WriteLine("Получить список подсвеченных в сегменте №{0} слов.", segmentNumber);
@@ -1543,9 +1543,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			if (segmentCatSelectedList.Count > 0)
 			{
+				CustomTestContext.WriteLine("Кол-во подсвеченных в сегменте слов - {0}", segmentCatSelectedList.Count);
 				highlightedWords.AddRange(segmentCatSelectedList.Select(item => item.Text.ToLower()));
 			}
 
+			highlightedWords.Remove(string.Empty);
 			highlightedWords.Sort();
 
 			return highlightedWords;
@@ -2779,7 +2781,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string WORKFLOW_COLUMN = "//td[contains(@class, 'segmentworkflowcolumn')]";
 
 		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
-		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//td[3]//div//span";
+		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//td[2]//div//span";
 		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 
 		protected const string RESTORE_BUTTON = "revision-rollback-btn";

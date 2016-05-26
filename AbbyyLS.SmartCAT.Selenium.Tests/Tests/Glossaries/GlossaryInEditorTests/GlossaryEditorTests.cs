@@ -177,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test(Description = "S-7218"), ShortCheckList]
 		public void AddSourceTargetTermToGlossary()
 		{
-			var highlightedSegmentTermsExpected = new List<string> { "sentence" };
+			var highlightedSegmentTermsExpected = new List<string> {"sentence"};
 			var target = "изречение";
 
 			_editorPage.ClickAddTermButton();
@@ -206,7 +206,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			var highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 1);
 
-			Assert.AreEqual(highlightedSegmentTerms, highlightedSegmentTermsExpected,
+			Assert.AreEqual(highlightedSegmentTermsExpected, highlightedSegmentTerms,
 				"Произошла ошибка:\n Подсвечен не тот термин.");
 
 			Assert.IsTrue(_editorPage.IsWordsMatchCatWords(highlightedSegmentTerms),
@@ -214,7 +214,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			highlightedSegmentTerms = _editorPage.GetHighlightedWords(segmentNumber: 3);
 
-			Assert.AreEqual(highlightedSegmentTerms, highlightedSegmentTermsExpected,
+			Assert.AreEqual(highlightedSegmentTermsExpected, highlightedSegmentTerms,
 				"Произошла ошибка:\n Подсвечен не тот термин.");
 
 			Assert.IsTrue(_editorPage.IsWordsMatchCatWords(highlightedSegmentTerms),
