@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
 			
 			_editorPage
 				.FillSegmentTargetField(targetSegment)
@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.OneLineTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.OneLineTxtFile);
 
 			_editorPage
 				.FillSegmentTargetField(targetSegment)

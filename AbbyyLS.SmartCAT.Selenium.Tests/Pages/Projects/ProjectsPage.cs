@@ -252,12 +252,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его) ожидая открытие редактора
 		/// </summary>
-		public EditorPage ClickDocumentRefExpectingEditorPage(string documentPath, bool needCloseTutorial = true)
+		/// <param name="projectName">название проекта</param>
+		/// <param name="documentPath">путь до документа</param>
+		public EditorPage ClickDocumentRefExpectingEditorPage(string projectName, string documentPath, bool needCloseTutorial = true)
 		{
-			var documentname = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая открытие редактора.", documentname);
-			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
-			DocumentRef.HoverElement();
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
+			HoverDocumentRow(projectName, documentName);
 			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
@@ -267,13 +268,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его) ожидая диалог выбора задачи
 		/// </summary>
-		public SelectTaskDialog ClickDocumentRefExpectingSelectTaskDialog(string documentPath)
+		/// <param name="projectName">название проекта</param>
+		/// <param name="documentPath">путь до документа</param>
+		public SelectTaskDialog ClickDocumentRefExpectingSelectTaskDialog(string projectName, string documentPath)
 		{
-			var documentname = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentname);
-			DocumentRef = Driver.SetDynamicValue(How.XPath, DOCUMENT_REF, documentname);
-			DocumentRef.Click();
-
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
+			HoverDocumentRow(projectName, documentName);
+			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
 			return new SelectTaskDialog(Driver).LoadPage();

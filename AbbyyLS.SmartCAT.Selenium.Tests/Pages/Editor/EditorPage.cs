@@ -261,12 +261,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Навести курсор на знак ошибки (желтый треугольник)
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
-		public EditorPage HoverYellowTriangle(int segmentNumber = 1)
+		public EditorPage HoverSegmentErrorLogo(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Навести курсор на знак ошибки (желтый треугольник) сегмента №{0}.", segmentNumber);
-			YellowErrorTriangle =  Driver.SetDynamicValue(How.XPath,SEGMENT_ERROR_LOGO, segmentNumber.ToString());
-			YellowErrorTriangle.Click();
-			YellowErrorTriangle.HoverElement();
+			SegmentErrorLogo =  Driver.SetDynamicValue(How.XPath,SEGMENT_ERROR_LOGO, (segmentNumber-1).ToString());
+			SegmentErrorLogo.HoverElement();
 
 			if (!IsErrorsPopupExist())
 			{
@@ -283,9 +282,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickYellowTriangle(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать на желтый треугольник сегмента №{0}.", segmentNumber);
-			YellowErrorTriangle = Driver.SetDynamicValue(How.XPath, SEGMENT_ERROR_LOGO, segmentNumber.ToString());
-			YellowErrorTriangle.Click();
-			
+			SegmentErrorLogo = Driver.SetDynamicValue(How.XPath, SEGMENT_ERROR_LOGO, (segmentNumber - 1).ToString());
+			SegmentErrorLogo.HoverElement();
+			SegmentErrorLogo = Driver.SetDynamicValue(How.XPath, SEGMENT_ERROR_LOGO, (segmentNumber - 1).ToString());
+			SegmentErrorLogo.JavaScriptClick();
+
 			return LoadPage();
 		}
 
@@ -2292,11 +2293,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Проверить, что появился треугольник с ошибкой, после подтверждения сегмента.
 		/// </summary>
 		/// <param name="segmentNumber">номер сегмента</param>
-		public bool IsYellowTriangleErrorLogoDisplayed(int segmentNumber = 1)
+		public bool IsSegmentErrorLogoDisplayed(int segmentNumber = 1)
 		{
 			CustomTestContext.WriteLine("Проверить, что появился треугольник с ошибкой, после подтверждения сегмента №{0}.", segmentNumber);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString())));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", (segmentNumber-1).ToString())));
 		}
 
 		/// <summary>
@@ -2307,7 +2308,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Проверить, треугольник с ошибкой неактивен для сегмента №{0}.", segmentNumber);
 
-			return Driver.FindElement(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", segmentNumber.ToString()))).GetAttribute("class").Contains("inactive");
+			return Driver.FindElement(By.XPath(SEGMENT_ERROR_LOGO.Replace("*#*", (segmentNumber-1).ToString()))).GetAttribute("style").Contains("display: none;");
 		}
 
 		/// <summary>
@@ -2470,9 +2471,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(Using = FIND_ERROR_BTN_ID)]
 		protected IWebElement FindErrorButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SEGMENT_ERROR_LOGO)]
-		protected IWebElement SegmentErrorLogo { get; set; }
-
 		[FindsBy(How = How.Id, Using = HOME_BUTTON)]
 		protected IWebElement HomeButton { get; set; }
 
@@ -2602,7 +2600,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_TEXT)]
 		protected IWebElement ConcordanceSearchText { get; set; }
 		
-		protected IWebElement YellowErrorTriangle { get; set; }
+		protected IWebElement SegmentErrorLogo { get; set; }
 		protected IWebElement Error { get; set; }
 		[FindsBy(How = How.XPath, Using = CONCORDANCE_SEARCH_BUTTON)]
 		protected IWebElement ConcordanceSearchButton { get; set; }
@@ -2752,7 +2750,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(@id, 'targeteditor')][*#*]//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '*#*')]//..//..//..//div[contains(@class,'lock')][not(contains(@class,'inactive'))]";
-		protected const string SEGMENT_ERROR_LOGO = "(//table[contains(@class, 'x-grid-item')])[*#*]//div[contains(@class, 'sci-alert')]";
+		protected const string SEGMENT_ERROR_LOGO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'errors')]/ancestor::a";
 
 		protected const string CHARACTER_FORM = "charmap";
 		protected const string CONCORDANCE_SEARCH= "concordance-search";
@@ -2804,7 +2802,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string MESSAGE_WITH_CRITICAL_ERROR = "//div[contains(text(),'contains critical errors.')]";
 		protected const string CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON = "//div[contains(text(),'contains critical errors.')]/../../..//div[@data-qtip='Close panel']";
-		protected const string ERRORS_POPUP = "//h3[contains(text(),'Translation errors')]";
+		protected const string ERRORS_POPUP = "//div[contains(text(),'Translation errors')]";
 		protected const string ERROR = "//h3[contains(text(),'Translation errors')]/../..";
 
 		protected const string QA_CHECK_TAB = "//span[contains(@id, 'errors-tab')]//span[contains(text(), 'QA')]";

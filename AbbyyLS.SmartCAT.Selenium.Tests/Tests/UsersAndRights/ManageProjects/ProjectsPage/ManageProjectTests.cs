@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.DocumentFile2);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.DocumentFile2);
 
 			_selectTaskDialog.SelectTask();
 			
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
-			_projectsPage.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
+			_projectsPage.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile);
 			
 			_editorPage
 				.FillTarget("translation")

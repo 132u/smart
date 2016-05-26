@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.LoadTests
 
 			_projectsPage
 				.OpenProjectInfo(projectName)
-				.ClickDocumentRefExpectingEditorPage(document);
+				.ClickDocumentRefExpectingEditorPage(projectName, document);
 
 			for (int segmentNumber = 1; segmentNumber < 241; segmentNumber++)
 			{

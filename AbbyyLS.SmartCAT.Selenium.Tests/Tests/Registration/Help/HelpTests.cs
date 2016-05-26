@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile, needCloseTutorial: false);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile, needCloseTutorial: false);
 
 			Assert.IsTrue(_editorPage.IsSourceColumnHelpDisplayed(),
 				"Произошла ошибка:\n подсказка к ячейке исходного текста не показывается.");
@@ -213,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile, needCloseTutorial: false);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile, needCloseTutorial: false);
 
 			Assert.IsTrue(_editorPage.IsSourceColumnHelpDisplayed(),
 				"Произошла ошибка:\n подсказка к ячейке исходного текста не показывается.");

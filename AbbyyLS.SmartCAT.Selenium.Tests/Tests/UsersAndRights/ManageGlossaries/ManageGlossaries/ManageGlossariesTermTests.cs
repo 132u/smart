@@ -133,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(projectName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
+				.ClickDocumentRefExpectingEditorPage(projectName, PathProvider.DocumentFile);
 			
 			_editorPage.ClickAddTermButton();
 

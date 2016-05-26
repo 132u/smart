@@ -200,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectsPage
 				.OpenProjectInfo(_projectName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 

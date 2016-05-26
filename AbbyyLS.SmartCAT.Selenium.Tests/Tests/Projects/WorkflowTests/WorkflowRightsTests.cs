@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(), "Произошла ошибка:\n Редактор не открылся.");
 		}
@@ -104,7 +104,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(2, _selectTaskDialog.GetTaskCount(),
 				"Произошла ошибка:\n Неверное количество задач в диалоге выбора при входе в редактор.");
@@ -150,7 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\n Редактор не открылся.");
@@ -172,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_editorPage
 				.FillTarget(_text, rowNumber: 1)
@@ -197,7 +197,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n Неверное значение в таргете сегмента №1.");

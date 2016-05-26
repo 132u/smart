@@ -79,7 +79,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			var tasksListFromDialog = _selectTaskDialog.GetTaskList();
 
@@ -124,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			var tasksListFromDialog = _selectTaskDialog.GetTaskList();
 

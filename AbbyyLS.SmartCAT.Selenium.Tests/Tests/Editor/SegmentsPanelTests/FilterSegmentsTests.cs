@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(projectName)
-				.ClickDocumentRefExpectingEditorPage(document);
+				.ClickDocumentRefExpectingEditorPage(projectName, document);
 		}
 
 		[Test]

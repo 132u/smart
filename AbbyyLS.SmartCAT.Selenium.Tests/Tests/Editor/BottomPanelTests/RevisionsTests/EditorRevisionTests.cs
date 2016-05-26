@@ -226,7 +226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
 
 			_selectTaskDialog.SelectTask();
 

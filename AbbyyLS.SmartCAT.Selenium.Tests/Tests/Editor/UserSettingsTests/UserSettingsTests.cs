@@ -1,5 +1,5 @@
 ﻿using System;
-
+using System.IO;
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UserSettingsTests
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.EditorAutoSubstitutionFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorAutoSubstitutionFile);
 
 			_editorPage.ClickUserPreferencesButton();
 		}

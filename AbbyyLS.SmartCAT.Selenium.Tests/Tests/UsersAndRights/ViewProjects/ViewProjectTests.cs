@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatusRights(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
-			_projectsPage.ClickDocumentRefExpectingEditorPage(PathProvider.DocumentFile);
+			_projectsPage.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile);
 			
 			_editorPage
 				.FillTarget("Translation")

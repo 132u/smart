@@ -121,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.RepetitionsTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.RepetitionsTxtFile);
 				
 			_selectTaskDialog.SelectTask();
 
@@ -155,7 +155,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
-				.ClickDocumentRefExpectingEditorPage(PathProvider.RepetitionsTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.RepetitionsTxtFile);
 
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 9)

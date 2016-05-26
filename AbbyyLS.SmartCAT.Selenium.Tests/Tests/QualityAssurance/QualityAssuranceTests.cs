@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -81,7 +81,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_editorPage
 				.CloseCriticalErrorMessageIfExist()
-				.HoverYellowTriangle();
+				.HoverSegmentErrorLogo();
 
 			Assert.IsFalse(_editorPage.IsSegmentConfirmed(),
 				"Произошла ошибка: семент подтвержден.");
@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_editorPage
 				.FillSegmentTargetField("первое первое", rowNumber: 2)
 				.ConfirmSegmentTranslation()
-				.HoverYellowTriangle(segmentNumber: 2);
+				.HoverSegmentErrorLogo(segmentNumber: 2);
 
 			Assert.IsFalse(_editorPage.IsMessageWithCrititcalErrorDisplayed(),
 				"Произошла ошибка: не появилось сообщение о том, что перевод содержит критическую ошибку.");
@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -182,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -230,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_editorPage
 				.CloseCriticalErrorMessageIfExist()
-				.HoverYellowTriangle();
+				.HoverSegmentErrorLogo();
 			
 			Assert.IsTrue(_editorPage.IsErrorsPopupContainsCorrectError(_error1),
 				"Произошла ошибка: попап не содержит ошибку {0}.", _error1);
@@ -257,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -265,12 +265,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				.ClickCopySourceToTargetButton()
 				.ConfirmSegmentTranslation();
 
-			Assert.IsTrue(_editorPage.IsYellowTriangleErrorLogoDisplayed(),
+			Assert.IsTrue(_editorPage.IsSegmentErrorLogoDisplayed(),
 				"Произошла ошибка: логотип с ошибкой не появился после подтверждения таргета, содержащего ошибку.");
 
 			_editorPage
 				.CloseCriticalErrorMessageIfExist()
-				.HoverYellowTriangle();
+				.HoverSegmentErrorLogo();
 
 			Assert.IsTrue(_editorPage.IsErrorsPopupContainsCorrectError(_error3),
 				"Произошла ошибка: попап не содержит ошибку {0}.", _error3);
@@ -278,7 +278,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			Assert.IsTrue(_editorPage.IsCriticalError(_error3),
 				"Произошла ошибка: ошибка {0} не отмечена, как критическая.", _error3);
 
-			_editorPage.ClickYellowTriangle();
+			_editorPage
+				.ClickOnTargetCellInSegment()
+				.ClickYellowTriangle();
 
 			Assert.IsTrue(_editorPage.IsQAErrorTableDisplayed(),
 				"Произошла ошибка: не открылась вкладка 'QA Check'.");
@@ -302,7 +304,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -311,7 +313,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				.ConfirmSegmentTranslation()
 				.CloseCriticalErrorMessageIfExist();
 			
-			Assert.IsTrue(_editorPage.IsYellowTriangleErrorLogoDisplayed(),
+			Assert.IsTrue(_editorPage.IsSegmentErrorLogoDisplayed(),
 				"Произошла ошибка: не появился желтый треуголник в первом сегменте.");
 
 			_editorPage
