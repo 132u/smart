@@ -945,7 +945,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Вернуть цвет процента совпадения в колонке Match в сегменте №{0}.", segmentNumber);
 			var percentColor = Driver.SetDynamicValue(How.XPath, PERCENT_COLOR, (segmentNumber - 1).ToString());
 
-			return percentColor.GetAttribute("class");
+			return percentColor.GetAttribute("class").Split(new [] { '-' }).Last();
 		}
 
 		/// <summary>
@@ -2758,8 +2758,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string ALL_SEGMENTS_SAVED_STATUS = "//div[text()='All segments are saved.']";
 		protected const string SAVING_STATUS = "//divc[contains(@id, 'segmentsavingindicator') and contains(text(),'Saving')]";
-		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//td[contains(@class,'matchcolum')]";
-		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
+		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//div[contains(@class,'insert-resource')]";
+		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//span[contains(@class, 'match-percentage')]";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
 		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
@@ -2768,7 +2768,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[contains(text(),'*#*')]";
 		protected const string CAT_SOURCE = ".//div[@id='cat-body']//table//td[contains(@class, 'test-cat-source')]/div[text()='*#*']";
 
-		protected const string PERCENT_COLOR = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//td[6]//div//span";
+		protected const string PERCENT_COLOR = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//span[contains(@class, 'match-percentage')]";
 
 		protected const string TERM_SAVED_MESSAGE = ".//div[text()='The term has been saved.']";
 

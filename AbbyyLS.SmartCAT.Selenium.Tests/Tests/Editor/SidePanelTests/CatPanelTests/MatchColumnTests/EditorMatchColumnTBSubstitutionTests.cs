@@ -53,6 +53,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_addTermDialog.AddNewTerm(sourceTerm, "термин глоссария");
 		}
 
+		//TODO https://portal.smartcat.pro/youtrack/issue/PRX-17030
+		[Ignore("PRX-17035")]
 		[Test, Description("S-7220"), ShortCheckList]
 		public void CheckMatchAfterGlossarySubstitutionByDoubleClick()
 		{
@@ -62,6 +64,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TB);
 		}
 
+		//TODO https://portal.smartcat.pro/youtrack/issue/PRX-17030
+		[Ignore("PRX-17035")]
 		[Test, Description("S-7220"), ShortCheckList]
 		public void CheckMatchAfterGlossarySubstitutionByHotkey()
 		{
