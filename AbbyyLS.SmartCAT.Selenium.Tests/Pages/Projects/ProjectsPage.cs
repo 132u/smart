@@ -889,7 +889,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			{
 				CustomTestContext.WriteLine("Проверить, присутствует ли документ {0} в проекте {1}", documentName, projectName);
 
-				if(!Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_REF_IN_PROJECT.Replace("*#*", projectName).Replace("*##*", documentName))))
+				if(!Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_ROW.Replace("*#*", projectName).Replace("*##*", documentName))))
 				{
 					return false;
 				}
