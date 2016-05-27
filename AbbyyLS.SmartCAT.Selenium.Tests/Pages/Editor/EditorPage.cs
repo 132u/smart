@@ -12,7 +12,6 @@ using Keys = OpenQA.Selenium.Keys;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
@@ -137,6 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку поиска на вкладке 'Dictionaries' в боковой панели");
 			DictionariesSearchButton.Click();
+			Thread.Sleep(3000); // Для срабатывания автоподстановки
 
 			return LoadPage();
 		}
