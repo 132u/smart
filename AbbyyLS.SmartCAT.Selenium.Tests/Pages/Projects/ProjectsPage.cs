@@ -1240,7 +1240,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOCUMENT_CHECKBOX = "(.//table[contains(@class,'js-tasks-table')]//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'document-row')]//preceding-sibling::td//span[@title='*##*']//ancestor::tr//td//input)[1]";
 		protected const string DOCUMENT_WITH_JOBS_CHECKBOX = "//*[text()='*#*']/../../../../following-sibling::tr//*[text()='*##*']/../..//preceding-sibling::td//input";
 		protected const string SIGN_IN_TO_CONNECTOR_BUTTON = "//span[contains(@class,'login-connector-btn')]";
-		protected const string QA_CHECK_BUTTON = "//table[contains(@class,'js-tasks-table')]//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
+
+		protected const string QA_CHECK_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind,'qaCheck')]";
 		protected const string PROJECT_SETTINGS_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//button[contains(@data-bind,'edit')]";
 		protected const string PROJECT_STATISTICS_BUTTON = "//span[text()='*#*']//ancestor::tr//following-sibling::tr//a[text()='Statistics']";
 		protected const string UPLOAD_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-import-document')][2]";

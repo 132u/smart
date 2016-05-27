@@ -550,7 +550,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public bool IsDownloadButtonDisabled()
 		{
 			CustomTestContext.WriteLine("Проверить, что кнопка Download неактивна.");
-
+			
 			return DownloadButton.GetAttribute("class").Contains("disable");
 		}
 
@@ -803,7 +803,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DELETE_BUTTON = "//button[contains(@data-bind, 'deleteDocuments')]";
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//span[text()='*#*' and @class='l-project__name']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]";
+		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]/..";
 		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/../../..//span[contains(@class,'icon_download')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/../../..//input";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td']";
