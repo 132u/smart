@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n назначений быть не должно.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17066")]
 		[Standalone]
 		public void CancelAssigneeTest()
 		{
@@ -282,30 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_distributeSegmentsBetweenAssigneesPage.GetDistributedRange());
 		}
 
-		[Test(Description = "ТС-411")]
-		[Standalone]
-		public void AssigneAutomaticallyGeneratedRangeFromNotDistributedTest()
-		{
-			_distributeDocumentBetweenAssigneesPage
-				.ClickSelectSegmentsAndAssignLink();
-
-			_distributeSegmentsBetweenAssigneesPage
-				.AssignSegmentsRange(_startRange, _endRange)
-				.AssignSegmentsRange(_distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent() - 4, _distributeSegmentsBetweenAssigneesPage.GetSegmentsCountInDocumnent());
-
-			var distributedRangeCount = _distributeSegmentsBetweenAssigneesPage.GetDistributedSegmentsRangeCount();
-			var notDistributedRangeCount = _distributeSegmentsBetweenAssigneesPage.GetNotDistributedSegmentsRangeCount();
-
-			_distributeSegmentsBetweenAssigneesPage.ClickAssignButtonInNotDistributedrange();
-
-			Assert.AreEqual(distributedRangeCount - 1, 1,
-				"Произошла ошибка:\n Неверное количество распределенных диапазонов.");
-
-			Assert.AreEqual(notDistributedRangeCount - 1, _distributeSegmentsBetweenAssigneesPage.GetNotDistributedSegmentsRangeCount(),
-				"Произошла ошибка:\n Неверное количество нераспределенных диапазонов.");
-		}
-
-		[Test(Description = "ТС-413")]
+		[Test(Description = "ТС-413"), Ignore("PRX-17066")]
 		[Standalone]
 		public void ChangeDistributedRangeTest()
 		{

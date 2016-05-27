@@ -54,9 +54,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// <summary>
 		/// Нажать на кнопку Remove.
 		/// </summary>
-		public DistributeSegmentsBetweenAssigneesPage ClickRemoveRangeButton()
+		public DistributeSegmentsBetweenAssigneesPage ClickRemoveRangeButton(int rangeNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку Remove.");
+			RemoveRangeButton = Driver.SetDynamicValue(How.XPath, REMOVE_RANGE_BUTTON, rangeNumber.ToString());
 			RemoveRangeButton.Click();
 
 			return LoadPage();
@@ -133,7 +134,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// Нажать по Assign в списке нераспределнных диапазанов
 		/// </summary>
 		/// <param name="rangeNumber">номер диапазона</param>
-		public DistributeSegmentsBetweenAssigneesPage ClickAssignButtonInNotDistributedrange(int rangeNumber = 1)
+		public DistributeSegmentsBetweenAssigneesPage ClickAssignButtonInNotDistributedRange(int rangeNumber = 1)
 		{
 			CustomTestContext.WriteLine("Нажать по Assign в списке нераспределнных диапазанов.");
 			Driver.SetDynamicValue(How.XPath, ASSIGN_BUTTON_IN_NOT_DISTRIBUTED_RANGE, rangeNumber.ToString()).Click();
@@ -208,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		/// <param name="rangeNumber">номер диапазона</param>
 		public string GetNotDistributedRange(int rangeNumber)
 		{
-			CustomTestContext.WriteLine("Получить номер первого и сегмента для {0} нераспределенного диапазона.", rangeNumber);
+			CustomTestContext.WriteLine("Получить номер первого нераспределенного сегмента для {0} нераспределенного диапазона.", rangeNumber);
 
 			return 
 				Driver.SetDynamicValue(How.XPath, NOT_DISTRIBUTED_START_RANGE, rangeNumber.ToString()).Text
@@ -352,14 +353,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		protected const string ASSIGN_BUTTON = "//a[contains(@data-bind, 'click: assign')]";
 		protected const string BACK_BUTTON = "//a[contains(@data-bind, 'click: back')]";
 		protected const string SAVE_BUTTON = "//div[contains(@data-bind, 'click: save')]";
-		protected const string REMOVE_RANGE_BUTTON = "//table[contains(@data-bind, 'foreach: assignedRanges')]//a[contains(@data-bind, 'click: $parent.deleteRang')]";
+		protected const string REMOVE_RANGE_BUTTON = "(//ul[contains(@class, 'ranges-list_assigned')]//li[contains(@class, 'ranges-item')]//span[contains(@class, 'icon_remove')])[*#*]";
 		protected const string WORDS_COUNT = "//span[contains(@data-bind, 'range().wordsCount')]";
 		protected const string ROWS_IN_TABLE = "//tbody[contains(@data-bind, 'segmentsFrame.items')]//tr";
-		protected const string NOT_DISTRIBUTED_SEGMENT_NUMBER = "//table[contains(@data-bind, 'foreach: notAssignedRanges')]//span[contains(@data-bind, 'goToSegment')]";
-		protected const string NOT_DISTRIBUTED_SEGMENTS_RANGE_COUNT = "//table[contains(@data-bind, 'foreach: notAssignedRanges')]//tbody";
+		protected const string NOT_DISTRIBUTED_SEGMENT_NUMBER = "//ul[contains(@data-bind, 'notAssignedRanges')]//span[contains(@data-bind, 'goToSegment')]";
+		protected const string NOT_DISTRIBUTED_SEGMENTS_RANGE_COUNT = "//ul[contains(@data-bind, 'notAssignedRanges')]//li";
 		protected const string DISTRIBUTED_SEGMENTS_RANGE_COUNT = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody";
-		protected const string NOT_DISTRIBUTED_START_RANGE = "//table[contains(@data-bind, 'foreach: notAssignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: from')]";
-		protected const string NOT_DISTRIBUTED_END_RANGE = "//table[contains(@data-bind, 'foreach: notAssignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: to')]";
+		protected const string NOT_DISTRIBUTED_START_RANGE = "//ul[contains(@data-bind, 'notAssignedRanges')]//li[*#*]//span[contains(@data-bind, 'goToSegment(from)')]";
+		protected const string NOT_DISTRIBUTED_END_RANGE = "//ul[contains(@data-bind, 'notAssignedRanges')]//li[*#*]//span[contains(@data-bind, 'goToSegment(to)')]";
 		protected const string DISTRIBUTED_START_RANGE = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: from')]";
 		protected const string DISTRIBUTED_END_RANGE = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody[*#*]//span[contains(@data-bind, 'text: to')]";
 		protected const string CHANGE_RANGE_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'editRange')]";
