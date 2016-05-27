@@ -1211,7 +1211,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//button[contains(@class, 'js-search-btn')]";
 
-		protected const string PROJECT_REF = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, projectPageUrl)]";
+		protected const string PROJECT_REF = "//*[text()='*#*']/../..//i[contains(@class, 'project__folder')]";
 
 		protected const string DEAD_LINE_VALUE = "//span[text()='*#*']/ancestor::tr//td/span[contains(@data-bind, 'deadlineForCurrentUser')]";
 		protected const string PROJECT_STATUS = ".//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
