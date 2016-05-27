@@ -1196,7 +1196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		protected const string PROJECT_REF = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, projectPageUrl)]";
 
-		protected const string DEAD_LINE_VALUE = "//tr//a[contains(text(), '*#*')]//ancestor::tr//td[9]//p//span";
+		protected const string DEAD_LINE_VALUE = "//span[text()='*#*']/ancestor::tr//td/span[contains(@data-bind, 'deadlineForCurrentUser')]";
 		protected const string PROJECT_STATUS = ".//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";
 		protected const string PROJECT_STATUS_ITEM = "//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//li[@title='*##*']";
 		protected const string PROJECT_STATUS_DROP_DOWN_MENU = "//table[contains(@class, 'l-corpr__tbl js-tasks-table')]//tbody//tr//td//div//div//a[contains(text(), '*#*')]//ancestor::tr//div//label//input";
