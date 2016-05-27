@@ -219,6 +219,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7180"), ShortCheckList]
 		public void AssignTasksTest()
 		{
+			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
 			Assert.IsFalse(_projectsPage.IsMyTasksTabDisplayed(),
@@ -228,7 +230,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
 
-			_projectSettingsPage.HoverDocumentRow(Path.GetFileName(PathProvider.DocumentFile));
+			_projectSettingsPage.HoverDocumentRow(documentName);
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignButtonExist(),
 				"Произошла ошибка:\n кнопка 'Назначить задачу' отображается в открытой свёртке документа");

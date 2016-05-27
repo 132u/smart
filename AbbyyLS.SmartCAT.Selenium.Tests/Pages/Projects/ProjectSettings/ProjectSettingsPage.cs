@@ -169,6 +169,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		}
 
 		/// <summary>
+		/// Навести курсор на строку с документом
+		/// </summary>
+		/// <param name="documentName">путь до документа</param>
+		public ProjectSettingsPage ClickDocumentRow(string documentName)
+		{
+			CustomTestContext.WriteLine("Навести курсор на строку с документом");
+			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, documentName);
+			DocumentRow.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
 		/// <param name="documentName">имя документа</param>

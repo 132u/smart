@@ -323,6 +323,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
+		/// Открыть свёртку документа
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="documentPath">путь до документа</param>
+		public ProjectsPage ClickDocumentRow(string projectName, string documentPath)
+		{
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Навести курсор на документ {0} в проекте '{1}'", documentName, projectName);
+			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, projectName, documentName);
+			DocumentRow.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать кнопку настроек в меню документа
 		/// </summary>
 		/// <param name="projectName">имя проекта</param>
@@ -552,7 +567,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Отменить задачу в свертке документа {0}.", documentName);
 			OpenProjectInfo(projectName);
-			HoverDocumentRow(projectName, documentPath);
+			HoverDocumentRow(projectName, documentName);
+			ClickDocumentRow(projectName, documentName);
 			ClickDeclineButton();
 
 			return new TaskDeclineDialog(Driver).LoadPage();
@@ -944,12 +960,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">имя проекта</param>
 		/// <param name="documentNumber">номер документа</param>
 		/// <param name="task">тип задачи</param>
-		public bool IsMyTaskDisplayed(string projectName, int documentNumber = 1, WorkflowTask task = WorkflowTask.Translation)
+		public bool IsMyTaskDisplayed(string documentPath, WorkflowTask task = WorkflowTask.Translation)
 		{
-			CustomTestContext.WriteLine("Проверить, что отображается задача {0} для текущего пользователя в проекте {1}.", task, projectName);
-			
+			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			CustomTestContext.WriteLine("Проверить, что отображается задача {0} для текущего пользователя в документе {1}.", task, documentName);
+
 			return Driver.WaitUntilElementIsDisplay(By.XPath(
-				MY_TASK.Replace("*#*", projectName).Replace("*##*", documentNumber.ToString()).Replace("*###*", task.ToString())));
+				MY_TASK.Replace("*#*", documentName).Replace("*##*", task.ToString())));
 		}
 
 		/// <summary>
@@ -1232,7 +1249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DECLINE_BUTTON = "//div[contains(@data-bind, 'actions.reject')]";
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
 		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
-		protected const string MY_TASK = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]/following-sibling::tr[contains(@class, 'js-document-panel')]//td[contains(@class,'my-assignments') and contains(text(),'*###*')]";
+		protected const string MY_TASK = "//span[text()='*#*']/ancestor::tr/following-sibling::tr[@class='js-document-panel l-project__doc-panel']//td[contains(text(), '*##*')]";
 		protected const string JOB_LIST = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[@class='l-project__name']";
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";

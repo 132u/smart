@@ -89,7 +89,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
-			_projectSettingsPage.HoverDocumentRow(PathProvider.DocumentFile);
+			_projectSettingsPage
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
 			Assert.IsTrue(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");
@@ -115,6 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+
 			_selectTaskDialog.SelectTask();
 
 			_editorPage
@@ -138,11 +141,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
-				.HoverDocumentRow(PathProvider.DocumentFile)
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
 				.ClickDeclineButton();
 
 			_confirmDeclineTaskDialog.ClickDeclineButton();
-			_projectSettingsPage.HoverDocumentRow(PathProvider.DocumentFile);
+
+			_projectSettingsPage
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");

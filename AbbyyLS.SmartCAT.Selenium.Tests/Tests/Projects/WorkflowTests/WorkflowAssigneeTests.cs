@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.IO;
+using System.Threading;
 
 using NUnit.Framework;
 
@@ -49,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.RepetitionsTxtFile));
 
 			Assert.AreEqual(0, _projectsPage.GetTasksCount(),
 				"Произошла ошибка:\n Неверное количество задач.");

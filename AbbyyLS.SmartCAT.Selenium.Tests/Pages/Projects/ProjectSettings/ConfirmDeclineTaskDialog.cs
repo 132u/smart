@@ -55,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// </summary>
 		public bool IsConfirmDeclineTaskDialogOpened()
 		{
-			return Driver.GetIsElementExist(By.XPath(DECLINE_BUTTON));
+			return !IsDialogBackgroundDisappeared() && Driver.WaitUntilElementIsAppear(By.XPath(DECLINE_BUTTON));
 		}
 
 		#endregion
