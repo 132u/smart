@@ -246,6 +246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
 			HoverDocumentRow(projectName, documentName);
+			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);
 			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
@@ -262,10 +263,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
 			HoverDocumentRow(projectName, documentName);
+			ClickTranslateButton<SelectTaskDialog>(documentName);
+
+			return new SelectTaskDialog(Driver).LoadPage();
+		}
+
+		public T ClickTranslateButton<T>(string projectName) where T : class, IAbstractPage<T>
+		{
+			CustomTestContext.WriteLine("Нажать кнопку перевода для проекта {0}.", projectName);
+			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, projectName);
 			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
-			return new SelectTaskDialog(Driver).LoadPage();
+			var instance = Activator.CreateInstance(typeof(T), new object[] { Driver }) as T;
+			return instance.LoadPage();
 		}
 
 		/// <summary>
@@ -1221,7 +1232,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//span[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = "//span[text()='*#*']//ancestor::tr//input[@type='checkbox']";
-		protected const string TRANSLATE_BUTTON = "//button[contains(@class,'js-editor-button')]//a";
+		protected const string TRANSLATE_BUTTON = "//*[text()='*#*']/../../..//button[contains(@class,'js-editor-button')]//a";
 		protected const string GO_TO_PROJECT_PAGE_BUTTON = "//*[text()='*#*']/../../../..//a[contains(@data-bind, 'projectPageUrl')]";
 		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
