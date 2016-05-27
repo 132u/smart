@@ -238,9 +238,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Нажать кнопку экспорта в свертке документа.
 		/// </summary>
-		public ProjectSettingsPage ClickDocumnetDownloadButton()
+		public ProjectSettingsPage ClickDocumnetDownloadButton(string fileName)
 		{
 			CustomTestContext.WriteLine("Нажать кнопку экспорта в свертке документа.");
+			DocumentDownloadButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_DOWNLOAD_BUTTON, fileName);
 			DocumentDownloadButton.Click();
 
 			return LoadPage();
@@ -803,8 +804,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//span[text()='*#*' and @class='l-project__name']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]";
-		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//div[contains(@class,'doc-panel')]//div[contains(@class,'js-document-export-block')]";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[contains(string(), '*#*')]/..//tr[contains(@class, 'document-row')]//input";
+		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/../../..//span[contains(@class,'icon_download')]";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/../../..//input";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td']";
 		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";

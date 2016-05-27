@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -22,14 +24,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			}
 		}
 
+		[Ignore("PRX-17075")]
 		[TestCase(ExportType.Original)]
 		[TestCase(ExportType.Translation)]
 		[TestCase(ExportType.TMX)]
-		public void DocumentDownloadButtoninDocumentPanelTest(ExportType exportType)
+		public void DocumentDownloadButtonInDocumentPanelTest(ExportType exportType)
 		{
+			var documetName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+
 			_projectSettingsPage
-				.HoverDocumentRow(PathProvider.DocumentFile)
-				.ClickDocumnetDownloadButton()
+				.HoverDocumentRow(documetName)
+				.ClickDocumnetDownloadButton(documetName)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 1),
