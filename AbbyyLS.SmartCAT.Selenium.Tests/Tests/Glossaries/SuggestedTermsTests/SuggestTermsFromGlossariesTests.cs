@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
 				"Произошла ошибка: строка с термином не найдена в списке");
 
-			Assert.AreEqual(ThreadUser.NickName,
+			Assert.AreEqual(ThreadUser.FullName,
 				_suggestedTermsPageForAllGlossaries.GetSuggestedTermAuthor(_term1, _term2),
 				"Произошла ошибка:\n неверно указан автор термина ({0} вместо {1})");
 
@@ -59,7 +59,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
 				"Произошла ошибка: строка с термином не найдена в списке");
 
-			Assert.AreEqual(ThreadUser.NickName,
+			Assert.AreEqual(ThreadUser.FullName,
 				_suggestedTermsPageForAllGlossaries.GetSuggestedTermAuthor(_term1, _term2),
 				"Произошла ошибка:\n неверно указан автор термина ({0} вместо {1})");
 
