@@ -29,24 +29,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#region Простые методы
 
 		/// <summary>
-		/// Нажать кнопку Import в диалоге импорта глоссария
+		/// Нажать кнопку Import в диалоге импорта глоссария и дождаться успешного завершения
 		/// </summary>
-		public GlossarySuccessImportDialog ClickImportButtonInImportDialog()
+		public GlossarySuccessImportDialog ClickImportButtonInImportDialogWaitSuccess()
 		{
-			CustomTestContext.WriteLine("Нажать кнопку Import в диалоге импорта глоссария.");
+			clickImport();
 
-			ImportButton = Driver.WaitUntilElementIsClickable(By.XPath(IMPORT_BUTTON));
-
-			if (ImportButton != null)
-			{
-				ImportButton.Click();
-			}
-			else
-			{
-				throw new Exception("Кнопка Import в диалоге импорта глоссария не стала кликабельной");
-			}
-
+			CustomTestContext.WriteLine("Дождаться появления диалога успешного импорта");
 			return new GlossarySuccessImportDialog(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на кнопку Import в диалоге импорта глоссария
+		/// </summary>
+		public GlossaryImportDialog ClickImportInImportInImportDialog()
+		{
+			clickImport();
+
+			return LoadPage();
 		}
 
 		/// <summary>
@@ -72,6 +72,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Проверить, отображается ли ошибка структуры загружаемого файла глоссария
+		/// </summary>
+		public bool IsStructureErrorDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, отображается ли ошибка структуры загружаемого файла глоссария");
+			return Driver.WaitUntilElementIsDisplay(By.XPath(STRUCTURE_ERROR));
+		}
 		#endregion
 
 		#region Составные методы
@@ -132,6 +140,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 			return LoadPage();
 		}
 
+		private void clickImport()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Import в диалоге импорта глоссария.");
+
+			ImportButton = Driver.WaitUntilElementIsClickable(By.XPath(IMPORT_BUTTON));
+
+			if (ImportButton != null)
+			{
+				ImportButton.Click();
+			}
+			else
+			{
+				throw new Exception("Кнопка Import в диалоге импорта глоссария не стала кликабельной");
+			}
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -144,6 +168,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		protected IWebElement ImportButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = STRUCTURE_ERROR)]
+		protected IWebElement StructureError { get; set; }
+
 		#endregion
 
 		#region Описания XPath элементов
@@ -152,6 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string IMPORT_BUTTON = "//div[contains(@class,'js-popup-import')][2]//div[contains(@class,'js-import-button')]";
 		protected const string REPLACE_ALL_BUTTON = "//div[contains(@class,'js-popup-import')][2]//input[contains(@name,'needToClear')][@value='true']//following-sibling::em";
 		protected const string IMPORT_IN_PROGRESS_MESSAGE = "//div[contains(@class, 'js-please-wait')]";
+		protected const string STRUCTURE_ERROR = "//div[contains(@class,'g-popupbox')]//div[@class='l-filtersrc__error']";
 
 		#endregion
 	}

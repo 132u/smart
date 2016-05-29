@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_glossaryImportDialog
 				.ImportGlossary(PathProvider.GlossaryFileForImport)
-				.ClickImportButtonInImportDialog();
+				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
 

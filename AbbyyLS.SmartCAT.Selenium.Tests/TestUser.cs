@@ -28,5 +28,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 		[DataMember(Name = "StandaloneUrl", IsRequired = false)]
 		public string StandaloneUrl { get; set; }
+
+
+		[IgnoreDataMember]
+		public string FullName { get { return string.Format("{0} {1}", Name, Surname); } }
 	}
 }

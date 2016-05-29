@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 using NUnit.Framework;
 
@@ -13,9 +14,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 	class SuggestTermsFromGlossariesTests<TWebDriverProvider>
 		: SuggestTermsBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test]
+		[Test, Description("S-7289")]
 		public void SuggestTermWithoutGlossaryTest()
 		{
+			var date = DateTime.UtcNow.ToString("MM/dd/yyyy", new CultureInfo("en-US"));
+
 			_glossariesPage.ClickSuggestTermButton();
 
 			_suggestTermDialog
@@ -26,11 +29,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
 				"Произошла ошибка: строка с термином не найдена в списке");
+
+			Assert.AreEqual(ThreadUser.NickName,
+				_suggestedTermsPageForAllGlossaries.GetSuggestedTermAuthor(_term1, _term2),
+				"Произошла ошибка:\n неверно указан автор термина ({0} вместо {1})");
+
+			Assert.AreEqual(date,
+				_suggestedTermsPageForAllGlossaries.GetSuggestedTermDate(_term1, _term2),
+				"Произошла ошибка:\n неверно указана дата");
 		}
 
-		[Test]
+		[Test, Description("S-7289")]
 		public void SuggestTermWithGlossaryTest()
 		{
+			var date = DateTime.UtcNow.ToString("MM/dd/yyyy", new CultureInfo("en-US"));
+
 			_glossariesHelper.CreateGlossary(_glossaryName);
 
 			_workspacePage.GoToGlossariesPage();
@@ -45,6 +58,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			Assert.IsTrue(_suggestedTermsPageForAllGlossaries.IsSuggestedTermDisplayed(_term1, _term2),
 				"Произошла ошибка: строка с термином не найдена в списке");
+
+			Assert.AreEqual(ThreadUser.NickName,
+				_suggestedTermsPageForAllGlossaries.GetSuggestedTermAuthor(_term1, _term2),
+				"Произошла ошибка:\n неверно указан автор термина ({0} вместо {1})");
+
+			Assert.AreEqual(date,
+				_suggestedTermsPageForAllGlossaries.GetSuggestedTermDate(_term1, _term2),
+				"Произошла ошибка:\n неверно указана дата");
 		}
 
 		[Test]

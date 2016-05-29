@@ -121,6 +121,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 			return LoadPage();
 		}
 
+		/// <summary>
+		/// Получить автора предложенного термина
+		/// </summary>
+		public string GetSuggestedTermAuthor(string term1, string term2)
+		{
+			CustomTestContext.WriteLine("Получить автора предложенного термина {0}, {1}",
+				term1, term2);
+
+			SuggestedTermAuthor = Driver.SetDynamicValue(How.XPath, TERM_AUTHOR, term1, term2);
+			return SuggestedTermAuthor.Text;
+		}
+
+		/// <summary>
+		/// Получить дату предложенного термина
+		/// </summary>
+		public string GetSuggestedTermDate(string term1, string term2)
+		{
+			CustomTestContext.WriteLine("Получить дату предложенного термина {0}, {1}",
+				term1, term2);
+
+			SuggestedTermDate = Driver.SetDynamicValue(How.XPath, TERM_DATE, term1, term2);
+			return SuggestedTermDate.Text;
+		}
 		#endregion
 
 		#region Составные методы
@@ -240,7 +263,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 
 			return LoadPage();
 		}
-
+		
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
@@ -306,6 +329,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		protected IWebElement EditSuggestTermButton { get; set; }
 
 		protected IWebElement SuggestedTerm { get; set; }
+		
+		protected IWebElement SuggestedTermAuthor { get; set; }
+		
+		protected IWebElement SuggestedTermDate { get; set; }
 
 		#endregion
 
@@ -329,6 +356,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries.SuggestedTerms
 		protected const string TERM_IN_EDIT_MODE = "//div[@class='l-corprtree__langbox'][*#*]//div[2]";
 		protected const string ADD_SYNONYM_BUTTON = "//div[contains(@class,'l-corprtree__langbox')][*#*]//i[contains(@class,'js-add-term')]";
 		protected const string TERM = "//tr[contains(@class, 'l-corpr__trhover js-suggest-row') and contains(string(), '*#*') and contains(string(), '*##*')]";
+		protected const string TERM_AUTHOR = "//tr[contains(@class, 'l-corpr__trhover js-suggest-row') and contains(string(), '*#*') and contains(string(), '*##*')]//td[5]/p";
+		protected const string TERM_DATE = "//tr[contains(@class, 'l-corpr__trhover js-suggest-row') and contains(string(), '*#*') and contains(string(), '*##*')]//td[6]/p";
 
 		#endregion
 	}

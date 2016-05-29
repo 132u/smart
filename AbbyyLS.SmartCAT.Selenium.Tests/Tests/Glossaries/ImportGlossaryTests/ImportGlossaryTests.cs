@@ -19,12 +19,27 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryImportDialog
 				.ImportGlossary(PathProvider.GlossaryFileForImport)
-				.ClickImportButtonInImportDialog();
+				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
 
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
+		}
+
+		[Test, Description("S-7293")]
+		public void ImportGlossaryWrongStructureTest()
+		{
+			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
+
+			_glossaryPage.ClickImportButton();
+
+			_glossaryImportDialog
+				.ImportGlossary(PathProvider.GlossaryFileForImportWrongStructure)
+				.ClickImportInImportInImportDialog();
+
+			Assert.IsTrue(_glossaryImportDialog.IsStructureErrorDisplayed(),
+				"Произошла ошибка:\n не отобразилась ошибка структуры загружаемого документа");
 		}
 
 		[Test]
@@ -40,7 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryImportDialog
 				.ClickReplaceTermsButton()
 				.ImportGlossary(PathProvider.GlossaryFileForImport)
-				.ClickImportButtonInImportDialog();
+				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
 

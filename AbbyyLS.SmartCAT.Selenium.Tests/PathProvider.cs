@@ -388,6 +388,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу xlsx c неправильной структурой
+		/// </summary>
+		public static string GlossaryFileForImportWrongStructure
+		{
+			get
+			{
+				return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossaryWrongStructure.xlsx")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу jpg
 		/// </summary>
 		public static string ImageFileForGlossariesTests
