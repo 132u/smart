@@ -62,13 +62,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_usersTab.ClickGroupsButton();
 
-			_groupsAndAccessRightsTab.RemoveUserFromAllGroups(AdditionalUser.NickName);
+			_groupsAndAccessRightsTab.RemoveUserFromAllGroups(AdditionalUser.FullName);
 
 			_newGroupDialog
 				.OpenNewGroupDialog()
 				.CreateNewGroup(_groupName);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.FullName);
 		}
 
 		[Test, Description("ТС-71")]

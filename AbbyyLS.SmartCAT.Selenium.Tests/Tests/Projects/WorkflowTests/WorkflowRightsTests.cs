@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName);
+				.RemoveUserFromAllGroups(AdditionalUser.FullName);
 
 			if (!_groupsAndAccessRightsTab.IsGroupExists(_groupName))
 			{
@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_newGroupDialog.CreateNewGroup(_groupName);
 			}
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.FullName);
 
 			_workspacePage.GoToProjectsPage();
 

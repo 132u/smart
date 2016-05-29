@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
 			_userRightsHelper.CreateGroupWithSpecificRights(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				groupName,
 				new List<RightsType>{RightsType.TMContentManagement});
 		}

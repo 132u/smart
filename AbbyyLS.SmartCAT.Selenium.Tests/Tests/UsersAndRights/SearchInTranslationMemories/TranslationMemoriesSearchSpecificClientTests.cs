@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryWithSecondClient, client: _commonClientName2);
 
 			_userRightsHelper.CreateGroupWithSpecificRightsAndSpecificClient(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				groupName,
 				RightsType.TMSearch,
 				_commonClientName);

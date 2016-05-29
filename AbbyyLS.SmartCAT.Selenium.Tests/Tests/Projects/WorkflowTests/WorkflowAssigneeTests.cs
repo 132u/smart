@@ -87,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName);
+				.RemoveUserFromAllGroups(AdditionalUser.FullName);
 
 			var text2 = "Translation 2";
 			var startRange = 1;

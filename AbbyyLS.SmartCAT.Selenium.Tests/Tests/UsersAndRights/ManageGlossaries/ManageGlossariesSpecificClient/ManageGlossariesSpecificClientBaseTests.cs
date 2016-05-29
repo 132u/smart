@@ -32,7 +32,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_glossariesHelper.CreateGlossary(_commonGlossaryUniqueName, client: _commonClientName2);
 
 			_userRightsHelper.CreateGroupWithSpecificRightsAndSpecificClient(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				_groupName,
 				RightsType.GlossaryManagement,
 				_commonClientName);

@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.AddRightToGroupAnyProject(RightsType.GlossaryManagement)
 				.ClickSaveButton(_groupName);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.FullName);
 		}
 
 		[Test]

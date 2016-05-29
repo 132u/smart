@@ -37,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
-			_userRightsHelper.CreateGroupWithoutSpecificRight(AdditionalUser.NickName, groupName, RightsType.UsersManagement);
+			_userRightsHelper.CreateGroupWithoutSpecificRight(AdditionalUser.FullName, groupName, RightsType.UsersManagement);
 
 			_workspacePage.SignOut();
 		}

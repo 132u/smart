@@ -89,9 +89,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_newGroupDialog.CreateNewGroup(_groupName);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, ThreadUser.FullName);
 
-			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, ThreadUser.NickName),
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, ThreadUser.FullName),
 				"Произошла ошибка:\n не удалось добавить пользователя в группу");
 		}
 

@@ -169,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.AddRightToGroupAnyProject(RightsType.ProjectCreation)
 				.ClickSaveButton(groupName);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, ThreadUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, ThreadUser.FullName);
 
 			_workspacePage.GoToProjectsPage();
 			_createProjectHelper.CreateNewProject(

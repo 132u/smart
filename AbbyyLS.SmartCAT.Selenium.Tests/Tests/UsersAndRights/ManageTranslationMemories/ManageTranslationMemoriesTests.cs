@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemoryToDeleteTest, client: _clientName, projectGroup: _projectGroupName);
 
 			_userRightsHelper.CreateGroupWithSpecificRights(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				_groupName,
 				new List<RightsType>{RightsType.TMManagement});
 

@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_usersTab.ClickGroupsButton();
 
-			Assert.IsFalse(_groupsAndAccessRightsTab.CheckGroupsContainsUser(_nickName),
+			Assert.IsFalse(_groupsAndAccessRightsTab.CheckGroupsContainsUser(_fullName),
 				"Произошла ошибка: пользователь добавился в группу.");
 		}
 
@@ -143,17 +143,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверный список пользователей.");
 
 			_groupsAndAccessRightsTab
-				.ClickAddGroupUserButton(_groupName, _nickName)
+				.ClickAddGroupUserButton(_groupName, _fullName)
 				.ClickSaveButton(_groupName);
 
-			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, _nickName),
-				"Произошла ошибка: пользователь {0} не добавился в группу {1}.", _nickName, _groupName);
+			Assert.IsTrue(_groupsAndAccessRightsTab.IsUserExistInGroup(_groupName, _fullName),
+				"Произошла ошибка: пользователь {0} не добавился в группу {1}.", _fullName, _groupName);
 
 			_groupsAndAccessRightsTab
 				.ClickEditGroupButton(_groupName)
 				.ClickAddUsersSearchbox(_groupName);
 
-			Assert.AreEqual(userList.Except(new List<string> { _nickName }), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
+			Assert.AreEqual(userList.Except(new List<string> { _fullName }), _groupsAndAccessRightsTab.GetUserListInSearchDropdown(),
 				"Произошла ошибка: неверный список пользователей.");
 
 			_workspacePage.GoToUsersPage();
@@ -182,18 +182,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.OpenNewGroupDialog()
 				.CreateNewGroup(_groupName);
 			
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, _nickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, _fullName);
 
 			_groupsAndAccessRightsTab
 				.ClickEditGroupButton(_groupName)
 				.ClickAddUsersSearchbox(_groupName)
 				.ClickGroupRow(_groupName);
 
-			Assert.IsFalse(_groupsAndAccessRightsTab.GetUserListInSearchDropdown().Contains(_nickName),
-				"Произошла ошибка: пользователь {0} состоит в списке кандидатов на добавление в группу.", _nickName);
+			Assert.IsFalse(_groupsAndAccessRightsTab.GetUserListInSearchDropdown().Contains(_fullName),
+				"Произошла ошибка: пользователь {0} состоит в списке кандидатов на добавление в группу.", _fullName);
 
 			_groupsAndAccessRightsTab
-				.ClickDeleteUserButton(_groupName, _nickName)
+				.ClickDeleteUserButton(_groupName, _fullName)
 				.ClickSaveButton(_groupName);
 
 			_workspacePage.GoToUsersPage();

@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_clientsPage.CreateNewClient(_commonClientName);
 
 			_userRightsHelper.CreateGroupWithSpecificRightsAndSpecificClient(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				groupName,
 				RightsType.TMContentManagement,
 				_commonClientName);

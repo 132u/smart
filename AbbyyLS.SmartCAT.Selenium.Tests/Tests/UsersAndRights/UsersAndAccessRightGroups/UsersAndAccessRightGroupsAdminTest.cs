@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[SetUp]
 		public void BeforeTest()
 		{
-			_adminHelper.CreateNewUser(_email, _nickName, _password, aolUser: false);
+			_adminHelper.CreateNewUser(_email, _fullName, _password, aolUser: false);
 		}
 
 		[Test, Description("S-7127"), ShortCheckList]
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверный email в сообщении.");
 
 			_signInPage.GetPage();
-			_loginHelper.LogInSmartCat(_email, _nickName, _password);
+			_loginHelper.LogInSmartCat(_email, _fullName, _password);
 
 			Assert.IsTrue(_workspacePage.IsWorkspacePageOpened(),
 				"Произошла ошибка: не открылась страница WAddUserCorporateAccountToGroupTest()S.");
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка: неверный email в сообщении.");
 
 			_signInPage.GetPage();
-			_loginHelper.LogInSmartCat(_email, _nickName, _password, testAccount);
+			_loginHelper.LogInSmartCat(_email, _fullName, _password, testAccount);
 
 			Assert.IsTrue(_workspacePage.IsWorkspacePageOpened(),
 				"Произошла ошибка: не открылась страница WS.");

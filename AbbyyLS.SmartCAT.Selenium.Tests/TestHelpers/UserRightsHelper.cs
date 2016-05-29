@@ -22,12 +22,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 		}
 
-		public UserRightsHelper CreateGroupWithoutSpecificRight(string nickName, string groupName, RightsType right)
+		public UserRightsHelper CreateGroupWithoutSpecificRight(string fullName, string groupName, RightsType right)
 		{
 			_workspacePage.GoToUsersPage();
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(nickName)
+				.RemoveUserFromAllGroups(fullName)
 				.OpenNewGroupDialog();
 
 			_newGroupDialog.CreateNewGroup(groupName);
@@ -38,18 +38,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				.ClickRightRadio(right)
 				.ClickAddRightButton();
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, fullName);
 
 			return this;
 		}
 
-		public UserRightsHelper CreateGroupWithSpecificRights(string nickName, string groupName, List<RightsType> rights)
+		public UserRightsHelper CreateGroupWithSpecificRights(string fullName, string groupName, List<RightsType> rights)
 		{
 			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(nickName)
+				.RemoveUserFromAllGroups(fullName)
 				.OpenNewGroupDialog();
 
 			_newGroupDialog.CreateNewGroup(groupName);
@@ -63,18 +63,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 					.ClickSaveButton(groupName);
 			}
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, fullName);
 
 			return this;
 		}
 
-		public UserRightsHelper CreateGroupWithSpecificRightsAndSpecificClient(string nickName, string groupName, RightsType right, string client)
+		public UserRightsHelper CreateGroupWithSpecificRightsAndSpecificClient(string fullName, string groupName, RightsType right, string client)
 		{
 			_workspacePage.GoToUsersPage();
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(nickName)
+				.RemoveUserFromAllGroups(fullName)
 				.OpenNewGroupDialog();
 
 			_newGroupDialog.CreateNewGroup(groupName);
@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 
 			_addAccessRightDialog.AddRightToGroupSpecificClient(right, client);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, nickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, fullName);
 
 			return this;
 		}

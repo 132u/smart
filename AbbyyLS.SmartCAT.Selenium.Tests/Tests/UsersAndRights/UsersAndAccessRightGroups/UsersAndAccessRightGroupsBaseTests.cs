@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_password = Guid.NewGuid().ToString();
 			_email = Guid.NewGuid() + "@mailforspam.com";
 			_today = DateTime.Today.Date;
-			_nickName = _name + " " + _surname;
+			_fullName = _name + " " + _surname;
 			_groupName = Guid.NewGuid().ToString();
 		}
 
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected string _name;
 		protected string _surname;
 		protected string _email;
-		protected string _nickName;
+		protected string _fullName;
 		protected DateTime _today;
 		protected string _groupName;
 

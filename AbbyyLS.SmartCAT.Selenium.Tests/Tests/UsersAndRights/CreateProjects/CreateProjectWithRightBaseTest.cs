@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
+				.RemoveUserFromAllGroups(AdditionalUser.FullName)
 				.OpenNewGroupDialog();
 
 			_newGroupDialog.CreateNewGroup(groupName);
@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.AddRightToGroupAnyProject(RightsType.ProjectCreation)
 				.ClickSaveButton(groupName);
 
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, AdditionalUser.FullName);
 
 			_workspacePage.SignOut();
 		}

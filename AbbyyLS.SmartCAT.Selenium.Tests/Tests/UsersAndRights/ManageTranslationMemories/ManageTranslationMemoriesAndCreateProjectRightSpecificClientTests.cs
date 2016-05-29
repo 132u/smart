@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.GoToUsersPage();
 
 			_userRightsHelper.CreateGroupWithSpecificRights(
-				AdditionalUser.NickName,
+				AdditionalUser.FullName,
 				_groupName,
 				new List<RightsType>
 				{

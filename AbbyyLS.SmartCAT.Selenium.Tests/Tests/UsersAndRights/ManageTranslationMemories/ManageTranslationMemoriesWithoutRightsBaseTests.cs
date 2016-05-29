@@ -41,11 +41,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_usersTab
 				.ClickGroupsButton()
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
+				.RemoveUserFromAllGroups(AdditionalUser.FullName)
 				.OpenNewGroupDialog();
 
 			_newGroupDialog.CreateNewGroup(_groupName);
-			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
+			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.FullName);
 
 			_workspacePage.SignOut();
 		}

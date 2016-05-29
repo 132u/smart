@@ -35,11 +35,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 			_usersTab.ClickGroupsButton();
 
 			_groupsAndAccessRightsTab
-				.RemoveUserFromAllGroups(AdditionalUser.NickName)
+				.RemoveUserFromAllGroups(AdditionalUser.FullName)
 				.ClickCreateGroupButton()
 				.SetNewGroupName(_groupName)
 				.ClickSaveNewGroupButton()
-				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.NickName);
+				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.FullName);
 		}
 
 		[Test, Description("S-13767")]
