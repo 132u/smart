@@ -1,6 +1,6 @@
-﻿using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
@@ -47,8 +47,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не появились результаты поиска");
 		}
 
-		[Test, Description("S-7243"), ShortCheckList]
-		public void AutoPasteWordToSearchQueryTest()
+		[Test, Description("S-29217"), ShortCheckList]
+		public void AutoPasteWordToSearchQueryFromTargetTest()
 		{
 			var translation = "первый";
 
@@ -60,6 +60,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(translation, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
 				"Произошла ошибка: не всработала автоподстановка");
 		}
+
+		[Test, Description("S-7243"), ShortCheckList]
+		public void AutoPasteWordToSearchQueryFromSourceTest()
+		{
+			var firstWord = "first";
+
+			_editorPage
+				.SelectFirstWordInSegment(rowNumber: 1, segmentType: SegmentType.Source)
+				.ClickSearchInLingvoDictionariesButton();
+
+			Assert.AreEqual(firstWord, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
+				"Произошла ошибка: не всработала автоподстановка");
+		}
+
 
 		[Test, Description("S-7244"), ShortCheckList]
 		public void LinkToSearchPageTest()
