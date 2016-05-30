@@ -81,7 +81,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public NewTranslationMemoryDialog ClickTargetLanguagesList()
 		{
 			CustomTestContext.WriteLine("Раскрыть / свернуть список языков перевода");
-			TargetLanguagesList.WaitTargetAndClick();
+			Thread.Sleep(1000); // Медленнозакрывающийся дропдаун
+			TargetLanguagesList.Click();
 
 			return LoadPage();
 		}

@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string UPLOAD_TM_BUTTON = "//div[contains(@class,'js-popup-create-project')][2]//span[contains(@class,'js-tm-upload')]";
 		protected const string NEW_TM_NAME_INPUT = "//div[contains(@class,'js-popup-create-tm')][2]//input[contains(@data-bind,'value: name')]";
 		protected const string ADD_BUTTON = "//a[contains(@data-bind, 'addTranslationMemories')]";
-		protected const string CANCEL_BUTTON = "//a[@data-bind='click: close']";
+		protected const string CANCEL_BUTTON = "(//h2[text()='Translation Memory']//ancestor::div[@class='g-popupbox js-popupbox']//a[@data-bind='click: close'])[1]";
 
 		protected const string TRANSLATION_MEMORY_CHECKBOX = "//div[contains(text(),'*#*')]/../../../..//label//input";
 		protected const string SEARCH = "(//input[@name='searchName'])[1]";
