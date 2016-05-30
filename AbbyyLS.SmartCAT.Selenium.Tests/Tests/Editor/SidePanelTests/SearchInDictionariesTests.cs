@@ -48,6 +48,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test, Description("S-29217"), ShortCheckList]
+		public void AutoPasteWordToSearchQueryFromTargetByHotkeyTest()
+		{
+			var translation = "первый";
+
+			_editorPage
+				.FillTarget(translation, rowNumber: 1)
+				.SelectFirstWordInSegment(rowNumber: 1, segmentType: SegmentType.Target)
+				.ClickSearchInLingvoDictionariesButtonByHotkey();
+
+			Assert.AreEqual(translation, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
+				"Произошла ошибка: не сработала автоподстановка");
+		}
+
+		[Test, Description("S-7243"), ShortCheckList]
+		public void AutoPasteWordToSearchQueryFromSourceByHotkeyTest()
+		{
+			var firstWord = "first";
+
+			_editorPage
+				.SelectFirstWordInSegment(rowNumber: 1, segmentType: SegmentType.Source)
+				.ClickSearchInLingvoDictionariesButtonByHotkey();
+
+			Assert.AreEqual(firstWord, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
+				"Произошла ошибка: не сработала автоподстановка");
+		}
+
+		[Test]
 		public void AutoPasteWordToSearchQueryFromTargetTest()
 		{
 			var translation = "первый";
@@ -61,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не сработала автоподстановка");
 		}
 
-		[Test, Description("S-7243"), ShortCheckList]
+		[Test]
 		public void AutoPasteWordToSearchQueryFromSourceTest()
 		{
 			var firstWord = "first";
@@ -73,7 +100,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.AreEqual(firstWord, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
 				"Произошла ошибка: не сработала автоподстановка");
 		}
-
 
 		[Test, Description("S-7244"), ShortCheckList]
 		public void LinkToSearchPageTest()
