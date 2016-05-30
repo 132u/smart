@@ -509,7 +509,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Получить статус проекта {0}", projectName);
 			ProjectStatusRights = Driver.SetDynamicValue(How.XPath, PROJECT_STATUS_RIGHTS, projectName);
-			
+
 			return ProjectStatusRights.Text;
 		}
 
@@ -1265,7 +1265,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string JOB_LIST = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[@class='l-project__name']";
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
-		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']/../../..//following-sibling::td//p[contains(@data-bind, 'displayStatus')]";
+		protected const string PROJECT_STATUS_RIGHTS = ".//table[contains(@class,'js-tasks-table')]//tr//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//td[contains(@class,'status')]//p";
 		protected const string DELETE_BUTTON_IN_PROJECT_PANEL = "//*[text()='*#*']/../../../../following-sibling::tr//div[contains(@class, 'project__panel')]//button[contains(@data-bind, 'click: deleteProject')]";
 		protected const string MY_TASKS_TAB = "//a[@href='/Workspace?tab=MyTasks']";
 		protected const string CANCELLED_PROJECTS_TAB = "//a[@href='/Workspace?tab=Canceled']";

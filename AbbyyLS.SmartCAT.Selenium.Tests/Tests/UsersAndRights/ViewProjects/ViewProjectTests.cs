@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
+				.ClickDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
 
 			Assert.IsTrue(_projectsPage.IsMyTaskDisplayed(PathProvider.DocumentFile2),
 				"Произошла ошибка:\n Задача перевода не отображается для текущего пользователя.");
