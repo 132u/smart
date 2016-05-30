@@ -1750,7 +1750,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			if (clearField)
 			{
-				TargetCell.SetText(text);
+				TargetCell.SetText(text, expectedText: text);
 			}
 			else
 			{

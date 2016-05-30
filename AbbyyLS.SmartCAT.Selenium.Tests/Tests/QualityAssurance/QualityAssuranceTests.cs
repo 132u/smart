@@ -98,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				.HoverSegmentErrorLogo(segmentNumber: 2);
 
 			Assert.IsFalse(_editorPage.IsMessageWithCrititcalErrorDisplayed(),
-				"Произошла ошибка: не появилось сообщение о том, что перевод содержит критическую ошибку.");
+				"Произошла ошибка: появилось сообщение о том, что перевод содержит критическую ошибку.");
 
 			Assert.IsTrue(_editorPage.IsSegmentConfirmed(rowNumber: 2),
 				"Произошла ошибка: семент не подтвержден.");

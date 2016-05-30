@@ -29,6 +29,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				i++;
 				webElement.Clear();
 
+				Thread.Sleep(100); // Возникают проблемы в редакторе, если быстро перезаписывать
+				// таргет сегмента. Думаю из-за того, что там много фоновых обработок типа
+				// проверки репетишенов, ошибок и ревизий.
+
 				try
 				{
 					webElement.SendKeys(text);
@@ -45,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 
 			if (webElement.GetAttribute("value") != expectedText && webElement.Text.TrimEnd(' ') != expectedText)
 			{
-				CustomTestContext.WriteLine("ebElement.GetAttribute('value')= {0},\nexpectedText= {1}, \nwebElement.Text.TrimEnd(' ')= {2}", webElement.GetAttribute("value"), expectedText, webElement.Text.TrimEnd(' '));
+				CustomTestContext.WriteLine("webElement.GetAttribute('value')= {0},\nexpectedText= {1}, \nwebElement.Text.TrimEnd(' ')= {2}", webElement.GetAttribute("value"), expectedText, webElement.Text.TrimEnd(' '));
 				throw new Exception("Произошла ошибка:\nНеверный текст в элементе");
 			}
 		}
