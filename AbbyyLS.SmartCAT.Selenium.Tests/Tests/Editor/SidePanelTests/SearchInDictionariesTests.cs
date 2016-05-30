@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.ClickSearchInLingvoDictionariesButton();
 
 			Assert.AreEqual(translation, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
-				"Произошла ошибка: не всработала автоподстановка");
+				"Произошла ошибка: не сработала автоподстановка");
 		}
 
 		[Test, Description("S-7243"), ShortCheckList]
@@ -71,7 +71,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.ClickSearchInLingvoDictionariesButton();
 
 			Assert.AreEqual(firstWord, _editorPage.GetTextFromSearchFieldInDictionariesTab(),
-				"Произошла ошибка: не всработала автоподстановка");
+				"Произошла ошибка: не сработала автоподстановка");
 		}
 
 

@@ -101,7 +101,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public EditorPage ClickTranslationDirectionSwitchOnDictionariesTab()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку смены направления перевода на вкладке 'Dictionaries' в боковой панели");
-			DictionariesTranslationDirectionSwitch.Click();
+			DictionariesTranslationDirectionSwitch.JavaScriptClick();
 
 			return LoadPage();
 		}
@@ -2844,7 +2844,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_INPUT = "//div[@id='lingvo-search-body']//input[@name='searchText']";
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON = "//div[@id='lingvo-search-body']//span[text()='Search']//ancestor::span//ancestor::a";
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_RESULTS = "//div[@id='lingvo-search-body']//h2//span[@class='Bold' and text()='*#*']";
-		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-body']//div[contains(@id,'lingvodirection')]";
+		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-body']//label[contains(@id,'lingvosearchdirection')]";
 		protected const string SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK = "//div[@id='lingvo-search-body']//span[text()='Open in new tab']//ancestor::span//ancestor::a";
 
 		protected const string SEARCH_IN_LINGVO_DICTIONARIES = "//a[@id='lingvo-lookup-btn']";
