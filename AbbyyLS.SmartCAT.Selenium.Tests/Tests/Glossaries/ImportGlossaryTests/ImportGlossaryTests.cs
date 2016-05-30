@@ -27,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
 
-		[Test, Description("S-7293")]
+		[Test, Description("S-7293"), ShortCheckList]
 		public void ImportGlossaryWrongStructureTest()
 		{
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);

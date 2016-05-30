@@ -14,7 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 	class SuggestTermsFromGlossariesTests<TWebDriverProvider>
 		: SuggestTermsBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-7289")]
+		[Test, Description("S-7289"), ShortCheckList]
 		public void SuggestTermWithoutGlossaryTest()
 		{
 			var date = DateTime.UtcNow.ToString("MM/dd/yyyy", new CultureInfo("en-US"));
@@ -39,7 +39,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n неверно указана дата");
 		}
 
-		[Test, Description("S-7289")]
+		[Test, Description("S-7289"), ShortCheckList]
 		public void SuggestTermWithGlossaryTest()
 		{
 			var date = DateTime.UtcNow.ToString("MM/dd/yyyy", new CultureInfo("en-US"));
