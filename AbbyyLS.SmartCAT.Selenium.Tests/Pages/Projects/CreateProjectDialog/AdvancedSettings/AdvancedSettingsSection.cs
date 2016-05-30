@@ -78,8 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// </summary>
 		public bool IsAdvancedSettingsSectionOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATION_MEMORY_TAB)) &&
-				Driver.WaitUntilElementIsAppear(By.XPath(SELECT_TM_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(TRANSLATION_MEMORY_TAB));
 		}
 
 		#endregion

@@ -67,12 +67,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <summary>
 		/// Нажать кнопку Cancel в окне выбора TM
 		/// </summary>
-		public NewProjectSettingsPage ClickCancelButton()
+		public TranslationMemoryAdvancedSettingsSection ClickCancelButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Cancel в окне выбора TM");
 			CancelButton.Click();
 
-			return new NewProjectSettingsPage(Driver).LoadPage();
+			return new TranslationMemoryAdvancedSettingsSection(Driver).LoadPage();
 		}
 
 		#endregion
