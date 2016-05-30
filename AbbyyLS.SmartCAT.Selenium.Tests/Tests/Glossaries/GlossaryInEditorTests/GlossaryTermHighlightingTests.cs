@@ -59,8 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var dictionary = new Dictionary<string, string>
 			{ 
 				{"more", "еще"},
-				{"one", "один"},
-				{"test", "тест"}
+				{"first", "первый"},
+				{"test", "тест"},
 			};
 
 			_glossaryPage.CreateTerms(dictionary);
