@@ -1513,11 +1513,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Получить текст из таргет сегмента
 		/// </summary>
 		/// <param name="rowNumber">номер строки сегмента</param>
-		public string GetTargetText(int rowNumber)
+		/// <param name="empty">ожидается пустая строка</param>
+		public string GetTargetText(int rowNumber, bool empty = false)
 		{
 			CustomTestContext.WriteLine("Получить текст из таргет сегмента №{0}.", rowNumber);
 			ScrollToTarget(rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
+
+			if (!empty)
+			{
+				Driver.WaitUntilTextToBePresentInElementLocated(TargetCell);
+			}
 
 			return TargetCell.Text.Trim();
 		}

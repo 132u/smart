@@ -95,7 +95,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test, Description("S-7240"), ShortCheckList]
 		public void TargetConcordanceSearchTest()
 		{
-			var targetText = _editorPage.GetTargetText(rowNumber: 2);
+			var targetText = _editorPage
+				.ClickOnTargetCellInSegment(rowNumber: 2)
+				.GetTargetText(rowNumber: 2);
+
 			var searchText = "searchText";
 			var catSourceText = _editorPage.GetSourceCatTranslationText(rowNumber: 2).Replace(".", "");
 			var catTargetText = _editorPage.GetTargetCatTranslationText(rowNumber: 2);
