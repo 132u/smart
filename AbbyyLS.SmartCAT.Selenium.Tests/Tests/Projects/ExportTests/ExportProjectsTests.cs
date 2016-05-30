@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
@@ -153,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
-			Assert.IsTrue(_exportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType)),
+			Assert.IsTrue(_exportNotification.IsFileDownloaded(string.Format("Documents_*{0}.zip", exportType.Description())),
 				"Произошла ошибка: файл не загрузился");
 		}
 

@@ -65,7 +65,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 				if (n < 5 && !Driver.WaitUntilElementIsDisappeared(By.XPath(NOTIFIER_CANCEL_BTN.Replace("*#*", i.ToString()))))
 				{
 					CustomTestContext.WriteLine("Закрыть уведомление №{0}, попытка клика №{1}.", i, n + 2);
-					CancelNotifierButton.Click();
+					CancelNotifierButton = Driver.SetDynamicValue(How.XPath, NOTIFIER_CANCEL_BTN, i.ToString());
+					CancelNotifierButton.JavaScriptClick();
 					n++;
 				}
 

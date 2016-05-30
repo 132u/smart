@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-16925")]
 		public void ExportProjectMultiDocCheckNotifierText()
 		{
 			_projectsPage
