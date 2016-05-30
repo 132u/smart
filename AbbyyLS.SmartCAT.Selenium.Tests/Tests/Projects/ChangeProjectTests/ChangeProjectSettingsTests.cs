@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectSettingsButton(_projectUniqueName);
 		}
 
-		[Test, Description("S-29229"), ShortCheckList]
+		[Test, Description("S-29229"), ShortCheckList, Ignore("PRX-17072")]
 		public void ChangeClientTest()
 		{
 			_projectSettingsDialog
