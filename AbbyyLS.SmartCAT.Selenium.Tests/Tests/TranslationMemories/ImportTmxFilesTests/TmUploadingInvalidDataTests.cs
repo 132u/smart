@@ -19,12 +19,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("txtWithTmxExtension.tmx")]
 		public void UploadIncorrectTmxFileTest(string file)
 		{
+			var tmxFile = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
 				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
+			ImportTmxDialog.ImportTmxFile(tmxFile);
 
 			Assert.IsTrue(TranslationMemoriesPage.IsFileImportFailedNotifierDisplayed(),
 				"Произошла ошибка:\n сообщение об ошибке во время импорта TMX файла не появилось");
@@ -34,13 +36,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("docxFile.docx")]
 		public void UploadTMFileWithWrongExtensionTest(string file)
 		{
+			var tmxFile = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
 				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
 			ImportTmxDialog
-				.EnterFileName(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file))
+				.EnterFileName(tmxFile)
 				.ClickImportButtonExpectingError();
 
 			Assert.IsTrue(TranslationMemoriesPage.IsImportValidationErrorMessageDisplayed(),

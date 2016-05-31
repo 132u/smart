@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "FilterFile.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "FilterFile.txt")).LocalPath);
 			}
 		}
 
@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "ТС-42.xlf")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "ТС-42.xlf")).LocalPath);
 			}
 		}
 
@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "TagsRepetitionsNumbers.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "TagsRepetitionsNumbers.docx")).LocalPath);
 			}
 		}
 
@@ -52,7 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions1.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions1.docx")).LocalPath);
 			}
 		}
 
@@ -63,7 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions2.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "CrossFileRepititions2.docx")).LocalPath);
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile.txt")).LocalPath);
 			}
 		}
 
@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "AutoSubstitution.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "AutoSubstitution.txt")).LocalPath);
 			}
 		}
 
@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "QANavigationFile.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "QANavigationFile.txt")).LocalPath);
 			}
 		}
 
@@ -107,7 +107,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "repetitionsTxtFile.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "repetitionsTxtFile.txt")).LocalPath);
 			}
 		}
 
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(editorFilesFolder, "EditorTmxFile.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "EditorTmxFile.tmx")).LocalPath);
 			}
 		}
 
@@ -129,7 +129,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(filesForMatchTestFolder, "TxtFileForMatchTest.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(filesForMatchTestFolder, "TxtFileForMatchTest.docx")).LocalPath);
 			}
 		}
 
@@ -140,7 +140,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(filesForMatchTestFolder, "TmxFileForMatchTest.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(filesForMatchTestFolder, "TmxFileForMatchTest.tmx")).LocalPath);
 			}
 		}
 
@@ -177,7 +177,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath);
 			}
 		}
 
@@ -188,7 +188,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(FilesDirectory, "English.docx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(FilesDirectory, "English.docx")).LocalPath);
 			}
 		}
 
@@ -199,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "testToConfirm.txt")).LocalPath);
 			}
 		}
 
@@ -210,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm2.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "testToConfirm2.txt")).LocalPath);
 			}
 		}
 
@@ -221,7 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(projectsFilesFolder, "LongText.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "LongText.txt")).LocalPath);
 			}
 		}
 
@@ -232,7 +232,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(projectsFilesFolder, "test.ttx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "test.ttx")).LocalPath);
 			}
 		}
 
@@ -276,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(projectsFilesFolder, "OneLineText.txt")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "OneLineText.txt")).LocalPath);
 			}
 		}
 
@@ -291,7 +291,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "SearchTranslationExampleTest.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "SearchTranslationExampleTest.tmx")).LocalPath);
 			}
 		}
 
@@ -302,7 +302,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "LongTM.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "LongTM.tmx")).LocalPath);
 			}
 		}
 
@@ -313,7 +313,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "OneLineTmx.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "OneLineTmx.tmx")).LocalPath);
 			}
 		}
 
@@ -324,7 +324,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "CorrectTmxEnRu.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "CorrectTmxEnRu.tmx")).LocalPath);
 			}
 		}
 
@@ -335,7 +335,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "SecondCorrectTmxEnRu.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "SecondCorrectTmxEnRu.tmx")).LocalPath);
 			}
 		}
 
@@ -346,7 +346,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(tmFilesFolder, "withUnicodeCharacters.tmx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "withUnicodeCharacters.tmx")).LocalPath);
 			}
 		}
 
@@ -383,7 +383,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossary.xlsx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestGlossary.xlsx")).LocalPath);
 			}
 		}
 
@@ -394,7 +394,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossaryWrongStructure.xlsx")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestGlossaryWrongStructure.xlsx")).LocalPath);
 			}
 		}
 
@@ -405,7 +405,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(glossariesFilesFolder, "TestImage.jpg")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestImage.jpg")).LocalPath);
 			}
 		}
 
@@ -416,7 +416,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get
 			{
-				return new Uri(Path.Combine(glossariesFilesFolder, "TestAudio.mp3")).LocalPath;
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestAudio.mp3")).LocalPath);
 			}
 		}
 
@@ -511,6 +511,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			{
 				return new Uri(Path.Combine(ResultsFolderPath, "ExportFiles")).LocalPath;
 			}
+		}
+
+		/// <summary>
+		/// Путь к экспортированным файлам
+		/// </summary>
+		public static string ImportFiles
+		{
+			get
+			{
+				return new Uri(Path.Combine(ResultsFolderPath, "ImportFiles")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Метод копирует файл и переименовывает для получения уникального имени (и пути)
+		/// </summary>
+		/// <param name="documentPath">Путь до документа</param>
+		public static string GetUniqueFilePath(string documentPath)
+		{
+			var oldFileName = Path.GetFileNameWithoutExtension(documentPath);
+			var oldFileExtension = Path.GetExtension(documentPath);
+			var newFilePath = Path.Combine(ImportFiles, oldFileName + " - " + Guid.NewGuid() + oldFileExtension);
+
+			File.Copy(documentPath, newFilePath);
+
+			return newFilePath;
 		}
 
 		static private readonly FilesRootCfg _pathConfig = TestSettingDefinition.Instance.Get<FilesRootCfg>();
