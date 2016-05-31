@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_workspacePage.Driver.Quit();
 
-			var newDriver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles, PathProvider.ImportFiles);
+			var newDriver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 			var newSignInPage = new SignInPage(newDriver);
 			var newWorkspacePage = new WorkspacePage(newDriver);
 			

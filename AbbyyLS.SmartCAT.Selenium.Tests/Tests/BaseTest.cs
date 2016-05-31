@@ -25,7 +25,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests
 			try
 			{
 				ThreadUser = TakeUser(ConfigurationManager.Users);
-				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles, PathProvider.ImportFiles);
+				Driver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
 			}
 			catch (Exception ex)
 			{
