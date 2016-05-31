@@ -10,7 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 	{
 		public static Logger Log = LogManager.GetCurrentClassLogger();
 
-		public RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory)
+		public RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory, string importDirectory)
 		{
 			var defaultDriverPath = new Uri(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "chromedriver.exe")).LocalPath;
 			var driverCopyPath = new Uri(Path.Combine(tempFolder, "chromedriver.exe")).LocalPath;
@@ -22,6 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			Directory.CreateDirectory(tempFolder);
 			Directory.CreateDirectory(downloadDirectory);
+			Directory.CreateDirectory(importDirectory);
 
 			File.Copy(defaultDriverPath, driverCopyPath);
 
