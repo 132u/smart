@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				"Произошла ошибка:\n подсказка к Cat-панели не закрылась.");
 		}
 
-		[Test, Description("S-7131"), ShortCheckList]
+		[Test, Description("S-7131"), ShortCheckList, Ignore("PRX-16834")]
 		public void NewFreelancerInWorkspaceHelpTest()
 		{
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);
