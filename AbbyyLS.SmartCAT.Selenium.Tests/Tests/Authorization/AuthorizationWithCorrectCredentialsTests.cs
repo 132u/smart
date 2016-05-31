@@ -63,41 +63,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 		}
 
 		[Test]
-		public void SignInWithPerevedemAccount()
-		{
-			var accountName = "Perevedem";
-			var email = "testuserperevedem@mailforspam.com";
-			var nickName = "testuserperevedem@mailforspam.com";
-			var password = "43abC12z";
-
-			_adminSignInPage
-				.GetPage()
-				.SignIn(ThreadUser.Login, ThreadUser.Password);
-
-			_adminHelper.CreateUserWithSpecificAndPersonalAccount(
-				email: email,
-				name: nickName,
-				surname: nickName,
-				nickName: nickName,
-				password: password,
-				accountName: accountName,
-				personalAccountActiveState: false,
-				aolUser: true);
-
-			_signInPage
-				.GetPage()
-				.SubmitFormExpectingWorkspacePage(email, password);
-			
-			_workspacePage.SetLocale();
-
-			Assert.AreEqual(_workspacePage.GetUserName(), nickName,
-				"Произошла ошибка:\n имя пользователя в черной плашке не совпадает с ожидаемым именем.");
-
-			Assert.IsTrue(_workspacePage.IsAccountNameMatchExpected(accountName),
-				"Произошла ошибка:\n название аккаунта в черной плашке не совпадает с ожидаемым именем.");
-		}
-
-		[Test]
 		public void SignInWithCourseraAccount()
 		{
 			var accountName= "Coursera";

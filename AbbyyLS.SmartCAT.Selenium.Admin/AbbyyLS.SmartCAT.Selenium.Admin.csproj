@@ -61,7 +61,6 @@
     <Compile Include="Tests\CreateDefaultDictionaryPackage.cs" />
     <Compile Include="Tests\InitialCreateAccounts\CreateCorporateAccount.cs" />
     <Compile Include="Tests\InitialCreateAccounts\CreateCourseraCorporateAccount.cs" />
-    <Compile Include="Tests\InitialCreateAccounts\CreatePerevedemCorporateAccount.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateAdditionalUsers.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateCrowdsourceCourceraUsers.cs" />
     <Compile Include="Tests\InitialCreateUsers\CreateReviewerCourceraUsers.cs" />
