@@ -89,19 +89,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		}
 
 		/// <summary>
-		/// Кликнуть по ссылке проекта без открытия страницы проекта
-		/// </summary>
-		/// <param name="projectName">имя проекта</param>
-		public ProjectsPage ClickProjectWithoutProjectSettingPageOpened(string projectName)
-		{
-			CustomTestContext.WriteLine("ККликнуть по ссылке проекта без открытия страницы проекта {0}.", projectName);
-			ProjectRef = Driver.SetDynamicValue(How.XPath, PROJECT_REF, projectName);
-			ProjectRef.JavaScriptClick();
-			
-			return LoadPage();
-		}
-
-		/// <summary>
 		/// Нажать на кнопку 'Создать проект'
 		/// </summary>
 		public NewProjectDocumentUploadPage ClickCreateProjectButton()
@@ -812,7 +799,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			CustomTestContext.WriteLine("Проверить, что проект {0} отсутствует в списке проектов.", projectName);
 
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_REF.Replace("*#*", projectName)));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(PROJECT_ROW.Replace("*#*", projectName)));
 		}
 
 		/// <summary>
@@ -827,7 +814,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать 'Поиск'");
 			ProjectSearchButton.ScrollAndClick();
 
-			var isProjectExist = Driver.WaitUntilElementIsAppear(By.XPath(PROJECT_REF.Replace("*#*", projectName)), 5);
+			var isProjectExist = Driver.WaitUntilElementIsAppear(By.XPath(PROJECT_ROW.Replace("*#*", projectName)), 5);
 
 			CustomTestContext.WriteLine("Очистить поле поиска по проектам");
 			ProjectSearchField.Clear();
@@ -1221,8 +1208,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DELETE_BUTTON = "//button[contains(@data-bind,'deleteProjects')]";
 		protected const string PROJECT_SEARCH_FIELD = "//input[@name='searchName']";
 		protected const string SEARCH_PROJECT_BUTTON = "//button[contains(@class, 'js-search-btn')]";
-
-		protected const string PROJECT_REF = "//*[text()='*#*']/../..//i[contains(@class, 'project__folder')]";
 
 		protected const string DEAD_LINE_VALUE = "//span[text()='*#*']/ancestor::tr//td/span[contains(@data-bind, 'deadlineForCurrentUser')]";
 		protected const string PROJECT_STATUS = ".//*[text()='*#*']/../../..//following-sibling::td[contains(@class, 'status-td')]//input";

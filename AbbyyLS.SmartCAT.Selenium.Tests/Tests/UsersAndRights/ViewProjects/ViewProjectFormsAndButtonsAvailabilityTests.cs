@@ -50,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void ProjectPageTest()
 		{
-			_projectsPage.ClickProjectWithoutProjectSettingPageOpened(_projectUniqueName);
+			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
 			Assert.IsTrue(_projectsPage.IsProjectPanelExpanded(_projectUniqueName),
 				"Произошла ошибка: Не открылась вкладка проекта {0}.", _projectUniqueName);
