@@ -12,7 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Editor]
 	class EditorUndoRedoButtonsTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Ignore("PRX-16042")]
+		[Test]
 		public void UndoRedoButtonTest()
 		{
 			var targetText = "some text";
@@ -31,7 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Текст в таргете для сегмента №{0} не восстановился после клика по кнопке Отмены.", _segmentNumber);
 		}
 
-		[Test, Ignore("PRX-16042")]
+		[Test]
 		public void UndoRedoHotkeyTest()
 		{
 			var targetText = "some text";

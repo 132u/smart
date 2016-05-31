@@ -24,7 +24,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка:\n файл не был скачан за отведенное время");
 		}
 
-		[Test, Ignore("PRX-15793")]
+		[Test]
 		public void ImportGlossaryTest()
 		{
 			_glossaryPage.ClickImportButton();

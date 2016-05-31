@@ -62,7 +62,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 				"Произошла ошибка:\n страница с выбором профиля не открылась.");
 		}
 
-		[Ignore("PRX-15311")]
 		[Test]
 		public void SignInWithPerevedemAccount()
 		{
