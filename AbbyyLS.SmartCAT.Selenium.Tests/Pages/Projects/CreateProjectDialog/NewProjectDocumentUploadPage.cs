@@ -103,6 +103,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		public NewProjectDocumentUploadPage UploadDocumentFiles(
 			IList<string> filesPaths, bool errorExpecting = false)
 		{
+			CustomTestContext.WriteLine("Загрузить файл в проект.");
+
 			foreach (var filePath in filesPaths)
 			{
 				CustomTestContext.WriteLine("Загрузить файл: {0}.", filePath);
