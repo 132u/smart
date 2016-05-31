@@ -19,14 +19,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("txtWithTmxExtension.tmx")]
 		public void UpdateTmWithIncorrectTmxFileTest(string file)
 		{
-			var tmxFile = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
-
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
 				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(tmxFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(
+				Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -37,14 +36,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("docxFile.docx")]
 		public void UpdateTMImportValidation(string file)
 		{
-			var tmxFile = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
-
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
 				importFilePath: PathProvider.EditorTmxFile);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(tmxFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(
+				Path.Combine(PathProvider.IncorrectTmxFilesFolder, file));
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButtonExpectingError();
 

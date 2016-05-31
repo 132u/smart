@@ -60,11 +60,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void DocumentFormatsTest(string file)
 		{
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			var document = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.SupportedFormatsFiles, file));
 
 			_createProjectHelper.CreateNewProject(
 				projectUniqueName,
-				filesPaths: new[] { document },
+				filesPaths: new[] { Path.Combine(PathProvider.SupportedFormatsFiles, file) },
 				expectingError: true);
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(projectUniqueName),
@@ -83,13 +82,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase("TestAudio.mp3")]
 		public void ImportUnsupportedFileTest(string file)
 		{
-			var document = PathProvider.GetUniqueFilePath(Path.Combine(PathProvider.UnSupportedFormatsFiles, file));
-
 			_projectsPage.ClickCreateProjectButton();
 
-			_newProjectDocumentUploadPage.UploadDocumentFiles(new[] { document }, errorExpecting: true);
+			_newProjectDocumentUploadPage.UploadDocumentFiles(
+				new[] { Path.Combine(PathProvider.UnSupportedFormatsFiles, file) }, errorExpecting: true);
 
-			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(document),
+			Assert.IsTrue(_newProjectDocumentUploadPage.IsWrongDocumentFormatErrorDisplayed(
+				Path.Combine(PathProvider.UnSupportedFormatsFiles, file)),
 				"Произошла ошибка:\n не появилось сообщение о неверном формате загружаемого документа");
 		}
 	}
