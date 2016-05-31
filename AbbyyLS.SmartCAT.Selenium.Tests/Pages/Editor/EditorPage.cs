@@ -1053,8 +1053,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <summary>
 		/// Нажать Yes в окне подтверждения.
 		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
 		public EditorPage Confirm()
 		{
 			CustomTestContext.WriteLine("Нажать Yes в окне подтверждения.");
@@ -1210,24 +1208,51 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Получить процентр прогресс бара
+		/// Получить проценты из прогресс-бара.
 		/// </summary>
 		public float GetPercentInProgressBar()
 		{
-			CustomTestContext.WriteLine("Получить процентр прогресс бара.");
-			var percentValue = ProgressBar.GetAttribute("style").Split(new [] { ':', '%' });
+			CustomTestContext.WriteLine("Получить проценты из прогресс-бара.");
+			var percentValue = ProgressBarPercents.GetAttribute("style").Split(new [] { ':', '%' });
 			float result;
 
 			try
 			{
 				result = Convert.ToSingle(percentValue[1], new CultureInfo("en-US"));
 			}
-			catch (Exception)
+			catch (Exception ex)
 			{
-				throw new Exception("Произошла ошибка:\n не удалось преобразование процента прогресс бара в число.");
+				throw new Exception(string.Format(
+					"Произошла ошибка:\n не удалось преобразование процента(строка: {0}) прогресс-бара в число. Ошибка: {1}",
+					percentValue[0], ex.Message));
 			}
 
 			return result;
+		}
+
+		/// <summary>
+		/// Получить количество переведенных слов(в сорсе) из тултипа прогресс-бара.
+		/// </summary>
+		public int GetTranslatedWordCount()
+		{
+			CustomTestContext.WriteLine("Получить количество переведенных слов(в сорсе) из тултипа прогресс-бара.");
+			string words = null;
+
+			try
+			{
+				HoverProgressBar();
+				var infoString = ProgressBarInfoString.Text;
+				words = infoString.Remove(infoString.IndexOf(' '));
+				return Convert.ToInt32(words);
+			}
+			catch (Exception ex)
+			{
+				CustomTestContext.WriteLine(ex.Message);
+
+				throw new Exception(string.Format(
+					"Произошла ошибка:\n Не удалось конвертировать строку - {0} в число. Ошибка:{1}",
+					words, ex.Message));
+			}
 		}
 
 		/// <summary>
@@ -1461,6 +1486,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			UserPreferencesButton.Click();
 
 			return new UserPreferencesDialog(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Навести курсор на прогресс-бар.
+		/// </summary>
+		public EditorPage HoverProgressBar()
+		{
+			CustomTestContext.WriteLine("Навести курсор на прогресс-бар.");
+			ProgressBar.HoverElement();
+			Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_BAR_TOOLTIP));
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Получить список текстов из прогресс-бара.
+		/// </summary>
+		public string GetTextFromProgressBar()
+		{
+			CustomTestContext.WriteLine("Получить список текстов из прогресс-бара.");
+			HoverProgressBar();
+			var listTexts = Driver.GetTextListElement(By.XPath(PROGRESS_BAR_TOOLTIP));
+			//1. Translation (T): 0 words out of 13 (0%)
+
+			return String.Concat(listTexts).Replace("\r\n", " ");
 		}
 
 		#endregion
@@ -1759,7 +1809,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// </summary>
 		/// <param name="text">текст</param>
 		/// <param name="rowNumber">номер сегмента</param>
-		/// <param name="clearField">очистить поле перед вводу (default)</param>
+		/// <param name="clearField">очистить поле перед вводом (default)</param>
 		public EditorPage FillSegmentTargetField(string text = "Translation", int rowNumber = 1, bool clearField = true)
 		{
 			CustomTestContext.WriteLine("Ввести текст в таргет сегмента {0}.", rowNumber);
@@ -1774,6 +1824,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			{
 				TargetCell.SendKeys(text);
 			}
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Удалить текст из таргет сегмента.
+		/// </summary>
+		/// <param name="rowNumber">номер ряда</param>
+		public EditorPage RemoveTextFromTargetSegment(int rowNumber = 1)
+		{
+			ClickOnTargetCellInSegment(rowNumber);
+			CustomTestContext.WriteLine("Удалить текст из таргет сегмента, кликнув на клавишу - {0}", Keys.Delete);
+			SelectAllTextByHotkey(rowNumber).Driver.SendHotKeys(Keys.Delete);
 
 			return LoadPage();
 		}
@@ -2485,6 +2548,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SIDE_PANEL_DICTIONARIES_WORD_NOT_FOUND));
 		}
 
+		/// <summary>
+		/// Проверить, что прогресс-бар в редакторе отобразился.
+		/// </summary>
+		public bool IsProgressBarDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что прогресс-бар в редакторе отобразился.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_BAR));
+		}
+
+		/// <summary>
+		/// Проверить, что отобразился тултип прогресс-бара.
+		/// </summary>
+		public bool IsProgressBarToolTipDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отобразился тултип прогресс-бара.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(PROGRESS_BAR_TOOLTIP));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -2497,6 +2580,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = PROGRESS_BAR)]
 		protected IWebElement ProgressBar { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROGRESS_BAR_INFO_STRING)]
+		protected IWebElement ProgressBarInfoString { get; set; }
+
+		[FindsBy(How = How.XPath, Using = PROGRESS_BAR_PERCENTS)]
+		protected IWebElement ProgressBarPercents { get; set; }
 
 		[FindsBy(Using = FIND_ERROR_BTN_ID)]
 		protected IWebElement FindErrorButton { get; set; }
@@ -2698,7 +2787,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
 
-		
 		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
 		protected IWebElement UserPreferencesButton { get; set; }
 
@@ -2723,6 +2811,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK)]
 		protected IWebElement OpenTranslationInNewTabLink { get; set; }
 
+		protected IWebElement ProgressBarWidth { get; set; }
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2811,8 +2900,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string WORKFLOW_COLUMN = "//td[contains(@class, 'segmentworkflowcolumn')]";
 
-		protected const string PROGRESS_BAR = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
 		protected const string HIGHLIGHTED_SEGMENT = "//*[@id='segments-body']//div//div//table[*#*]//td[2]//div//span";
+		protected const string PROGRESS_BAR = "//div[text()='Progress']//parent::div//div[@class='x-progress-ct-default']";
+		protected const string PROGRESS_BAR_INFO_STRING = "//div[contains(@class, 'workflow-progress-tip') and contains(@aria-hidden, 'false')]//table//td[4]";
+		protected const string PROGRESS_BAR_TOOLTIP = "//div[contains(@class, 'workflow-progress-tip') and contains(@aria-hidden, 'false')]";
+		protected const string PROGRESS_BAR_PERCENTS = "//div[contains(@class, 'x-progress-bar x-progress-bar-default')]";
 		protected const string SOURCE_CAT_TERMS = ".//div[@id='cat-body']//table//tbody//tr//td[2]//div";
 
 		protected const string RESTORE_BUTTON = "revision-rollback-btn";

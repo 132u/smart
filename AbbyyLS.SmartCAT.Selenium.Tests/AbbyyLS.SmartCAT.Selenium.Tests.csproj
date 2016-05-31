@@ -390,6 +390,7 @@
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
     <Compile Include="Tests\Projects\UploadDocumentToProjectTests.cs" />
+    <Compile Include="Tests\Editor\ProgressBarTests\ProgressBarTests.cs" />
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTaskDialogInEditorTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceBaseTests.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryTests.cs" />

@@ -166,6 +166,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			}
 		}
 
+
+		/// <summary>
+		/// Путь к тестовому файлу txt для тестирования прогресс-бара
+		/// </summary>
+		public static string ProgressBarTxtFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "ProgressBar.txt")).LocalPath;
+			}
+		}
+
 		#endregion
 
 		#region Файлы для тестов проектов

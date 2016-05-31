@@ -538,6 +538,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return DateTime.ParseExact(new string(date), "MM/dd/yyyy", CultureInfo.InvariantCulture);
 		}
 
+		/// <summary>
+		/// Навести курсор на прогресс-бар проекта.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		public ProjectsPage HoverProgressBar(string projectName)
+		{
+			CustomTestContext.WriteLine("Навести курсор на прогресс-бар проекта - {0}.", projectName);
+			ProgressBar = Driver.SetDynamicValue(How.XPath, PROGRESS_BAR, projectName);
+			ProgressBar.HoverElement();
+
+			return LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -1040,6 +1053,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.WaitUntilElementIsDisplay(By.XPath(CANCELLED_PROJECTS_TAB));
 		}
 
+		/// <summary>
+		/// Проверить, что прогресс-бар содержит ожидаемое процентное отображение переведенных слов.
+		/// </summary>
+		/// <param name="projectName">имя проекта</param>
+		/// <param name="percents">проценты</param>
+		public bool IsProgressBarContainsExpectedPercents(string projectName, int percents)
+		{
+			CustomTestContext.WriteLine(
+				"Проверить, что прогресс-бар в проекте {0} содержит ожидаемое процентное отображение {1} переведенных слов.",
+				projectName, percents);
+
+			ProgressBarProgress = Driver.SetDynamicValue(
+				How.XPath, PROGRESS_BAR_PROGRESS, projectName, percents.ToString());
+
+			return ProgressBarProgress.Displayed;
+		}
 		#endregion
 
 		#region Методы, ожидающие определенного состояния страницы
@@ -1199,6 +1228,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement CompletedStatus { get; set; }
 		protected IWebElement ProjectRow { get; set; }
 		protected IWebElement ExportType { get; set; }
+		protected IWebElement ProgressBar { get; set; }
+		protected IWebElement ProgressBarProgress { get; set; }
 
 		#endregion
 
@@ -1234,6 +1265,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//menu-button[contains(@params, 'Download')]/parent::div";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']/ancestor::tr//button[@title='Download']";
 		protected const string DOCUMENT_ROW = "(//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*'])[1]";
+		protected const string PROGRESS_BAR_PROGRESS = "//span[text()='*#*']//ancestor::tr//div[contains(@class, 'js-progressbar')]//div[contains(@class, 'ui-progressbar__line') and contains(@style, 'width: *##*%')]//parent::div";
+		protected const string PROGRESS_BAR = "//span[text()='*#*']//ancestor::tr//div[contains(@class, 'js-progressbar')]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = "//span[text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]//span[contains(@class, 'icon_settings')]";
 		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = "(//table[contains(@class,'js-tasks-table')]//tr//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr//span[@title='*##*']//ancestor::tr[contains(@class,'js-document-row')]//button[@data-bind='click: singleTarget().actions.assign'])[1]";

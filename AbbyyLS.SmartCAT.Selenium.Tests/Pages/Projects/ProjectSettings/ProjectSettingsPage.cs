@@ -673,6 +673,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Driver.WaitUntilElementIsDisplay(By.XPath(REPETITIONS_BUTTON));
 		}
 
+		/// <summary>
+		/// Проверить, что прогресс-бар содержит ожидаемое процентное отображение переведенных слов.
+		/// </summary>
+		/// <param name="fileName">имя файла</param>
+		/// <param name="percents">проценты</param>
+		public bool IsProgressBarContainsExpectedPercents(string fileName, int percents)
+		{
+			CustomTestContext.WriteLine(
+				"Проверить, что прогресс-бар для файла - {0} содержит ожидаемое процентное отображение - {1} переведенных слов.",
+				fileName, percents);
+
+			ProgressBarProgress = Driver.SetDynamicValue(
+				How.XPath, PROGRESS_BAR_PROGRESS, fileName, percents.ToString());
+
+			return ProgressBarProgress.Displayed;
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -774,6 +791,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected IWebElement GlossaryCheckboxByName { get; set; }
 		protected IWebElement DocumentRow { get; set; }
 		protected IWebElement TranslateButton { get; set; }
+		protected IWebElement ProgressBarProgress { get; set; }
 
 		#endregion
 
@@ -825,6 +843,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
 		protected const string EDIT_TRANSLATION_MEMORY_BUTTOON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
 		protected const string PROGRESS_TOOLTIP = "//table[@class='l-workflow-progress-tooltip']";
+		protected const string PROGRESS_BAR_PROGRESS = "//span[text()='*#*']//ancestor::tr//td[contains(@class, 'l-project-td progress')]//div[contains(@style, 'width: *##*%')]//parent::div";
 
 		protected const string QA_CHECK_BUTTON = "//div[contains(@data-bind,'qaCheck')]";
 		protected const string STATISTICS_BUTTON = "//div[contains(@data-bind,'openStatistics')]";
