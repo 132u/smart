@@ -1125,9 +1125,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		[FindsBy(How = How.XPath, Using = TRANSLATE_BUTTON)]
 		protected IWebElement TranslateButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
-		protected IWebElement ExportType { get; set; }
-
 		[FindsBy(How = How.XPath, Using = CREATE_PROJECT_BTN_XPATH)]
 		protected IWebElement CreateProjectButton { get; set; }
 
@@ -1191,13 +1188,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement CancelledStatus { get; set; }
 		protected IWebElement CompletedStatus { get; set; }
 		protected IWebElement ProjectRow { get; set; }
+		protected IWebElement ExportType { get; set; }
 
 		#endregion
 
 		#region Описания XPath элементов
 
-		protected const string EXPORT_TYPE = "//div[not(contains(@class,'g-hidden'))]/a[text()='*#*']";
-		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
+		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'download')]//ul//li[text()='*#*']";
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";

@@ -779,8 +779,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#region Описания XPath элементов страницы
 
-		protected const string EXPORT_TYPE = "//div[not(contains(@class,'corprsubmn__subitem'))]//a[text()='*#*']";
-		protected const string EXPORT_TYPE_TMX = "//div[not(contains(@class,'g-hidden'))]/div[contains(@data-bind,'Tmx')]";
+		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'download')]//ul//li[text()='*#*']";
 
 		protected const string ADD_FILES_BTN = "//button[contains(@data-bind, 'importDocument')]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
@@ -804,8 +803,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//span[text()='*#*' and @class='l-project__name']";
 		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]/..";
-		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/../../..//span[contains(@class,'icon_download')]";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/../../..//input";
+		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/ancestor::tr//span[contains(@class,'icon_download')]";
+		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/ancestor::tr//input";
 		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[contains(@class,'docname-td')]";
 		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";
