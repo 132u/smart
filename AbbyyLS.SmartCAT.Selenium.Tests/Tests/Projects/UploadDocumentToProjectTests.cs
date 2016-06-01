@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7142"), ShortCheckList]
 		public void UploadDocumentToExistingProjectOneTargetLanguageTest()
 		{
-			var fileName = Path.GetFileName(PathProvider.EditorTxtFile);
+			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, glossaryName: _projectUniqueName);
 
