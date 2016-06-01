@@ -199,7 +199,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 			FillOldPassword(oldPassword);
 			FillConfirmPassword(confirmPassword ?? newPassword);
 
-			return new EditProfileDialog(Driver).LoadPage();
+			if (newPassword == confirmPassword)
+			{
+				Driver.WaitUntilElementIsDisappeared(By.XPath(PASSWORD_MISMATCH_ERROR));
+			}
+
+			return LoadPage();
 		}
 
 		/// <summary>
