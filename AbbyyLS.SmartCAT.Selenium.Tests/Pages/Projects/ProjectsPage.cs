@@ -1217,7 +1217,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string COMPLETED_STATUS = "//table[contains(@class, 'l-corpr__tbl js-tasks-table js-tour-projects JColResizer')]//tbody//tr//td//div//div//span[contains(text(), '*#*')]//ancestor::tr//td//p[contains(text(), 'Completed')]";
 		protected const string OPEN_PROJECT_FOLDER = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//preceding-sibling::div";
 		protected const string PROJECT_CHECKBOX = "//span[text()='*#*']//ancestor::tr//input[@type='checkbox']";
-		protected const string TRANSLATE_BUTTON = "//*[text()='*#*']/../../..//button[contains(@class,'js-editor-button')]//a";
+		protected const string TRANSLATE_BUTTON = "//*[text()='*#*']/ancestor::td[contains(@class,'docname-td')]//a[contains(@class,'js-editor-button')]";
 		protected const string GO_TO_PROJECT_PAGE_BUTTON = "//*[text()='*#*']/../../../..//a[contains(@data-bind, 'projectPageUrl')]";
 		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
