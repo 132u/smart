@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				"Произошла ошибка:\n неверное количество терминов.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17114")]
 		public void AddTopicSystemFieldTest()
 		{
 			var value = "Life";

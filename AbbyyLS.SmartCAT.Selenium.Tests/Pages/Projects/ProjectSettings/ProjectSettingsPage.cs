@@ -792,7 +792,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
 
 		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//button[contains(@data-bind, 'click: assign')]";
-		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//table[contains(@class,'js-documents-table')]//span[text()='*#*']/../../..//span[contains(@class, 'icon_add-user')]";
+		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//table[contains(@class,'js-documents-table')]//span[text()='*#*']/ancestor::tr//span[contains(@class, 'icon_add-user')]";
 
 		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
 		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";
@@ -806,7 +806,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]/..";
 		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/../../..//span[contains(@class,'icon_download')]";
 		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/../../..//input";
-		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[@class='l-corpr__td']";
+		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[contains(@class,'docname-td')]";
 		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
 		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";
 		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
@@ -832,7 +832,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string PROJECT_NAME = "//a[@class='current-doc']";
 		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
 		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
-		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//a[contains(text(),'*#*')]/../../..//td[contains(@class,'status')]//p";
+		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//span[contains(text(),'*#*')]/ancestor::tr//td[contains(@class,'status')]//p";
 		protected const string GLOSSARY_CHECKBOX_BY_NAME = "//td//p[text()='*#*']/../preceding-sibling::td//input";
 
 		protected const string REPETITIONS_BUTTON = "//div[@data-bind='click: setupRepetitions']";

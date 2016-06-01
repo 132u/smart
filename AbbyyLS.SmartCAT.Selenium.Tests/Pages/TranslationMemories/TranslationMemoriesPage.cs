@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 		public TranslationMemoriesPage ClickSearchTMButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку поиска ТМ.");
-			SearchButton.Click();
+			SearchButton.ScrollAndClick();
 
 			return LoadPage();
 		}
@@ -147,7 +147,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
 			SaveChangesButton.Scroll();
 			SaveChangesButton.AdvancedClick();
-			SaveChangesButton.DoubleClick();
 
 			if (!IsEditionFormDisappeared())
 			{
@@ -166,7 +165,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
 			SaveChangesButton.Scroll();
 			SaveChangesButton.AdvancedClick();
-			SaveChangesButton.DoubleClick();
 
 			return LoadPage();
 		}
@@ -284,7 +282,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			CustomTestContext.WriteLine("Выбрать группу проектов {0} в списке", projectGroup);
 			ProjectGroupInInList = Driver.SetDynamicValue(How.XPath, PROJECT_GROUP_IN_LIST, projectGroup);
 			ProjectGroupInInList.Scroll();
-			ProjectGroupInInList.Click();
+			ProjectGroupInInList.JavaScriptClick();
 
 			return LoadPage();
 		}
@@ -1050,7 +1048,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 
 		protected const string EXPORT_BUTTON = "//span[contains(@data-bind,'exportTmx')]";
 
-		protected const string PROJECT_GROUP_IN_LIST = "(//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input)[2]";
+		protected const string PROJECT_GROUP_IN_LIST = "//ul[contains(@class, 'ui-multiselect-checkboxes')]//span[text()='*#*']//preceding-sibling::span/input";
 		protected const string CLIENTS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[5]/span";
 		protected const string CLIENT_IN_LIST = "//span[contains(@class, 'js-dropdown')]/span[contains(text(),'*#*')]";
 		protected const string TOPICS_FIELD = "//tr[contains(@class,'js-tm-panel')]//td[2]//div[contains(@data-bind,'topicDropdown')]/div/div[1]";

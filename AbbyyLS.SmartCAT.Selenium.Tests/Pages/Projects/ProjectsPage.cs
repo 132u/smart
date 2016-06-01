@@ -1226,7 +1226,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'download')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'menuButton')]";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']/ancestor::tr//button[@title='Download']";
-		protected const string DOCUMENT_ROW = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']";
+		protected const string DOCUMENT_ROW = "(//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*'])[1]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
 		protected const string DOCUMENT_SETTINGS = "//span[text()='*#*']/../../../../following-sibling::tr[contains(@class, 'js-document-row')][*##*]//span[contains(@class, 'icon_settings')]";
 		protected const string DOCUMENT_TASK_ASSIGN_BUTTON = "(//table[contains(@class,'js-tasks-table')]//tr//*[contains(@class,'js-name')][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr//following-sibling::tr//span[@title='*##*']//ancestor::tr[contains(@class,'js-document-row')]//button[@data-bind='click: singleTarget().actions.assign'])[1]";
@@ -1246,7 +1246,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DECLINE_BUTTON = "//div[contains(@data-bind, 'actions.reject')]";
 		protected const string TASK_LIST = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//tr";
 		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
-		protected const string MY_TASK = "//span[text()='*#*']/ancestor::tr/following-sibling::tr[@class='js-document-panel l-project__doc-panel']//td[contains(text(), '*##*')]";
+		protected const string MY_TASK = "//span[text()='*#*']/ancestor::tr/following-sibling::tr[1][@class='js-document-panel l-project__doc-panel']//td[contains(text(), '*##*')]";
 		protected const string JOB_LIST = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[@class='l-project__name']";
 		protected const string ALL_CHECKBOXES = "//input[@type='checkbox']";
 		protected const string MAIN_CHECKBOXE = "//thead//tr[1]//input[@type='checkbox' and contains(@data-bind, 'allProjectsChecked')]";
