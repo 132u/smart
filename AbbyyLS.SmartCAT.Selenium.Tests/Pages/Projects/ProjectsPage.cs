@@ -1194,7 +1194,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 
 		#region Описания XPath элементов
 
-		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'download')]//ul//li[text()='*#*']";
+		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'dropbox')]//ul//li[text()='*#*']";
 
 		protected const string CREATE_PROJECT_BTN_XPATH = "//div[contains(@data-bind,'createProject')]";
 		protected const string CREATE_PROJECT_DIALOG_XPATH = "//div[contains(@class,'js-popup-create-project')][2]";

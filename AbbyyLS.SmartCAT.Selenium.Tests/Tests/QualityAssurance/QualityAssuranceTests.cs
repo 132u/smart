@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				"Произошла ошибка: ошибка {0} не отмечена, как критическая.", _error1);
 
 			_editorPage
-				.FillSegmentTargetField("первое первое", rowNumber: 2)
+				.FillSegmentTargetField("Первое первое", rowNumber: 2)
 				.ConfirmSegmentTranslation()
 				.HoverSegmentErrorLogo(segmentNumber: 2);
 

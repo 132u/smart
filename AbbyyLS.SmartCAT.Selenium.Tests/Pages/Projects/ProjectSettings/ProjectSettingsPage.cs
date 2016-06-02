@@ -779,7 +779,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#region Описания XPath элементов страницы
 
-		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'download')]//ul//li[text()='*#*']";
+		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'dropbox')]//ul//li[text()='*#*']";
 
 		protected const string ADD_FILES_BTN = "//button[contains(@data-bind, 'importDocument')]";
 		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
