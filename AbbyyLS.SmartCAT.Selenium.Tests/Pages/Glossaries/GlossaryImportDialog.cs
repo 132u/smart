@@ -78,7 +78,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		public bool IsErrorReportButtonDisplayed(string glossaryName)
 		{
 			CustomTestContext.WriteLine("Проверить, что импорт глоссария {0} завершен с ошибками.", glossaryName);
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_REPORT_BUTTON));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_REPORT_BUTTON), timeout: 60);
 		}
 		#endregion
 
