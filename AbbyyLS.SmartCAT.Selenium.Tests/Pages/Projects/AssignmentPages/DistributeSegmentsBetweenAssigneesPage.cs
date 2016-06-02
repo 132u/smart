@@ -362,8 +362,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.AssignmentPages
 		protected const string DISTRIBUTED_SEGMENTS_RANGE_COUNT = "//table[contains(@data-bind, 'foreach: assignedRanges')]//tbody";
 		protected const string NOT_DISTRIBUTED_START_RANGE = "//ul[contains(@data-bind, 'notAssignedRanges')]//li[*#*]//span[contains(@data-bind, 'goToSegment(from)')]";
 		protected const string NOT_DISTRIBUTED_END_RANGE = "//ul[contains(@data-bind, 'notAssignedRanges')]//li[*#*]//span[contains(@data-bind, 'goToSegment(to)')]";
-		protected const string DISTRIBUTED_START_RANGE = "//ul[contains(@data-bind, 'foreach: assignedRanges')]//li[*#*]//span[contains(@data-bind, 'from')]";
-		protected const string DISTRIBUTED_END_RANGE = "//ul[contains(@data-bind, 'foreach: assignedRanges')]//li[*#*]//span[contains(@data-bind, 'to')]";
+		protected const string DISTRIBUTED_START_RANGE = "//ul[contains(@data-bind, 'foreach: assignedRanges')]//li[*#*]//span[contains(@data-bind, 'text: from')]";
+		protected const string DISTRIBUTED_END_RANGE = "//ul[contains(@data-bind, 'foreach: assignedRanges')]//li[*#*]//span[contains(@data-bind, 'text: to')]";
 		protected const string CHANGE_RANGE_BUTTON = "//tr[*#*]//a[contains(@data-bind, 'editRange')]";
 		protected const string REASSIGNE_POP_UP = "//form[contains(@class, 'ajax-form-submit')]//div[contains(string(), 'Reassign the segments')]";
 		protected const string CANCEL_REASSIGNE_POP_UP_BUTTON = "//form[contains(@class, 'ajax-form-submit')]//a[contains(@class, 'js-popup-close')]";
