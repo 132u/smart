@@ -30,6 +30,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать на заголовок таблицы.
+		/// </summary>
+		public DistributeDocumentBetweenAssigneesPage ClickTitle()
+		{
+			CustomTestContext.WriteLine("Нажать на заголовок таблицы.");
+			Title.Click();
+
+			return new DistributeDocumentBetweenAssigneesPage(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать на ссылку 'Select Segments And Assign'.
 		/// <param name="assigneeNumber">номер исполнителя</param>
 		/// </summary>
@@ -139,6 +150,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 			CustomTestContext.WriteLine("Выбрать исполнителя {0}.", assigneeName);
 			ClickAnotherAssigneeButton();
 			Driver.SetDynamicValue(How.XPath, ASSIGNEE_OPTION, assigneeName).Click();
+			ClickTitle();
 			ClickAnotherAssigneeButton();
 
 			return LoadPage();
@@ -189,7 +201,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 
 		[FindsBy(How = How.XPath, Using = BACK_TO_TASK_BUTTON)]
 		protected IWebElement BackToTaskButton { get; set; }
-		
+
+		[FindsBy(How = How.XPath, Using = TITLE)]
+		protected IWebElement Title { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -205,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages
 		protected const string ANOTHER_ASSIGNEE_DROPDOWN = "//div[@class='g-dropbox__search']";
 		protected const string BACK_TO_TASK_BUTTON = "//div[@data-bind='click: close']";
 		protected const string WORDS_COUNT_COLUMN = "//tr[*#*]//span[contains(@data-bind, 'wordsCount')]";
-
+		protected const string TITLE = "//div[contains(@class, 'project-section-title')]";
 		#endregion
 	}
 }
