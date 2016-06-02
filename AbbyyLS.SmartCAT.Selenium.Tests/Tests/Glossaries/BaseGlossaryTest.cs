@@ -4,6 +4,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 {
@@ -23,11 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_filterDialog = new FilterDialog(Driver);
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+            _exportNotification = new GlossaryExportNotification(Driver);
 
-			_workspacePage.GoToGlossariesPage();
+            _workspacePage.GoToGlossariesPage();
 		}
 
-		protected GlossariesHelper _glossariesHelper;
+        protected GlossaryExportNotification _exportNotification;
+        protected GlossariesHelper _glossariesHelper;
 		protected WorkspacePage _workspacePage;
 		protected GlossaryPage _glossaryPage;
 		protected GlossariesPage _glossariesPage;

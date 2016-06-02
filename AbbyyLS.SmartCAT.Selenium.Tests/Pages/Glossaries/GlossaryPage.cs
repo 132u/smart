@@ -11,6 +11,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 {
@@ -84,12 +85,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать на кнопку Export
 		/// </summary>
-		public GlossaryPage ClickExportGlossary()
+		public GlossaryExportNotification ClickExportGlossary()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Export.");
 			ExportButton.Click();
 
-			return LoadPage();
+			return new GlossaryExportNotification(Driver).LoadPage();
 		}
 
 		/// <summary>

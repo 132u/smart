@@ -48,6 +48,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]
 		protected IWebElement CloseButton { get; set; }
 
-		protected const string CLOSE_BUTTON = "//a[contains(@class,'js-close-link')]";
+		protected const string CLOSE_BUTTON = "//button[contains(@class, 'g-btn_theme_dark')]//span[text()='Close']";
 	}
 }
