@@ -88,6 +88,32 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не сработала автоподстановка");
 		}
 
+		[Test, Description("S-29218")]
+		public void WordNotFoundInDictionaryTest()
+		{
+			var translation = "йцукеенгшщзфы";
+
+			_editorPage
+				.FillTarget(translation, rowNumber: 1)
+				.SelectFirstWordInSegment(rowNumber: 1, segmentType: SegmentType.Target)
+				.ClickSearchInLingvoDictionariesButton();
+
+			Assert.IsTrue(_editorPage.IsDictionariesTabOpened(),
+				"Произошла ошибка:\n не открылась вкладка 'Dictionaries'");
+
+			Assert.AreEqual(translation,
+				_editorPage.GetTextFromSearchFieldInDictionariesTab(),
+				"Произошла ошибка:\n не сработала автоподстановка");
+
+			var translationDirectionText = string.Format("{0} {1}", Language.Russian, Language.English);
+			Assert.AreEqual(translationDirectionText,
+				_editorPage.GetTranslationDirectionInDictionariesTab(),
+				"Произошла ошибка:\n во вкладке 'Dictionaries' указана неверная языковая пара");
+
+			Assert.IsTrue(_editorPage.IsWordNotFoundInDictionaryMessageVisible(),
+				"Произошла ошибка: не появилось сообщение, что слово не найдено");
+		}
+
 		[Test]
 		public void AutoPasteWordToSearchQueryFromSourceTest()
 		{

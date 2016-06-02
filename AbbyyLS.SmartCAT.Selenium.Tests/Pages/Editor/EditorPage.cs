@@ -74,6 +74,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Получить направление перевода на вкладке 'Dictionaries'
+		/// </summary>
+		public string GetTranslationDirectionInDictionariesTab()
+		{
+			CustomTestContext.WriteLine("Получить направление перевода на вкладке 'Dictionaries'");
+
+			return DictionariesTranslationDirection.Text;
+		}
+
+		/// <summary>
 		/// Нажать кнопку поиска в словорях Лингво
 		/// </summary>
 		public EditorPage ClickSearchInLingvoDictionariesButton()
@@ -2464,6 +2474,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return Driver.WaitUntilElementIsClickable(By.XPath(SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON)) != null;
 		}
 
+		/// <summary>
+		/// Проверить, появилось ли сообщение во вкладке 'Dictionaries', что слово не найдено
+		/// </summary>
+		public bool IsWordNotFoundInDictionaryMessageVisible()
+		{
+			CustomTestContext.WriteLine("Проверить, появилось ли сообщение во вкладке 'Dictionaries', что слово не найдено");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(SIDE_PANEL_DICTIONARIES_WORD_NOT_FOUND));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -2690,11 +2710,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON)]
 		protected IWebElement DictionariesSearchButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION)]
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION_REF)]
 		protected IWebElement DictionariesTranslationDirectionSwitch { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SEARCH_IN_LINGVO_DICTIONARIES)]
 		protected IWebElement SearchInLingvoDictionariesButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION)]
+		protected IWebElement DictionariesTranslationDirection { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK)]
 		protected IWebElement OpenTranslationInNewTabLink { get; set; }
@@ -2851,8 +2874,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_INPUT = "//div[@id='lingvo-search-body']//input[@name='searchText']";
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON = "//div[@id='lingvo-search-body']//span[text()='Search']//ancestor::span//ancestor::a";
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_RESULTS = "//div[@id='lingvo-search-body']//h2//span[@class='Bold' and text()='*#*']";
-		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-body']//label[contains(@id,'lingvosearchdirection')]";
+		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION_REF = "//div[@id='lingvo-search-body']//label[contains(@id,'lingvosearchdirection')]";
 		protected const string SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK = "//div[@id='lingvo-search-body']//span[text()='Open in new tab']//ancestor::span//ancestor::a";
+		protected const string SIDE_PANEL_DICTIONARIES_WORD_NOT_FOUND = "//div[@id='lingvo-search-body']//span[@class='not-found']";
+		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-innerCt']//label[@data-ref='boxLabelEl']";
 
 		protected const string SEARCH_IN_LINGVO_DICTIONARIES = "//a[@id='lingvo-lookup-btn']";
 
