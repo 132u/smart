@@ -386,13 +386,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <summary>
 		/// Отметить чекбокс джоба документа
 		/// <param name="projectName">имя проекта</param>
-		/// <param name="documentName">имя документа</param>
+		/// <param name="documentPath">путь до документа</param>
 		/// <param name="jobLanguage">язык джобы</param>
 		public ProjectsPage SelectDocumentJob(string projectName, string documentPath, Language jobLanguage)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Отметить чекбокс джоба языка {2} документа {0} в проекте {1}", documentName, projectName, jobLanguage.Description());
-			DocumentJob = Driver.SetDynamicValue(How.XPath, DOCUMENT_JOB, projectName, documentName, jobLanguage.Description());
+			DocumentJob = Driver.SetDynamicValue(How.XPath, DOCUMENT_JOB, documentName, jobLanguage.Description());
 			DocumentJob.Click();
 			
 			return LoadPage();
@@ -1218,7 +1218,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string GO_TO_PROJECT_PAGE_BUTTON = "//*[text()='*#*']/../../../..//a[contains(@data-bind, 'projectPageUrl')]";
 		protected const string DOCUMENT_REF = "//span[text()='*#*']";
 		protected const string DOCUMENT_LINK = "//a[text()='*#*']/../../../following-sibling::tr[contains(@class, 'l-project-row l-corpr__trhover clickable') and not(contains(@class, 'document-row '))]//span[text()='*##*']";
-		protected const string DOCUMENT_JOB = "//*[text()='*#*']/../../../../following-sibling::tr//*[string()='*##*']/../../../following-sibling::tr[contains(@class, 'document-row') and contains(@class,'l-project-row')]//span[contains(text(),'*##*') and contains(text(),'*###*')]/../../..//input";
+		protected const string DOCUMENT_JOB = "//span[text()='*#*_*##*']/ancestor::tr//input[@type='checkbox']";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'download')]";
 		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'menuButton')]";
