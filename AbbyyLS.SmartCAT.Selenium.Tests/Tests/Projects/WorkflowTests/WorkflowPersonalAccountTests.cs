@@ -3,7 +3,9 @@
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
@@ -22,23 +24,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void WorkflowPersonalAccountTestsSetUp()
 		{
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_settingsDialog = new ProjectSettingsDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
+			_editorPage = new EditorPage(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 		}
 
-		[Test]
+		[Test, Description("S-7174"), ShortCheckList]
 		public void WorkflowStepNotExistInDialogProjectCreationTest()
 		{
-			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				createNewTm: true,
-				glossaryName:_glossaryUniqueName,
-				personalAccount: true);
+			_projectsPage.ClickCreateProjectButton();
+
+			_newProjectDocumentUploadPage
+				.UploadDocumentFiles(new[] {PathProvider.OneLineTxtFile});
+
+			_newProjectSettingsPage
+				.ClickNextButtonExpectingError()
+				.FillGeneralProjectInformation(_projectUniqueName);
+
+			Assert.IsFalse(_newProjectSettingsPage.IsWorkFlowLinkDisplayed(),
+				"Проищошла ошибка:\n Отобразилась ссылка для создания этапа WF в персональном аккаунте.");
+
+			Assert.IsTrue(_newProjectSettingsPage.IsFinishButtonDisplayed(),
+				"Проищошла ошибка:\n Не отобразилась кнопка Finish при создании проекта в персональном аккаунте.");
 		}
 
 		[Test]
@@ -64,14 +77,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsHelper.UploadDocument(new []{PathProvider.DocumentFile});
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
+
+			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
+				"Произошла ошибка:\n Не открылась страница редактора.");
 		}
 
+		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		private NewProjectSettingsPage _newProjectSettingsPage;
 		private CreateProjectHelper _createProjectHelper;
 		private ProjectSettingsHelper _projectSettingsHelper;
 		private ProjectSettingsPage _projectSettingsPage;
 		private ProjectSettingsDialog _settingsDialog;
 		private ProjectsPage _projectsPage;
+		private EditorPage _editorPage;
 		private string _projectUniqueName;
-		private string _glossaryUniqueName;
 	}
 }

@@ -123,6 +123,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return Driver.WaitUntilElementIsEnabled(By.XPath(CREATE_PROJECT_FINISH_BUTTON));
 		}
 
+		/// <summary>
+		/// Проверить, что ссылка 'Workflow' доступна.
+		/// </summary>
+		public bool IsWorkFlowLinkDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что ссылка 'Workflow' доступна.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(WORKFLOW_LINK));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы

@@ -723,6 +723,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
+		/// Проверить, что отображается кнопка Finish.
+		/// </summary>
+		public bool IsFinishButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается кнопка Finish.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_BUTTON));
+		}
+
+		/// <summary>
 		/// Проверить, что есть анимация для кнопки создания проекта
 		/// </summary>
 		public bool IsCreateProjectButtonAnimationExist()
@@ -822,6 +832,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TARGET_LANGUAGE_FIELD_NAME)]
 		protected IWebElement TargetLanguageFieldName { get; set; }
 
+		[FindsBy(How = How.XPath, Using = FINISH_BUTTON)]
+		protected IWebElement FinishButton { get; set; }
+
 		protected IWebElement ClientOption { get; set; }
 
 		protected IWebElement ProjectGroupOption { get; set; }
@@ -860,6 +873,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']//input";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
 		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]";
+		protected const string FINISH_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//a[text()='Finish']//parent::div";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";
 		protected const string ADVANCED_SWITCH = "//div[@class='l-switch']//span[@class='mdl-switch__ripple-container mdl-js-ripple-effect mdl-ripple--center']";
 		protected const string ERROR_NAME_EXISTS = "//span[@data-message-id='isNameDuplicate']";
