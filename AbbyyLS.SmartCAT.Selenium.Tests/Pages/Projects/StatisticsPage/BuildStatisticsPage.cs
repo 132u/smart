@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -32,9 +33,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			CustomTestContext.WriteLine("Нажать кнопку построения статистики.");
 			BuildStatisticsButton.Click();
 
+			// Костыль, т.к. страница не обновляется автоматически
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COLLAPSE_ALL_BUTTON), timeout: 30))
+			{
+				Driver.Navigate().Refresh();
+				Thread.Sleep(3000);
+			}
+
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COLLAPSE_ALL_BUTTON), timeout: 30))
+			{
+				Driver.Navigate().Refresh();
+				Thread.Sleep(3000);
+			}
+
 			if (!Driver.WaitUntilElementIsDisplay(By.XPath(COLLAPSE_ALL_BUTTON), timeout: 60))
 			{
-				RefreshPage<StatisticsPage>();
+				Driver.Navigate().Refresh();
+				Thread.Sleep(3000);
 			}
 
 			return new StatisticsPage(Driver).LoadPage();
