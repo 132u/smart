@@ -88,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UserSettingsTests
 				"Произошла ошибка:\n Не произошло переключения на следующий сегмент.");
 		}
 
-		[Test, Description("S-29234"), ShortCheckList]
+		[Test, Description("S-29234"), ShortCheckList, Ignore("PRX-17210")]
 		public void GoToTheNextUnconfirmedSegmentTest()
 		{
 			var phrase1 = Guid.NewGuid().ToString();
