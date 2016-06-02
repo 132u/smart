@@ -147,6 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
 			SaveChangesButton.Scroll();
 			SaveChangesButton.AdvancedClick();
+			SaveChangesButton.DoubleClick();
 
 			if (!IsEditionFormDisappeared())
 			{
@@ -165,6 +166,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.TranslationMemories
 			// Обычный клик не работает по непонятным причинам, руками кликается нормально (javascript клик тоже не работает)
 			SaveChangesButton.Scroll();
 			SaveChangesButton.AdvancedClick();
+			SaveChangesButton.DoubleClick();
 
 			return LoadPage();
 		}
