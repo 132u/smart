@@ -30,6 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossarySuccessImportDialog.ClickCloseButton();
 
+			//TODO PRX-17197 убрать рефреш (костыль)
+			_workspacePage.RefreshPage<GlossaryPage>();
+
 			Assert.IsTrue(_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),
 				"Произошла ошибка:\n глоссарий содержит неверное количество терминов");
 		}
@@ -45,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				.ImportGlossary(PathProvider.GlossaryFileForImportWrongStructure)
 				.ClickImportInImportInImportDialog();
 
-			Assert.IsTrue(_glossaryImportDialog.IsStructureErrorDisplayed(),
+			Assert.IsTrue(_glossaryImportDialog.IsErrorReportButtonDisplayed(_glossaryUniqueName),
 				"Произошла ошибка:\n не отобразилась ошибка структуры загружаемого документа");
 		}
 

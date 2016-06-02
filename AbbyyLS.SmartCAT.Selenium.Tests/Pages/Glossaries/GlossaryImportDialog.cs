@@ -42,11 +42,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать на кнопку Import в диалоге импорта глоссария
 		/// </summary>
-		public GlossaryImportDialog ClickImportInImportInImportDialog()
+		public GlossaryPage ClickImportInImportInImportDialog()
 		{
 			clickImport();
 
-			return LoadPage();
+			return new GlossaryPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -75,10 +75,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Проверить, отображается ли ошибка структуры загружаемого файла глоссария
 		/// </summary>
-		public bool IsStructureErrorDisplayed()
+		public bool IsErrorReportButtonDisplayed(string glossaryName)
 		{
-			CustomTestContext.WriteLine("Проверить, отображается ли ошибка структуры загружаемого файла глоссария");
-			return Driver.WaitUntilElementIsDisplay(By.XPath(STRUCTURE_ERROR));
+			CustomTestContext.WriteLine("Проверить, что импорт глоссария {0} завершен с ошибками.", glossaryName);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(ERROR_REPORT_BUTTON));
 		}
 		#endregion
 
@@ -100,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
-
+		
 		/// <summary>
 		/// Проверить, открыт ли диалог импорта глоссария
 		/// </summary>
@@ -160,6 +160,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 
 		#region Объявление элементов страницы
 
+		[FindsBy(How = How.XPath, Using = ERROR_REPORT_BUTTON)]
+		protected IWebElement ErrorReportButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = IMPORT_GLOSSARY_INPUT)]
 		protected IWebElement ImportGlossaryInput { get; set; }
 
@@ -180,7 +183,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string REPLACE_ALL_BUTTON = "//div[contains(@class,'js-popup-import')][2]//input[contains(@name,'needToClear')][@value='true']//following-sibling::em";
 		protected const string IMPORT_IN_PROGRESS_MESSAGE = "//div[contains(@class, 'js-please-wait')]";
 		protected const string STRUCTURE_ERROR = "//div[contains(@class,'g-popupbox')]//div[@class='l-filtersrc__error']";
-
+		//TODO поменять XPath, когда перведут текст на английский в уведомолениях
+		protected const string ERROR_REPORT_BUTTON = "//span[text()='Отчет об ошибках']";
 		#endregion
 	}
 }
