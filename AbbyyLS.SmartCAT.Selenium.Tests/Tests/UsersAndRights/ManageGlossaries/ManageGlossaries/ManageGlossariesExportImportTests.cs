@@ -4,6 +4,7 @@ using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
@@ -20,6 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.CreateTerm("secondTerm1", "secondTerm2")
 				.ClickExportGlossary();
 
+			_eglossaryExportNotification.ClickDownloadNotifier<GlossaryPage>();
+
 			Assert.IsTrue(_glossaryPage.IsGlossaryExportedSuccesfully(Path.Combine(PathProvider.ExportFiles, _glossaryUniqueName.Replace(":", "-") + ".xlsx")),
 				"Произошла ошибка:\n файл не был скачан за отведенное время");
 		}
@@ -34,6 +37,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
+			
+			//TODO PRX-17197 убрать рефреш (костыль)
+			_workspacePage.RefreshPage<GlossaryPage>();
 
 			Assert.IsTrue(
 				_glossaryPage.IsGlossaryContainsCorrectTermsCount(expectedTermsCount: 1),

@@ -8,6 +8,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 {
@@ -40,6 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 				_workspacePage.GoToGlossariesPage();
+				_eglossaryExportNotification.CloseAllNotifications<GlossariesPage>();
 				_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 			}
 			catch (Exception ex)
