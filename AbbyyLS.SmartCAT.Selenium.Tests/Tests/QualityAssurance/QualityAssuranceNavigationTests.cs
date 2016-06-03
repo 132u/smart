@@ -12,6 +12,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 		[Test, Description("S-10531"), ShortCheckList] // TODO немного переделать xpath-ы стрелок после фикса PRX-16527
 		public void TerminologicalErrorsNavigationTest()
 		{
+			var document = PathProvider.QANavigationFile;
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 			string[] term1 = {"sentence", "предложение"};
 			string[] term2 = {"phrase", "фраза"};
@@ -26,15 +27,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 				.CreateTerm(term3[0], term3[1]);
 
 			_workspacePage.GoToProjectsPage();
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { PathProvider.QANavigationFile });
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { document });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.QANavigationFile, ThreadUser.NickName, _projectUniqueName);
+			_projectSettingsHelper.AssignTasksOnDocument(document, ThreadUser.NickName, _projectUniqueName);
 			
 			_projectSettingsPage
 				.SelectGlossaryByName(glossaryUniqueName)
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.QANavigationFile);
+				.OpenDocumentInEditorWithTaskSelect(document);
 
 			_selectTaskDialog.SelectTask();
 

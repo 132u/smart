@@ -31,6 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			ConfirmReplacementDialog = new ConfirmReplacementDialog(Driver);
 			DeleteTmDialog = new DeleteTmDialog(Driver);
 			UniqueTMName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
+			_document = PathProvider.EditorTxtFile;
+			_tmx = PathProvider.EditorTmxFile;
 
 			WorkspacePage.GoToTranslationMemoriesPage();
 			TranslationMemoriesPage.CloseAllNotifications<TranslationMemoriesPage>();
@@ -53,5 +55,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public ConfirmReplacementDialog ConfirmReplacementDialog;
 		public DeleteTmDialog DeleteTmDialog;
 		protected TranslationMemoryAdvancedSettingsSection _translationMemoryAdvancedSettingsSection;
+		protected string _document;
+		protected string _tmx;
 	}
 }

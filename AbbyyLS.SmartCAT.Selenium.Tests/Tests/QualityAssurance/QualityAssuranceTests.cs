@@ -15,7 +15,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.EditorTxtFile })
+				.UploadDocumentFiles(new[] { _document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectSettingsDialog.SaveSettingsExpectingProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -68,7 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -128,7 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectSettingsDialog.SaveSettings();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -172,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -182,7 +182,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -210,7 +210,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectSettingsDialog.SaveSettings();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -247,7 +247,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -257,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -294,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -304,7 +304,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 

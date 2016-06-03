@@ -17,15 +17,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpAssignResponsiblesBasicTests()
 		{
+			_document = PathProvider.EditorTxtFile;
+			_documentName = Path.GetFileNameWithoutExtension(_document);
+
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new []{ PathProvider.EditorTxtFile });
+				_projectUniqueName, filesPaths: new []{ _document });
 		}
 
 		[Test(Description = "ТС-11")]
 		[Standalone]
 		public void OpenAssignDialogDocumentInfoOnProjectsPageTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
 		}
@@ -34,7 +37,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void OpenAssignDialogProjectInfoOnProjectsPageTest()
 		{
-			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { PathProvider.EditorTxtFile });
+			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { _document });
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
 		}
@@ -45,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.EditorTxtFile);
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(_document);
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
 		}
@@ -57,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.ClickProjectsTableCheckbox(_documentName)
 				.ClickAssignButtonOnPanel();
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
@@ -81,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			var responsibleUsersList = _taskAssignmentPage
 				.ClickAssigneeDropboxButton()
@@ -114,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage.ClickAssigneeDropboxButton();
 
@@ -126,14 +129,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignUserOneTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -145,7 +148,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void DeleteUserTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -172,14 +175,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 			_selectTaskDialog.SelectTask();
 
 			Assert.AreEqual("Translation (T):", _editorPage.GetStage(),
@@ -189,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -197,7 +200,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(_document);
 
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
 				"Произошла ошибка:\n название этапа проставлено.");
@@ -210,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -222,14 +225,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void UnAssignUserTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -240,14 +243,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage
 				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.OpenAssignDialog(_projectUniqueName, _document);
 			
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(_document);
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(), "Произошла ошибка:\n название этапа проставлено.");
 		}
 
@@ -256,7 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -265,7 +268,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			var assignees = new List<string> { ThreadUser.NickName, _secondUser.NickName };
 			assignees.Sort();
@@ -279,14 +282,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -300,7 +303,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -353,5 +356,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
 		}
+
+		private string _document;
+		private string _documentName;
+
 	}
 }

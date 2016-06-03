@@ -19,8 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("txtWithTmxExtension.tmx")]
 		public void UpdateTmWithIncorrectTmxFileTest(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
-				importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
@@ -36,8 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[TestCase("docxFile.docx")]
 		public void UpdateTMImportValidation(string file)
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
-				importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
@@ -53,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UpdateTMWithoutFileName()
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 

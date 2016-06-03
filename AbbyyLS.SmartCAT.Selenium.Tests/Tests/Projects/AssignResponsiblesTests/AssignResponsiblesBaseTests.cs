@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages;
@@ -43,6 +44,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_secondUser = null;
 			_thirdUser = null;
+			_document = PathProvider.EditorTxtFile;
+			_documentName = Path.GetFileNameWithoutExtension(_document);
 
 			_workspacePage.GoToProjectsPage();
 		}
@@ -84,5 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected NewGroupDialog _newGroupDialog;
 		protected WorkflowSetUpTab _workflowSetUptab;
 		protected DatePicker _datePicker;
+		protected string _document;
+		protected string _documentName;
 	}
 }

@@ -69,12 +69,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			_createProjectHelper.CreateNewProject(
 				projectName,
-				new[] { PathProvider.EditorTxtFile},
+				new[] { _document},
 				createNewTm: true);
 
 			_projectsPage
 				.OpenProjectInfo(projectName)
-				.ClickDocumentRefExpectingEditorPage(projectName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(projectName, _document);
 
 			_editorPage
 				.FillSegmentTargetField(text: leftTargetPartial + " " + rightTargetPartial)

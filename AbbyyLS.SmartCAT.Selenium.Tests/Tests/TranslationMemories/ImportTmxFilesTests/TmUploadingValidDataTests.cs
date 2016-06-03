@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UploadTmxToExistingTMWithTmxTest()
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			var unitsCountBefore = TranslationMemoriesPage
 										.OpenTranslationMemoryInformation(UniqueTMName)
@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void CheckNotificationDuringTmxFileUploading()
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test, Ignore("PRX-3690")]
 		public void UploadTmxWithUnicodeCharactersTest()
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 

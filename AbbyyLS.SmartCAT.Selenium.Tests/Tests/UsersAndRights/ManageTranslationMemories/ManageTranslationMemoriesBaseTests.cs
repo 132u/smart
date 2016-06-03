@@ -29,6 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				_workspacePage.GoToTranslationMemoriesPage();
 
 				_translationMemory = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+				_tmx = PathProvider.EditorTmxFile;
 			}
 			catch (Exception ex)
 			{
@@ -115,5 +116,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected NewProjectSetUpTMDialog _newProjectSetUpTMDialog;
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 		protected AdvancedSettingsSection _advancedSettingsSection;
+		protected string _tmx;
 	}
 }

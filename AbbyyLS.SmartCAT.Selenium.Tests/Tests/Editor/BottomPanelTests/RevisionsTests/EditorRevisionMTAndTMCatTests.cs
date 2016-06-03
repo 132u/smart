@@ -36,23 +36,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_translationMemoriesHelper = new TranslationMemoriesHelper(Driver);
 
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			var tmx = PathProvider.EditorTmxFile;
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_newTranslationName = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
+			_document = PathProvider.EditorTxtFile;
+			_documentName = Path.GetFileNameWithoutExtension(_document);
 
 			_createProjectHelper
 				.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile },
-				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
+				filesPaths: new[] { _document },
+				tmxFilesPaths: new[] { tmx },
 				createNewTm: true,
 				useMachineTranslation: true,
 				glossaryName: glossaryUniqueName);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile), ThreadUser.NickName, _projectUniqueName);
+			_projectSettingsHelper.AssignTasksOnDocument(_document, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -74,7 +77,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectResourceOption(CatType.MT)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
 
 			_selectTaskDialog.SelectTask();
 
@@ -110,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectTranslationMemoryResourceOption(_newTranslationName)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
 
 			_selectTaskDialog.SelectTask();
 
@@ -135,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectResourceOption(CatType.MT)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
 
 			_selectTaskDialog.SelectTask();
 
@@ -171,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectTranslationMemoryResourceOption(_newTranslationName)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
 
 			_selectTaskDialog.SelectTask();
 
@@ -193,5 +196,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected string _newTranslationName;
 		protected PretranslationDialog _pretranslationDialog;
 		protected TranslationMemoriesHelper _translationMemoriesHelper;
+		private string _document;
+		private string _documentName;
 	}
 }

@@ -28,20 +28,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			
+			var document = PathProvider.EditorTxtFile;
+			var tmx = PathProvider.EditorTmxFile;
+
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile },
-				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
+				filesPaths: new[] { document },
+				tmxFilesPaths: new[] { tmx },
 				createNewTm: true);
 
 			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, projectUniqueName);
+				.AssignTasksOnDocument(document, ThreadUser.NickName, projectUniqueName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
 			SelectTaskDialog.SelectTask();
 		}

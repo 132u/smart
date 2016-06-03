@@ -4,6 +4,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 {
 	public interface IWebDriverProvider
 	{
-		RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory, string userDataDirectory);
+		RemoteWebDriver GetWebDriver(string tempFolder, string downloadDirectory, string userDataDirectory, string importDirectory);
 	}
 }

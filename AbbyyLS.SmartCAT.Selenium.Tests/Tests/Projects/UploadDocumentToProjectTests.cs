@@ -19,15 +19,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7142"), ShortCheckList]
 		public void UploadDocumentToExistingProjectOneTargetLanguageTest()
 		{
-			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
-
 			_createProjectHelper.CreateNewProject(_projectUniqueName, glossaryName: _projectUniqueName);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { PathProvider.EditorTxtFile });
+			_documentUploadGeneralInformationDialog.UploadDocument(new[] { _document });
 
 			_documentUploadGeneralInformationDialog.ClickNextButton();
 
@@ -41,12 +39,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectSettingsPage.WaitUntilDocumentProcessed();
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.EditorTxtFile),
-				"Произошла ошибка:\n документ {0} отсутствует в проекте.", fileName);
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(_document),
+				"Произошла ошибка:\n документ {0} отсутствует в проекте.", _documentName);
 
 			_projectSettingsPage
-				.HoverDocumentRow(fileName)
-				.ClickDocumentSettings(fileName);
+				.HoverDocumentRow(_documentName)
+				.ClickDocumentSettings(_documentName);
 
 			Assert.IsTrue(_documentSettingsDialog.IsTMChecked(_projectUniqueName),
 				"Произошла ошибка:\n в диалоге настроек должна быть подключена проектная память преводов.");
@@ -69,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 				
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { PathProvider.EditorTxtFile });
+			_documentUploadGeneralInformationDialog.UploadDocument(new[] { _document });
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsLanguagesExist(targetLanguages),
 				"Произошла ошибка:\n не все таргет языки отмечены.");
@@ -88,10 +86,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.WaitUntilDocumentProcessed();
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.EditorTxtFile, targetLanguages.Skip(1).ToArray()),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(_document, targetLanguages.Skip(1).ToArray()),
 				"Произошла ошибка:\n появились джобы не для всех языков.");
 
-			Assert.IsFalse(_projectSettingsPage.IsDocumentExist(PathProvider.EditorTxtFile, targetLanguages.Take(1).ToArray()),
+			Assert.IsFalse(_projectSettingsPage.IsDocumentExist(_document, targetLanguages.Take(1).ToArray()),
 				"Произошла ошибка:\n для языка {0} не должно быть джобов.", targetLanguages[0]);
 		}
 	}

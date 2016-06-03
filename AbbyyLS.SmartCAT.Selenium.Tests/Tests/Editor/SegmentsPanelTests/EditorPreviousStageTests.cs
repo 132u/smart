@@ -30,9 +30,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName, taskNumber: 2);
+			_projectSettingsHelper.AssignTasksOnDocument(_document, ThreadUser.NickName, _projectUniqueName, taskNumber: 2);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask(TaskMode.Editing);
 

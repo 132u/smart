@@ -51,11 +51,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new [] {PathProvider.EditorTxtFile});
+				new [] {_document});
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, _document);
 			
 			_editorPage
 				.FillSegmentTargetField(targetSegment)
@@ -105,9 +105,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-29237"), ShortCheckList]
 		public void StatusCheckForProjectWithXliffDocxTest()
 		{
+			var xliffDocument = PathProvider.EditorXliffFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new[] { PathProvider.EditorXliffFile, PathProvider.DocumentFile });
+				new[] { xliffDocument, PathProvider.DocumentFile });
 
 			Assert.AreEqual(_projectsPage.GetProjectStatus(_projectUniqueName), ProjectStatus.Pretranslated.Description(),
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Pretranslated.Description());
@@ -118,8 +120,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new[] { PathProvider.EditorTxtFile },
-				tmxFilesPaths: new[] { PathProvider.EditorTmxFile },
+				new[] { _document },
+				tmxFilesPaths: new[] { _tmx },
 				rulle: PreTranslateRulles.TM);
 
 			_projectsPage.RefreshPage<ProjectsPage>();

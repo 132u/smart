@@ -84,12 +84,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 			var projectUniqueName3 = _createProjectHelper.GetProjectUniqueName();
+			var txtFileForMatchTest = PathProvider.TxtFileForMatchTest;
+			var tmxFileForMatchTest = PathProvider.TmxFileForMatchTest;
 
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName2,
-				filesPaths: new[] { PathProvider.TxtFileForMatchTest },
+				filesPaths: new[] { txtFileForMatchTest },
 				createNewTm: true,
-				tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest },
+				tmxFilesPaths: new[] { tmxFileForMatchTest },
 				useMachineTranslation: true);
 			_createProjectHelper.CreateNewProject(projectUniqueName3);
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile});
@@ -115,11 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13755"), ShortCheckList]
 		public void DeleteMultiLingualDocumentTest()
 		{
-			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
-
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, PathProvider.EditorTxtFile  });
+				filesPaths: new[] { PathProvider.DocumentFile, _document  });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile, jobs: true)
+				.SelectDocument(_projectUniqueName, _document, jobs: true)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
 			Assert.AreEqual("Delete document with all translations?", _deleteDialog.GetTextFromDeleteDialog(),
@@ -141,18 +141,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName),
-				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName, _projectUniqueName);
+			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, _documentName),
+				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", _documentName, _projectUniqueName);
 		}
 
 		[Test, Description("S-13754"), ShortCheckList]
 		public void DeleteDocumentJobTest()
 		{
-			var fileName = Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile);
-
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, PathProvider.EditorTxtFile });
+				filesPaths: new[] { PathProvider.DocumentFile, _document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -164,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocumentJob(_projectUniqueName, fileName, Language.German);
+				.SelectDocumentJob(_projectUniqueName, _documentName, Language.German);
 
 			Assert.IsTrue(_projectsPage.IsDeleteButtonInProjectPanelDisabled(_projectUniqueName),
 				"Произошла ошибка: кнопка проекта '{0}' активна.", _projectUniqueName);
@@ -181,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				filesPaths: new[]
 				{
 					PathProvider.DocumentFile, 
-					PathProvider.EditorTxtFile, 
+					_document, 
 					PathProvider.DocumentFile2
 				});
 

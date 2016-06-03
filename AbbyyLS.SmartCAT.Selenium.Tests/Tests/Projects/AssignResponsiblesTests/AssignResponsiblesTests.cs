@@ -18,7 +18,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new []{ PathProvider.EditorTxtFile },
+				filesPaths: new []{ _document },
 				tasks: new[] { WorkflowTask.Translation, WorkflowTask.Proofreading }
 				);
 
@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SaveSettings();
 
 			_projectSettingsPage
-				.ClickProjectsTableCheckbox(Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile))
+				.ClickProjectsTableCheckbox(_documentName)
 				.ClickAssignButtonOnPanel();
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");
@@ -44,7 +44,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void AssignFewTasksForFewUsersFewDocumentsTest()
 		{
-			var document1 = PathProvider.EditorTxtFile;
 			var document2 = PathProvider.DocumentFile;
 			var document3 = PathProvider.DocumentFile2;
 			var document4 = PathProvider.DocumentFileToConfirm1;
@@ -53,14 +52,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new []{ document1, document2, document3 },
+				filesPaths: new []{ _document, document2, document3 },
 				tasks: new[] { 
 					WorkflowTask.Translation,
 					WorkflowTask.Proofreading,
 					WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, document1);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false, taskNumber: 1)
@@ -87,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { document1, document2, document3 });
+			_projectsPage.OpenAssignDialogForSelectedDocuments(_projectUniqueName, new[] { _document, document2, document3 });
 
 			var assignee = new List<string> { ThreadUser.NickName};
 			assignee.Sort();
@@ -111,13 +110,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new []{ PathProvider.EditorTxtFile },
+				filesPaths: new []{ _document },
 				tasks: new[] {
 						WorkflowTask.Translation,
 						WorkflowTask.Editing}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -128,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 		}
 	}
 }

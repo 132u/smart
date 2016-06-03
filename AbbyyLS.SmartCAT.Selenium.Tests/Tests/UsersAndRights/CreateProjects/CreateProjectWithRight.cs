@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void AddDocumentToProjectTest()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
+				_projectUniqueName, filesPaths: new[] { _document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -59,20 +59,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
+				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.EditorTxtFile)
+				.HoverDocumentRow(_projectUniqueName, _document)
 				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
-				.SelectDocument(_projectUniqueName, PathProvider.EditorTxtFile)
+				.SelectDocument(_projectUniqueName, _document)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);
 
 			_exportNotification.ClickDownloadNotifier<ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.EditorTxtFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
+				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -105,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile, PathProvider.DocumentFileToConfirm1 });
+				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -125,7 +125,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DeleteProjectTest()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
+				_projectUniqueName, filesPaths: new[] { _document });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DeleteProjectWhenProjectInfoOpenedTest()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorTxtFile });
+				_projectUniqueName, filesPaths: new[] { _document });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)

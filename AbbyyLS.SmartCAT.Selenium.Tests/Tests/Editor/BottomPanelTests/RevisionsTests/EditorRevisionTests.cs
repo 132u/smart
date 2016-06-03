@@ -215,8 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsHelper.AssignTasksOnDocument(
-				Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile),
-				_secondUser.NickName, _projectUniqueName);
+				_documentName, _secondUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -226,7 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.EditorTxtFile));
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _documentName);
 
 			_selectTaskDialog.SelectTask();
 

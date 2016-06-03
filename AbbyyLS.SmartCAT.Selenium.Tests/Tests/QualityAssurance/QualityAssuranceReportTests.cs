@@ -23,14 +23,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false)
 				.ClickSaveButton();
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 

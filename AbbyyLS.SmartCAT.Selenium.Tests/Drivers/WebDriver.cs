@@ -24,14 +24,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		public static readonly TimeSpan NoWait = new TimeSpan(0, 0, 0, 0);
 		private Navigation _customNavigate;
 
-		public WebDriver(IWebDriverProvider provider, string tempFolder, string downloadDirectory)
+		public WebDriver(IWebDriverProvider provider, string tempFolder, string downloadDirectory, string importDirectory)
 		{
 			_tempFolder = tempFolder;
 
 			_driver = provider.GetWebDriver(
 				_tempFolder, 
 				downloadDirectory,
-				Path.Combine(_tempFolder, "UserData"));
+				Path.Combine(_tempFolder, "UserData"),
+				importDirectory);
 
 			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));

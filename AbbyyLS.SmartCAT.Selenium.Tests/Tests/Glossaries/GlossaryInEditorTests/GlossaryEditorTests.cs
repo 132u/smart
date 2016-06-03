@@ -38,6 +38,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage = new ProjectsPage(Driver);
 			_projectName = _createProjectHelper.GetProjectUniqueName();
 			_glossaryName = GlossariesHelper.UniqueGlossaryName();
+			_document = PathProvider.EditorTxtFile;
 
 			_workspacePage.GoToProjectsPage();
 
@@ -46,10 +47,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.OpenProjectSettingsPage(_projectName);
 
 			_projectSettingsHelper
-				.UploadDocument(new[] { PathProvider.EditorTxtFile })
-				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectName);
+				.UploadDocument(new[] { _document })
+				.AssignTasksOnDocument(_document, ThreadUser.NickName, _projectName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -200,7 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectsPage
 				.OpenProjectInfo(_projectName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectName, PathProvider.EditorTxtFile);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectName, _document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -436,8 +437,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_projectsPage.OpenProjectSettingsPage(_projectName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -474,5 +474,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 		private string _projectName;
 		private string _glossaryName;
+		private string _document;
 	}
 }

@@ -17,7 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void WorkflowAssigneeTestsSetUp()
 		{
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.RepetitionsTxtFile });
+				_projectUniqueName, filesPaths: new[] { _repetitionsTxtFile });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 		}
@@ -25,9 +25,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-0511 Отказ после подтверждения")]
 		public void DeclineTaskTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
+			_projectSettingsHelper.AssignTasksOnDocument(_repetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.RepetitionsTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_repetitionsTxtFile);
 
 			_selectTaskDialog.SelectTask();
 
@@ -44,13 +44,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.DeclineTaskInDocumentInfo(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+			_projectsPage.DeclineTaskInDocumentInfo(_projectUniqueName, _repetitionsTxtFile);
 
 			_taskDeclineDialog.ClickDeclineButton();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, Path.GetFileNameWithoutExtension(PathProvider.RepetitionsTxtFile));
+				.HoverDocumentRow(_projectUniqueName, _repetitionsTxtFileName);
 
 			Assert.AreEqual(0, _projectsPage.GetTasksCount(),
 				"Произошла ошибка:\n Неверное количество задач.");
@@ -59,11 +59,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("ТС-053 Отмена участия исполнителя назначенного этапа")]
 		public void DeclineAssigneeTest()
 		{
-			_projectSettingsHelper.AssignTasksOnDocument(PathProvider.RepetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
+			_projectSettingsHelper.AssignTasksOnDocument(_repetitionsTxtFile, ThreadUser.NickName, _projectUniqueName);
 
 			_workspacePage
 				.GoToProjectsPage()
-				.OpenAssignDialog(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.OpenAssignDialog(_projectUniqueName, _repetitionsTxtFile);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage
 				.GoToProjectsPage()
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, _repetitionsTxtFile);
 
 			Assert.AreEqual(0, _projectsPage.GetTasksCount(),
 				"Произошла ошибка:\n Неверное количество задач.");
@@ -95,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _repetitionsTxtFile);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -121,8 +121,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, _repetitionsTxtFile)
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _repetitionsTxtFile);
 				
 			_selectTaskDialog.SelectTask();
 
@@ -155,8 +155,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.RepetitionsTxtFile)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.RepetitionsTxtFile);
+				.HoverDocumentRow(_projectUniqueName, _repetitionsTxtFile)
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, _repetitionsTxtFile);
 
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 9)

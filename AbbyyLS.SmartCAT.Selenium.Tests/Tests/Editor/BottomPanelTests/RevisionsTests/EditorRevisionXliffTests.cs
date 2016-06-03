@@ -31,16 +31,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test]
 		public void RevisionsInXlfTest()
 		{
-			var _projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			var document = PathProvider.EditorXliffFile;
+			var documentName = Path.GetFileNameWithoutExtension(document);
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.EditorXliffFile });
+				projectUniqueName, filesPaths: new[] { document });
 
-			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
-			_projectSettingsHelper.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.EditorXliffFile), ThreadUser.NickName, _projectUniqueName);
+			_projectSettingsHelper.AssignTasksOnDocument(documentName, ThreadUser.NickName, projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.EditorXliffFile));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(documentName);
 
 			_selectTaskDialog.SelectTask();
 

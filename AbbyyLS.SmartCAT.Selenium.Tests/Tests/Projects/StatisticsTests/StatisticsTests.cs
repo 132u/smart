@@ -8,7 +8,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 {
@@ -172,16 +171,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_groupsAndAccessRightsTab.AddUserToGroupIfNotAlredyAdded(groupName, ThreadUser.FullName);
 
 			_workspacePage.GoToProjectsPage();
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile },
+				filesPaths: new[] { _document },
 				tasks: new[] {
 						WorkflowTask.Translation,
 						WorkflowTask.Editing,
 						WorkflowTask.Postediting}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(groupName, isGroup: true, taskNumber: 1)
@@ -191,7 +191,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.EditorTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, taskNumber: 3)

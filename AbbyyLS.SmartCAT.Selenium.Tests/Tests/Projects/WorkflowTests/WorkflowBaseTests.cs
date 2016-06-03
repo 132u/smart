@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.IO;
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -50,6 +51,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+
+			_editorTxtFile = PathProvider.EditorTxtFile;
+			_editorTxtFileName = Path.GetFileNameWithoutExtension(_editorTxtFile);
+
+			_repetitionsTxtFile = PathProvider.RepetitionsTxtFile;
+			_repetitionsTxtFileName = Path.GetFileNameWithoutExtension(_editorTxtFile);
 		}
 
 		[TearDown]
@@ -88,5 +95,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
 		protected WorkspacePage _workspacePage;
 		protected WorkflowSetUpTab _workflowSetUptab;
+		protected string _editorTxtFile;
+		protected string _editorTxtFileName;
+		protected string _repetitionsTxtFile;
+		protected string _repetitionsTxtFileName;
 	}
 }

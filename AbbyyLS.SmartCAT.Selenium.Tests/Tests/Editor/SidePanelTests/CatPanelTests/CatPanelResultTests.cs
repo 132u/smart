@@ -31,20 +31,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Standalone]
 		public void TMTest()
 		{
+			var document = PathProvider.EditorTxtFile;
+			var tmx = PathProvider.EditorTmxFile;
+
 			_createProjectHelper
 				.CreateNewProject(
 					_projectUniqueName,
-					filesPaths: new[] { PathProvider.EditorTxtFile },
+					filesPaths: new[] { document },
 					createNewTm: true,
-					tmxFilesPaths: new[] { PathProvider.EditorTmxFile });
+					tmxFilesPaths: new[] { tmx });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.EditorTxtFile, ThreadUser.NickName, _projectUniqueName);
+				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.EditorTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 			
 			_selectTaskDialog.SelectTask();
 

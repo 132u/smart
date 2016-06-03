@@ -54,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_workspacePage.Driver.Close();
 
-			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles);
+			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles, PathProvider.ImportFiles);
 			var newWorkspacePage = new WorkspacePage(_newDriver);
 			newWorkspacePage.GetPage(ConfigurationManager.Url);
 
@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 
 			_workspacePage.Driver.Close();
 
-			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles);
+			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles, PathProvider.ImportFiles);
 			var newSignInPage = new SignInPage(_newDriver);
 			var newWorkspacePage = new WorkspacePage(_newDriver);
 

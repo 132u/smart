@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.EditorTxtFile });
+				filesPaths: new[] { _document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

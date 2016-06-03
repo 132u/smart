@@ -34,6 +34,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UserSettingsTests
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_userPreferencesDialog = new UserPreferencesDialog(Driver);
 
+			var document = PathProvider.EditorAutoSubstitutionFile;
+
 			AdditionalUser = TakeUser(ConfigurationManager.AdditionalUsers);
 
 			_signInPage.SubmitForm(AdditionalUser.Login, AdditionalUser.Password);
@@ -43,11 +45,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.UserSettingsTests
 			_createProjectHelper
 				.CreateNewProject(
 					_projectUniqueName,
-					new[] {PathProvider.EditorAutoSubstitutionFile});
+					new[] { document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.EditorAutoSubstitutionFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, document);
 
 			_editorPage.ClickUserPreferencesButton();
 		}

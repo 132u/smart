@@ -36,19 +36,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
+			var txtFileForMatchTest = PathProvider.TxtFileForMatchTest;
+			var txtFileNameForMatchTest = Path.GetFileNameWithoutExtension(txtFileForMatchTest);
+			var tmxFileForMatchTest = PathProvider.TmxFileForMatchTest;
+
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: _projectUniqueName,
-					filesPaths: new[] { PathProvider.TxtFileForMatchTest },
+					filesPaths: new[] { txtFileForMatchTest },
 					createNewTm: true,
-					tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest });
+					tmxFilesPaths: new[] { tmxFileForMatchTest });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, _projectUniqueName);
+				.AssignTasksOnDocument(txtFileForMatchTest, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(Path.GetFileNameWithoutExtension(PathProvider.TxtFileForMatchTest));
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(txtFileNameForMatchTest);
 
 			_selectTaskDialog.SelectTask();
 		}

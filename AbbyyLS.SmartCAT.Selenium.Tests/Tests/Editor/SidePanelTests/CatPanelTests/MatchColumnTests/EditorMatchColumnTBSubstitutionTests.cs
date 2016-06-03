@@ -28,19 +28,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			var _glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			var txtFileForMatchTest = PathProvider.TxtFileForMatchTest;
 
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName,
-				filesPaths: new[] { PathProvider.TxtFileForMatchTest },
+				filesPaths: new[] { txtFileForMatchTest },
 				glossaryName: _glossaryUniqueName);
 
 			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, projectUniqueName);
+				.AssignTasksOnDocument(txtFileForMatchTest, ThreadUser.NickName, projectUniqueName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.TxtFileForMatchTest);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(txtFileForMatchTest);
 
 			_selectTaskDialog.SelectTask();
 

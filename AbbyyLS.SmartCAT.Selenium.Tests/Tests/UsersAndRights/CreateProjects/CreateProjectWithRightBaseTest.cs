@@ -73,6 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			_document = PathProvider.EditorTxtFile;
 		}
 
 		[OneTimeTearDown]
@@ -100,5 +101,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected ProjectSettingsDialog _settingsDialog;
 		protected BuildStatisticsPage _buildStatisticsPage;
 		protected DeleteProjectOrFileDialog _deleteProjectOrFileDialog;
+		protected string _document;
 	}
 }

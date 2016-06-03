@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void UploadIncorrectTmxFileTest(string file)
 		{
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
-				importFilePath: PathProvider.EditorTmxFile);
+				importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
@@ -35,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		public void UploadTMFileWithWrongExtensionTest(string file)
 		{
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName,
-				importFilePath: PathProvider.EditorTmxFile);
+				importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
@@ -50,7 +50,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UploadTMWithoutFileName()
 		{
-			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: PathProvider.EditorTmxFile);
+			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 

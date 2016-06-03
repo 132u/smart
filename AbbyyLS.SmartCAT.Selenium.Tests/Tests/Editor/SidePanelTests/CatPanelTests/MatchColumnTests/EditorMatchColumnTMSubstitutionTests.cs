@@ -31,13 +31,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage = new ProjectsPage(Driver);
 
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			var txtFileForMatchTest = PathProvider.TxtFileForMatchTest;
+			var tmxFileForMatchTest = PathProvider.TmxFileForMatchTest;
 
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: projectUniqueName,
-					filesPaths: new[] { PathProvider.TxtFileForMatchTest },
+					filesPaths: new[] { txtFileForMatchTest },
 					createNewTm: true,
-					tmxFilesPaths: new[] { PathProvider.TmxFileForMatchTest });
+					tmxFilesPaths: new[] { tmxFileForMatchTest });
 
 			_workspacePage.GoToTranslationMemoriesPage();
 
@@ -48,10 +50,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.OpenProjectSettingsPage(projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.TxtFileForMatchTest, ThreadUser.NickName, projectUniqueName);
+				.AssignTasksOnDocument(txtFileForMatchTest, ThreadUser.NickName, projectUniqueName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.TxtFileForMatchTest);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(txtFileForMatchTest);
 
 			_selectTaskDialog.SelectTask();
 		}
