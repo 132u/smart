@@ -133,7 +133,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_editorPage.IsSegmentConfirmed(),
 				"Произошла ошибка:\n Сегмент №1не подтвердился");
 			//Sleep необходим, так как репетишены подставляются с задержкой (1 секунды не хватает)
-			Thread.Sleep(2000);
+			Thread.Sleep(10000);
 
 			Assert.AreEqual(_text, _editorPage.GetTargetText(rowNumber: 4),
 				"Произошла ошибка:\n Репетишен не подставился в сегмент №4.");
@@ -168,7 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			Assert.IsTrue(_editorPage.IsAllSegmentsSavedMessageDisplayed(), "Произошла ошибка:\nТермин не сохранился.");
 			//Sleep необходим, так как репетишены подставляются с задержкой (1 секунды не хватает)
-			Thread.Sleep(2000);
+			Thread.Sleep(10000);
 
 			Assert.AreEqual(text2, _editorPage.GetTargetText(rowNumber: 11),
 				"Произошла ошибка:\n Репетишен не подставился в сегмент №11.");
