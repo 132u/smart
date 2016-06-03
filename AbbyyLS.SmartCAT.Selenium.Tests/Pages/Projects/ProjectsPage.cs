@@ -1221,7 +1221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected const string DOCUMENT_JOB = "//span[text()='*#*_*##*']/ancestor::tr//input[@type='checkbox']";
 		protected const string DOCUMENT_REF_IN_PROJECT = "//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//..//..//..//..//..//tr[contains(@class,'js-document-row')]//a[text()='*##*']";
 		protected const string DOWNLOAD_MAIN_MENU_BUTTON = "//span[contains(@class,'download')]";
-		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//div[contains(@data-bind, 'menuButton')]";
+		protected const string DOWNLOAD_IN_PROJECT_BUTTON = "//*[text()='*#*']//ancestor::tr//following-sibling::tr[1]//menu-button[contains(@params, 'Download')]/parent::div";
 		protected const string DOWNLOAD_IN_DOCUMENT_BUTTON = "//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*']/ancestor::tr//button[@title='Download']";
 		protected const string DOCUMENT_ROW = "(//span[text()='*#*']/ancestor::tr/following-sibling::tr//span[text()='*##*'])[1]";
 		protected const string DOCUMENT_PROGRESS = ".//table[contains(@class,'js-tasks-table')]//tr//*[@class='js-name'][(local-name() ='a' or local-name() ='span') and text()='*#*']//ancestor::tr/following-sibling::tr[contains(@class,'js-document-row')]//a[text()='*##*']//ancestor::tr[contains(@class,'js-document-row')]//div[@class='ui-progressbar__container']";
