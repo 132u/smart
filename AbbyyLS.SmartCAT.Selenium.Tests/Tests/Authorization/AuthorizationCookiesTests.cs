@@ -1,7 +1,4 @@
-﻿using System;
-
-using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -22,45 +19,72 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Authorization
 			StartPage = StartPage.Admin;
 		}
 
-		[Test, Description("S-7121"), ShortCheckList]
-		public void RemeberMeCheckBoxTest()
+		[SetUp]
+		public void SetUpAuthorizationCookiesTests()
 		{
-			var data = DateTime.Now.AddYears(2);
-			var cookieName = "session";
-			var reloadPageJavaScript = "location.reload()";
-
 			_adminHelper
 				.CreateNewUser(_email, _firstAndLastName, _password)
 				.CreateNewPersonalAccount(_lastName, true);
 
 			_registrationPage.GetPageExpectingRedirectToSignInPage(_email);
 
+			_tempFolder = Driver.TempFolder;
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			if (_newDriver != null)
+			{
+				ReplaceDrivers(_newDriver);
+			}
+		}
+
+		[Test, Description("S-7121"), ShortCheckList]
+		public void RemeberMeCheckBoxTest()
+		{
 			_signInPage
 				.ClickRememberMeCheckBox()
 				.SubmitFormExpectingWorkspacePage(_email, _password);
 
-			var sessionCookie = _signInPage.Driver.Manage().Cookies.GetCookieNamed(cookieName);
-			var fakeSessionCookie = new Cookie(sessionCookie.Name, sessionCookie.Value, sessionCookie.Path, data);
+			var sessionCookie = _signInPage.Driver.Manage().Cookies.GetCookieNamed("session");
 
 			Assert.IsNotNull(sessionCookie.Expiry,
 				"Произошла ошибка:\n Для отмеченного чекбокса 'RememberMe' не  заполнилось поле 'Expiry' для куки 'Session'.");
 
-			_workspacePage.Driver.Quit();
+			_workspacePage.Driver.Close();
 
-			var newDriver = new WebDriver(new TWebDriverProvider(), PathProvider.DriversTemporaryFolder, PathProvider.ExportFiles);
-			var newSignInPage = new SignInPage(newDriver);
-			var newWorkspacePage = new WorkspacePage(newDriver);
-			
-			newSignInPage.GetPage();
-
-			newDriver.Manage().Cookies.AddCookie(fakeSessionCookie);
-
-			newSignInPage.Driver.ExecuteScript(reloadPageJavaScript);
+			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles);
+			var newWorkspacePage = new WorkspacePage(_newDriver);
+			newWorkspacePage.GetPage(ConfigurationManager.Url);
 
 			Assert.IsTrue(newWorkspacePage.IsWorkspacePageOpened(),
-				"Произошла ошибка:\n Не произошла авторизация после добавления куки 'session', с указанным параметром Expire.");
-
-			ReplaceDrivers(newDriver);
+				"Произошла ошибка:\n Не произошла авторизация после того, как отметили чекбокс 'RememberMe'.");
 		}
+
+		[Test, Description("S-15983"), ShortCheckList]
+		public void NoRemeberMeCheckBoxTest()
+		{
+			_signInPage.SubmitFormExpectingWorkspacePage(_email, _password);
+
+			var sessionCookie = _signInPage.Driver.Manage().Cookies.GetCookieNamed("session");
+
+			Assert.IsNull(sessionCookie.Expiry,
+				"Произошла ошибка:\n Для отмеченного чекбокса 'RememberMe'  заполнилось поле 'Expiry' для куки 'Session'.");
+
+			_workspacePage.Driver.Close();
+
+			_newDriver = new WebDriver(new TWebDriverProvider(), _tempFolder, PathProvider.ExportFiles);
+			var newSignInPage = new SignInPage(_newDriver);
+			var newWorkspacePage = new WorkspacePage(_newDriver);
+
+			newWorkspacePage.GetPage(ConfigurationManager.Url);
+
+			Assert.IsTrue(newSignInPage.IsSignInPageOpened(),
+				"Произошла ошибка:\n Страница авторизации не открылась.");
+		}
+
+		private string _tempFolder;
+		private WebDriver _newDriver;
 	}
 }

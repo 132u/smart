@@ -26,8 +26,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 		public WebDriver(IWebDriverProvider provider, string tempFolder, string downloadDirectory)
 		{
-			_tempFolder = Path.Combine(tempFolder, Guid.NewGuid().ToString());
-			_driver = provider.GetWebDriver(_tempFolder, downloadDirectory);
+			_tempFolder = tempFolder;
+
+			_driver = provider.GetWebDriver(
+				_tempFolder, 
+				downloadDirectory,
+				Path.Combine(_tempFolder, "UserData"));
 
 			_driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(3));
 			_driver.Manage().Timeouts().SetPageLoadTimeout(TimeSpan.FromSeconds(60));
@@ -615,6 +619,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			actions.Build().Perform();
 		}
+
+		public string TempFolder
+		{
+			get { return _tempFolder; }
+		} 
 
 		public void Dispose()
 		{
