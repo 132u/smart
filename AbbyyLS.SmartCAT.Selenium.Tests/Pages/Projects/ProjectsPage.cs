@@ -1030,6 +1030,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			return Driver.WaitUntilElementIsDisplay(By.XPath(COMPLETED_STATUS.Replace("*#*", projectName)));
 		}
 
+		/// <summary>
+		/// Проверить, что отображается вкладка 'Отменённые проекты'
+		/// </summary>
+		public bool IsCancelledProjectsTabDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается вкладка 'Отменённые проекты'");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(CANCELLED_PROJECTS_TAB));
+		}
+
 		#endregion
 
 		#region Методы, ожидающие определенного состояния страницы

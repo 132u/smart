@@ -144,6 +144,7 @@
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\QualityAssuranceSettings.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\WorkflowSetUpTab.cs" />
     <Compile Include="Pages\Projects\QualityAssuranceDialog.cs" />
+    <Compile Include="Pages\Projects\RestoreProjectDialog.cs" />
     <Compile Include="Pages\Projects\StatisticsPage\StatisticsBasePage.cs" />
     <Compile Include="Pages\Projects\StatisticsPage\BuildStatisticsPage.cs" />
     <Compile Include="Pages\Projects\TaskDeclineDialog.cs" />
@@ -374,6 +375,7 @@
     <Compile Include="Tests\LoadTests\OpenDocumentAndConfirmSegment.cs" />
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryWithoutSetNewPasswordTests.cs" />
+    <Compile Include="Tests\Projects\CanceledProjectsPageTests\CanceledProjectsPageTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
     <Compile Include="Tests\Projects\UploadDocumentToProjectTests.cs" />
