@@ -20,7 +20,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			if (!IsGlossaryExportNotificationDisplayed())
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не загрузилась страница глоссария");
+				throw new XPathLookupException("Произошла ошибка:\n не появилось сообщение об экспорте глоссария");
 			}
 
 			return this;
@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		#region Описания XPath элементов
 
 		protected const string NOTIFIER_CANCEL_BTN = "//button[contains(@class, 'g-btn_theme_dark')]//span[text()='Close']";
-		protected const string NOTIFIER_DOWNLOAD_BTN = "//button[contains(@class, 'g-btn_theme_dark')]//span[text()='Скачать']";
+		protected const string NOTIFIER_DOWNLOAD_BTN = "//button[contains(@class, 'g-btn_theme_dark')]//span[text()='Download']";
 	   
 		#endregion
 	}

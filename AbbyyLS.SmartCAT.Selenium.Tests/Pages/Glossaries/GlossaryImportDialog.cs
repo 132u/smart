@@ -183,8 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		protected const string REPLACE_ALL_BUTTON = "//div[contains(@class,'js-popup-import')][2]//input[contains(@name,'needToClear')][@value='true']//following-sibling::em";
 		protected const string IMPORT_IN_PROGRESS_MESSAGE = "//div[contains(@class, 'js-please-wait')]";
 		protected const string STRUCTURE_ERROR = "//div[contains(@class,'g-popupbox')]//div[@class='l-filtersrc__error']";
-		//TODO поменять XPath, когда перведут текст на английский в уведомолениях
-		protected const string ERROR_REPORT_BUTTON = "//span[text()='Отчет об ошибках']";
+		protected const string ERROR_REPORT_BUTTON = "//span[text()='Error log']";
 		#endregion
 	}
 }
