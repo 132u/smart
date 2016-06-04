@@ -1000,7 +1000,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 
 		protected const string ALL_NOTIFICATIONS = "//div[@class='g-notifications-item']";
 		protected const string NOTIFICATION = "//div[@class='g-notifications-item'][*#*]//span[2]/a";
-		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//button[contains(@data-bind, 'stopBubble')]//span";
+		protected const string CLOSE_NOTIFICATION_BUTTON = "//div[@class='g-notifications-item'][*#*]//button[contains(@data-bind, 'stopBubble')]//span[text()='Close']";
 
 		protected const string LIMITED_ACCESS_MESSAGE = "//div[@class='g-limited-access-msg']";
 		protected const string SEND_AGAIN_BUTTON = "//div[@class='g-limited-access-msg']//a[text()='Send Again']";

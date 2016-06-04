@@ -395,6 +395,9 @@
     <Compile Include="Tests\Projects\StatisticsTests\StatisticsTests.cs" />
     <Compile Include="Tests\QualityAssurance\QualityAssuranceTests.cs" />
     <Compile Include="Tests\Registration\RegistrationBaseTest.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaryContent\ManageGlossaryContentBaseTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaryContent\ManageGlossaryContentEditAdvancedSettingsTests.cs" />
+    <Compile Include="Tests\UsersAndRights\ManageGlossaryContent\ManageGlossaryContentTests.cs" />
     <Compile Include="Tests\UsersAndRights\ManageTranslationMemories\ManageTranslationMemoriesSpecificClientTests.cs" />
     <Compile Include="Tests\WorkspaceTests\WorkspaceSupportButtonsTests.cs" />
     <Compile Include="Tests\TranslationMemories\FilterTmTests\FilterTmByProjectGroupTests.cs" />
