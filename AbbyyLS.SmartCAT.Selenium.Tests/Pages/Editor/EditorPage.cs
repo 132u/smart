@@ -685,8 +685,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// Получить номер строки в CAT-панели
 		/// </summary>
 		/// <param name="catType">тип перевода</param>
+		/// <param name="startNumber">номер строки, с которой начинать поиск</param>
 		/// <returns>номер строки в CAT-панели</returns>
-		public int CatTypeRowNumber(CatType catType)
+		public int CatTypeRowNumber(CatType catType, int startNumber = 0)
 		{
 			CustomTestContext.WriteLine("Получить номер строки для {0} в CAT-панели.", catType);
 
@@ -696,9 +697,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			var rowNumber = 0;
 			var catTypeList = Driver.GetTextListElement(By.XPath(CAT_TYPE_LIST_IN_PANEL));
 
-			CustomTestContext.WriteLine("Количесвто элементов в CAT-панели - {0}", catTypeList.Count);
+			CustomTestContext.WriteLine("Количество элементов в CAT-панели - {0}", catTypeList.Count);
 
-			for (var i = 0; i < catTypeList.Count; ++i)
+			for (var i = startNumber; i < catTypeList.Count; ++i)
 			{
 				if (catTypeList[i].Contains(catType.ToString()))
 				{

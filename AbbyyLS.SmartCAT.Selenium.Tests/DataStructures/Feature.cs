@@ -7,6 +7,7 @@
 		Crowd,
 		Domains,
 		DocumentUpdate,
-		Vendors
+		Vendors,
+		FastMT
 	}
 }

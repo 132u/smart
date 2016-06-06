@@ -117,6 +117,10 @@
     <Compile Include="Pages\Login\ProZPage.cs" />
     <Compile Include="Pages\Login\RecoveryPasswordPage.cs" />
     <Compile Include="Pages\Login\SelectProfileForm.cs" />
+    <Compile Include="Pages\MachineTranslation\FastMTAddFilesSettingsPage.cs" />
+    <Compile Include="Pages\MachineTranslation\FastMTSettingsBasePage.cs" />
+    <Compile Include="Pages\MachineTranslation\FastMTTextPage.cs" />
+    <Compile Include="Pages\MachineTranslation\FastMTAddFilesPage.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\AttentionPopup.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DatePicker.cs" />
     <Compile Include="Pages\Projects\AssignmentPages\DistributeSegmentsBetweenAssigneesPage.cs" />
@@ -376,6 +380,13 @@
     <Compile Include="Tests\LoadTests\SurfingThroughPages.cs" />
     <Compile Include="Tests\Authorization\PasswordRecoveryWithoutSetNewPasswordTests.cs" />
     <Compile Include="Tests\Projects\CanceledProjectsPageTests\CanceledProjectsPageTests.cs" />
+    <Compile Include="Tests\MachineTranslations\BaseMTTest.cs" />
+    <Compile Include="Tests\MachineTranslations\ChooseMTTests\ChooseMTTests.cs" />
+    <Compile Include="Tests\MachineTranslations\FastMTTests\EnablingFastMTTests.cs" />
+    <Compile Include="Tests\MachineTranslations\FastMTTests\TranslatingFileTests.cs" />
+    <Compile Include="Tests\MachineTranslations\FastMTTests\TranslatingTextTests.cs" />
+    <Compile Include="Tests\MachineTranslations\UsingMTTests\SpendingPaidPagesByMTTests.cs" />
+    <Compile Include="Tests\MachineTranslations\UsingMTTests\UsingSeveralMachineTranslationsTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
     <Compile Include="Tests\Projects\UploadDocumentToProjectTests.cs" />

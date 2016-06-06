@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading;
 
 using NUnit.Framework;
-
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -16,6 +15,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.MachineTranslation;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
@@ -153,6 +153,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			GlossariesButton.JavaScriptClick();
 
 			return new GlossariesPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать кнопку 'Machine Translation'
+		/// </summary>
+		public FastMTAddFilesPage ClickMachineTranslationButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку 'Machine Translation'");
+			MachineTranslation.Click();
+
+			return new FastMTAddFilesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -480,6 +491,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			ClickSearchButton();
 
 			return new SearchPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Перейти на страницу 'Machine Translation'
+		/// </summary>
+		public FastMTAddFilesPage GoToMachineTranslationPage()
+		{
+			OpenHideMenuIfClosed();
+			ClickMachineTranslationButton();
+
+			return new FastMTAddFilesPage(Driver);
 		}
 
 		/// <summary>
@@ -928,6 +950,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = LINGVO_DICTIONARIES_MENU)]
 		protected IWebElement LingvoDictionaries { get; set; }
 
+		[FindsBy(How = How.XPath, Using = MACHINE_TRANSLATION_MENU)]
+		protected IWebElement MachineTranslation { get; set; }
+
 		[FindsBy(How = How.XPath, Using = SEARCH_MENU)]
 		protected IWebElement SearchMenu { get; set; }
 
@@ -974,6 +999,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string GLOSSARY = ".//a[contains(@href,'/Glossaries')]";
 		protected const string DOMAIN_REF = ".//a[contains(@href,'/Domains')]";
 		protected const string LINGVO_DICTIONARIES_MENU = ".//a[contains(@href,'/LingvoDictionaries')]";
+		protected const string MACHINE_TRANSLATION_MENU = ".//a[contains(@href,'/FastMT')]";
 		protected const string SEARCH_MENU = "//div[contains(@class, 'menu-wrapper')]//a[contains(@href,'/Start')]";
 		protected const string VENDORS_BUTTON = "//a[contains(@href,'/Vendors/Index') and contains(@class,'mainmenu')]";
 

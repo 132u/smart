@@ -339,49 +339,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 
 			try
 			{
-				switch (how)
-				{
-					case How.XPath:
-						webElement = _driver.FindElement(By.XPath(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.CssSelector:
-						webElement = _driver.FindElement(By.CssSelector(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.Id:
-						webElement = _driver.FindElement(By.Id(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.ClassName:
-						webElement = _driver.FindElement(By.ClassName(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.LinkText:
-						webElement = _driver.FindElement(By.LinkText(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.PartialLinkText:
-						webElement = _driver.FindElement(By.PartialLinkText(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.Name:
-						webElement = _driver.FindElement(By.Name(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					case How.TagName:
-						webElement = _driver.FindElement(By.TagName(locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3)));
-						break;
-					default:
-						throw new Exception(
-							"Нельзя определить как искать элемент " + how);
-				}
+				webElement = _driver.FindElement(GetValueOfDynamicBy(how, locator, value, value2, value3));
 			}
 			catch (NoSuchElementException)
 			{
 				Assert.Fail("Ошибка: не удалось найти элемент How " +
-					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3));
+					how + " Using " + getValueOfDynamicLocator(locator, value, value2, value3));
 			}
 			catch (Exception ex)
 			{
 				Assert.Fail("Ошибка: " + ex.Message + "How " +
-					how + " Using " + locator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3));
+					how + " Using " + getValueOfDynamicLocator(locator, value, value2, value3));
 			}
 
 			return webElement;
+		}
+
+		public By GetValueOfDynamicBy(How how, string dynamicLocator, string value, string value2 = "", string value3 = "")
+		{
+			var locator = getValueOfDynamicLocator(dynamicLocator, value, value2, value3);
+
+			switch (how)
+			{
+				case How.XPath:
+					return By.XPath(locator);
+				case How.CssSelector:
+					return By.CssSelector(locator);
+				case How.Id:
+					return By.Id(locator);
+				case How.ClassName:
+					return By.ClassName(locator);
+				case How.LinkText:
+					return By.LinkText(locator);
+				case How.PartialLinkText:
+					return By.PartialLinkText(locator);
+				case How.Name:
+					return By.Name(locator);
+				case How.TagName:
+					return By.TagName(locator);
+				default:
+					throw new Exception(
+						"Нельзя определить как искать элемент " + how);
+			}
 		}
 
 		/// <summary>
@@ -652,6 +651,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Drivers
 		{
 			Dispose();
 		}
+
+		#region Вспомогательные методы
+
+		private string getValueOfDynamicLocator(string dynamicLocator, string value, string value2 = "", string value3 = "")
+		{
+			return dynamicLocator.Replace("*#*", value).Replace("*##*", value2).Replace("*###*", value3);
+		}
+
+		#endregion
 
 		private readonly RemoteWebDriver _driver;
 		private readonly string _tempFolder;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 
@@ -126,6 +127,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Кликнуть по чекбоксу 'Use Machine Translation'.");
 			UseMachineTranslationCheckbox.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по радио-button 'Use free with feedback'
+		/// </summary>
+		public NewProjectSettingsPage ClickUseFreeMachineTranslation()
+		{
+			CustomTestContext.WriteLine("Выбрать бесплатный машинный переводчик");
+			UseFreeMachineTranslationRadioButton.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
+		/// Кликнуть по радио-button This is a paid service'
+		/// </summary>
+		public NewProjectSettingsPage ClickUsePaidMachineTranslation()
+		{
+			CustomTestContext.WriteLine("Выбрать платный машинный переводчик");
+			UsePaidMachineTranslationRadioButton.Click();
 
 			return LoadPage();
 		}
@@ -443,7 +466,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			Language sourceLanguage = Language.English,
 			Language[] targetLanguages = null,
 			Deadline deadline = Deadline.CurrentDate,
-			bool useMachineTranslation = false)
+			bool useMachineTranslation = false,
+			bool useDefaultFreeOrPaidMT = true,
+			bool usePaidMT = false)
 		{
 			FillProjectName(projectName);
 			SetDeadline(deadline);
@@ -457,9 +482,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				SetTargetLanguage(targetLanguage, deselectAllLanguages);
 			}
 
-			if (useMachineTranslation ^ IsUseMachineTranslationInutSelected())
+			if (useMachineTranslation)
 			{
-				ClickUseMachineTranslationCheckbox();
+				if (!IsUseMachineTranslationInutSelected())
+				{
+					ClickUseMachineTranslationCheckbox();
+				}
+
+				if (!useDefaultFreeOrPaidMT)
+				{
+					if (usePaidMT)
+					{
+						ClickUsePaidMachineTranslation();
+					}
+					else
+					{
+						ClickUseFreeMachineTranslation();
+					}
+				}
 			}
 
 			return LoadPage();
@@ -790,6 +830,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_CHECKBOX)]
 		protected IWebElement UseMachineTranslationCheckbox { get; set; }
 
+		[FindsBy(How = How.XPath, Using = USE_FREE_MACHINE_TRANSLATION_RADIO_BUTTON)]
+		protected IWebElement UseFreeMachineTranslationRadioButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = USE_PAID_MACHINE_TRANSLATION_RADIO_BUTTON)]
+		protected IWebElement UsePaidMachineTranslationRadioButton { get; set; }
+
 		[FindsBy(How = How.XPath, Using = USE_MACHINE_TRANSLATION_INPUT)]
 		protected IWebElement UseMachineTranslationInput { get; set; }
 		
@@ -872,6 +918,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string TARGET_LANGUAGE_DROPDOWN_HEADER = "//div[contains(@class, 'target_langs dropdown')]//p";
 		protected const string TARGET_LANG_ITEM = "//div[contains(@class, 'target_langs')]//ul//li[@title = '*#*']//input";
 		protected const string USE_MACHINE_TRANSLATION_CHECKBOX = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//em";
+		protected const string USE_FREE_MACHINE_TRANSLATION_RADIO_BUTTON = "//input[contains(@data-bind, 'freeMTDisabled')]";
+		protected const string USE_PAID_MACHINE_TRANSLATION_RADIO_BUTTON = "//input[contains(@data-bind, 'paidMTDisabled')]";
 		protected const string NEXT_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]";
 		protected const string FINISH_BUTTON = "//div[contains(@data-bind, 'click: $parent.completeStep')]//a[text()='Finish']//parent::div";
 		protected const string USE_MACHINE_TRANSLATION_INPUT = "//div[contains(@data-bind, 'availableMachineTranslators')]//label//input";

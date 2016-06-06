@@ -156,6 +156,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 			return calculateLeftDays(packageValidityPeriod) * (newPackagePrice - currentPackagePrice) / totalCountDays;
 		}
 
+		/// <summary>
+		/// Получить баланс страниц платных услуг
+		/// </summary>
+		public double GetPagesBalance()
+		{
+			CustomTestContext.WriteLine("Получить баланс страниц платных услуг");
+
+			var balance = PagesBalance.Text;
+
+			double balanceValue;
+			if (!double.TryParse(balance, System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out balanceValue))
+				throw new Exception(string.Format(
+					"Произошла ошибка:\nне удалось преобразовать строку, где прописан баланс '{0}' в число", balance));
+
+			return balanceValue;
+		}
+
 		#endregion
 
 		#region Составные методы страницы
@@ -264,6 +281,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		[FindsBy(How = How.XPath, Using = LOGO)]
 		protected IWebElement Logo { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PAGES_BALANCE)]
+		protected IWebElement PagesBalance { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов
@@ -279,6 +299,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing
 		public const string LOGO = "//a[@id='logo']";
 		public const string PACKAGE_PRICE = "//table[contains(@class, ' add-lic')]//tbody//tr[1]//td['*#*']";
 		public const string SERVICES_TITLE =  "//h2[contains(text(), 'Additional Services Management')]";
+		public const string PAGES_BALANCE = "//div[contains(@class, 'serivce-restrictions')]//b";
+
 		#endregion
 	}
 }

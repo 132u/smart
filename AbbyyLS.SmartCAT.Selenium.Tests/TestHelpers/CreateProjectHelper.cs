@@ -40,7 +40,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			Deadline deadline = Deadline.CurrentDate,
 			bool expectingError = false,
 			bool useGreenCreateProjectButton = false,
-			PreTranslateRulles rulle = 0)
+			PreTranslateRulles rulle = 0,
+			bool useDefaultFreeOrPaidMT = true,
+			bool usePaidMT = false)
 		{
 			if (useGreenCreateProjectButton)
 			{
@@ -70,7 +72,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 				_newProjectDocumentUploadPage.ClickSettingsButton();
 			}
 
-			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguages, useMachineTranslation: useMachineTranslation, deadline: deadline);
+			_newProjectSettingsPage.FillGeneralProjectInformation(projectName, sourceLanguage, targetLanguages,
+				useMachineTranslation: useMachineTranslation, useDefaultFreeOrPaidMT: useDefaultFreeOrPaidMT, usePaidMT: usePaidMT, deadline: deadline);
 
 			if (glossaryName != null)
 			{

@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		public void CheckMatchAfterMtSubstitution()
+		public void CheckMatchAfterMTSubstitution()
 		{
 			_editorPage.PasteTranslationFromCAT(catType: CatType.MT);
 
@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		}
 
 		[Test]
-		public void CheckMtMatchAfterAdd()
+		public void CheckMTMatchAfterAdd()
 		{
 			_editorPage
 				.FillSegmentTargetField()
