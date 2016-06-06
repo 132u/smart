@@ -30,7 +30,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[TestCase(ExportType.TMX)]
 		public void DocumentDownloadButtonInDocumentPanelTest(ExportType exportType)
 		{
-			var documetName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var documetName = Path.GetFileNameWithoutExtension(_document1);
 
 			_projectSettingsPage
 				.HoverDocumentRow(documetName)
@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectSettings.ProjectSettingsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document1)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -56,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void DocumentDownloadButtonTest(ExportType exportType)
 		{
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFile)
+				.ClickDocumentCheckbox(_document1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
 
@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectSettings.ProjectSettingsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document1)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -80,8 +80,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void MultiDocumentDownloadButtonTest(ExportType exportType)
 		{
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFile)
-				.ClickDocumentCheckbox(PathProvider.DocumentFile2)
+				.ClickDocumentCheckbox(_document1)
+				.ClickDocumentCheckbox(_document2)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(exportType);
 

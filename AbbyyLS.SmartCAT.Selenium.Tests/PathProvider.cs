@@ -183,7 +183,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string DocumentFile2
 		{
-			get { return new Uri(Path.Combine(FilesDirectory, "English.docx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(FilesDirectory, "English.docx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -191,7 +194,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string DocumentFileToConfirm1
 		{
-			get { return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm.txt")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "testToConfirm.txt")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -199,7 +205,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string DocumentFileToConfirm2
 		{
-			get { return new Uri(Path.Combine(projectsFilesFolder, "testToConfirm2.txt")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "testToConfirm2.txt")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -207,7 +216,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string LongTxtFile
 		{
-			get { return new Uri(Path.Combine(projectsFilesFolder, "LongText.txt")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "LongText.txt")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -215,7 +227,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string TtxFile
 		{
-			get { return new Uri(Path.Combine(projectsFilesFolder, "test.ttx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "test.ttx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -247,7 +262,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string OneLineTxtFile
 		{
-			get { return new Uri(Path.Combine(projectsFilesFolder, "OneLineText.txt")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(projectsFilesFolder, "OneLineText.txt")).LocalPath);
+			}
 		}
 
 		#endregion

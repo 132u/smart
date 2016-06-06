@@ -38,10 +38,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7174"), ShortCheckList]
 		public void WorkflowStepNotExistInDialogProjectCreationTest()
 		{
+			var document = PathProvider.OneLineTxtFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] {PathProvider.OneLineTxtFile});
+				.UploadDocumentFiles(new[] { document });
 
 			_newProjectSettingsPage
 				.ClickNextButtonExpectingError()

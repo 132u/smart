@@ -68,5 +68,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected QualityAssuranceDialog _qualityAssuranceDialog;
 		protected ConfirmDeclineTaskDialog _confirmDeclineTaskDialog;
 		protected BuildStatisticsPage _buildStatisticsPage;
+		protected string _document1;
+		protected string _document2;
 	}
 }

@@ -20,7 +20,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AddLanguageJobsTest()
 		{
 			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
-			var ttxFileName = Path.GetFileNameWithoutExtension(PathProvider.TtxFile);
+			var ttxFile = PathProvider.TtxFile;
+			var ttxFileName = Path.GetFileNameWithoutExtension(ttxFile);
 
 			var expectedJobList = new List<string>
 				(
@@ -35,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				projectName: _projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, PathProvider.TtxFile });
+				filesPaths: new[] { PathProvider.DocumentFile, ttxFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

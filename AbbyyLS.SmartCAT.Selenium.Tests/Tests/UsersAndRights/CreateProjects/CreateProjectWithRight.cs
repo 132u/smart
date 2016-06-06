@@ -32,6 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void AddDocumentToProjectTest()
 		{
+			var secondDocument = PathProvider.DocumentFileToConfirm1;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { _document });
 
@@ -40,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.ClickDocumentUploadButton();
 
 			_documentUploadGeneralInformationDialog
-				.UploadDocument(new []{PathProvider.DocumentFileToConfirm1})
+				.UploadDocument(new []{ secondDocument })
 				.ClickFihishUploadOnProjectsPage();
 
 			Assert.IsTrue(_projectsPage.IsProjectLoaded(_projectUniqueName),
@@ -57,14 +59,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[TestCase(ExportType.Translation)]
 		public void DownloadDocumentTest(ExportType exportType)
 		{
+			var secondDocument = PathProvider.DocumentFileToConfirm1;
+
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
+				_projectUniqueName, filesPaths: new[] { _document, secondDocument });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, _document)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.HoverDocumentRow(_projectUniqueName, secondDocument)
 				.SelectDocument(_projectUniqueName, _document)
 				.ClickDownloadInProjectMenuButton(_projectUniqueName)
 				.ClickExportType(exportType);
@@ -80,9 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[TestCase(ExportType.Original)]
 		public void DownloadAllProjectDocumentsFromProjectMenuTest(ExportType exportType)
 		{
+			var secondDocument = PathProvider.DocumentFileToConfirm1;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
+				filesPaths: new[] { _document, secondDocument });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -103,9 +108,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[TestCase(ExportType.Original)]
 		public void DownloadAllDocumentsFromProjectTest(ExportType exportType)
 		{
+			var secondDocument = PathProvider.DocumentFileToConfirm1;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document, PathProvider.DocumentFileToConfirm1 });
+				filesPaths: new[] { _document, secondDocument });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)

@@ -71,14 +71,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CompleteStatusAfterConfirmAllSegmentsTest()
 		{
 			var targetSegment = "первое предложение.";
+			var document = PathProvider.OneLineTxtFile;
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new[] {PathProvider.OneLineTxtFile});
+				new[] {document});
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.OneLineTxtFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, document);
 
 			_editorPage
 				.FillSegmentTargetField(targetSegment)
@@ -94,9 +95,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-29235"), ShortCheckList]
 		public void StatusCheckForProjectWithoutPretranslateTest()
 		{
+			var document = PathProvider.OneLineTxtFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new[] { PathProvider.OneLineTxtFile });
+				new[] { document });
 
 			Assert.AreEqual(_projectsPage.GetProjectStatus(_projectUniqueName), ProjectStatus.Created.Description(),
 				"Произошла ошибка:\n Статус документа не {0}", ProjectStatus.Created.Description());

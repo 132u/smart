@@ -48,6 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void ManagerReviewStatusTest()
 		{
 			var targetSegment = "первое предложение.";
+			var document = PathProvider.OneLineTxtFile;
 
 			_adminHelper
 				.CreateNewUser(_mail, _nickName, _password)
@@ -66,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				new[] { PathProvider.OneLineTxtFile },
+				new[] { document },
 				tasks: new[] { WorkflowTask.Translation });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
@@ -83,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.OneLineTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
 			_selectTaskDialog.SelectTask();
 

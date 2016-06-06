@@ -32,14 +32,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_workspacePage = new WorkspacePage(Driver);
 			_addFilesStep = new AddFilesStep(Driver);
 
+			_document1 = PathProvider.DocumentFileToConfirm1;
+			_document2 = PathProvider.DocumentFileToConfirm2;
+
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 
 			_workspacePage.GoToProjectsPage();
 
 			_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
-			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
+			_createProjectHelper.CreateNewProject( 
+				_projectUniqueName, filesPaths: new[] { _document1 });
 		}
 
 		[Test]
@@ -98,11 +101,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
-				.ClickDownloadInDocumentButton(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.HoverDocumentRow(_projectUniqueName, _document1)
+				.ClickDownloadInDocumentButton(_projectUniqueName, _document1)
 				.ClickExportType(ExportType.Original);
 
-			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(_document1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -114,7 +117,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
-			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(_document1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -124,7 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickDocumentUploadButton()
-				.UploadDocument(new[] { PathProvider.DocumentFileToConfirm2 });
+				.UploadDocument(new[] { _document2 });
 
 			_addFilesStep
 				.ClickNextButton()
@@ -148,10 +151,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var expextedText = "Documents";
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2,
-				filesPaths: new[] {
-					PathProvider.DocumentFileToConfirm1,
-					PathProvider.DocumentFileToConfirm2 });
+				projectUniqueName2, filesPaths: new[] { _document1, _document2 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -169,11 +169,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2, filesPaths: new[] { PathProvider.DocumentFileToConfirm1 });
+				projectUniqueName2, filesPaths: new[] { _document1 });
 
 			_projectsPage.OpenProjectSettingsPage(projectUniqueName2);
 
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+			_projectSettingsHelper.UploadDocument(new[] { _document2 });
 
 			_workspacePage.GoToProjectsPage();
 
@@ -242,12 +242,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFileToConfirm1,
-					PathProvider.DocumentFileToConfirm2
-				});
+				projectUniqueName2, filesPaths: new[] { _document1, _document2 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -274,12 +269,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFileToConfirm1,
-					PathProvider.DocumentFileToConfirm2
-				});
+				projectUniqueName2, filesPaths: new[] { _document1, _document2 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -298,8 +288,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.OpenProjectInfo(projectUniqueName2)
-				.HoverDocumentRow(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
-				.ClickDownloadInDocumentButton(projectUniqueName2, PathProvider.DocumentFileToConfirm2)
+				.HoverDocumentRow(projectUniqueName2, _document2)
+				.ClickDownloadInDocumentButton(projectUniqueName2, _document2)
 				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
@@ -307,23 +297,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			var message = _exportNotification.GetTextNotificationByNumber(1);
 
-			Assert.IsTrue(message.Contains(Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(message.Contains(Path.GetFileNameWithoutExtension(_document1)),
 				"Произошла ошибка:\n кликнули по верхнему сообщению - появилось не первое!");
 		}
 
 		[Test]
 		public void ExportChangeFirstToSecond()
 		{
-			var secondNotifierDocName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFileToConfirm1);
+			var secondNotifierDocName = Path.GetFileNameWithoutExtension(_document1);
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFileToConfirm1,
-					PathProvider.DocumentFileToConfirm2
-				});
+				projectUniqueName2, filesPaths: new[] { _document1, _document2 });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(projectUniqueName2)
@@ -370,7 +355,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFileToConfirm1)
+				.HoverDocumentRow(_projectUniqueName, _document1)
 				.ClickDocumentSettings(_projectUniqueName);
 
 			_documentSettingsDialog
@@ -399,7 +384,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
+				.ClickDocumentCheckbox(_document1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
@@ -439,17 +424,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName2 = _createProjectHelper.GetProjectUniqueName();
 
 			_createProjectHelper.CreateNewProject(
-				projectUniqueName2,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFileToConfirm1,
-					PathProvider.DocumentFileToConfirm2
-				});
+				projectUniqueName2, filesPaths: new[] { _document1, _document2 });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
+				.ClickDocumentCheckbox(_document1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
@@ -467,11 +447,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
+				.ClickDocumentCheckbox(_document1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
-			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(PathProvider.DocumentFileToConfirm1)),
+			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(_document1)),
 				"Произошла ошибка:\n сообщение не содержит искомый текст");
 		}
 
@@ -481,12 +461,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper
-				.UploadDocument(new[] {PathProvider.DocumentFileToConfirm2});
+			_projectSettingsHelper.UploadDocument(new[] { _document2 });
 
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm2)
+				.ClickDocumentCheckbox(_document1)
+				.ClickDocumentCheckbox(_document2)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
@@ -502,7 +481,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage
-				.ClickDocumentCheckbox(PathProvider.DocumentFileToConfirm1)
+				.ClickDocumentCheckbox(_document1)
 				.ClickDownloadInMainMenuButton()
 				.ClickExportType(ExportType.Original);
 
@@ -521,5 +500,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		private ProjectSettingsPage _projectSettingsPage;
 		private ExportNotification _exportNotification;
 		private AddFilesStep _addFilesStep;
+		private string _document1;
+		private string _document2;
 	}
 }

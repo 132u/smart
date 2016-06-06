@@ -32,13 +32,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7061"), ShortCheckList]
 		public void CollapseAndExpandBuildStatisticTest()
 		{
+			var file1 = PathProvider.DocumentFile;
+			var file2 = PathProvider.DocumentFile2;
+
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFile,
-					PathProvider.DocumentFile2
-				});
+				_projectUniqueName, filesPaths: new[] { file1, file2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

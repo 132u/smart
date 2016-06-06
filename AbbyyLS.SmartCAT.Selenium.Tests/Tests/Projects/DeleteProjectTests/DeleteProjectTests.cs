@@ -32,8 +32,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13753"), ShortCheckList]
 		public void DeleteProjectWithFileTest()
 		{
+			var document1 = PathProvider.DocumentFile;
+			var document2 = PathProvider.DocumentFile2;
+
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile, PathProvider.DocumentFile2 });
+				_projectUniqueName, filesPaths: new[] { document1, document2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -171,30 +174,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13751"), ShortCheckList]
 		public void DeleteFewDocumentsTest()
 		{
-			var fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
-			var fileName2 = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
+			var file1 = PathProvider.DocumentFile;
+			var file2 = PathProvider.DocumentFile2;
+			var fileName1 = Path.GetFileNameWithoutExtension(file1);
+			var fileName2 = Path.GetFileNameWithoutExtension(file2);
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFile, 
-					_document, 
-					PathProvider.DocumentFile2
-				});
+				_projectUniqueName, filesPaths: new[] { file1, _document, file2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile2)
+				.SelectDocument(_projectUniqueName, file1)
+				.SelectDocument(_projectUniqueName, file2)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
 			_deleteDialog.ClickConfirmDeleteButton();
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName),
-				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName, _projectUniqueName);
+			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName1),
+				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName1, _projectUniqueName);
 
 			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName2),
 				"Произошла ошибка: документ '{0}' не удалился из проекта '{1}'.", fileName2, _projectUniqueName);
@@ -203,21 +202,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13752"), ShortCheckList]
 		public void DeleteAllDocumentsFromProjectTest()
 		{
-			var fileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
-			var fileName2 = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
+			var file1 = PathProvider.DocumentFile;
+			var file2 = PathProvider.DocumentFile2;
+			var fileName1 = Path.GetFileNameWithoutExtension(file1);
+			var fileName2 = Path.GetFileNameWithoutExtension(file2);
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFile,
-					PathProvider.DocumentFile2
-				});
+				_projectUniqueName, filesPaths: new[] { file1, file2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile2)
+				.SelectDocument(_projectUniqueName, file1)
+				.SelectDocument(_projectUniqueName, file2)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
 			Assert.AreEqual("Delete project(s) or document(s)?", _deleteDialog.GetTextFromDeleteDialog(),
@@ -230,8 +226,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName),
-				"Произошла ошикба: проект содержит документ {0}.", fileName);
+			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName1),
+				"Произошла ошикба: проект содержит документ {0}.", fileName1);
 
 			Assert.IsTrue(_projectsPage.IsDocumentRemovedFromProject(_projectUniqueName, fileName2),
 				"Произошла ошикба: проект содержит документ {0}.", fileName2);

@@ -27,11 +27,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			{
 				CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
 				_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+				_document1 = PathProvider.DocumentFile;
+				_document2 = PathProvider.DocumentFile2;
+
 				_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 				_workspacePage.GoToProjectsPage();
 
 				_createProjectHelper.CreateNewProject(
-					_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile, PathProvider.DocumentFile2 });
+					_projectUniqueName, filesPaths: new[] { _document1, _document2 });
 
 				_workspacePage.SignOut();
 
@@ -124,5 +127,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected DocumentSettingsDialog _documentSettingsDialog;
 		protected SelectTaskDialog _selectTaskDialog;
 		protected UserRightsHelper _userRightsHelper;
+		protected string _document1;
+		protected string _document2;
 	}
 }

@@ -29,9 +29,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void CreateProjectSomeFilesTest()
 		{
+			var ttxFile = PathProvider.TtxFile;
+
 			_createProjectHelper.CreateNewProject(
 				projectName:_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, PathProvider.TtxFile });
+				filesPaths: new[] { PathProvider.DocumentFile, ttxFile });
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
@@ -154,7 +156,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CreateProjectFewLanguagesTest()
 		{
 			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
-			var ttxFileName = Path.GetFileNameWithoutExtension(PathProvider.TtxFile);
+			var ttxFile = PathProvider.TtxFile;
+			var ttxFileName = Path.GetFileNameWithoutExtension(ttxFile);
 			var expectedJobList = new List<string>
 				(
 					new []
@@ -171,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile, PathProvider.TtxFile })
+				.UploadDocumentFiles(new[] { PathProvider.DocumentFile, ttxFile })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage

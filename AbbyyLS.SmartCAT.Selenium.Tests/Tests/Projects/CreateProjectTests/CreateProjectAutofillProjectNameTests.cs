@@ -67,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AutofillProjectNameDeleteOneFile()
 		{
 			var secondFilePath = PathProvider.DocumentFile2;
-			var secondFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile2);
+			var secondFileName = Path.GetFileNameWithoutExtension(secondFilePath);
 
 			_projectsPage.ClickCreateProjectButton();
 

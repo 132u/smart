@@ -154,8 +154,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			var uniqueProjectName = _createProjectHelper.GetProjectUniqueName();
 			var comment = "Comment" + Guid.NewGuid();
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			var document = PathProvider.LongTxtFile;
 
-			_filePaths.Add(PathProvider.LongTxtFile);
+			_filePaths.Add(document);
 
 			_workspacePage.GoToProjectsPage();
 

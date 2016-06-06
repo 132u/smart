@@ -73,7 +73,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void AssignUserOneTaskTest()
 		{
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.DocumentFile2);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document2);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName)
@@ -83,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, PathProvider.DocumentFile2);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document2);
 
 			_selectTaskDialog.SelectTask();
 			
@@ -99,7 +99,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.AreEqual(ProjectStatus.Created.ToString(), _projectsPage.GetProjectStatus(_projectUniqueName),
 				"Произошла ошибка:\n Неверный статус проекта {0}.", _projectUniqueName);
 
-			_projectsPage.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile);
+			_projectsPage.ClickDocumentRefExpectingEditorPage(_projectUniqueName, _document1);
 			
 			_editorPage
 				.FillTarget("translation")
@@ -117,8 +117,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile2)
-				.OpenAssignDialog(_projectUniqueName, PathProvider.DocumentFile2);
+				.SelectDocument(_projectUniqueName, _document2)
+				.OpenAssignDialog(_projectUniqueName, _document2);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName)
@@ -128,10 +128,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile2)
-				.ClickDocumentRow(_projectUniqueName, PathProvider.DocumentFile2);
+				.HoverDocumentRow(_projectUniqueName, _document2)
+				.ClickDocumentRow(_projectUniqueName, _document2);
 
-			Assert.IsTrue(_projectsPage.IsMyTaskDisplayed(PathProvider.DocumentFile2),
+			Assert.IsTrue(_projectsPage.IsMyTaskDisplayed(_document2),
 				"Произошла ошибка:\n Задача перевода не отображается для текущего пользователя.");
 
 			_projectsPage.ClickDeclineButton();
@@ -140,9 +140,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile2);
+				.HoverDocumentRow(_projectUniqueName, _document2);
 
-			Assert.IsFalse(_projectsPage.IsMyTaskDisplayed(PathProvider.DocumentFile2),
+			Assert.IsFalse(_projectsPage.IsMyTaskDisplayed(_document2),
 				"Произошла ошибка:\n Задача перевода отображается для текущего пользователя.");
 		}
 	}

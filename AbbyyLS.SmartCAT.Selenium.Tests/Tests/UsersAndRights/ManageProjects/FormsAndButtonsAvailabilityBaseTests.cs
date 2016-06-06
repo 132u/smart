@@ -27,6 +27,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			try
 			{
 				CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
+				_document1 = PathProvider.DocumentFile;
+				_document2 = PathProvider.DocumentFile2;
+
 				_loginHelper = new LoginHelper(Driver);
 				_loginHelper.Authorize(StartPage, AdditionalUser);
 				_exportNotification.CancelAllNotifiers<Pages.Projects.ProjectsPage>();
@@ -87,12 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.GoToProjectsPage();
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName,
-				filesPaths: new[]
-				{
-					PathProvider.DocumentFile,
-					PathProvider.DocumentFile2
-				});
+				_projectUniqueName, filesPaths: new[] { _document1, _document2 });
 
 			_workspacePage.SignOut();
 		}
@@ -134,5 +132,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected ConfirmDeclineTaskDialog _confirmDeclineTaskDialog;
 		protected DocumentSettingsDialog _documentSettingsDialog;
 		protected SelectTaskDialog _selectTaskDialog;
+		protected string _document1;
+		protected string _document2;
 	}
 }

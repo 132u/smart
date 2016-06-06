@@ -12,13 +12,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void AssignResponsibleDistributeDocumentTestsSetUp()
 		{
+			_document = PathProvider.LongTxtFile;
+
 			_startRange = 1;
 			_endRange = 3;
 			
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new []{ PathProvider.LongTxtFile });
+				_projectUniqueName, filesPaths: new []{ _document });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.LongTxtFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
@@ -93,7 +95,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.LongTxtFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(_document);
 
 			Assert.IsFalse(_editorPage.IsStageNameIsEmpty(),
 				"Произошла ошибка:\n название этапа проставлено.");
@@ -299,5 +301,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 		private int _startRange;
 		private int _endRange;
+		private string _document;
 	}
 }

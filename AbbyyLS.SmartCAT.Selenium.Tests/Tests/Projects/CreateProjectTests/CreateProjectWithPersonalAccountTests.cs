@@ -84,6 +84,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[TestCase(2)]
 		public void AddDocumentToProjectTest(int targetLanguagesCount)
 		{
+			var ttxFile = PathProvider.TtxFile;
+
 			var targetLanguages = (new[]
 			{
 				Language.Russian, 
@@ -94,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.TtxFile },
+				filesPaths: new[] { ttxFile },
 				targetLanguages: targetLanguages,
 				personalAccount: true);
 
