@@ -40,7 +40,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_newTranslationName = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
 			_document = PathProvider.EditorTxtFile;
-			_documentName = Path.GetFileNameWithoutExtension(_document);
 
 			_createProjectHelper
 				.CreateNewProject(
@@ -55,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectSettingsHelper.AssignTasksOnDocument(_document, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -77,7 +76,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectResourceOption(CatType.MT)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -113,7 +112,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectTranslationMemoryResourceOption(_newTranslationName)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -138,7 +137,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectResourceOption(CatType.MT)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -174,7 +173,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				.SelectTranslationMemoryResourceOption(_newTranslationName)
 				.ClickSaveAndRunButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -197,6 +196,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected PretranslationDialog _pretranslationDialog;
 		protected TranslationMemoriesHelper _translationMemoriesHelper;
 		private string _document;
-		private string _documentName;
 	}
 }

@@ -36,7 +36,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		{
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			_document = PathProvider.EditorTxtFile;
-			_documentName = Path.GetFileNameWithoutExtension(_document);
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName, filesPaths: new[] { _document });
@@ -45,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectSettingsHelper.AssignTasksOnDocument(_document, ThreadUser.FullName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_documentName);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -62,6 +61,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected WorkspacePage _workspacePage;
 		protected WorkflowSetUpTab _workflowSetUptab;
 		protected string _document;
-		protected string _documentName;
 	}
 }

@@ -215,7 +215,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
 			_projectSettingsHelper.AssignTasksOnDocument(
-				_documentName, _secondUser.NickName, _projectUniqueName);
+				_document, _secondUser.NickName, _projectUniqueName);
 
 			_workspacePage.SignOut();
 
@@ -225,7 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _documentName);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
 
 			_selectTaskDialog.SelectTask();
 
