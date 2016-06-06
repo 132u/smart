@@ -88,7 +88,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка: не сработала автоподстановка");
 		}
 
-		[Test, Description("S-29218")]
+		[Test, Description("S-29218"), ShortCheckList]
 		public void WordNotFoundInDictionaryTest()
 		{
 			var translation = "йцукеенгшщзфы";
