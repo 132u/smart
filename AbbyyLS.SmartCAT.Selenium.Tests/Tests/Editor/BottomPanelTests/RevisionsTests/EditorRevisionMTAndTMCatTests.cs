@@ -87,6 +87,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test]
 		public void TMRevisionPretranslateTest()
 		{
+			var oneLineTmxFile = PathProvider.OneLineTmxFile;
+
 			_editorPage.PasteTranslationFromCAT(CatType.TM);
 
 			Assert.AreEqual(RevisionType.InsertTM.Description(), _editorPage.GetRevisionType(),
@@ -98,7 +100,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_editTranslationMemoryDialog.ClickUploadButton();
 
-			_newTranslationMemoryDialog.CreateNewTranslationMemory(_newTranslationName, PathProvider.OneLineTmxFile);
+			_newTranslationMemoryDialog.CreateNewTranslationMemory(_newTranslationName, oneLineTmxFile);
 
 			Assert.IsTrue(_editTranslationMemoryDialog.IsTranslationMemoryCheckboxChecked(_newTranslationName),
 				"Произошла ошибка:\nПамять перевода не выбрана.");
@@ -148,6 +150,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test]
 		public void TMRevisionHotkeyPretranslateTest()
 		{
+			var oneLineTmxFile = PathProvider.OneLineTmxFile;
+
 			_editorPage.PasteTranslationFromCATByHotkey(CatType.TM);
 
 			Assert.AreEqual(RevisionType.InsertTM.Description(), _editorPage.GetRevisionType(),
@@ -159,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_editTranslationMemoryDialog.ClickUploadButton();
 
-			_newTranslationMemoryDialog.CreateNewTranslationMemory(_newTranslationName, PathProvider.OneLineTmxFile);
+			_newTranslationMemoryDialog.CreateNewTranslationMemory(_newTranslationName, oneLineTmxFile);
 
 			Assert.IsTrue(_editTranslationMemoryDialog.IsTranslationMemoryCheckboxChecked(_newTranslationName),
 				"Произошла ошибка:\nПамять перевода не выбрана.");

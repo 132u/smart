@@ -30,30 +30,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test(Description = "S-7296"), ShortCheckList]
 		public void SearchTranslationExampleInTmTest()
 		{
-			var _uniquePhraseForSearch = "Hello world! (8a4fcecf-b9ec-419c-a947-89f44ac2ea63)";
-			var _tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
+			var uniquePhraseForSearch = "Hello world! (8a4fcecf-b9ec-419c-a947-89f44ac2ea63)";
+			var tmName = TranslationMemoriesHelper.GetTranslationMemoryUniqueName();
+			var tmFile = PathProvider.TmForSearchTest;
 
 			WorkspacePage.GoToSearchPage();
 
 			_searchPage.SwitchToExamplesTab();
 
-			_examplesTab.InitSearch(_uniquePhraseForSearch);
+			_examplesTab.InitSearch(uniquePhraseForSearch);
 
 			if (!_searchPage.IsNoExamplesFoundMessageDisplayed())
 				throw new Exception("Найден пример перевода, для недобавленной ТМ");
 
 			WorkspacePage.GoToTranslationMemoriesPage();
 
-			TranslationMemoriesHelper.CreateTranslationMemory(
-				_tmName, importFilePath: PathProvider.TmForSearchTest);
+			TranslationMemoriesHelper.CreateTranslationMemory(tmName, importFilePath: tmFile);
 
 			WorkspacePage.GoToSearchPage();
 
 			_searchPage.SwitchToExamplesTab();
 			
-			_examplesTab.InitSearch(_uniquePhraseForSearch);
+			_examplesTab.InitSearch(uniquePhraseForSearch);
 
-			Assert.IsTrue(_examplesTab.IsSerchedTermDisplayed(_uniquePhraseForSearch),
+			Assert.IsTrue(_examplesTab.IsSerchedTermDisplayed(uniquePhraseForSearch),
 				"Произошла ошибка: \n не нашелся пример перевода в созданной ТМ");
 		}
 

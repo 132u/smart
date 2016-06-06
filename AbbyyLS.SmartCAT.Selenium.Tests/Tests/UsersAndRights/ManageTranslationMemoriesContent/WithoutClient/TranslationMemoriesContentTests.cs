@@ -23,6 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_translationMemoryWithConcepts = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
 			_translationMemoryWithProject = _translationMemoriesHelper.GetTranslationMemoryUniqueName();
 			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
+			var tmxFile = PathProvider.TmxFile;
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
@@ -34,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_translationMemoriesHelper
 				.CreateTranslationMemory(_translationMemoryWithoutClient)
 				.CreateTranslationMemory(_translationMemoryWithClient, client: _clientName2)
-				.CreateTranslationMemory(_translationMemoryWithConcepts, importFilePath: PathProvider.TmxFile)
+				.CreateTranslationMemory(_translationMemoryWithConcepts, importFilePath: tmxFile)
 				.CreateTranslationMemory(_translationMemoryWithProject);
 
 			_workspacePage.GoToProjectsPage();

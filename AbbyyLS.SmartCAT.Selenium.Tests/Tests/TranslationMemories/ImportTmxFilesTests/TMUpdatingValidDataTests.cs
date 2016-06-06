@@ -13,6 +13,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UpdateTMWithCorrectTmx()
 		{
+			var tmxFile = PathProvider.TmxFile;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			var unitsCountBefore = TranslationMemoriesPage
@@ -21,7 +23,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ClickUpdateTmButton();
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.TmxFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(tmxFile);
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -36,11 +38,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void CheckNotificationDuringTmxFileUploading()
 		{
+			var tmxFile = PathProvider.SecondTmxFile;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.SecondTmxFile);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(tmxFile);
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -54,11 +58,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test, Ignore("PRX-3690")]
 		public void UpdateTmxWithUnicodeCharactersTest()
 		{
+			var tmxWithUnicodeCharacters = PathProvider.WithUnicodeCharacters;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: true);
 
-			ImportTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.WithUnicodeCharacters);
+			ImportTmxDialog.ImportTmxFileExpectingConfirmation(tmxWithUnicodeCharacters);
 
 			ConfirmReplacementDialog.ClickConfirmReplacementButton();
 

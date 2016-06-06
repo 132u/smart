@@ -129,7 +129,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[TestCase(false)]
 		public void ExportClearTranslationMemoryButtonTest(bool withImportFile)
 		{
-			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: withImportFile ? PathProvider.TmxFile : null);
+			var importFile = withImportFile ? PathProvider.TmxFile : null;
+
+			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: importFile);
 
 			_translationMemoriesPage.ExportTM(_translationMemory);
 
@@ -156,6 +158,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void UpdateTranslationMemoryTest()
 		{
+			var tmxFile = PathProvider.TmxFile;
+
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: _tmx);
 
 			var unitsCountBefore = _translationMemoriesPage
@@ -164,7 +168,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_translationMemoriesPage.ClickUpdateTmButton();
 
-			_importTmxDialog.ImportTmxFileExpectingConfirmation(PathProvider.TmxFile);
+			_importTmxDialog.ImportTmxFileExpectingConfirmation(tmxFile);
 
 			_confirmReplacementDialog.ClickConfirmReplacementButton();
 
@@ -178,6 +182,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void UploadTmxToExistingTranslationMemoryTest()
 		{
+			var tmxFile = PathProvider.TmxFile;
+
 			_translationMemoriesHelper.CreateTranslationMemory(_translationMemory, importFilePath: _tmx);
 
 			var unitsCountBefore = _translationMemoriesPage
@@ -186,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_translationMemoriesPage.ClickAddTmxButton();
 
-			_importTmxDialog.ImportTmxFile(PathProvider.TmxFile);
+			_importTmxDialog.ImportTmxFile(tmxFile);
 
 			var unitsCountAfter = _translationMemoriesPage
 				.OpenTranslationMemoryInformation(_translationMemory)

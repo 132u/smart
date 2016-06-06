@@ -259,15 +259,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string TmForSearchTest
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "SearchTranslationExampleTest.tmx")).LocalPath; }
-		}
-
-		/// <summary>
-		/// Путь к длинному тестовому файлу tmx
-		/// </summary>
-		public static string LongTmxFile
-		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "LongTM.tmx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "SearchTranslationExampleTest.tmx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -275,7 +270,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string OneLineTmxFile
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "OneLineTmx.tmx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "OneLineTmx.tmx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -283,7 +281,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string TmxFile
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "CorrectTmxEnRu.tmx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "CorrectTmxEnRu.tmx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -291,7 +292,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string SecondTmxFile
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "SecondCorrectTmxEnRu.tmx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "SecondCorrectTmxEnRu.tmx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -299,7 +303,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string WithUnicodeCharacters
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "withUnicodeCharacters.tmx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(tmFilesFolder, "withUnicodeCharacters.tmx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -307,7 +314,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string IncorrectTmxFilesFolder
 		{
-			get { return new Uri(Path.Combine(tmFilesFolder, "IncorrectTmxFiles")).LocalPath; }
+			get
+			{
+				return new Uri(Path.Combine(tmFilesFolder, "IncorrectTmxFiles")).LocalPath;
+			}
 		}
 
 		/// <summary>

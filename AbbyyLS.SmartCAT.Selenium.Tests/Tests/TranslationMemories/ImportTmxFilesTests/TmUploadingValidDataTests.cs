@@ -14,6 +14,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UploadTmxToEmptyTMTest()
 		{
+			var oneLineTmxFile = PathProvider.OneLineTmxFile;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName);
 
 			var unitsCountBefore = TranslationMemoriesPage
@@ -25,7 +27,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 			TranslationMemoriesPage.ClickAddTmxButton();
 
 			ImportTmxDialog
-				.ImportTmxFile(PathProvider.OneLineTmxFile)
+				.ImportTmxFile(oneLineTmxFile)
 				.IsFileImportCompleteNotifierDisplayed();
 
 			// костыль PRX-13801
@@ -42,6 +44,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void UploadTmxToExistingTMWithTmxTest()
 		{
+			var tmxFile = PathProvider.TmxFile;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			var unitsCountBefore = TranslationMemoriesPage
@@ -50,7 +54,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 
 			TranslationMemoriesPage.ClickAddTmxButton();
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.TmxFile);
+			ImportTmxDialog.ImportTmxFile(tmxFile);
 
 			// костыль PRX-13801
 			WorkspacePage.RefreshPage<WorkspacePage>();
@@ -66,11 +70,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test]
 		public void CheckNotificationDuringTmxFileUploading()
 		{
+			var tmxFile = PathProvider.SecondTmxFile;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.SecondTmxFile);
+			ImportTmxDialog.ImportTmxFile(tmxFile);
 
 			Assert.IsTrue(TranslationMemoriesPage.IsFileImportAddingNotifierDisappeared(),
 				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло");
@@ -82,11 +88,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.TranslationMemories
 		[Test, Ignore("PRX-3690")]
 		public void UploadTmxWithUnicodeCharactersTest()
 		{
+			var tmxWithUnicodeCharacters = PathProvider.WithUnicodeCharacters;
+
 			TranslationMemoriesHelper.CreateTranslationMemory(UniqueTMName, importFilePath: _tmx);
 
 			TranslationMemoriesPage.OpenImportTmxDialog(UniqueTMName, update: false);
 
-			ImportTmxDialog.ImportTmxFile(PathProvider.WithUnicodeCharacters);
+			ImportTmxDialog.ImportTmxFile(tmxWithUnicodeCharacters);
 
 			Assert.IsTrue(TranslationMemoriesPage.IsFileImportAddingNotifierDisappeared(),
 				"Произошла ошибка:\n сообщение о процессе импорта TMX файла не исчезло");
