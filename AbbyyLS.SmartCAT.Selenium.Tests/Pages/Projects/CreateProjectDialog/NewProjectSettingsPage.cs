@@ -34,7 +34,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		/// <param name="projectName">имя проекта</param>
 		public NewProjectSettingsPage FillProjectName(string projectName)
 		{
-			CustomTestContext.WriteLine("Ввести имя проекта: {0}.", projectName);
+			CustomTestContext.WriteLine("Ввести имя проекта: '{0}'.", projectName);
 			ProjectNameInput.SetText(projectName, projectName.Length > 100 ? projectName.Substring(0, 100) : projectName);
 
 			return LoadPage();

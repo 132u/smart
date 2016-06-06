@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 				_newProjectWorkflowPage.ClickCreateProjectButton();
 
 				Assert.IsTrue(_projectsPage.IsProjectExist(projectUniqueName),
-					"Произошла ошибка: \nне найден проект с новым именем");
+					"Произошла ошибка: \nне найден проект с новым именем '{0}'.", projectUniqueName);
 
 				_workspacePage.SignOut();
 			}

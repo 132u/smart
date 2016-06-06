@@ -31,6 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 		[Test]
 		public void CreateCourseraProject()
 		{
+			var projectName = CreateProjectHelper.CourseraProjectName;
+
 			_courseraHomePage.ClickWorkspaceButtonWithoutWaiting();
 
 			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
@@ -43,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
-				.FillGeneralProjectInformation(CreateProjectHelper.CourseraProjectName)
+				.FillGeneralProjectInformation(projectName)
 				.ClickNextButton();
 
 			_newProjectWorkflowPage
@@ -52,10 +54,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Admin.Tests
 				.ClickNewTaskButton(WorkflowTask.CrowdReview)
 				.ClickCreateProjectButton();
 
-			Assert.IsTrue(_projectsPage.IsProjectExist(CreateProjectHelper.CourseraProjectName),
-				"Произошла ошибка: \nне найден проект с новым именем");
+			Assert.IsTrue(_projectsPage.IsProjectExist(projectName),
+				"Произошла ошибка: \nне найден проект с новым именем '{0}'.", projectName);
 
-			_projectsPage.OpenProjectSettingsPage(CreateProjectHelper.CourseraProjectName);
+			_projectsPage.OpenProjectSettingsPage(projectName);
 
 			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesFromCourseraFolder());
 		}
