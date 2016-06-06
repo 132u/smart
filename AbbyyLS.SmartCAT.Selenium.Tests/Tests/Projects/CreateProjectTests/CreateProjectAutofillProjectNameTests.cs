@@ -17,8 +17,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void SetUpCreateProjectAutofillProjectNameTests()
 		{
 			_filePath = PathProvider.DocumentFile;
-			_fileName = Path.GetFileName(PathProvider.DocumentFile);
-			_projectName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			_fileName = Path.GetFileName(_filePath);
+			_projectName = Path.GetFileNameWithoutExtension(_filePath);
 		}
 
 		[Test(Description = "Проверяет автозаполнение имени проекта")]

@@ -30,10 +30,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void CreateProjectSomeFilesTest()
 		{
 			var ttxFile = PathProvider.TtxFile;
+			var document = PathProvider.DocumentFile;
 
 			_createProjectHelper.CreateNewProject(
 				projectName:_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, ttxFile });
+				filesPaths: new[] { document, ttxFile });
 
 			Assert.IsTrue(_projectsPage.IsProjectAppearInList(_projectUniqueName),
 				"Произошла ошибка:\n проект {0} не появился в списке проектов.", _projectUniqueName);
@@ -42,10 +43,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7137"), ShortCheckList]
 		public void CreateProjectViaGreenCreateProjectButtonTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_projectsPage.ClickGreenCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -155,7 +158,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7138"), ShortCheckList]
 		public void CreateProjectFewLanguagesTest()
 		{
-			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var document = PathProvider.DocumentFile;
+			var documentFileName = Path.GetFileNameWithoutExtension(document);
 			var ttxFile = PathProvider.TtxFile;
 			var ttxFileName = Path.GetFileNameWithoutExtension(ttxFile);
 			var expectedJobList = new List<string>
@@ -174,7 +178,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile, ttxFile })
+				.UploadDocumentFiles(new[] { document, ttxFile })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -204,9 +208,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7144"), ShortCheckList]
 		public void OpenProjectSettingsPageTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[]{ PathProvider.DocumentFile});
+				filesPaths: new[]{ document });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 

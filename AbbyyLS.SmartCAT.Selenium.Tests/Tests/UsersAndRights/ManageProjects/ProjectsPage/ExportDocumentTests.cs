@@ -15,11 +15,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void OneTimeSetUp()
 		{
 			_projectUniqueNameWithOneFile = _createProjectHelper.GetProjectUniqueName();
+			_document = PathProvider.DocumentFile;
+
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 			_workspacePage.GoToProjectsPage();
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueNameWithOneFile, filesPaths: new[] { PathProvider.DocumentFile });
+				_projectUniqueNameWithOneFile, filesPaths: new[] { _document });
 			
 			_workspacePage.SignOut();
 		}
@@ -40,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -60,7 +62,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -71,8 +73,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueNameWithOneFile)
-				.HoverDocumentRow(_projectUniqueNameWithOneFile, PathProvider.DocumentFile)
-				.ClickDownloadInDocumentButton(_projectUniqueNameWithOneFile, PathProvider.DocumentFile)
+				.HoverDocumentRow(_projectUniqueNameWithOneFile, _document)
+				.ClickDownloadInDocumentButton(_projectUniqueNameWithOneFile, _document)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),
@@ -81,7 +83,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_exportNotification.ClickDownloadNotifier<Pages.Projects.ProjectsPage>();
 
 			Assert.IsTrue(_exportNotification.IsFileDownloaded(
-				_exportNotification.GetExportFileNameMask(exportType, PathProvider.DocumentFile)),
+				_exportNotification.GetExportFileNameMask(exportType, _document)),
 				"Произошла ошибка: файл не загрузился");
 		}
 
@@ -105,5 +107,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		}
 
 		private string _projectUniqueNameWithOneFile;
+		private string _document;
 	}
 }

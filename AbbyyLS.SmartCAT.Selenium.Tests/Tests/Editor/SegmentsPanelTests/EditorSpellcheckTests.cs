@@ -28,17 +28,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_spellcheckErrorDialog = new SpellcheckErrorDialog(Driver);
 
 			var projectName = _createProjectHelper.GetProjectUniqueName();
+			_document = PathProvider.DocumentFile;
 
 			_createProjectHelper.CreateNewProject(
-				projectName, createNewTm: true, filesPaths: new[] { PathProvider.DocumentFile });
+				projectName, createNewTm: true, filesPaths: new[] { _document });
 
 			_projectsPage.OpenProjectSettingsPage(projectName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, projectName);
+				.AssignTasksOnDocument(_document, ThreadUser.NickName, projectName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -63,8 +63,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -94,8 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -251,5 +249,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		private SpellcheckDictionaryDialog _spellcheckDictionaryDialog;
 		private SelectTaskDialog _selectTaskDialog;
 		private SpellcheckErrorDialog _spellcheckErrorDialog;
+		private string _document;
 	}
 }

@@ -46,9 +46,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
-			_document = PathProvider.EditorTxtFile;
-			_documentName = Path.GetFileNameWithoutExtension(_document);
-			_tmx = PathProvider.EditorTmxFile;
 
 			_workspacePage.GoToProjectsPage();
 		}
@@ -79,8 +76,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected GlossaryPage _glossaryPage;
 		protected SettingsResourcesStep _settingResourceStep;
 		protected DocumentSettingsDialog _documentSettingsDialog;
-		protected string _document;
 		protected string _documentName;
-		protected string _tmx;
 	}
 }

@@ -5,7 +5,6 @@ using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.UsersRights;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
@@ -21,7 +20,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void GlossariesSetUp()
 		{
 			_createProjectHelper = new CreateProjectHelper(Driver);
-			_usersTab = new UsersTab(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
@@ -35,6 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossary1Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary2Name = GlossariesHelper.UniqueGlossaryName();
 			_glossary3Name = GlossariesHelper.UniqueGlossaryName();
+			var document = PathProvider.DocumentFile;
 
 			_workspacePage.GoToGlossariesPage();
 
@@ -51,13 +50,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.OpenProjectSettingsPage(_projectName);
 
 			_projectSettingsHelper
-				.UploadDocument(new []{PathProvider.DocumentFile})
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectName)
-				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary1Name)
-				.AddGlossaryToDocument(PathProvider.DocumentFile, _glossary2Name);
+				.UploadDocument(new []{ document })
+				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectName)
+				.AddGlossaryToDocument(document, _glossary1Name)
+				.AddGlossaryToDocument(document, _glossary2Name);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
 			_selectTaskDialog.SelectTask();
 		}
@@ -133,7 +131,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		private WorkspacePage _workspacePage;
 		private EditorPage _editorPage;
 		private SelectTaskDialog _selectTaskDialog;
-		private UsersTab _usersTab;
 		private AddTermDialog _addTermDialog;
 	}
 }

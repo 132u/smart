@@ -48,6 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			var projectName = "Project-" + Guid.NewGuid();
 			var email = Guid.NewGuid() + "@mailforspam.com";
+			var document = PathProvider.DocumentFile;
 
 			_registrationPage
 				.GetPage(email)
@@ -55,7 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.ClickConfirmButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] {PathProvider.DocumentFile})
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -89,6 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		{
 			var projectName = "Project-" + Guid.NewGuid();
 			var email = Guid.NewGuid() + "@mailforspam.com";
+			var document = PathProvider.DocumentFile;
 
 			_registrationPage
 				.GetPage(email)
@@ -96,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.ClickConfirmButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage

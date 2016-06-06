@@ -80,7 +80,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.AddTask(WorkflowTask.Editing)
 				.SaveSettings();
 
-			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(_document1);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
@@ -90,8 +90,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
-				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
-				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(_document1))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(_document1));
 
 			Assert.IsTrue(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");
@@ -103,12 +103,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void DocumentStatusTest()
 		{
-			var file = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var fileName = Path.GetFileNameWithoutExtension(_document1);
 
-			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectSettingsPage.GetDocumentStatus(file),
-				"Произошла ошибка:\n Неверный статус документа {0}.", file);
+			Assert.AreEqual(DocumentStatus.Created.ToString(), _projectSettingsPage.GetDocumentStatus(fileName),
+				"Произошла ошибка:\n Неверный статус документа {0}.", fileName);
 
-			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(_document1);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
@@ -116,7 +116,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(_document1);
 
 			_selectTaskDialog.SelectTask();
 
@@ -125,14 +125,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingProjectSettingsPage();
 
-			Assert.AreEqual(DocumentStatus.InProgress.Description(), _projectSettingsPage.GetDocumentStatus(file),
-				"Произошла ошибка:\n Неверный статус документа {0}.", file);
+			Assert.AreEqual(DocumentStatus.InProgress.Description(), _projectSettingsPage.GetDocumentStatus(fileName),
+				"Произошла ошибка:\n Неверный статус документа {0}.", fileName);
 		}
 
 		[Test]
 		public void DeclineAssignTaskTest()
 		{
-			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(_document1);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName, isGroup: false, taskNumber: 1)
@@ -141,15 +141,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.ClickProjectLink(_projectUniqueName);
 
 			_projectSettingsPage
-				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
-				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(_document1))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(_document1))
 				.ClickDeclineButton();
 
 			_confirmDeclineTaskDialog.ClickDeclineButton();
 
 			_projectSettingsPage
-				.HoverDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile))
-				.ClickDocumentRow(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.HoverDocumentRow(Path.GetFileNameWithoutExtension(_document1))
+				.ClickDocumentRow(Path.GetFileNameWithoutExtension(_document1));
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskDisplayedForCurrentUser(TaskMode.Translation),
 				"Произошла ошибка:\n Нет задачи перевода.");

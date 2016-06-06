@@ -19,7 +19,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7058"), ShortCheckList]
 		public void AddLanguageJobsTest()
 		{
-			var documentFileName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var document = PathProvider.DocumentFile;
+			var documentFileName = Path.GetFileNameWithoutExtension(document);
 			var ttxFile = PathProvider.TtxFile;
 			var ttxFileName = Path.GetFileNameWithoutExtension(ttxFile);
 
@@ -35,8 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				);
 
 			_createProjectHelper.CreateNewProject(
-				projectName: _projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, ttxFile });
+				projectName: _projectUniqueName, filesPaths: new[] { document, ttxFile });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -56,12 +56,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7140"), ShortCheckList]
 		public void AddLanguageInProjectWithTranslationMemoryTest()
 		{
+			var document = PathProvider.EditorTxtFile;
 			var targetLanguages = new List<string> { Language.Russian.Description(), Language.German.Description() };
 			targetLanguages.Sort();
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document },
+				filesPaths: new[] { document },
 				createNewTm: true,
 				useMachineTranslation: true);
 
@@ -84,13 +85,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7141"), ShortCheckList]
 		public void AddLanguageInProjectWithGlossaryTest()
 		{
+			var document = PathProvider.EditorTxtFile;
 			var languages = new List<string> { Language.Russian.Description(), Language.English.Description(), Language.German.Description()};
 			languages.Sort();
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document },
+				filesPaths: new[] { document },
 				glossaryName: glossaryUniqueName);
 
 			_projectsPage

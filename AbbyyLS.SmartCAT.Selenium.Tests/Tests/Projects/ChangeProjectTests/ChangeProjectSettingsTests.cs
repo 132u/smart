@@ -42,9 +42,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
+			var document = PathProvider.EditorTxtFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document });
+				filesPaths: new[] { document });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

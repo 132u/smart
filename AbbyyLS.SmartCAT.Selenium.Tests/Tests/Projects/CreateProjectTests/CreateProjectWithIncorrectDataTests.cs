@@ -73,15 +73,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ImportDuplicateDocumentTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+				_projectUniqueName, filesPaths: new[] { document });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDublicateDocument(
-				new[] { PathProvider.DocumentFile, PathProvider.DocumentFile });
+			_documentUploadGeneralInformationDialog
+				.UploadDublicateDocument(new[] { document, document });
 
 			Assert.IsTrue(_dublicateFileErrorDialog.IsDublicateFileErrorDialogOpened(),
 				"Произошла ошибка: Не появилось сообщение о том, что файл уже загружен.");

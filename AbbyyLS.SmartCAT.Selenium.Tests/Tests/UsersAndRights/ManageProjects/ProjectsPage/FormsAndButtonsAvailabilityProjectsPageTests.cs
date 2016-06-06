@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(_document1);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\n Редактор не открылся.");
@@ -32,8 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1)
+				.SelectDocument(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n кнопка удаления файла отображается.");
@@ -44,7 +44,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n кнопка удаления файла отображается.");
@@ -85,8 +85,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1)
+				.SelectDocument(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка:\n Кнопка удаления проекта присутсвует на странице проектов.");
@@ -106,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDocumentUploadButtonDisplayed(),
 				"Произошла ошибка:\n Кнопка загрузки документа присутсвует на странице проектов.");
@@ -117,9 +117,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1);
 
-			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInDocumentPanelDisabled(_projectUniqueName, PathProvider.DocumentFile),
+			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInDocumentPanelDisabled(_projectUniqueName, _document1),
 				"Произошла ошибка:\n Кнопка назначения неактивна.");
 		}
 
@@ -131,7 +131,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInProjectPanelDisabled(_projectUniqueName),
 				"Произошла ошибка:\n Кнопка назначения активна.");
 
-			_projectsPage.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
+			_projectsPage.SelectDocument(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsAssignTaskButtonInProjectPanelDisabled(_projectUniqueName),
 				"Произошла ошибка:\n Кнопка назначения неактивна.");
@@ -153,7 +153,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
+				.HoverDocumentRow(_projectUniqueName, _document1)
 				.ClickDocumentSettings(_projectUniqueName);
 
 			Assert.IsTrue(_documentSettingsDialog.IsDocumentSettingsDialogOpened(),

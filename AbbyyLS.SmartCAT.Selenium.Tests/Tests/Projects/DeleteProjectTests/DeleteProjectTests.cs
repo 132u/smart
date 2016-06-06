@@ -89,6 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			var projectUniqueName3 = _createProjectHelper.GetProjectUniqueName();
 			var txtFileForMatchTest = PathProvider.TxtFileForMatchTest;
 			var tmxFileForMatchTest = PathProvider.TmxFileForMatchTest;
+			var document = PathProvider.DocumentFile;
 
 			_createProjectHelper.CreateNewProject(
 				projectName: projectUniqueName2,
@@ -97,7 +98,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				tmxFilesPaths: new[] { tmxFileForMatchTest },
 				useMachineTranslation: true);
 			_createProjectHelper.CreateNewProject(projectUniqueName3);
-			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile});
+			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { document });
 
 			_projectsPage
 				.ClickProjectCheckboxInList(_projectUniqueName)
@@ -120,9 +121,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13755"), ShortCheckList]
 		public void DeleteMultiLingualDocumentTest()
 		{
+			var document1 = PathProvider.DocumentFile;
+			var document2 = PathProvider.EditorTxtFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, _document  });
+				filesPaths: new[] { document1, document2  });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -134,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, _document, jobs: true)
+				.SelectDocument(_projectUniqueName, document2, jobs: true)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
 			Assert.AreEqual("Delete document with all translations?", _deleteDialog.GetTextFromDeleteDialog(),
@@ -151,9 +155,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-13754"), ShortCheckList]
 		public void DeleteDocumentJobTest()
 		{
+			var document1 = PathProvider.DocumentFile;
+			var document2 = PathProvider.EditorTxtFile;
+
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile, _document });
+				filesPaths: new[] { document1, document2 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
@@ -176,11 +183,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			var file1 = PathProvider.DocumentFile;
 			var file2 = PathProvider.DocumentFile2;
+			var file3 = PathProvider.EditorTxtFile;
 			var fileName1 = Path.GetFileNameWithoutExtension(file1);
 			var fileName2 = Path.GetFileNameWithoutExtension(file2);
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { file1, _document, file2 });
+				_projectUniqueName, filesPaths: new[] { file1, file2, file3 });
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)

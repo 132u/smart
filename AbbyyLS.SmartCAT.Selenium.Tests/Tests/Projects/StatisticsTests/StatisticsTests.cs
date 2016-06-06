@@ -152,6 +152,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		{
 			_secondUser = TakeUser(ConfigurationManager.Users);
 			var groupName = Guid.NewGuid().ToString();
+			var document = PathProvider.EditorTxtFile;
 
 			_workspacePage.GoToUsersPage();
 			_usersTab
@@ -172,14 +173,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { _document },
+				filesPaths: new[] { document },
 				tasks: new[] {
 						WorkflowTask.Translation,
 						WorkflowTask.Editing,
 						WorkflowTask.Postediting}
 				);
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document);
 
 			_taskAssignmentPage
 				.SetResponsible(groupName, isGroup: true, taskNumber: 1)
@@ -189,7 +190,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_workspacePage.GoToProjectsPage();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, taskNumber: 3)

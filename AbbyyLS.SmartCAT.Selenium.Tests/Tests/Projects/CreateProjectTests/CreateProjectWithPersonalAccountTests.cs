@@ -33,6 +33,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7170"), ShortCheckList]
 		public void CreateMultiLanguageProjectTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			var targetLanguages = new[]
 			{
 				Language.Russian,
@@ -41,20 +43,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new []{ PathProvider.DocumentFile },
+				filesPaths: new []{ document },
 				targetLanguages: targetLanguages, 
 				personalAccount: true);
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName);
 
-			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, PathProvider.DocumentFile, targetLanguages),
+			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, document, targetLanguages),
 				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.", 
-				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				Path.GetFileNameWithoutExtension(document));
 		}
 
 		[Test, Description("S-7171"), ShortCheckList]
 		public void AddTargetLanguageToProjectTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			var targetLanguages = new[]
 			{
 				Language.Russian,
@@ -63,7 +67,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_createProjectHelper.CreateNewProject(
 				_projectUniqueName,
-				filesPaths: new[] { PathProvider.DocumentFile },
+				filesPaths: new[] { document },
 				targetLanguages: new[]{ targetLanguages[0] },
 				personalAccount: true);
 
@@ -75,9 +79,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SelectTargetLanguages(targetLanguages[1])
 				.SaveSettingsExpectingProjectsPage();
 
-			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, PathProvider.DocumentFile, targetLanguages),
+			Assert.IsTrue(_projectsPage.IsDocumentInProjectExist(_projectUniqueName, document, targetLanguages),
 				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.",
-				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				Path.GetFileNameWithoutExtension(document));
 		}
 
 		[TestCase(1, Description = "S-7172"), ShortCheckList]
@@ -85,6 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		public void AddDocumentToProjectTest(int targetLanguagesCount)
 		{
 			var ttxFile = PathProvider.TtxFile;
+			var document = PathProvider.DocumentFile;
 
 			var targetLanguages = (new[]
 			{
@@ -105,9 +110,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.UploadDocument(new[] {PathProvider.DocumentFile});
+			_projectSettingsHelper.UploadDocument(new[] { document });
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(PathProvider.DocumentFile, targetLanguages),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(document, targetLanguages),
 				"Произошла ошибка:\n документ {0} не появился в списке для всех целевых языков.",
 				Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
 		}
@@ -221,7 +226,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7180"), ShortCheckList]
 		public void AssignTasksTest()
 		{
-			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var document = PathProvider.DocumentFile;
+			var documentName = Path.GetFileNameWithoutExtension(document);
 
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
@@ -230,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
+			_projectSettingsHelper.UploadDocument(new[] { document });
 
 			_projectSettingsPage.HoverDocumentRow(documentName);
 
@@ -257,13 +263,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void DeleteDocumentFromProjectTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.UploadDocument(new[] { PathProvider.DocumentFile })
-				.DeleteDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile));
+				.UploadDocument(new[] { document })
+				.DeleteDocument(Path.GetFileNameWithoutExtension(document));
 		}
 	}
 }

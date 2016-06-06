@@ -19,13 +19,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-7142"), ShortCheckList]
 		public void UploadDocumentToExistingProjectOneTargetLanguageTest()
 		{
+			var document = PathProvider.EditorTxtFile;
+
 			_createProjectHelper.CreateNewProject(_projectUniqueName, glossaryName: _projectUniqueName);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { _document });
+			_documentUploadGeneralInformationDialog.UploadDocument(new[] { document });
 
 			_documentUploadGeneralInformationDialog.ClickNextButton();
 
@@ -39,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			
 			_projectSettingsPage.WaitUntilDocumentProcessed();
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(_document),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(document),
 				"Произошла ошибка:\n документ {0} отсутствует в проекте.", _documentName);
 
 			_projectSettingsPage
@@ -56,6 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test, Description("S-16404"), ShortCheckList]
 		public void UploadDocumentToExistingProjectMultiTargetLanguageTest()
 		{
+			var document = PathProvider.EditorTxtFile;
 			var targetLanguages = new[] {Language.French, Language.German, Language.Russian};
 
 			_createProjectHelper.CreateNewProject(
@@ -67,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 				
-			_documentUploadGeneralInformationDialog.UploadDocument(new[] { _document });
+			_documentUploadGeneralInformationDialog.UploadDocument(new[] { document });
 
 			Assert.IsTrue(_documentUploadGeneralInformationDialog.IsLanguagesExist(targetLanguages),
 				"Произошла ошибка:\n не все таргет языки отмечены.");
@@ -86,10 +89,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.WaitUntilDocumentProcessed();
 
-			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(_document, targetLanguages.Skip(1).ToArray()),
+			Assert.IsTrue(_projectSettingsPage.IsDocumentExist(document, targetLanguages.Skip(1).ToArray()),
 				"Произошла ошибка:\n появились джобы не для всех языков.");
 
-			Assert.IsFalse(_projectSettingsPage.IsDocumentExist(_document, targetLanguages.Take(1).ToArray()),
+			Assert.IsFalse(_projectSettingsPage.IsDocumentExist(document, targetLanguages.Take(1).ToArray()),
 				"Произошла ошибка:\n для языка {0} не должно быть джобов.", targetLanguages[0]);
 		}
 	}

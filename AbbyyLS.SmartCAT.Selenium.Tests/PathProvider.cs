@@ -175,7 +175,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string DocumentFile
 		{
-			get { return new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath);
+			}
 		}
 
 		/// <summary>

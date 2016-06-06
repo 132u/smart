@@ -70,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.IsTrue(_projectSettingsPage.IsDownloadButtonDisabled(),
 			"Произошла ошибка:\n Кнопка экспорта документа активна.");
 
-			_projectSettingsPage.ClickDocumentCheckbox(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickDocumentCheckbox(_document1);
 
 			Assert.IsFalse(_projectSettingsPage.IsDownloadButtonDisabled(),
 			"Произошла ошибка:\n Кнопка экспорта документа неактивна.");
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskButtonDisabled(),
 			"Произошла ошибка:\n Кнопка назначения пользователя на документ активна.");
 			
-			_projectSettingsPage.ClickDocumentCheckbox(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickDocumentCheckbox(_document1);
 
 			Assert.IsFalse(_projectSettingsPage.IsAssignTaskButtonDisabled(),
 			"Произошла ошибка:\n Кнопка назначения пользователя на документ неактивна.");
@@ -209,7 +209,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void DocumentSettingsButtonTest()
 		{
-			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var documentName = Path.GetFileNameWithoutExtension(_document1);
 
 			_projectSettingsPage
 				.HoverDocumentRow(documentName)
@@ -222,7 +222,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void DocumentDeleteButtonTest()
 		{
-			_projectSettingsPage.ClickDocumentCheckbox(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickDocumentCheckbox(_document1);
 
 			Assert.IsFalse(_projectSettingsPage.IsDeleteFileButtonDisplayed(),
 				"Произошла ошибка:\n Кнопка удаления файла присутсвует на странице проекта.");

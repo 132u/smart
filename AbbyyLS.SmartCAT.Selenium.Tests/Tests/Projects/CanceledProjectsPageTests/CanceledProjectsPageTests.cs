@@ -19,6 +19,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[SetUp]
 		public void SetUpCanceledProjectsPageTests()
 		{
+			_document = PathProvider.DocumentFile;
+
 			_loginHelper.Authorize(StartPage.Admin, ThreadUser);
 
 			_restoreProjectDialog = new RestoreProjectDialog(Driver);
@@ -39,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			selectAccountForm.SelectAccount(accountName);
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, new[] {PathProvider.DocumentFile});
+			_createProjectHelper.CreateNewProject(_projectUniqueName, new[] { _document});
 		}
 
 		[Test, Description("S-7064"), ShortCheckList]
@@ -77,12 +79,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, _document);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка: \n Редактор не открылся");
 		}
 
 		private RestoreProjectDialog _restoreProjectDialog;
+		private string _document;
 	}
 }

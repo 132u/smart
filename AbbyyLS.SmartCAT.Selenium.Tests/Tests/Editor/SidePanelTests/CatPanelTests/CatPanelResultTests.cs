@@ -64,15 +64,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[TestCase(MachineTranslationType.MicrosoftTranslator)]
 		public void MTTest(MachineTranslationType machineTranslation)
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: _projectUniqueName,
-					filesPaths: new[] { PathProvider.DocumentFile },
+					filesPaths: new[] { document },
 					createNewTm: true);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
+				.HoverDocumentRow(_projectUniqueName, document)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
 				.SelectMachineTranslation(machineTranslation);
 
@@ -81,9 +83,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
+				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 			
 			_selectTaskDialog.SelectTask();
 
@@ -99,16 +101,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test]
 		public void DefaultMTDuringProjectCreationTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper
 				.CreateNewProject(
 					projectName: _projectUniqueName,
-					filesPaths: new[] { PathProvider.DocumentFile },
+					filesPaths: new[] { document },
 					createNewTm: true,
 					useMachineTranslation: true);
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
+				.HoverDocumentRow(_projectUniqueName, document)
 				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1);
 
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
@@ -119,10 +123,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(PathProvider.DocumentFile, ThreadUser.NickName, _projectUniqueName);
+				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectUniqueName);
 
-			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
 			_selectTaskDialog.SelectTask();
 

@@ -12,6 +12,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
+			_document = PathProvider.EditorTxtFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
@@ -323,5 +325,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			Assert.True(_editorPage.IsYellowTriangleErrorInactive(),
 				"Произошла ошибка: желтый треуголник в первом сегменте активен.");
 		}
+
+		private string _document;
 	}
 }

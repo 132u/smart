@@ -12,6 +12,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 		[SetUp]
 		public void SetUpBaseProjectTest()
 		{
+			var document = PathProvider.EditorTxtFile;
+
 			_newProjectSettingsPage.ExpandAdvancedSettings();
 
 			_advancedSettingsSection.ClickQualityAssuranceTab();
@@ -23,14 +25,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.QualityAssurance
 			_newProjectSettingsPage.ClickNextButton();
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, _document);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName, isGroup: false)
 				.ClickSaveButton();
 
 			_projectsPage.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, _document);
+				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, document);
 
 			_selectTaskDialog.SelectTask();
 

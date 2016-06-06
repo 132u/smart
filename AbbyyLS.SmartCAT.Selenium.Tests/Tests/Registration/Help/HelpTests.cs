@@ -32,6 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		[Test, Description("S-7132"), Ignore("PRX-16834"), ShortCheckList]
 		public void NewUserInNewCorporateAccountInWorkspaceHelpTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_adminHelper
 				.CreateNewUser(_email, _firstAndLastName, _password)
 				.CreateAccountIfNotExist(accountName: _companyName, workflow: true)
@@ -43,7 +45,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsSelectDocumentButtonAnimationExist(),
 				"Произошла ошибка:\n анимация на странице выбора документа не работает.");
 
-			_newProjectDocumentUploadPage.UploadDocumentFiles(new []{ PathProvider.DocumentFile });
+			_newProjectDocumentUploadPage.UploadDocumentFiles(new []{ document });
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsSettingsButtonAnimationExist(),
 				"Произошла ошибка:\n анимация кнопки перехода к настройкам проекта не работает.");
@@ -83,6 +85,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		[Test, Description("S-13743"), Ignore("PRX-16834"), ShortCheckList]
 		public void NewUserInNewCorporateAccountInEditorHelpTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_adminHelper
 				.CreateNewUser(_email, _firstAndLastName, _password)
 				.CreateAccountIfNotExist(accountName: _companyName, workflow: true)
@@ -92,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_signInPage.SubmitFormExpectingNewProjectDocumentUploadPage(_email, _password);
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -102,7 +106,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			_newProjectWorkflowPage.ClickCreateProjectButton();
 
 			_projectsPage.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile, needCloseTutorial: false);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, document, needCloseTutorial: false);
 
 			Assert.IsTrue(_editorPage.IsSourceColumnHelpDisplayed(),
 				"Произошла ошибка:\n подсказка к ячейке исходного текста не показывается.");
@@ -141,6 +145,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		[Test, Description("S-7131"), ShortCheckList, Ignore("PRX-16834")]
 		public void NewFreelancerInWorkspaceHelpTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);
 
 			_registrationPage.GetPageExpectingRedirectToSignInPage(_email);
@@ -156,7 +162,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsSelectDocumentButtonAnimationExist(),
 				"Произошла ошибка:\n анимация на странице выбора документа не работает.");
 
-			_newProjectDocumentUploadPage.UploadDocumentFiles(new[] { PathProvider.DocumentFile });
+			_newProjectDocumentUploadPage.UploadDocumentFiles(new[] { document });
 
 			Assert.IsTrue(_newProjectDocumentUploadPage.IsSettingsButtonAnimationExist(),
 				"Произошла ошибка:\n анимация кнопки перехода к настройкам проекта не работает.");
@@ -191,6 +197,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 		[Test, Description("S-13742"), ShortCheckList]
 		public void NewFreelancerInEditorHelpTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_adminHelper.CreateNewUser(_email, _firstAndLastName, _password);
 
 			_registrationPage.GetPageExpectingRedirectToSignInPage(_email);
@@ -204,7 +212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 				.ClickConfirmButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -213,7 +221,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Registration
 
 			_projectsPage
 				.WaitUntilProjectLoadSuccessfully(_projectUniqueName)
-				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, PathProvider.DocumentFile, needCloseTutorial: false);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, document, needCloseTutorial: false);
 
 			Assert.IsTrue(_editorPage.IsSourceColumnHelpDisplayed(),
 				"Произошла ошибка:\n подсказка к ячейке исходного текста не показывается.");

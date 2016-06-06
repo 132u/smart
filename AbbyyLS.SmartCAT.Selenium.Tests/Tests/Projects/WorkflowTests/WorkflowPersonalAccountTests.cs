@@ -72,13 +72,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Test]
 		public void ChooseTaskDialogNotDisplayTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_createProjectHelper.CreateNewProject(_projectUniqueName, personalAccount: true);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.UploadDocument(new []{PathProvider.DocumentFile});
+			_projectSettingsHelper.UploadDocument(new []{ document });
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(document);
 
 			Assert.IsTrue(_editorPage.IsEditorPageOpened(),
 				"Произошла ошибка:\n Не открылась страница редактора.");

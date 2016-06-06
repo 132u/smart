@@ -26,12 +26,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void OneTimeSetUp()
 		{
 			CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
-			_exportNotification = new ExportNotification(Driver);
 			_clientsPage = new ClientsPage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_groupsAndAccessRightsTab = new GroupsAndAccessRightsTab(Driver);
-			_newGroupDialog = new NewGroupDialog(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
@@ -39,7 +37,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_glossariesAdvancedSettingsSection = new GlossariesAdvancedSettingsSection(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
-			_usersTab = new UsersTab(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
 
 			_clientName = _clientsPage.GetClientUniqueName();
@@ -85,10 +82,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void CreateGlossaryInWizardWithoutClientTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile})
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -105,10 +104,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void CreateGlossaryInWizardWrongClientTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -126,10 +127,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void CreateGlossaryInWizardTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_projectsPage.ClickCreateProjectButton();
 
 			_newProjectDocumentUploadPage
-				.UploadDocumentFiles(new[] { PathProvider.DocumentFile })
+				.UploadDocumentFiles(new[] { document })
 				.ClickSettingsButton();
 
 			_newProjectSettingsPage
@@ -157,10 +160,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 		private UserRightsHelper _userRightsHelper;
 		private ClientsPage _clientsPage;
-		private ExportNotification _exportNotification;
 		private WorkspacePage _workspacePage;
 		private GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
-		private NewGroupDialog _newGroupDialog;
 		private ProjectsPage _projectsPage;
 		private AddAccessRightDialog _addAccessRightDialog;
 		private NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
@@ -168,6 +169,5 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		private GlossariesAdvancedSettingsSection _glossariesAdvancedSettingsSection;
 		private ProjectSettingsPage _projectSettingsPage;
 		private NewProjectWorkflowPage _newProjectWorkflowPage;
-		private UsersTab _usersTab;
 	}
 }

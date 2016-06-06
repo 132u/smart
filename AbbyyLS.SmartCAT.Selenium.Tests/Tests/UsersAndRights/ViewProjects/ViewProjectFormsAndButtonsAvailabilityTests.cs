@@ -20,9 +20,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_workspacePage.GoToProjectsPage();
 
 			_createProjectHelper.CreateNewProject(
-				_projectUniqueName, filesPaths: new[] { PathProvider.DocumentFile });
+				_projectUniqueName, filesPaths: new[] { _document1 });
 
-			_projectsPage.OpenAssignDialog(_projectUniqueName, PathProvider.DocumentFile);
+			_projectsPage.OpenAssignDialog(_projectUniqueName, _document1);
 
 			_taskAssignmentPage
 				.SetResponsible(AdditionalUser.NickName)
@@ -75,8 +75,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile)
-				.SelectDocument(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1)
+				.SelectDocument(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка: Кнопка удаления файла отображается.");
@@ -87,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.HoverDocumentRow(_projectUniqueName, PathProvider.DocumentFile);
+				.HoverDocumentRow(_projectUniqueName, _document1);
 
 			Assert.IsFalse(_projectsPage.IsDeleteFileButtonDisplayed(_projectUniqueName),
 				"Произошла ошибка: Кнопка удаления файла отображается.");

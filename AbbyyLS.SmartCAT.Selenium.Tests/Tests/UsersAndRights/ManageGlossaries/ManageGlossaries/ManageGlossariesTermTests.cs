@@ -118,6 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			var term1 = "term-" + Guid.NewGuid();
 			var term2 = "term-" + Guid.NewGuid();
 			var glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
+			var document = PathProvider.DocumentFile;
 
 			_loginHelper.Authorize(StartPage.Workspace, ThreadUser);
 
@@ -126,14 +127,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage.OpenProjectSettingsPage(projectName);
 
 			_projectSettingsHelper
-				.UploadDocument(new[] { PathProvider.DocumentFile })
-				.AssignTasksOnDocument(PathProvider.DocumentFile, AdditionalUser.NickName, projectName);
+				.UploadDocument(new[] { document })
+				.AssignTasksOnDocument(document, AdditionalUser.NickName, projectName);
 
 			_loginHelper.Authorize(StartPage.Workspace, AdditionalUser);
 
 			_projectsPage
 				.OpenProjectInfo(projectName)
-				.ClickDocumentRefExpectingEditorPage(projectName, PathProvider.DocumentFile);
+				.ClickDocumentRefExpectingEditorPage(projectName, document);
 			
 			_editorPage.ClickAddTermButton();
 

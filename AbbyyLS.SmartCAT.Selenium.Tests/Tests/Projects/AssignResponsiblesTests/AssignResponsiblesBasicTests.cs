@@ -320,24 +320,26 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		[Standalone]
 		public void ReassignDocumentToUserTest()
 		{
+			var document = PathProvider.DocumentFile;
+
 			_secondUser = TakeUser(ConfigurationManager.Users);
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			_projectSettingsHelper.UploadDocument(new[] { PathProvider.DocumentFile });
+			_projectSettingsHelper.UploadDocument(new[] { document });
 
 			_workspacePage.RefreshPage<WorkspacePage>();
 
 			_projectSettingsPage
 				.WaitUntilDocumentProcessed()
-				.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
+				.ClickAssignButtonInDocumentInfo(document);
 
 			_taskAssignmentPage
 				.SetResponsible(ThreadUser.NickName)
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
 			_selectTaskDialog.SelectTask();
 
@@ -346,7 +348,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_editorPage.ClickHomeButtonExpectingProjectSettingsPage();
 
-			_projectSettingsPage.ClickAssignButtonInDocumentInfo(PathProvider.DocumentFile);
+			_projectSettingsPage.ClickAssignButtonInDocumentInfo(document);
 
 			_taskAssignmentPage
 				.ClickCancelAssignButton(ThreadUser.NickName)
@@ -354,7 +356,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickSaveButton()
 				.ClickBackToProjectButton();
 
-			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(PathProvider.DocumentFile);
+			_projectSettingsPage.OpenDocumentInEditorWithoutTaskSelect(document);
 		}
 
 		private string _document;
