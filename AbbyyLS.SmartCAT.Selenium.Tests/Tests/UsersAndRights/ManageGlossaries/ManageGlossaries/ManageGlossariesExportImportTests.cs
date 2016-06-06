@@ -30,10 +30,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void ImportGlossaryTest()
 		{
+			var file = PathProvider.GlossaryFileForImport;
+
 			_glossaryPage.ClickImportButton();
 
 			_glossaryImportDialog
-				.ImportGlossary(PathProvider.GlossaryFileForImport)
+				.ImportGlossary(file)
 				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();

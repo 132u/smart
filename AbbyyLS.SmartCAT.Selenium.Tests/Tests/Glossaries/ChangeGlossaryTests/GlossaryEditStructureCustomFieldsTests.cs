@@ -172,6 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AddMediaFieldTest()
 		{
 			var fieldName = "MediaField";
+			var audioFile = PathProvider.AudioFileForGlossariesTests;
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
@@ -182,10 +183,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection()
-				.UploadMediaFile(PathProvider.AudioFileForGlossariesTests)
+				.UploadMediaFile(audioFile)
 				.ClickSaveEntryButton();
 
-			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFileForGlossariesTests), fieldName),
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(audioFile, fieldName),
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
 				
 			_glossaryPage.CloseExpandedTerms();
@@ -198,6 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AddMediaRequiredFieldTest()
 		{
 			var fieldName = "MediaRequiredField";
+			var audioFile = PathProvider.AudioFileForGlossariesTests;
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
@@ -214,10 +216,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
 
 			_glossaryPage
-				.UploadMediaFile(PathProvider.AudioFileForGlossariesTests)
+				.UploadMediaFile(audioFile)
 				.ClickSaveEntryButton();
 
-			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(Path.GetFileName(PathProvider.AudioFileForGlossariesTests), fieldName),
+			Assert.IsTrue(_glossaryPage.IsMediaFileMatchExpected(audioFile, fieldName),
 				"Произошла ошибка:\n неверное значение в поле {0} типа Media.", fieldName);
 
 			_glossaryPage.CloseExpandedTerms();
@@ -230,6 +232,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AddImageFieldTest()
 		{
 			var fieldName = "ImageField";
+			var imageFile = PathProvider.ImageFileForGlossariesTests;
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
@@ -240,7 +243,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossaryPage
 				.ClickNewEntryButton()
 				.FillTermInLanguagesAndTermsSection()
-				.UploadImageFile(PathProvider.ImageFileForGlossariesTests)
+				.UploadImageFile(imageFile)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),
@@ -256,6 +259,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		public void AddImageRequiredFieldTest()
 		{
 			var fieldName = "ImageField";
+			var imageFile = PathProvider.ImageFileForGlossariesTests;
 
 			_glossaryHelper.CreateGlossary(_glossaryUniqueName);
 
@@ -272,7 +276,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 				"Произошла ошибка:\n поле {0} не подсвечено красным цветом.", fieldName);
 
 			_glossaryPage
-				.UploadImageFile(PathProvider.ImageFileForGlossariesTests)
+				.UploadImageFile(imageFile)
 				.ClickSaveEntryButton();
 
 			Assert.IsTrue(_glossaryPage.IsImageFieldFilled(fieldName),

@@ -327,7 +327,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string GlossaryFileForImport
 		{
-			get { return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossary.xlsx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestGlossary.xlsx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -335,7 +338,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string GlossaryFileForImportWrongStructure
 		{
-			get { return new Uri(Path.Combine(glossariesFilesFolder, "TestGlossaryWrongStructure.xlsx")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestGlossaryWrongStructure.xlsx")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -343,7 +349,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string ImageFileForGlossariesTests
 		{
-			get { return new Uri(Path.Combine(glossariesFilesFolder, "TestImage.jpg")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestImage.jpg")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -351,7 +360,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// </summary>
 		public static string AudioFileForGlossariesTests
 		{
-			get { return new Uri(Path.Combine(glossariesFilesFolder, "TestAudio.mp3")).LocalPath; }
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(glossariesFilesFolder, "TestAudio.mp3")).LocalPath);
+			}
 		}
 
 		/// <summary>
@@ -439,7 +451,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к экспортированным файлам
+		/// Путь к файлам для импорта
 		/// </summary>
 		public static string ImportFiles
 		{
@@ -460,8 +472,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 
 			return newFilePath;
 		}
-
-
 
 		static private readonly FilesRootCfg _pathConfig = TestSettingDefinition.Instance.Get<FilesRootCfg>();
 	}

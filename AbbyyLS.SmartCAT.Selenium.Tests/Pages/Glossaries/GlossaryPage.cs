@@ -1468,7 +1468,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		{
 			CustomTestContext.WriteLine("Проверить, что в поле {0} типа Media правльное название файла {1}.", fieldName, mediaFile);
 
-			return mediaFile == Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text;
+			var fileName = Path.GetFileName(mediaFile);
+			return fileName == Driver.SetDynamicValue(How.XPath, MEDIA_FIELD_TEXT,fieldName).Text;
 		}
 		
 		/// <summary>

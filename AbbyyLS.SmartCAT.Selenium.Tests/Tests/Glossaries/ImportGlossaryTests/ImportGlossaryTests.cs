@@ -20,12 +20,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test, Description("S-7293"), ShortCheckList]
 		public void ImportGlossaryTest()
 		{
+			var file = PathProvider.GlossaryFileForImport;
+
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.ClickImportButton();
 
 			_glossaryImportDialog
-				.ImportGlossary(PathProvider.GlossaryFileForImport)
+				.ImportGlossary(file)
 				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
@@ -40,12 +42,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test, Description("S-7293"), ShortCheckList]
 		public void ImportGlossaryWrongStructureTest()
 		{
+			var file = PathProvider.GlossaryFileForImportWrongStructure;
+
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage.ClickImportButton();
 
 			_glossaryImportDialog
-				.ImportGlossary(PathProvider.GlossaryFileForImportWrongStructure)
+				.ImportGlossary(file)
 				.ClickImportInImportInImportDialog();
 
 			Assert.IsTrue(_glossaryImportDialog.IsErrorReportButtonDisplayed(_glossaryUniqueName),
@@ -55,6 +59,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 		[Test]
 		public void ImportGlossaryReplaceAllTermsTest()
 		{
+			var file = PathProvider.GlossaryFileForImport;
+
 			_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 
 			_glossaryPage
@@ -64,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 
 			_glossaryImportDialog
 				.ClickReplaceTermsButton()
-				.ImportGlossary(PathProvider.GlossaryFileForImport)
+				.ImportGlossary(file)
 				.ClickImportButtonInImportDialogWaitSuccess();
 
 			_glossarySuccessImportDialog.ClickCloseButton();
