@@ -99,6 +99,7 @@
     <Compile Include="Pages\Coursera\UserProfilePage.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
     <Compile Include="Pages\Editor\UserPreferences\SegmentConfirmationTab.cs" />
+    <Compile Include="Pages\Editor\DeleteTranslationDialog.cs" />
     <Compile Include="Pages\Editor\UserPreferences\UserPreferencesDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
     <Compile Include="Pages\Glossaries\GlossaryExportNotification.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="Tests\Coursera\CourseraBaseTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
     <Compile Include="Tests\Coursera\RatingTests.cs" />
+    <Compile Include="Tests\Coursera\ProgressTests\ProgressTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileBaseTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileInvalidTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />

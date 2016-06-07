@@ -1,0 +1,8 @@
+1
+00:00:07,700 --> 00:00:10,166
+What exactly is communication?
+
+2
+00:00:10,166 --> 00:00:14,866
+The most simple definition: Communication is 
+each act of transmitting information. 

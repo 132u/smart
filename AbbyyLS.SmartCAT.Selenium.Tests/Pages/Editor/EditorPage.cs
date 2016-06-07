@@ -601,6 +601,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать кнопку удаления перевода пользователя
+		/// </summary>
+		/// <param name="author">автор</param>
+		///  <param name="translation">перевод</param>
+		public DeleteTranslationDialog ClickDeleteTranslateButton(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Нажать кнопку удаления перевода {0} пользователя {1}.", translation, author);
+			DeleteTranslateButton = Driver.SetDynamicValue(How.XPath, DELETE_TRANSLATE_BUTTON, author, translation);
+			DeleteTranslateButton.Click();
+
+			return new DeleteTranslationDialog(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Получить название этапа
 		/// </summary>
 		public string GetStage()
@@ -1101,6 +1115,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return LoadPage();
 		}
+
 		public EditorPage ScrollToVoteCount(string author, string translation)
 		{
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
@@ -1110,16 +1125,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Получить количество голосов.
+		/// Получить количество голосов перевода
 		/// </summary>
 		/// <param name="author">автор</param>
 		/// <param name="translation">перевод</param>
 		public int GetVoteCount(string author, string translation)
 		{
 			CustomTestContext.WriteLine("Получить количество голосов перевода '{0}' автора {1}.", translation, author);
-			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_COUNT.Replace("*#*", author).Replace("*##*", translation)));
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
-			ScrollToVoteCount(author, translation);
 			var count = VoteCount.Text;
 			int result;
 
@@ -1516,6 +1529,31 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#endregion
 
 		#region Составные методы страницы
+		
+		/// <summary>
+		/// Проскролить и получить количество голосов.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public int ScrollAndGetVoteCount(string author, string translation)
+		{
+			ScrollToVoteCount(author, translation);
+
+			return GetVoteCount(author, translation);
+		}
+
+		/// <summary>
+		/// Добавить перевод
+		/// </summary>
+		/// <param name="translationText">перевод</param>
+		public CoursesPage AddTranslationForCourseraProgress(string translationText, int rowNumber = 1)
+		{
+			FillTarget(translationText, rowNumber);
+			ConfirmSegmentTranslation();
+			ClickHomeButtonExpectingCourseraCoursesPage();
+
+			return new CoursesPage(Driver).LoadPage();
+		}
 
 		/// <summary>
 		/// Отправить комментарий документа
@@ -2787,6 +2825,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
 
+		[FindsBy(How = How.XPath, Using = DELETE_TRANSLATE_BUTTON)]
+		protected IWebElement DeleteTranslateButton { get; set; }
 		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
 		protected IWebElement UserPreferencesButton { get; set; }
 
@@ -2825,7 +2865,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement User { get; set; }
 		protected IWebElement Type { get; set; }
 		protected IWebElement QAError { get; set; }
-	protected IWebElement DictionariesSearchResults { get; set; }
+		protected IWebElement DictionariesSearchResults { get; set; }
 
 		#endregion
 
@@ -2922,6 +2962,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
 
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";
+		protected const string DELETE_TRANSLATE_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]//ancestor::td//following-sibling::td//div[contains(@class, 'sci-delete')]";
 		protected const string VOTE_UP_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'plus')]";
 		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[@class='rating-count']";
 
@@ -2968,7 +3009,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_BUTTON = "//div[@id='lingvo-search-body']//span[text()='Search']//ancestor::span//ancestor::a";
 		protected const string SIDE_PANEL_DICTIONARIES_SEARCH_RESULTS = "//div[@id='lingvo-search-body']//h2//span[@class='Bold' and text()='*#*']";
 		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION_REF = "//div[@id='lingvo-search-body']//label[contains(@id,'lingvosearchdirection')]";
-		protected const string SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK = "//div[@id='lingvo-search-body']//span[text()='Open in new tab']//ancestor::span//ancestor::a";
+		protected const string SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK = "//div[@id='lingvo-search-body']//a[contains(@href, 'Translate?searchSrcLang')]";
 		protected const string SIDE_PANEL_DICTIONARIES_WORD_NOT_FOUND = "//div[@id='lingvo-search-body']//span[@class='not-found']";
 		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-innerCt']//label[@data-ref='boxLabelEl']";
 

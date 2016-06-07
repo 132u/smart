@@ -83,11 +83,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 			
-			var translationVotesCountBefore = _editorPage.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var translationVotesCountBefore = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			_editorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(translationVotesCountBefore - 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не уменьшилось.");
@@ -150,11 +150,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			var voteCountBefore = _editorPage
 				.ClickOnTargetCellInSegment()
-				.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+				.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			_editorPage.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(voteCountBefore + 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не увеличилось.");
@@ -213,11 +213,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			var translationVotesCountBefore = _editorPage.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var translationVotesCountBefore = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			_editorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.GetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(translationVotesCountBefore - 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не уменьшилось.");

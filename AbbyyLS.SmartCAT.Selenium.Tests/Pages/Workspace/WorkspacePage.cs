@@ -12,6 +12,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Client;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.LingvoDictionaries;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
@@ -246,6 +247,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			SignOutButton.JavaScriptClick();
 
 			return new SignInPage(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Выйти из смартката, ожидая, что откроется страница Coursera.
+		/// </summary>
+		public CourseraHomePage ClickSignOutExpectingCourseraHomePage()
+		{
+			CustomTestContext.WriteLine("Выйти из смартката, ожидая, что откроется страница Coursera.");
+			SignOutButton.JavaScriptClick();
+
+			return new CourseraHomePage(Driver).GetPage();
 		}
 
 		/// <summary>

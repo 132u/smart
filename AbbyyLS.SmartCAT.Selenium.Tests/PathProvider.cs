@@ -5,6 +5,7 @@ using System.IO;
 using NConfiguration;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Configs;
+using System.Linq;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests
 {
@@ -190,6 +191,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			get
 			{
 				return GetUniqueFilePath(new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Полный путь к файлу на прогресс
+		/// <summary>
+		public static string ProgressFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(FilesDirectory, "littleEarth.docx")).LocalPath;
 			}
 		}
 
@@ -424,7 +436,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// <summary>
 		/// Получить файлы из папки FilesForCourseraProject
 		/// </summary>
-		/// <returns></returns>
 		public static IList<string> GetFilesFromCourseraFolder()
 		{
 			var files = new List<string>();
@@ -437,6 +448,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			}
 
 			return files;
+		}
+
+		/// <summary>
+		/// Получить файлы из папки FilesForProgressTestsCourseraProject
+		/// </summary>
+		public static IList<string> GetFilesForProgressTestsCourseraProject()
+		{
+			var filesInFolder = new DirectoryInfo(
+				Path.Combine(сourseraFilesTestFolder, "FilesForProgressTestsCourseraProject")).GetFiles();
+
+			return filesInFolder.Select(file => file.FullName).ToList();
+		}
+
+		/// <summary>
+		/// Получить файлы из папки FilesForCompleteProgressTestsCourseraProject
+		/// </summary>
+		public static IList<string> GetFilesForCompleteProgressTestsCourseraProject()
+		{
+			var filesInFolder = new DirectoryInfo(
+				Path.Combine(сourseraFilesTestFolder, "FilesForCompleteProgressTestsCourseraProject")).GetFiles();
+
+			return filesInFolder.Select(file => file.FullName).ToList();
 		}
 
 		/// <summary>

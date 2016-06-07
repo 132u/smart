@@ -1,0 +1,9 @@
+1
+00:00:08,133 --> 00:00:11,199
+Welcome to the course Introduction to 
+Communication Science.
+
+2
+00:00:11,200 --> 00:00:13,466
+My name is dr. Rutger de Graaf and I'm a 
+lecturer here

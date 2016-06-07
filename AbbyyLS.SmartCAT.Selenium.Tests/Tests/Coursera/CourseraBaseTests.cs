@@ -5,6 +5,10 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
@@ -15,9 +19,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			StartPage = StartPage.Coursera;
 		}
-
+		
 		[SetUp]
-		public void CourseraBaseTestsSetUp()
+		public void SetUp()
 		{
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_leaderboardPage = new LeaderboardPage(Driver);
@@ -29,8 +33,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editProfileDialog = new EditProfileDialog(Driver);
 			_lecturesTab = new LecturesTab(Driver);
 
-			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
 			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
+			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
 		}
 
 		[TearDown]
@@ -50,8 +54,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			{
 				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, _secondUser);
 			}
-		}
 
+			if (_thirdUser != null)
+			{
+				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, _secondUser);
+			}
+		}
+		
 		protected EditorPage _editorPage;
 		protected HeaderMenu _header;
 		protected UserProfilePage _profilePage;
@@ -61,6 +70,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected CoursePage _coursePage;
 		protected EditProfileDialog _editProfileDialog;
 		protected TestUser _secondUser;
+		protected TestUser _thirdUser;
 		protected LecturesTab _lecturesTab;
+		protected ProjectSettingsHelper _projectSettingsHelper;
+		protected string _courseNameForCompleteCourseTest;
+		protected string _courseraNameProgressTests;
+		protected LecturesTab _lectureTab;
+		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
+		protected NewProjectSettingsPage _newProjectSettingsPage;
+		protected CreateProjectHelper _createProjectHelper;
+		protected NewProjectWorkflowPage _newProjectWorkflowPage;
+		protected ProjectsPage _projectsPage;
+		protected WorkspacePage _workspacePage;
 	}
 }

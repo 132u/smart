@@ -100,12 +100,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Нажать кнопку Sign Out.
 		/// </summary>
-		public CourseraHomePage ClickSignOut()
+		public HeaderMenu ClickSignOut()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Sign Out.");
 			SignOut.Click();
 
-			return new CourseraHomePage(Driver).LoadPage();
+			return new HeaderMenu(Driver).LoadPage();
 		}
 
 		#endregion
@@ -141,7 +141,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		public bool IsSignInDialogDisappeared()
 		{
-			return Driver.WaitUntilElementIsDisappeared(By.XPath(SIGN_IN_FORM));
+			return Driver.WaitUntilElementIsDisappeared(By.XPath(SIGN_IN_FORM), timeout:30);
 		}
 
 		/// <summary>
