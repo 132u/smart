@@ -2922,7 +2922,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SAVING_STATUS = "//divc[contains(@id, 'segmentsavingindicator') and contains(text(),'Saving')]";
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//div[contains(@class,'insert-resource')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//span[contains(@class, 'match-percentage')]";
-		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//tbody//tr//td[3]//div//span";
+		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//td[3]//div[contains(@class, 'x-match-percentage')]";
 		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string TARGET_CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
