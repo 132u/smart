@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void AddFilesButtonTest()
 		{
-			Assert.IsFalse(_projectSettingsPage.IsAddFilesButtonDisplayed(),
+			Assert.IsFalse(_projectSettingsPage.IsUploadButtonDisplayed(),
 				"Произошла ошибка:\n кнопка 'Add Files' отображается на странице проекта {0}.", _projectUniqueName);
 		}
 		

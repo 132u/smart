@@ -33,7 +33,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.SaveSettings();
 
 			_projectSettingsPage
-				.ClickProjectsTableCheckbox(_documentName)
+				.ClickDocumentCheckbox(_documentName)
 				.ClickAssignButtonOnPanel();
 
 			Assert.IsTrue(_taskAssignmentPage.IsTaskAssignmentPageOpened(), "Произошла ошибка:\nНе открылся диалог назначения пользователя.");

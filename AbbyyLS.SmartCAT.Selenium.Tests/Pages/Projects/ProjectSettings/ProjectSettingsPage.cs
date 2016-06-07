@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public AddFilesStep ClickDocumentUploadButton()
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Загрузить файлы'.");
-			AddFilesButton.Click();
+			UploadButton.Click();
 
 			return new AddFilesStep(Driver).LoadPage();
 		}
@@ -100,19 +100,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			DocumentSettingsButton.JavaScriptClick();
 
 			return new DocumentSettingsDialog(Driver).LoadPage();
-		}
-
-		/// <summary>
-		/// Нажать на чекбокс документа
-		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public ProjectSettingsPage ClickProjectsTableCheckbox(string documentName)
-		{
-			CustomTestContext.WriteLine("Нажать на чекбокс напротив документа {0}.", documentName);
-			ProjectsTableCheckbox = Driver.SetDynamicValue(How.XPath, PROJECTS_TABLE_CHECKBOX, documentName);
-			ProjectsTableCheckbox.Click();
-
-			return LoadPage();
 		}
 
 		/// <summary>
@@ -527,11 +514,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Проверить, что кнопка 'Add Files' отображается
 		/// </summary>
-		public bool IsAddFilesButtonDisplayed()
+		public bool IsUploadButtonDisplayed()
 		{
 			CustomTestContext.WriteLine("Проверить, что кнопка 'Add Files' отображается.");
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(ADD_FILES_BTN));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(UPLOAD_BTN));
 		}
 
 		/// <summary>
@@ -697,19 +684,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = EXPORT_TYPE)]
 		protected IWebElement ExportType { get; set; }
 
-		[FindsBy(How = How.XPath, Using = ADD_FILES_BTN)]
-		protected IWebElement AddFilesButton { get; set; }
+		[FindsBy(How = How.XPath, Using = UPLOAD_BTN)]
+		protected IWebElement UploadButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = ASSIGN_TASKS_BTN_ON_PANEL)]
 		protected IWebElement AssignTasksButtonOnPanel { get; set; }
 
 		protected IWebElement AssignTasksButtonInDocumentInfo { get; set; }
-
-		[FindsBy(How = How.XPath, Using = DEFAULT_MT_CHECKBOX)]
-		protected IWebElement DefaultMTCheckbox { get; set; }
-
-		[FindsBy(How = How.XPath, Using = SAVE_MT_BTN)]
-		protected IWebElement SaveMTButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = DELETE_BUTTON)]
 		protected IWebElement DeleteButton { get; set; }
@@ -754,11 +735,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		[FindsBy(How = How.XPath, Using = PRETRANSLATE_BUTTON)]
 		protected IWebElement PretranslateButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = EDIT_TRANSLATION_MEMORY_BUTTOON)]
+		[FindsBy(How = How.XPath, Using = EDIT_TRANSLATION_MEMORY_BUTTON)]
 		protected IWebElement EditTranslationMemoryButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = PROGRESS_TOOLTIP)]
-		protected IWebElement ProgressTooltip { get; set; }
 
 		[FindsBy(How = How.XPath, Using = QA_CHECK_BUTTON)]
 		protected IWebElement QaCheckButton { get; set; }
@@ -783,9 +761,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = DESCRIPTION)]
 		protected IWebElement Description { get; set; }
-
-		protected IWebElement DocumentProgress { get; set; }
-		protected IWebElement DocumentRefference { get; set; }
 		protected IWebElement ProjectsTableCheckbox { get; set; }
 		protected IWebElement TaskForCurrentUser { get; set; }
 		protected IWebElement GlossaryCheckboxByName { get; set; }
@@ -797,37 +772,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		#region Описания XPath элементов страницы
 
+		// Header
+		protected const string PROJECT_NAME = "//a[@class='current-doc']";
+
+		// Верхнее меню
+		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
+		protected const string REPETITIONS_BUTTON = "//div[@data-bind='click: setupRepetitions']";
+		protected const string QA_CHECK_BUTTON = "//div[contains(@data-bind,'qaCheck')]";
+		protected const string STATISTICS_BUTTON = "//div[contains(@data-bind,'openStatistics')]";
+		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
+
+		// Меню экспорта
 		protected const string EXPORT_TYPE = "//div[contains(@data-bind,'dropbox')]//ul//li[text()='*#*']";
 
-		protected const string ADD_FILES_BTN = "//button[contains(@data-bind, 'importDocument')]";
-		protected const string ASSIGN_DIALOG = "//div[contains(@class,'js-popup-assign')][2]";
-		protected const string PROJECTS_TABLE_ALL_CHECKBOXES = ".//table[contains(@id,'JColResizer')]//tr[@class = 'js-table-header']//th[1]//input";
-		protected const string PROJECTS_TABLE_CHECKBOX = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[1]//input";
-		protected const string PROJECTS_TABLE_STATUS_COMPLITED = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[5][contains(string(), 'Completed')]";
+		// Информация о проекте
 		protected const string PROJECT_STATUS = "//div[contains(@class, 'row')]//input[contains(@class, 'status')]";
 		protected const string PROJECT_GROUP_NAME = "//div[text()='Project group']//parent::div//div[contains(@class, 'l-project-panel-info_content')]";
 		protected const string PROJECT_CANCELLED_STATUS = "//div[contains(@class, 'row')]//ul//li[contains(text(), 'Cancelled')]";
-
-		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//button[contains(@data-bind, 'click: assign')]";
-		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//table[contains(@class,'js-documents-table')]//span[text()='*#*']/ancestor::tr//span[contains(@class, 'icon_add-user')]";
-
-		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
-		protected const string DOCUMENT_REF = ".//table[contains(@id,'JColResizer')]//tr[contains(string(), '*#*')]//td[2]//a";
-		protected const string SAVE_MT_BTN = ".//span[contains(@data-bind, 'click: saveMTEngines')]//a";
 		protected const string DESCRIPTION = "//div[@class='l-project-panel-info_content']";
-		protected const string DEFAULT_MT_CHECKBOX = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input";
-		protected const string DEFAULT_MT_CHECKBOX_STATE = "//tbody[contains(@data-bind,'foreach: machineTranslators')]//tr[contains(string(), 'ABBYY')]//td[1]//input[@data-value='true']";
-		protected const string DELETE_BUTTON = "//button[contains(@data-bind, 'deleteDocuments')]";
-		protected const string DOCUMENT_LIST_ITEM = ".//table[contains(@class,'js-documents-table')]//tbody//tr//span[text()='*#*' and @class='l-project__name']";
-		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
-		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]/..";
-		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//tr[contains(@class, 'js-document-row')]//span[text()='*#*']/ancestor::tr//span[contains(@class,'icon_download')]";
-		protected const string DOCUMENT_CHECKBOX = ".//table[contains(@id,'JColResizer')]//*[text()= '*#*']/ancestor::tr//input";
-		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[contains(@class,'docname-td')]";
-		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
-		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";
-		protected const string SETTINGS_BUTTON = "//button[contains(@data-bind,'click: edit')]";
 
+		// Меню таблицы Documents
+		protected const string UPLOAD_BTN = "//button[contains(@data-bind, 'importDocument')]";
+		protected const string ASSIGN_TASKS_BTN_ON_PANEL = "//button[contains(@data-bind, 'click: assign')]";
+		protected const string DOWNLOAD_BUTTON = "//div[contains(@class, 'corpr')]//span[contains(@class,'download')]/ancestor::button";
+		protected const string DELETE_BUTTON = "//button[contains(@data-bind, 'deleteDocuments')]";
+
+		// Таблица Documents
+		protected const string PROJECTS_TABLE_ALL_CHECKBOXES = ".//table[contains(@id,'JColResizer')]//tr[@class = 'js-table-header']//th[1]//input";
+		protected const string DOCUMENT_CHECKBOX = "//span[text()= '*#*']/ancestor::tr//input";
 		protected const string SORT_BY_TRANSLATION_DOCUMENT = "//th[contains(@data-sort-by,'name')]//a";
 		protected const string SORT_BY_TYPE = "//th[contains(@data-sort-by,'fileExtension')]//a";
 		protected const string SORT_BY_STATUS = "//th[contains(@data-sort-by,'statusName')]//a";
@@ -835,25 +807,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected const string SORT_BY_AUTHOR = "//th[contains(@data-sort-by,'createdByUserName')]//a";
 		protected const string SORT_BY_CREATED = "//th[contains(@data-sort-by,'creationDate')]//a";
 		protected const string SORT_BY_QA = "//th[contains(@data-sort-by,'qaErrorCount')]//a";
+		protected const string PROGRESS_BAR_PROGRESS = "//span[text()='*#*']/ancestor::tr//td[contains(@class, 'l-project-td progress')]//div[contains(@style, 'width: *##*%')]//parent::div";
+		protected const string DOCUMENT_LIST_ITEM = "//span[text()='*#*' and @class='l-project__name']";
 
-		protected const string PROJECT_SETTIGS_HEADER = "//div[contains(@class, 'popup-edit')][2]//h2[text()='Project Settings']";
+		// Панель управления документом
+		protected const string DOCUMENT_ROW = "//span[text()='*#*']//ancestor::tr//td[contains(@class,'docname-td')]";
+		protected const string TRANSLATE_BUTTON = "//span[text()='*#*']//ancestor::tr//a[contains(data-bind, editorUrl)]";
+		protected const string ASSIGN_TASKS_BTN_IN_DOCUMENT_INFO = "//span[text()='*#*']/ancestor::tr//span[contains(@class, 'icon_add-user')]";
+		protected const string DOCUMENT_DOWNLOAD_BUTTON = "//span[text()='*#*']/ancestor::tr//span[contains(@class,'icon_download')]";
+		protected const string DOCUMENT_SETTINGS_BUTTON = "//span[text()='*#*']/ancestor::tr//button[@data-bind='click: singleTarget().actions.edit']";
+		protected const string DOCUMENT_STATUS = "//span[text()='*#*']/ancestor::tr//td[contains(@class,'status')]//p";
+		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
+		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
+
+		// Таблица TM
+		protected const string EDIT_TRANSLATION_MEMORY_BUTTON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
+
+		// Таблица Glossaries
 		protected const string GLOSSARIES_LIST = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr//td[2]";
 		protected const string GLOSSARY_CHECKBOX = "//div[@class='g-page']//table//tbody[@data-bind='foreach: glossaries']//tr[*#*]//input";
 		protected const string EDIT_GLOSSARY_SAVE_BUTTON = "//div[contains(@data-bind,'click: saveGlossaries')]";
-		protected const string PRETRANSLATE_BUTTON = "//div[contains(@data-bind,'click: pretranslate')]";
-		protected const string EDIT_TRANSLATION_MEMORY_BUTTOON = "//div[@data-bind='click: editTranslationMemories']//a[contains(@class, 'g-graybtn')]";
-		protected const string PROGRESS_TOOLTIP = "//table[@class='l-workflow-progress-tooltip']";
-		protected const string PROGRESS_BAR_PROGRESS = "//span[text()='*#*']//ancestor::tr//td[contains(@class, 'l-project-td progress')]//div[contains(@style, 'width: *##*%')]//parent::div";
-
-		protected const string QA_CHECK_BUTTON = "//div[contains(@data-bind,'qaCheck')]";
-		protected const string STATISTICS_BUTTON = "//div[contains(@data-bind,'openStatistics')]";
-		protected const string PROJECT_NAME = "//a[@class='current-doc']";
-		protected const string TASK_FOR_CURRENT_USER = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//td[contains(@class, 'assignments') and contains(text(),'*#*')]";
-		protected const string DECLINE_BUTTON = "//table[contains(@data-bind, 'workflowStagesForCurrentUser')]//div[contains(@data-bind, 'reject')]";
-		protected const string DOCUMENT_STATUS = "//tr[contains(@class, 'document-row')]//td//span[contains(text(),'*#*')]/ancestor::tr//td[contains(@class,'status')]//p";
 		protected const string GLOSSARY_CHECKBOX_BY_NAME = "//td//p[text()='*#*']/../preceding-sibling::td//input";
 
-		protected const string REPETITIONS_BUTTON = "//div[@data-bind='click: setupRepetitions']";
+		// Уведомления, пиктограммы, подсказки
+		protected const string LOAD_DOC_IMG = "//img[contains(@data-bind,'processingInProgress')]";
 
 		#endregion
 	}

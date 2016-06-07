@@ -46,6 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		protected IWebElement DeleteDocumentButton { get; set; }
 
 		protected const string DELETE_DOCUMENT_BUTTON = "//div[contains(@class,'js-popup-confirm')]//input[contains(@class,'js-submit-btn')]";
+		protected const string DELETE_DOCUMENT_DIALOG = "//div[contains(@class,'js-popup-confirm')]";
 
 	}
 }

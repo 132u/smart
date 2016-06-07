@@ -1108,14 +1108,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement DownloadInDocumentButton { get; set; }
 		protected IWebElement ProjectRef { get; set; }
 		protected IWebElement ProjectCheckbox { get; set; }
-		protected IWebElement OpenProjectFolder { get; set; }
 		protected IWebElement DocumentRow { get; set; }
-		protected IWebElement DocumentProgress { get; set; }
 		protected IWebElement DocumentTaskAssignButton {get; set;}
-		protected IWebElement MyTask {get; set;}
-		protected IWebElement DocumentRef { get; set; }
 		protected IWebElement DocumentCheckBox { get; set; }
-		protected IWebElement JobList { get; set; }
 		protected IWebElement DocumentJob { get; set; }
 		protected IWebElement DeleteInProjectButton { get; set; }
 		protected IWebElement ProjectAssignTaskButton { get; set; }
@@ -1124,8 +1119,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		protected IWebElement ProjectStatus { get; set; }
 		protected IWebElement ProjectStatusItem { get; set; }
 		protected IWebElement DeleteButtonInProjectPanel { get; set; }
-		protected IWebElement CancelledStatus { get; set; }
-		protected IWebElement CompletedStatus { get; set; }
 		protected IWebElement ProjectRow { get; set; }
 		protected IWebElement ExportType { get; set; }
 		protected IWebElement ProgressBar { get; set; }

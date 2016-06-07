@@ -90,7 +90,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		public ProjectSettingsHelper DeleteDocument(string documentName)
 		{
 			_projectPage
-				.ClickProjectsTableCheckbox(documentName)
+				.ClickDocumentCheckbox(documentName)
 				.ClickDeleteButton();
 
 			_deleteDocumentDialog.ConfirmDelete();
