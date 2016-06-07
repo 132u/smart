@@ -482,23 +482,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 				SetTargetLanguage(targetLanguage, deselectAllLanguages);
 			}
 
-			if (useMachineTranslation)
+			if (useMachineTranslation ^ IsUseMachineTranslationInutSelected())
 			{
-				if (!IsUseMachineTranslationInutSelected())
-				{
-					ClickUseMachineTranslationCheckbox();
-				}
+				ClickUseMachineTranslationCheckbox();
+			}
 
-				if (!useDefaultFreeOrPaidMT)
+			if (useMachineTranslation && !useDefaultFreeOrPaidMT)
+			{
+				if (usePaidMT)
 				{
-					if (usePaidMT)
-					{
-						ClickUsePaidMachineTranslation();
-					}
-					else
-					{
-						ClickUseFreeMachineTranslation();
-					}
+					ClickUsePaidMachineTranslation();
+				}
+				else
+				{
+					ClickUseFreeMachineTranslation();
 				}
 			}
 
