@@ -138,7 +138,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.SelectDocument(_projectUniqueName, document2, jobs: true)
+				.SelectDocument(_projectUniqueName, document2)
 				.ClickDeleteInProjectMenuButton(_projectUniqueName);
 
 			Assert.AreEqual("Delete document with all translations?", _deleteDialog.GetTextFromDeleteDialog(),

@@ -131,7 +131,6 @@
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\GlossariesAdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectEditGlossaryDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSettingsPage.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpPretranslationDialog.cs" />
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectDocumentUploadPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectWorkflowPage.cs" />
@@ -276,10 +275,7 @@
     <Compile Include="Pages\Projects\AssignmentPages\TaskAssignmentPage.cs" />
     <Compile Include="Pages\TranslationMemories\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\TranslationMemories\TranslationMemoriesPage.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSelectGlossariesDialog.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpMTDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpTMDialog.cs" />
-    <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSetUpWorkflowDialog.cs" />
     <Compile Include="Pages\Projects\DeleteOpenProjectWithFileDialog.cs" />
     <Compile Include="Pages\Projects\DeleteDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\DeleteDocumentDialog.cs" />

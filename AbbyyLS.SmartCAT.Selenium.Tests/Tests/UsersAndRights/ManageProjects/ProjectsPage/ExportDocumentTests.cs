@@ -74,7 +74,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueNameWithOneFile)
 				.HoverDocumentRow(_projectUniqueNameWithOneFile, _document)
-				.ClickDownloadInDocumentButton(_projectUniqueNameWithOneFile, _document)
+				.ClickDownloadInDocumentButton(_document)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),

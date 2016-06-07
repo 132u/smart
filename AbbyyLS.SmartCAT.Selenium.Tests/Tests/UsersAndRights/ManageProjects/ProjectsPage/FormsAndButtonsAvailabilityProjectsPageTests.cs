@@ -154,7 +154,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, _document1)
-				.ClickDocumentSettings(_projectUniqueName);
+				.ClickDocumentSettings(_projectUniqueName, _document1);
 
 			Assert.IsTrue(_documentSettingsDialog.IsDocumentSettingsDialogOpened(),
 				"Произошла ошибка:\n Не открылся диалог настроек документа.");

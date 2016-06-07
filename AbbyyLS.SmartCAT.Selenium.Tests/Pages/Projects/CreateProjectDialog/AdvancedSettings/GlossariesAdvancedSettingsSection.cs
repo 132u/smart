@@ -38,17 +38,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать на кнопку 'Select Glossary' в панели 'Advanced Settings'.
-		/// </summary>
-		public NewProjectSelectGlossariesDialog ClickSelectGlossaryButton()
-		{
-			CustomTestContext.WriteLine("Нажать на кнопку 'Select Glossary' в панели 'Advanced Settings'.");
-			SelectGlossaryButton.Click();
-
-			return new NewProjectSelectGlossariesDialog(Driver).LoadPage();
-		}
-
-		/// <summary>
 		/// Нажать на кнопку 'Edit Glossary' в панели 'Advanced Settings'.
 		/// </summary>
 		public NewProjectEditGlossaryDialog ClickEditGlossaryButton(int glossaryNumber)

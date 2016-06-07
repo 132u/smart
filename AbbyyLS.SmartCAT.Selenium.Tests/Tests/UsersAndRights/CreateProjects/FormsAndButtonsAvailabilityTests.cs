@@ -11,13 +11,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[Test]
-		public void CheckConnectorButtonNotExist()
-		{
-			Assert.IsFalse(_projectsPage.IsSignInToConnectorButtonExist(),
-				"Произошла ошибка:\n кнопка 'Sign in to Connector' не должна быть видна.");
-		}
-
-		[Test]
 		public void QaCheckButtonExist()
 		{
 			var document = PathProvider.DocumentFile;
@@ -67,6 +60,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		public void CheckLinkInProjectNotExist()
 		{
 			_createProjectHelper.CreateNewProject(_projectUniqueName);
+
+			_projectsPage.HoverProjectRow(_projectUniqueName);
 
 			Assert.IsFalse(_projectsPage.IsProjectLinkExist(_projectUniqueName),
 				"Произошла ошибка:\n не должно быть ссылки на проект {0}", _projectUniqueName);

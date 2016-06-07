@@ -102,7 +102,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, _document1)
-				.ClickDownloadInDocumentButton(_projectUniqueName, _document1)
+				.ClickDownloadInDocumentButton(_document1)
 				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsUpperNotificationContainsText(Path.GetFileName(_document1)),
@@ -289,7 +289,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				.ClickProjectCheckboxInList(projectUniqueName2)
 				.OpenProjectInfo(projectUniqueName2)
 				.HoverDocumentRow(projectUniqueName2, _document2)
-				.ClickDownloadInDocumentButton(projectUniqueName2, _document2)
+				.ClickDownloadInDocumentButton(_document2)
 				.ClickExportType(ExportType.Original);
 
 			Assert.IsTrue(_exportNotification.IsExportNotifiersCountMatchExpected(expectedCount: 3),
@@ -356,17 +356,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, _document1)
-				.ClickDocumentSettings(_projectUniqueName);
+				.ClickDocumentSettings(_projectUniqueName, _document1);
 
 			_documentSettingsDialog
 				.SetDocumentName(newDocumentName)
-				.ClickSaveButtonExpectingProjectsPage()
-				.WaitCreateProjectDialogDisappear();
+				.ClickSaveButtonExpectingProjectsPage();
 
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, newDocumentName)
-				.ClickDownloadInDocumentButton(_projectUniqueName, newDocumentName)
+				.ClickDownloadInDocumentButton(newDocumentName)
 				.ClickExportType(exportType);
 
 			Assert.IsTrue(_exportNotification.IsExportNotificationDisplayed(),

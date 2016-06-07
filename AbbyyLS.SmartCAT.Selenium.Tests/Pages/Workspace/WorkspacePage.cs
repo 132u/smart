@@ -19,6 +19,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.MachineTranslation;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.ProjectGroups;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Support;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Vendors;
@@ -414,6 +415,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		#region Составные методы
 
 		/// <summary>
+		/// Нажать зеленую кнопку создания проекта.
+		/// </summary>
+		public NewProjectDocumentUploadPage ClickGreenCreateProjectButton()
+		{
+			CustomTestContext.WriteLine("Нажать зеленую кнопку создания проекта.");
+			OpenHideMenuIfClosed();
+			GreenCreateProjectButton.Click();
+
+			return new NewProjectDocumentUploadPage(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Выйти из SmartCAT, закрыв alert
 		/// </summary>
 		public SignInPage SignOutExpectingAlert()
@@ -728,6 +741,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, что отображается зеленая кнопка 'Создать проект'
+		/// </summary>
+		public bool IsGreenCreateProjectButtonDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что отображается зеленая нопка 'Создать проект'.");
+			OpenHideMenuIfClosed();
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(GREEN_CREATE_PROJECT_BUTTON));
+		}
+
+		/// <summary>
 		/// Проверить, появилось ли сообщение об ограниченном доступе
 		/// </summary>
 		public bool IsLimitedAccessMessageDisplayed()
@@ -988,6 +1012,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		[FindsBy(How = How.XPath, Using = ACCESS_SETTINGS)]
 		protected IWebElement AccessSettings { get; set; }
 
+		[FindsBy(How = How.XPath, Using = GREEN_CREATE_PROJECT_BUTTON)]
+		protected IWebElement GreenCreateProjectButton { get; set; }
+
 		protected IWebElement AccountNameInList { get; set; }
 
 		protected IWebElement Notification { get; set; }
@@ -1044,6 +1071,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		protected const string SEND_AGAIN_BUTTON = "//div[@class='g-limited-access-msg']//a[text()='Send Again']";
 
 		protected const string PROJECT_LINK = "//a[text()='*#*']";
+
+		protected const string GREEN_CREATE_PROJECT_BUTTON = "//div[@class='g-page']//div[contains(@class, 'corprmenu')]//a[contains(@href, 'NewProject') and contains(@class, 'corprmenu__project-btn')]";
 
 		#endregion
 	}

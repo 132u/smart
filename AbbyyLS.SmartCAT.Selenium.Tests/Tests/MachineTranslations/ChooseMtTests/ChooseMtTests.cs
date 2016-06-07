@@ -14,9 +14,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.ChooseMTTest
 		[SetUp]
 		public void SetUp()
 		{
+			_document = PathProvider.DocumentFile;
+
 			_workspacePage.GoToProjectsPage();
 
-			_createProjectHelper.CreateNewProject(_projectUniqueName, new[] { PathProvider.DocumentFile });
+			_createProjectHelper.CreateNewProject(_projectUniqueName, new[] { _document });
 		}
 
 		[Test, Description("S-7270"), ShortCheckList]
@@ -24,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.ChooseMTTest
 		{
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentSettings(_projectUniqueName);
+				.ClickDocumentSettings(_projectUniqueName, _document);
 
 			Assert.IsFalse(_documentSettingsDialog.IsMachineTranslationSelected(MachineTranslationType.Google),
 				"Произошла ошибка:\n для документа уже включен МТ Google");
@@ -40,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.ChooseMTTest
 		{
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
 
-			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
+			var documentName = Path.GetFileNameWithoutExtension(_document);
 
 			_projectSettingsPage
 				.HoverDocumentRow(documentName)
@@ -54,5 +56,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.ChooseMTTest
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(MachineTranslationType.SmartCATTranslator),
 				"Произошла ошибка:\n для документа не подключился MT SmartCAT Translator");
 		}
+
+		private string _document;
 	}
 }

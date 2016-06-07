@@ -32,17 +32,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		}
 
 		/// <summary>
-		/// Нажать кнопку сохранения глоссария
-		/// </summary>
-		public NewProjectSelectGlossariesDialog ClickSaveButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку сохранения глоссария");
-			SaveButton.Click();
-
-			return new NewProjectSelectGlossariesDialog(Driver).LoadPage();
-		}
-
-		/// <summary>
 		/// Проверить, открылся ли диалог создания глоссария в процессе создания проекта
 		/// </summary>
 		public bool IsNewGlossaryDialogOpened()

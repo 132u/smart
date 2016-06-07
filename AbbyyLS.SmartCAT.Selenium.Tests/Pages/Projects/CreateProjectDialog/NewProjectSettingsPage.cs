@@ -784,6 +784,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return animationDuration.Equals("2.8s", StringComparison.OrdinalIgnoreCase) && animationName.Equals("pulse-btn", StringComparison.OrdinalIgnoreCase);
 		}
 
+		/// <summary>
+		/// Проверить, что ссылка 'Workflow' доступна.
+		/// </summary>
+		public bool IsWorkFlowLinkDisplayed()
+		{
+			CustomTestContext.WriteLine("Проверить, что ссылка 'Workflow' доступна.");
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(WORKFLOW_LINK));
+		}
+
 		#endregion
 
 		#region Объявление элементов страницы
@@ -951,6 +961,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected const string SOURCE_LANGUAGE_FIELD_NAME = "//div[@class='source_lang']/p";
 		protected const string TARGET_LANGUAGE_FIELD_NAME = "//div[@class='source_lang']//following-sibling::div/p";
+
+		protected const string WORKFLOW_LINK = "//ul[contains(@data-bind, 'steps')]//li[5]//span";
 
 		#endregion
 	}

@@ -75,7 +75,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, document)
-				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1)
+				.ClickDocumentSettings(_projectUniqueName, document)
 				.SelectMachineTranslation(machineTranslation);
 
 			_documentSettingsDialog.CloseDocumentSettings(_projectUniqueName);
@@ -113,7 +113,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
 				.HoverDocumentRow(_projectUniqueName, document)
-				.ClickDocumentSettings(_projectUniqueName, documentNumber: 1);
+				.ClickDocumentSettings(_projectUniqueName, document);
 
 			Assert.IsTrue(_documentSettingsDialog.IsMachineTranslationSelected(),
 				"Произошла ошибка:\nМашинный перевод не выбран ");
