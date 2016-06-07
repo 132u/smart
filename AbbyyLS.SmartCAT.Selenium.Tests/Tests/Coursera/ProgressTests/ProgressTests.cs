@@ -616,7 +616,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
 		}
 
-		private DeleteTranslationDialog _deleteTranslationDialog;
 		private string _translationText;
 	}
 }

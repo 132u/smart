@@ -19,20 +19,34 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			StartPage = StartPage.Coursera;
 		}
-		
-		[SetUp]
-		public void SetUp()
+
+		[OneTimeSetUp]
+		public void CourseraBaseTestsOneTimeSetUp()
 		{
+			_loginHelper = new LoginHelper(Driver);
+			_lectureTab = new LecturesTab(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
-			_leaderboardPage = new LeaderboardPage(Driver);
-			_coursesPage = new CoursesPage(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
+			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
+			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
+			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
+			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_header = new HeaderMenu(Driver);
+			_workspacePage = new WorkspacePage(Driver);
+			_lectureTab = new LecturesTab(Driver);
+			_deleteTranslationDialog = new DeleteTranslationDialog(Driver);
+			_coursesPage = new CoursesPage(Driver);
+			_leaderboardPage = new LeaderboardPage(Driver);
 			_coursePage = new CoursePage(Driver);
 			_editorPage = new EditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
-			_lecturesTab = new LecturesTab(Driver);
+		}
 
+		[SetUp]
+		public void SetUp()
+		{
 			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
 			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
 		}
@@ -82,5 +96,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 		protected ProjectsPage _projectsPage;
 		protected WorkspacePage _workspacePage;
+		protected DeleteTranslationDialog _deleteTranslationDialog;
 	}
 }
