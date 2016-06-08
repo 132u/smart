@@ -436,7 +436,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.ScrollAndClick();
+			TargetCell.JavaScriptClick();
 
 			return LoadPage();
 		}
@@ -458,7 +458,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="rowNumber">номер сегмента</param>
 		public EditorPage ClickOnSourceCellInSegment(int rowNumber = 1)
 		{
-			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
+			CustomTestContext.WriteLine("Кликнуть по сорсу сегмента {0}.", rowNumber);
 			SourceCell = Driver.SetDynamicValue(How.XPath, SOURCE_CELL, (rowNumber - 1).ToString());
 			SourceCell.JavaScriptClick();
 

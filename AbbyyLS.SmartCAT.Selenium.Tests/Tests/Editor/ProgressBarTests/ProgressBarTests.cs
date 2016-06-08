@@ -13,12 +13,14 @@ using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.ProgressBarTests
 {
+	[Parallelizable(ParallelScope.Fixtures)]
+	[Editor]
 	class ProgressBarTests<TWebDriverProvider> : BaseTest<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		public ProgressBarTests()
 		{
-			StartPage = StartPage.SignIn;
+			StartPage = StartPage.PersonalAccount;
 		}
 
 		[SetUp]
@@ -32,12 +34,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.ProgressBarTests
 
 			_document = PathProvider.ProgressBarTxtFile;
 			_documentName = Path.GetFileNameWithoutExtension(_document);
-
-			_loginHelper.LogInSmartCat(
-				ThreadUser.Login,
-				ThreadUser.NickName,
-				ThreadUser.Password,
-				LoginHelper.PersonalAccountName);
 
 			_firstSegment = "Один";
 
