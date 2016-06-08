@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog.AdvancedSettings;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 {
@@ -34,6 +35,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			SelectTmButton.JavaScriptClick();
 
 			return new TranslationMemoryAdvancedSettingsSection(Driver).LoadPage();
+		}
+
+		/// <summary>
+		/// Нажать на вкладку Pretranslation.
+		/// </summary>
+		public PretranslateSettingsSection ClickPretranslationTab()
+		{
+			CustomTestContext.WriteLine("Нажать на вкладку Pretranslation.");
+			PretranslationTab.Click();
+
+			return new PretranslateSettingsSection(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -88,6 +100,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = TRANSLATION_MEMORY_TAB)]
 		protected IWebElement TranslationMemoryTab { get; set; }
 
+		[FindsBy(How = How.XPath, Using = PRETRANSLATION_TAB)]
+		protected IWebElement PretranslationTab { get; set; }
+
 		[FindsBy(How = How.XPath, Using = GLOSSARIES_TAB)]
 		protected IWebElement GlossariesTab { get; set; }
 		
@@ -100,6 +115,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		#endregion
 
 		#region Описания XPath элементов
+
+		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
+		protected const string PRETRANSLATION_TAB = "//li[text()='Pretranslation']";
 		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string TRANSLATION_MEMORY_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[1]";
 		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[2]";

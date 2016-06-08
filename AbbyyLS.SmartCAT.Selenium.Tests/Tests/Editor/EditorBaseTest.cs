@@ -7,6 +7,7 @@ using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog.AdvancedSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings.SettingsDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
@@ -18,6 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
+			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_projectSettingsPage = new ProjectSettingsPage(Driver);
@@ -29,6 +31,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_workspacePage = new WorkspacePage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
 			_workflowSetUptab = new WorkflowSetUpTab(Driver);
+			_pretranslateSettingsSection = new PretranslateSettingsSection(Driver);
 		}
 
 		[SetUp]
@@ -60,6 +63,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		protected string _projectUniqueName;
 		protected WorkspacePage _workspacePage;
 		protected WorkflowSetUpTab _workflowSetUptab;
+		protected TaskAssignmentPage _taskAssignmentPage;
+		protected PretranslateSettingsSection _pretranslateSettingsSection;
+
 		protected string _document;
 	}
 }

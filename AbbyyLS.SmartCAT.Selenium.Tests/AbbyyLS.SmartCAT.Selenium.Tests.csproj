@@ -129,6 +129,7 @@
     <Compile Include="Pages\Projects\CancelledProjectsPage.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\AdvancedSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\GlossariesAdvancedSettingsSection.cs" />
+    <Compile Include="Pages\Projects\CreateProjectDialog\AdvancedSettings\PretranslateSettingsSection.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectEditGlossaryDialog.cs" />
     <Compile Include="Pages\Projects\CreateProjectDialog\NewProjectSettingsPage.cs" />
     <Compile Include="DataStructures\GlossaryCustomFieldType.cs" />
@@ -324,6 +325,11 @@
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileValidTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\EditorCommentsTests.cs" />
+    <Compile Include="Tests\Editor\PretranslateTests\MTPretranslateTests.cs" />
+    <Compile Include="Tests\Editor\PretranslateTests\PretranslateBaseTest.cs" />
+    <Compile Include="Tests\Editor\PretranslateTests\MixPretranslateTest.cs" />
+    <Compile Include="Tests\Editor\PretranslateTests\PretranslatePersonalAccountTests.cs" />
+    <Compile Include="Tests\Editor\PretranslateTests\TMPretranslateTests.cs" />
     <Compile Include="Tests\Editor\SegmentsPanelTests\FilterSegmentsTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\CatPanelTests\CatPanelResultTests.cs" />
     <Compile Include="Tests\Editor\SidePanelTests\SearchInDictionariesTests.cs" />

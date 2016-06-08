@@ -214,6 +214,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 				webElement.ScrollDown();
 				webElement.Click();
 			}
+			catch (TargetInvocationException)
+			{
+				webElement.ScrollDown();
+				webElement.Click();
+			}
 		}
 
 		/// <summary>

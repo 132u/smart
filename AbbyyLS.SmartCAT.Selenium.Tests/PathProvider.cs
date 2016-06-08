@@ -14,6 +14,50 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		#region Файлы для тестов редактора
 
 		/// <summary>
+		/// Полный путь к документу PretranslateEarth.docx для загрузки
+		/// </summary>
+		public static string PretranslateEarthFile
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(PretranslateFilesFolder, "PretranslateEarth.docx")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Полный путь к документу PretranslateEarthWithDigitals.docx для загрузки
+		/// </summary>
+		public static string  PretranslateEarthFileWithDigitals
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(PretranslateFilesFolder, "PretranslateEarthWithDigitals.docx")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Полный путь к документу PretranslateEarth1.tmx для загрузки
+		/// </summary>
+		public static string PretranslateEarthTmxFile1
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(PretranslateFilesFolder, "PretranslateEarth1.tmx")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Полный путь к документу PretranslateEarth2.tmx для загрузки
+		/// </summary>
+		public static string PretranslateEarthTmxFile2
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(PretranslateFilesFolder, "PretranslateEarth2.tmx")).LocalPath);
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу для проверки фильтров
 		/// </summary>
 		public static string EditorFilterFile
@@ -164,6 +208,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			get
 			{
 				return new Uri(Path.Combine(FilesDirectory, "Editor")).LocalPath;
+			}
+		}
+
+
+		/// <summary>
+		/// Путь к папке файлов для тестирования редактора
+		/// </summary>
+		private static string PretranslateFilesFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "FilesPretranslateTest")).LocalPath;
 			}
 		}
 

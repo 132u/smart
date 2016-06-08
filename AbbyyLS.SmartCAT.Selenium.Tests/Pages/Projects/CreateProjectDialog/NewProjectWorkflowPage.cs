@@ -111,61 +111,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return LoadPage();
 		}
 
-		/// <summary>
-		/// Кликнуть на кнопку претранслейта.
-		/// </summary>
-		public NewProjectWorkflowPage ClickPretranslateButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть на кнопку претранслейта.");
-			PreTranslateButton.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть на кнопку памяти переводов.
-		/// </summary>
-		public NewProjectWorkflowPage ClickTmButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть на кнопку памяти переводов.");
-			TmButton.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть на кнопку 'Оригинал(только цифры)'.
-		/// </summary>
-		public NewProjectWorkflowPage ClickSourceButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть на кнопку 'Оригинал(только цифры)'.");
-			SourceButton.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть на кнопку 'Машинный перевод'.
-		/// </summary>
-		public NewProjectWorkflowPage ClickMachineTranslationButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть на кнопку 'Машинный перевод'.");
-			MachineTranslationButton.Click();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Кликнуть на кнопку 'Добавить правило'.
-		/// </summary>
-		public NewProjectWorkflowPage ClickAddRulleButton()
-		{
-			CustomTestContext.WriteLine("Кликнуть на кнопку 'Добавить правило'.");
-			AddRulleButton.ScrollAndClick();
-
-			return LoadPage();
-		}
-
 		#endregion
 
 		#region Составные методы страницы
@@ -183,39 +128,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 			return LoadPage();
 		}
 
-		/// <summary>
-		/// Задать правило претраслейта.
-		/// </summary>
-		/// <param name="rulles">тип претранслейта</param>
-		public NewProjectWorkflowPage SetTranslationsRulles(PreTranslateRulles rulles)
-		{
-			CustomTestContext.WriteLine("Задать правило претраслейта.");
-			ClickPretranslateButton();
-
-			switch (rulles)
-			{
-				case PreTranslateRulles.MT:
-					ClickMachineTranslationButton();
-					break;
-
-				case PreTranslateRulles.TM:
-					ClickTmButton();
-					break;
-
-				case PreTranslateRulles.SRC:
-					ClickSourceButton();
-					break;
-
-				default:
-					throw new Exception("Передан неизвестный параметр для назначения правила претранслейта: " + rulles.Description());
-			}
-
-			ClickAddRulleButton();
-
-			return LoadPage();
-		}
-
-		#endregion
+		#endregion 
 
 		#region Методы, проверяющие состояние страницы
 
@@ -293,20 +206,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		[FindsBy(How = How.XPath, Using = CLEAR_BUTTON)]
 		protected IWebElement ClearButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = PRETRANSLATE_BUTTON)]
-		protected IWebElement PreTranslateButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = TM_BUTTON)]
-		protected IWebElement TmButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = SOURCE_BUTTON)]
-		protected IWebElement SourceButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = MACHINE_TRANSLATION_BUTTON)]
-		protected IWebElement MachineTranslationButton { get; set; }
-
-		[FindsBy(How = How.XPath, Using = ADD_RULLE_BUTTON)]
-		protected IWebElement AddRulleButton { get; set; }
 
 		protected IWebElement WorkflowTaskTypeItem { get; set; }
 
@@ -326,12 +225,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		protected const string CLEAR_BUTTON = "//a[contains(@data-bind,'clearTasks')]";
 		protected const string DELETE_TASK_BUTTON = "//td[@class='task-num'][text()='*#*']//following-sibling::td//i[contains(@class,'remove')]";
 		protected const string EMPTY_WORKFLOW_ERROR = "//div[contains(text(), 'Add at least one task to complete project creation.')]";
-		protected const string PRETRANSLATE_BUTTON = "//div[contains(@class, 'main-panel-content')]//span[contains(@class, 'mdl-switch__ripple-container')]";
-		protected const string TM_BUTTON = "//div[contains(@class, 'item-title')]//a[contains(text(), 'Translation Memory')]";
-		protected const string ADD_RULLE_BUTTON = "//div[contains(@class, 'add-btn')]//a[contains(text(), 'Add Rule')]";
-		protected const string SOURCE_BUTTON = "//div[contains(@class, 'item-title')]//a[contains(text(), 'Source (Numbers Only)')]";
-		protected const string MACHINE_TRANSLATION_BUTTON = "//div[contains(@class, 'item-title')]//a[contains(text(), 'Machine Translation')]";
-
+	
 		#endregion
 	}
 }

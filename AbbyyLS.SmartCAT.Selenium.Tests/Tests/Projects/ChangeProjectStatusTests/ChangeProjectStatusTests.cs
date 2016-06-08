@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System.Collections.Generic;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -130,8 +132,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				_projectUniqueName,
 				new[] { document },
 				tmxFilesPaths: new[] { tmx },
-				rulle: PreTranslateRulles.TM);
-
+				rules: new List<KeyValuePair<PreTranslateRulles, WorkflowTask?>>
+					{ new KeyValuePair<PreTranslateRulles, WorkflowTask?> (PreTranslateRulles.TM, null )});
 			_projectsPage.RefreshPage<ProjectsPage>();
 
 			Assert.AreEqual(_projectsPage.GetProjectStatus(_projectUniqueName), ProjectStatus.Pretranslated.Description(),

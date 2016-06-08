@@ -1018,6 +1018,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Получить тип подстановки
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public string GetInsertResource(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Получить тип подстановки сегмента {0}", segmentNumber);
+			InsertResource = Driver.SetDynamicValue(How.XPath, INSERT_RESOURCE, segmentNumber.ToString());
+
+			return InsertResource.Text.Substring(0, 2);
+		}
+
+		/// <summary>
 		/// Выделить первое слово в сегменте
 		/// </summary>
 		/// <param name="rowNumber">номер строки</param>
@@ -2866,7 +2878,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement Type { get; set; }
 		protected IWebElement QAError { get; set; }
 		protected IWebElement DictionariesSearchResults { get; set; }
-
+		protected IWebElement InsertResource { get; set; }
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -3014,7 +3026,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SIDE_PANEL_DICTIONARIES_TRANSLATION_DIRECTION = "//div[@id='lingvo-search-innerCt']//label[@data-ref='boxLabelEl']";
 
 		protected const string SEARCH_IN_LINGVO_DICTIONARIES = "//a[@id='lingvo-lookup-btn']";
-
+		protected const string INSERT_RESOURCE = "//table[*#*]//div[@class='insert-resource']";
 		#endregion
 	}
 }

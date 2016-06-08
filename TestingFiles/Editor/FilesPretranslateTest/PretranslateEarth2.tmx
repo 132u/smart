@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.51.1.29" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="en-US" datatype="plaintext" />
+  <body>
+    <tu creationdate="20160525T093128Z" changedate="20160525T093128Z">
+      <tuv xml:lang="en-US">
+        <prop type="x-context-pre">&lt;seg&gt;Earth is the third planet from the Sun, and the densest and fifth-largest of the eight planets in the Solar System.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;It is sometimes referred to as the world, the Blue Planet, or by its Latin name, Terra.&lt;/seg&gt;</prop>
+        <seg>It is also the largest of the Solar System's four <bpt i="0" type="structure-only" x="0" />terrestrial planets<ept i="0" />.</seg>
+      </tuv>
+      <tuv xml:lang="ru-RU">
+        <seg>Она является также крупнейшей среди планет <bpt i="0" type="structure-only" x="0" />земной группы.<ept i="0" /></seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20160525T093609Z" changedate="20160525T093609Z">
+      <tuv xml:lang="en-US">
+        <prop type="x-context-pre">&lt;seg&gt;It is also the largest of the Solar System's four terrestrial planets.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Earth formed approximately 4.54 billion years ago, and life appeared on its surface within one billion years.&lt;/seg&gt;</prop>
+        <seg>It is sometimes referred to as the <bpt i="0" type="structure-only" x="0" />world<ept i="0" />, the Blue Planet, or by its Latin name, <bpt i="2" type="structure-only" x="1" />Terra<ept i="2" />.</seg>
+      </tuv>
+      <tuv xml:lang="ru-RU">
+        <seg>Иногда упоминается как <bpt i="0" type="structure-only" x="0" />мир<ept i="0" />, Голубая Планета, или Латинское имя - <bpt i="2" type="structure-only" x="1" />Терра<ept i="2" />.</seg>
+      </tuv>
+    </tu>
+   </body>
+</tmx>
