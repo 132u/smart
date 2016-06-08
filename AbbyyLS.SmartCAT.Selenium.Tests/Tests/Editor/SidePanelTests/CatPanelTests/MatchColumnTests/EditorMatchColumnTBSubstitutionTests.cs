@@ -52,8 +52,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 
 			_addTermDialog.AddNewTerm(sourceTerm, "термин глоссария");
 		}
-
-		[Ignore("PRX-17035")]
+		
 		[Test, Description("S-7220"), ShortCheckList]
 		public void CheckMatchAfterGlossarySubstitutionByDoubleClick()
 		{
@@ -62,8 +61,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			Assert.IsTrue(_editorPage.IsMatchColumnCatTypeMatch(catType: CatType.TB),
 				"Произошла ошибка:\n тип подстановки в колонке Match Column не совпал с типом перевода {0}.", CatType.TB);
 		}
-
-		[Ignore("PRX-17035")]
+		
 		[Test, Description("S-29713"), ShortCheckList]
 		public void CheckMatchAfterGlossarySubstitutionByHotkey()
 		{
