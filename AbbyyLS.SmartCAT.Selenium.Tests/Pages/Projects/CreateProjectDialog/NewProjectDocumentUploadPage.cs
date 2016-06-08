@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 		{
 			CustomTestContext.WriteLine("Нажать на кнопку 'Settings' на странице загрузки документа");
 			Driver.WaitUntilElementIsDisplay(By.XPath(SETTINGS_BUTTON));
-			SettingsButton.Click();
+			SettingsButton.ScrollAndClickViaElementBlock();
 
 			return new NewProjectSettingsPage(Driver).LoadPage();
 		}

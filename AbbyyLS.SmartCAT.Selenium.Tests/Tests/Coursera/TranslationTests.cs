@@ -3,67 +3,15 @@
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
+using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
 	[Parallelizable(ParallelScope.Fixtures)]
+	[Coursera]
 	class TranslationTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[OneTimeSetUp]
-		public void TranslationTestsOneTimeSetUp()
-		{
-			_courseNameForTranslationTest = "TranslationTestCourseName" + DateTime.UtcNow.Ticks;
-
-			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
-
-			_courseraHomePage.GetPage();
-
-			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
-
-			_courseraHomePage.ClickWorkspaceButtonWithoutWaiting();
-
-			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
-			{
-				_projectsPage.ClickCreateProjectButton();
-			}
-
-			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
-
-			_newProjectSettingsPage
-				.FillGeneralProjectInformation(_courseNameForTranslationTest)
-				.ClickNextButton();
-
-			_newProjectWorkflowPage
-				.ClickClearButton()
-				.ClickNewTaskButton(WorkflowTask.CrowdTranslation)
-				.ClickNewTaskButton(WorkflowTask.CrowdReview)
-				.ClickCreateProjectButton();
-
-			Assert.IsTrue(_projectsPage.IsProjectExist(_courseNameForTranslationTest), "Произошла ошибка:\n Не найден проект проект '{0}'.", _courseNameForTranslationTest);
-
-			_projectsPage.OpenProjectSettingsPage(_courseNameForTranslationTest);
-
-			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesForProgressTestsCourseraProject());
-
-			_workspacePage
-				.ClickAccount()
-				.ClickSignOutExpectingCourseraHomePage();
-
-			ReturnUser(ConfigurationManager.CourseraReviewerUsers, CourseraReviewerUser);
-		}
-		
-		[SetUp]
-		public void TranslationTestsSetUp()
-		{
-			_translationText = "Test" + Guid.NewGuid();
-
-			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-
-			_courseraHomePage.ClickProfile();
-		}
-
 		[Test]
 		public void AddTranslationNoTranslationsTests()
 		{
@@ -72,11 +20,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 		
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -94,11 +42,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 		
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -108,11 +56,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(translationText2);
 
@@ -132,11 +80,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 		
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -152,11 +100,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(translationText2);
 
@@ -173,11 +121,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -187,11 +135,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 	
 			_editorPage
 				.ClickOnTargetCellInSegment()
@@ -214,11 +162,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -228,11 +176,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -250,11 +198,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -264,11 +212,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_header.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseNameForTranslationTest);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture2);
+			_lecturesTab.OpenLecture(lecture2);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -278,7 +226,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Количество переведенных предложений не увеличилось.");
 		}
 
-		private string _courseNameForTranslationTest;
-		private string _translationText;
+		private string _courseraProject;
 	}
 }

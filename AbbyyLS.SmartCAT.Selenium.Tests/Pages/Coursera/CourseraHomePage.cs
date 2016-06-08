@@ -6,7 +6,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.TestFramework;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 {
@@ -62,23 +62,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		}
 
 		/// <summary>
-		/// Нажать кнопку Workspace.
-		/// </summary>
-		public ProjectsPage ClickWorkspaceButton()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку Workspace.");
-			WorkspaceButton.Click();
-
-			return new ProjectsPage(Driver).LoadPage();
-		}
-
-		/// <summary>
 		/// Нажать кнопку Workspace без ожидания открытия страницы
 		/// </summary>
-		public void ClickWorkspaceButtonWithoutWaiting()
+		public WorkspacePage ClickWorkspaceButton()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Workspace без ожидания открытия страницы");
 			WorkspaceButton.Click();
+
+			return new WorkspacePage(Driver).LoadPage();
 		}
 
 		/// <summary>

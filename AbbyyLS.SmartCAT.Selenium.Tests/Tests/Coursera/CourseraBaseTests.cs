@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -21,10 +23,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		}
 
 		[OneTimeSetUp]
-		public void CourseraBaseTestsOneTimeSetUp()
+		public virtual void OneTimeSetUp()
 		{
+			_createProjectHelper = new CreateProjectHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_lectureTab = new LecturesTab(Driver);
+			_lecturesTab = new LecturesTab(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
@@ -40,14 +43,39 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editorPage = new EditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
-			_lecturesTab = new LecturesTab(Driver);
+
+			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
+
+			_courseraProject = "Coursera" + Guid.NewGuid();
+
+			_courseraHomePage.GetPage();
+
+			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
+
+			_courseraHomePage.ClickWorkspaceButton();
+
+			_createProjectHelper.CreateNewProject(
+				projectName: _courseraProject,
+				filesPaths: PathProvider.GetFilesForProgressTestsCourseraProject(),
+				tasks: new[] { WorkflowTask.CrowdTranslation, WorkflowTask.CrowdReview });
+
+			_workspacePage
+				.ClickAccount()
+				.ClickSignOutExpectingCourseraHomePage();
+
+			ReturnUser(ConfigurationManager.CourseraReviewerUsers, CourseraReviewerUser);
 		}
 
 		[SetUp]
-		public void SetUp()
+		public virtual void SetUp()
 		{
+			_translationText = "Test" + Guid.NewGuid();
+
 			CourseraCrowdsourceUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
-			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
+
+			_courseraHomePage.GetPage();
+
+			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
 		}
 
 		[TearDown]
@@ -73,7 +101,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				ReturnUser(ConfigurationManager.CourseraCrowdsourceUsers, _secondUser);
 			}
 		}
-		
+
+		protected string _translationText;
+		protected string _courseraProject;
+
 		protected EditorPage _editorPage;
 		protected HeaderMenu _header;
 		protected UserProfilePage _profilePage;
@@ -84,11 +115,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected EditProfileDialog _editProfileDialog;
 		protected TestUser _secondUser;
 		protected TestUser _thirdUser;
-		protected LecturesTab _lecturesTab;
 		protected ProjectSettingsHelper _projectSettingsHelper;
-		protected string _courseNameForCompleteCourseTest;
-		protected string _courseraNameProgressTests;
-		protected LecturesTab _lectureTab;
+		protected LecturesTab _lecturesTab;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
 		protected CreateProjectHelper _createProjectHelper;

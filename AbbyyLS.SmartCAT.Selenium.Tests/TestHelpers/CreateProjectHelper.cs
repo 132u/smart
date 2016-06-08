@@ -46,15 +46,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 			bool useDefaultFreeOrPaidMT = true,
 			bool usePaidMT = false)
 		{
-			if (useGreenCreateProjectButton)
+			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
 			{
-				_projectsPage.ClickGreenCreateProjectButton();
+				if (useGreenCreateProjectButton)
+				{
+					_projectsPage.ClickGreenCreateProjectButton();
+				}
+				else
+				{
+					_projectsPage.ClickCreateProjectButton();
+				}
 			}
-			else
-			{
-				_projectsPage.ClickCreateProjectButton();
-			}
-
+			
 			if (filesPaths == null && tmxFilesPaths == null)
 			{
 				_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
@@ -156,9 +159,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers
 		{
 			return "Test Project" + "-" + Guid.NewGuid();
 		}
-
-		public const string CourseraProjectName = "Communication Science";
-
+		
 		private readonly ProjectsPage _projectsPage;
 
 		private readonly NewProjectDocumentUploadPage _newProjectDocumentUploadPage;

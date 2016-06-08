@@ -2,16 +2,16 @@
 
 using NUnit.Framework;
 
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
@@ -21,79 +21,48 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[OneTimeSetUp]
-		public void CourseraBaseTestsOneTimeSetUp()
+		public override void OneTimeSetUp()
 		{
+			_completeCourseraProject = "CourseraProject" + Guid.NewGuid();
+			_progressCourseraProject = "CourseraProject" + Guid.NewGuid();
+
+			_createProjectHelper = new CreateProjectHelper(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_lectureTab = new LecturesTab(Driver);
+			_lecturesTab = new LecturesTab(Driver);
 			_courseraHomePage = new CourseraHomePage(Driver);
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_newProjectDocumentUploadPage = new NewProjectDocumentUploadPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_header = new HeaderMenu(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-			_lectureTab = new LecturesTab(Driver);
+			_lecturesTab = new LecturesTab(Driver);
 			_deleteTranslationDialog = new DeleteTranslationDialog(Driver);
+			_coursesPage = new CoursesPage(Driver);
+			_leaderboardPage = new LeaderboardPage(Driver);
+			_coursePage = new CoursePage(Driver);
+			_editorPage = new EditorPage(Driver);
+			_profilePage = new UserProfilePage(Driver);
+			_editProfileDialog = new EditProfileDialog(Driver);
 
 			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
-
+			
 			_courseraHomePage.GetPage();
 
 			_loginHelper.LogInCoursera(CourseraReviewerUser.Login, CourseraReviewerUser.Password);
 
-			_courseNameForCompleteCourseTest = "CompleteCourseName" + DateTime.UtcNow.Ticks;
+			_courseraHomePage.ClickWorkspaceButton();
 
-			_courseraHomePage.ClickWorkspaceButtonWithoutWaiting();
-
-			if (!_newProjectDocumentUploadPage.IsNewProjectDocumentUploadPageOpened())
-			{
-				_projectsPage.ClickCreateProjectButton();
-			}
-
-			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
-
-			_newProjectSettingsPage
-				.FillGeneralProjectInformation(_courseNameForCompleteCourseTest)
-				.ClickNextButton();
-
-			_newProjectWorkflowPage
-				.ClickClearButton()
-				.ClickNewTaskButton(WorkflowTask.CrowdTranslation)
-				.ClickNewTaskButton(WorkflowTask.CrowdReview)
-				.ClickCreateProjectButton();
-
-			Assert.IsTrue(_projectsPage.IsProjectExist(_courseNameForCompleteCourseTest), "Произошла ошибка:\n Не найден проект '{0}'.", _courseNameForCompleteCourseTest);
-
-			_projectsPage.OpenProjectSettingsPage(_courseNameForCompleteCourseTest);
-
-			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesForCompleteProgressTestsCourseraProject());
-
-			_courseraNameProgressTests = "ProgressCourseName" + DateTime.UtcNow.Ticks;
-
-			_workspacePage.GoToProjectsPage();
-
-			_projectsPage.ClickCreateProjectButton();
-
-			_newProjectDocumentUploadPage.ClickSkipDocumentUploadButton();
-
-			_newProjectSettingsPage
-				.FillGeneralProjectInformation(_courseraNameProgressTests)
-				.ClickNextButton();
-
-			_newProjectWorkflowPage
-				.ClickClearButton()
-				.ClickNewTaskButton(WorkflowTask.CrowdTranslation)
-				.ClickNewTaskButton(WorkflowTask.CrowdReview)
-				.ClickCreateProjectButton();
-
-			Assert.IsTrue(_projectsPage.IsProjectExist(_courseraNameProgressTests),
-				"Произошла ошибка: \nне найден проект '{0}'.", _courseraNameProgressTests);
-
-			_projectsPage.OpenProjectSettingsPage(_courseraNameProgressTests);
-
-			_projectSettingsHelper.UploadDocument(PathProvider.GetFilesForProgressTestsCourseraProject());
+			_createProjectHelper.CreateNewProject(
+				projectName: _completeCourseraProject,
+				filesPaths: PathProvider.GetFilesForCompleteProgressTestsCourseraProject(),
+				tasks: new[] { WorkflowTask.CrowdTranslation, WorkflowTask.CrowdReview });
+			
+			_createProjectHelper.CreateNewProject(
+				projectName: _progressCourseraProject,
+				filesPaths: PathProvider.GetFilesForProgressTestsCourseraProject(),
+				tasks: new[] { WorkflowTask.CrowdTranslation, WorkflowTask.CrowdReview });
 
 			_workspacePage
 				.ClickAccount()
@@ -101,15 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			ReturnUser(ConfigurationManager.CourseraReviewerUsers, CourseraReviewerUser);
 		}
-
-		[SetUp]
-		public void ProgressTestsSetUp()
-		{
-			_translationText = "Test" + Guid.NewGuid();
-			
-			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-		}
-
+		
 		[Test]
 		public void LectureCommonAndPersonalProgressTest()
 		{
@@ -117,30 +78,30 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение персонального поргресс бара для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего поргресс бара для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText, rowNumber: 2);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(3, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(3, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение персонального поргресс бара для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(3, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(3, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего поргресс бара для лекции '{0}'.", lecture);
 		}
 
@@ -153,9 +114,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 			
@@ -165,24 +126,24 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(0, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(0, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(0, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(0, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 		}
 
@@ -193,21 +154,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(1, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(1, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(1, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(1, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ClickOnTargetCellInSegment()
@@ -217,12 +178,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(0, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(0, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(0, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(0, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 		}
 		
@@ -236,9 +197,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 			
@@ -250,18 +211,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_profilePage.GoToCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText2);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ClickOnTargetCellInSegment(rowNumber: 1)
@@ -271,12 +232,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			Assert.AreEqual(0, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(0, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 		}
 
@@ -288,9 +249,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -310,9 +271,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
@@ -333,15 +294,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage.AddTranslationForCourseraProgress(_translationText);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(3, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(3, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 
 			_header
@@ -353,10 +314,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_profilePage.GoToCoursesPage();
 
 			_coursesPage
-				.ClickCourse(_courseraNameProgressTests)
+				.ClickCourse(_progressCourseraProject)
 				.ClickLectureTab();
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
@@ -370,10 +331,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_coursesPage
 				.GoToCoursesPage()
-				.ClickCourse(_courseraNameProgressTests)
+				.ClickCourse(_progressCourseraProject)
 				.ClickLectureTab();
 
-			Assert.AreEqual(3, _lectureTab.GetPersonalProgressValuebyLectureName(lecture),
+			Assert.AreEqual(3, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture);
 		}
 
@@ -386,9 +347,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.FillTarget(_translationText)
@@ -403,12 +364,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.FillTarget(_translationText + "secondUser")
@@ -417,9 +378,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 		}
 
@@ -435,9 +396,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.FillTarget(_translationText)
@@ -446,9 +407,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ConfirmSegmentTranslation()
 				.AddTranslationForCourseraProgress(thirdTranslationVersion);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ClickOnTargetCellInSegment()
@@ -457,9 +418,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
 			_header
@@ -470,9 +431,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 					
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ClickOnTargetCellInSegment()
@@ -481,9 +442,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
 			_header
@@ -494,9 +455,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
@@ -505,10 +466,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 			
 			_coursesPage
-				.ClickCourse(_courseraNameProgressTests)
+				.ClickCourse(_progressCourseraProject)
 				.ClickLectureTab();
 
-			Assert.AreEqual(2, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(2, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 		}
 
@@ -521,9 +482,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 			
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.FillTarget(_translationText)
@@ -532,12 +493,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ConfirmSegmentTranslation()
 				.AddTranslationForCourseraProgress(thirdTranslationVersion);
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(6, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(6, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 
-			_lectureTab.OpenLecture(lecture);
+			_lecturesTab.OpenLecture(lecture);
 
 			_editorPage
 				.ClickOnTargetCellInSegment()
@@ -546,9 +507,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
-			_coursesPage.ClickCourse(_courseraNameProgressTests);
+			_coursesPage.ClickCourse(_progressCourseraProject);
 
-			Assert.AreEqual(6, _lectureTab.GetCommonProgressValueByLectureName(lecture),
+			Assert.AreEqual(6, _lecturesTab.GetCommonProgressValueByLectureName(lecture),
 				"Произошла ошибка:\n Общий прогресс не уменьшился.");
 		}
 
@@ -559,39 +520,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			var lecture2 = "1.2 What is communication";
 			var translationText = "Test" + Guid.NewGuid();
 
-			var courseProgress = _coursesPage.GetCourseProgress(_courseNameForCompleteCourseTest);
+			var courseProgress = _coursesPage.GetCourseProgress(_completeCourseraProject);
 
 			_courseraHomePage.ClickSelectCourse();
 
 			_coursesPage
-				.WaitCourseNameDisplayed(_courseNameForCompleteCourseTest)
-				.ClickCourse(_courseNameForCompleteCourseTest);
+				.WaitCourseNameDisplayed(_completeCourseraProject)
+				.ClickCourse(_completeCourseraProject);
 
-			_lectureTab.OpenLecture(lecture1);
-
-			_editorPage
-				.FillSegmentTargetField(translationText, rowNumber: 1)
-				.ConfirmSegmentTranslation()
-				.FillSegmentTargetField(translationText, rowNumber: 2)
-				.ConfirmSegmentTranslation()
-				.AddTranslationForCourseraProgress(translationText, rowNumber: 3);
-
-			_coursesPage.WaitCourseProgressChanged(_courseNameForCompleteCourseTest, courseProgress);
-
-			Assert.AreEqual(58.3, _coursesPage.GetCourseProgress(_courseNameForCompleteCourseTest),
-				"Произошла ошибка:\n Неверное значение прогресса курса {0}.", _courseNameForCompleteCourseTest);
-
-			_coursesPage
-				.ClickCourse(_courseNameForCompleteCourseTest)
-				.ClickLectureTab();
-
-			Assert.AreEqual(100, _lectureTab.GetPersonalProgressValuebyLectureName(lecture1),
-				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
-
-			Assert.AreEqual(100, _lectureTab.GetCommonProgressValueByLectureName(lecture1),
-				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
-
-			_lectureTab.OpenLecture(lecture2);
+			_lecturesTab.OpenLecture(lecture1);
 
 			_editorPage
 				.FillSegmentTargetField(translationText, rowNumber: 1)
@@ -600,22 +537,47 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				.ConfirmSegmentTranslation()
 				.AddTranslationForCourseraProgress(translationText, rowNumber: 3);
 
-			_coursesPage.WaitCourseProgressChanged(_courseNameForCompleteCourseTest, 58.3);
+			_coursesPage.WaitCourseProgressChanged(_completeCourseraProject, courseProgress);
 
-			Assert.AreEqual(100.0, _coursesPage.GetCourseProgress(_courseNameForCompleteCourseTest),
-				"Произошла ошибка:\n Неверное значение прогресса курса {0}.", _courseNameForCompleteCourseTest);
+			Assert.AreEqual(58.3, _coursesPage.GetCourseProgress(_completeCourseraProject),
+				"Произошла ошибка:\n Неверное значение прогресса курса {0}.", _completeCourseraProject);
 
 			_coursesPage
-				.ClickCourse(_courseNameForCompleteCourseTest)
+				.ClickCourse(_completeCourseraProject)
 				.ClickLectureTab();
 
-			Assert.AreEqual(100, _lectureTab.GetPersonalProgressValuebyLectureName(lecture2),
+			Assert.AreEqual(100, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture1),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
 
-			Assert.AreEqual(100, _lectureTab.GetCommonProgressValueByLectureName(lecture2),
+			Assert.AreEqual(100, _lecturesTab.GetCommonProgressValueByLectureName(lecture1),
+				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
+
+			_lecturesTab.OpenLecture(lecture2);
+
+			_editorPage
+				.FillSegmentTargetField(translationText, rowNumber: 1)
+				.ConfirmSegmentTranslation()
+				.FillSegmentTargetField(translationText, rowNumber: 2)
+				.ConfirmSegmentTranslation()
+				.AddTranslationForCourseraProgress(translationText, rowNumber: 3);
+
+			_coursesPage.WaitCourseProgressChanged(_completeCourseraProject, 58.3);
+
+			Assert.AreEqual(100.0, _coursesPage.GetCourseProgress(_completeCourseraProject),
+				"Произошла ошибка:\n Неверное значение прогресса курса {0}.", _completeCourseraProject);
+
+			_coursesPage
+				.ClickCourse(_completeCourseraProject)
+				.ClickLectureTab();
+
+			Assert.AreEqual(100, _lecturesTab.GetPersonalProgressValuebyLectureName(lecture2),
+				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
+
+			Assert.AreEqual(100, _lecturesTab.GetCommonProgressValueByLectureName(lecture2),
 				"Произошла ошибка:\n Неверное значение личного прогресса для лекции '{0}'.", lecture1);
 		}
 
-		private string _translationText;
+		private string _completeCourseraProject;
+		private string _progressCourseraProject;
 	}
 }

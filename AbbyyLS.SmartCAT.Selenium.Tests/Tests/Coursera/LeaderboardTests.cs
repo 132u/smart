@@ -2,7 +2,6 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
-using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 {
@@ -14,17 +13,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[SetUp]
 		public void LeaderboardTestsSetUp()
 		{
-			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-
 			_courseraHomePage.ClickSelectCourse();
 
-			_coursesPage.ClickCourse(CreateProjectHelper.CourseraProjectName);
+			_coursesPage.ClickCourse(_courseraProject);
 
 			_coursePage.ClickLectureTab();
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage.FillTarget("coursera test")
+			_editorPage
+				.FillTarget(_translationText)
 				.ConfirmSegmentTranslation()
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
@@ -68,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		public void CourseLeaderboardTest()
 		{
 			_header.GoToLeaderboardPage();
-			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
+			_leaderboardPage.SelectCourse(_courseraProject);
 
 			Assert.IsTrue(_leaderboardPage.IsUserNameDisplayed(CourseraCrowdsourceUser.NickName),
 				"Произошла ошибка:\nПользователя нет в списке лидеров.");
@@ -79,12 +77,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			var commonRating = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
-			_leaderboardPage.SelectCourse(CreateProjectHelper.CourseraProjectName);
+			_leaderboardPage.SelectCourse(_courseraProject);
 
 			var courseRating = _leaderboardPage.GetUserLeaderboardRating(CourseraCrowdsourceUser.NickName);
 
 			Assert.Less(courseRating, commonRating,
 				"Произошла ошибка:\nОбщий рейтинг меньше рейтинга курса.");
 		}
+
+		private string _courseraProject;
 	}
 }

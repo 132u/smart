@@ -13,7 +13,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[Test]
 		public void CreateGlossaryInWizardTest()
 		{
-			var projectUniqueName = CreateProjectHelper.CourseraProjectName;
+			var projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 			var document = PathProvider.DocumentFile;
 
 			_workspacePage.GoToProjectsPage();
