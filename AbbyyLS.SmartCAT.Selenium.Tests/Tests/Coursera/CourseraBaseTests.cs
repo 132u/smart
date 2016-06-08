@@ -31,10 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_header = new HeaderMenu(Driver);
 			_workspacePage = new WorkspacePage(Driver);
-			_lectureTab = new LecturesTab(Driver);
 			_deleteTranslationDialog = new DeleteTranslationDialog(Driver);
 			_coursesPage = new CoursesPage(Driver);
 			_leaderboardPage = new LeaderboardPage(Driver);
@@ -42,6 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_editorPage = new EditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
+			_lecturesTab = new LecturesTab(Driver);
 		}
 
 		[SetUp]
