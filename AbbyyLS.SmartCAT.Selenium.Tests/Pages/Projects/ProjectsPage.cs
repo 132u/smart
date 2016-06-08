@@ -174,7 +174,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Нажать на кнопку прав пользователя в свертке документа {0}", documentName);
-			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentName);
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, documentName);
 			DocumentTaskAssignButton.Click();
 
 			Driver.SwitchToNewBrowserTab();
@@ -545,7 +545,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		public TaskAssignmentPage OpenAssignDialog(string projectName, string documentPath)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
-			CustomTestContext.WriteLine("Открыть диалог назначения задачи для документа {0}.", documentName);
+
 			OpenProjectInfo(projectName);
 			HoverDocumentRow(projectName, documentName);
 			
@@ -655,7 +655,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Проверить, что кнопка Assign Task не активна на вкладке документа {0}.", documentName);
-			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, projectName, documentName);
+			DocumentTaskAssignButton = Driver.SetDynamicValue(How.XPath, DOCUMENT_TASK_ASSIGN_BUTTON, documentName);
 
 			return DocumentTaskAssignButton.GetAttribute("class").Contains("disable");
 		}
@@ -670,7 +670,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Проверить, что кнопка Assign Task видна для документа {0} в проекте {1}.", documentName, projectName);
 
-			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_TASK_ASSIGN_BUTTON.Replace("*#*", projectName).Replace("*##*", documentName)));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(DOCUMENT_TASK_ASSIGN_BUTTON.Replace("*#*", documentName)));
 		}
 
 		/// <summary>
