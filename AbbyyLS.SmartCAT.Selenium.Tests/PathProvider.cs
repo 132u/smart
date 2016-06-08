@@ -113,13 +113,57 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
-		/// Путь к тестовому файлу txt
+		/// Путь к тестовому файлу EditorTxtFile.txt
 		/// </summary>
 		public static string EditorTxtFile
 		{
 			get
 			{
 				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile.txt")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу EditorTxtFile2.txt
+		/// </summary>
+		public static string EditorTxtFile2
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile2.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу EditorTxtFile2.txt
+		/// </summary>
+		public static string EditorTxtDublicateFile2
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorDublicateFilesFolder, "EditorTxtFile2.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу EditorTxtFile3.txt
+		/// </summary>
+		public static string EditorTxtDublicateFile3
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "EditorTxtFile3.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу EditorTxtFile.txt (дубликат)
+		/// </summary>
+		public static string EditorTxt3DublicateFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorDublicateFilesFolder, "EditorTxtFile3.txt")).LocalPath;
 			}
 		}
 
@@ -244,6 +288,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 				return new Uri(Path.Combine(editorFilesFolder, "FilesPretranslateTest")).LocalPath;
 			}
 		}
+		
+		/// <summary>
+		/// Путь к папке файлов для тестирования редактора
+		/// </summary>
+		private static string editorDublicateFilesFolder
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "DublicateFiles")).LocalPath;
+			}
+		}
+
 
 
 		/// <summary>
@@ -506,7 +562,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		{
 			get { return new Uri(Path.Combine(FilesDirectory, "Glossaries")).LocalPath; }
 		}
-
+		
 		#endregion
 
 		#region Файлы для тестов курсеры

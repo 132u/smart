@@ -25,6 +25,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		#region Простые методы страницы
 
 		/// <summary>
+		/// Нажать кнопку Update.
+		/// </summary>
+		public DublicateFileErrorDialog ClickUpdateButton()
+		{
+			CustomTestContext.WriteLine("Нажать кнопку Update.");
+			UpdateButton.Click();
+
+			return LoadPage();
+		}
+		
+		/// <summary>
 		/// Нажать кнопку Ок.
 		/// </summary>
 		public AddFilesStep ClickOkButton()
@@ -65,11 +76,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.DocumentUploadDialog
 		[FindsBy(How = How.XPath, Using = OK_BUTTON)]
 		protected IWebElement OkButton { get; set; }
 
-		[FindsBy(How = How.XPath, Using = UPDATE_BUTTON)]
-		protected IWebElement LoadButton { get; set; }
-
 		[FindsBy(How = How.XPath, Using = LOAD_BUTTON)]
 		protected IWebElement UploadButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = UPDATE_BUTTON)]
+		protected IWebElement UpdateButton { get; set; }
 
 		#endregion
 

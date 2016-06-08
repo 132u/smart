@@ -10,7 +10,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 	[PriorityMajor]
 	[Standalone]
 	[Projects]
-	class CreateProjectWithIncorrectDataTests<TWebDriverProvider>: BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class CreateProjectWithIncorrectDataTests<TWebDriverProvider> : BaseProjectTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[TestCase("*")]
 		[TestCase("|")]
@@ -64,7 +64,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_newProjectSettingsPage.FillGeneralProjectInformation(
 				_projectUniqueName,
 				sourceLanguage: Language.English,
-				targetLanguages: new []{ Language.English });
+				targetLanguages: new[] { Language.English });
 
 			Assert.True(_newProjectSettingsPage.IsDuplicateLanguageErrorMessageDisplayed(),
 				"Произошла ошибка:\n не отображается сообщение о том, что source и target языки совпадают");
@@ -82,8 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsPage.ClickDocumentUploadButton();
 
-			_documentUploadGeneralInformationDialog
-				.UploadDublicateDocument(new[] { document, document });
+			_addFilesStep.UploadDublicateDocument(new[] { document, document });
 
 			Assert.IsTrue(_dublicateFileErrorDialog.IsDublicateFileErrorDialogOpened(),
 				"Произошла ошибка: Не появилось сообщение о том, что файл уже загружен.");
