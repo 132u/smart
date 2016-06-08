@@ -17,8 +17,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.PretranslateTests
 		[Test, Description("S-29308"), Ignore("SCAT-1177")]
 		public void PretranslateWithTwoLanguagesDocumentTest()
 		{
-			//TODO поменять файл
-			var file = PathProvider.EditorAutoSubstitutionFile;
+			var file = PathProvider.EditorAutoInsertionFile;
 			_createProjectHelper.CreateNewProject(
 				projectName: _projectUniqueName,
 				filesPaths: new[] { file });
