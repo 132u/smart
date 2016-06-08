@@ -192,17 +192,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <param name="newPassword">новый парль</param>
 		/// <param name="oldPassword">старый пароль</param>
 		/// <param name="confirmPassword">подтверждение пароля</param>
-		public EditProfileDialog ChangePasswordExpectingError(string newPassword, string oldPassword, string confirmPassword = null)
+		public EditProfileDialog ChangePasswordExpectingError(string newPassword, string oldPassword, string confirmPassword)
 		{
 			CustomTestContext.WriteLine("Поменять пароль, ожидая ошибку.");
-			FillNewPassword(newPassword);
 			FillOldPassword(oldPassword);
-			FillConfirmPassword(confirmPassword ?? newPassword);
-
-			if (newPassword == confirmPassword)
-			{
-				Driver.WaitUntilElementIsDisappeared(By.XPath(PASSWORD_MISMATCH_ERROR));
-			}
+			FillNewPassword(newPassword);
+			FillConfirmPassword(confirmPassword);
+			NewPassword.Click();
+			Driver.WaitUntilElementIsDisappeared(By.XPath(PASSWORD_MISMATCH_ERROR));
+			ClickPasswordSaveButton();
 
 			return LoadPage();
 		}

@@ -1,4 +1,6 @@
-﻿using NUnit.Framework;
+﻿using System;
+
+using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
@@ -58,7 +60,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: _password, newPassword: "123");
+				.ChangePasswordExpectingError(
+					oldPassword: _password,
+					newPassword: "123",
+					confirmPassword: "123");
 
 			Assert.IsTrue(_editProfileDialog.IsShortPasswordErrorDisplayed(),
 				"Произошла ошибка:\nНе появилось сообщение 'Password is too short'.");
@@ -79,14 +84,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		[Test]
 		public void ChangePasswordWrongOldPasswordTest()
 		{
+			var wrongPassword = Guid.NewGuid().ToString();
+			var newPassword = Guid.NewGuid().ToString();
+
 			_header.GoToUserProfile();
 
 			_profilePage.ClickEditProfileButton();
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: "wrongPassword", newPassword: "newPassword")
-				.ClickPasswordSaveButton();
+				.ChangePasswordExpectingError(
+					oldPassword: wrongPassword,
+					newPassword: newPassword,
+					confirmPassword: newPassword);
 
 			Assert.IsTrue(_editProfileDialog.IsInvalidPasswordErrorDisplayed(),
 				"Произошла ошибка:\nНе появилось сообщение 'Invalid password'.");
@@ -103,8 +113,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_editProfileDialog
 				.ClickChangePasswordTab()
-				.ChangePasswordExpectingError(oldPassword: _password, newPassword: newPassword, confirmPassword: newPassword + "123")
-				.ClickPasswordSaveButton();
+				.ChangePasswordExpectingError(
+					oldPassword: _password,
+					newPassword: newPassword,
+					confirmPassword: newPassword + "123");
 
 			Assert.IsTrue(_editProfileDialog.IsPasswordMismatchErrorDisplayed(),
 				"Произошла ошибка:\nНе появилось сообщение 'Passwords do not match'.");

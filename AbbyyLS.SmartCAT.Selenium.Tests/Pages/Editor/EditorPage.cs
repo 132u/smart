@@ -1130,6 +1130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		public EditorPage ScrollToVoteCount(string author, string translation)
 		{
+			Driver.WaitUntilElementIsAppear(By.XPath(VOTE_COUNT.Replace("*#*", author).Replace("*##*", translation)));
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, author, translation);
 			VoteCount.Scroll();
 
@@ -1166,7 +1167,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Проскролить до кнопки голосования Против перевода '{0}' автора {1}.", translation, author);
 			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
 			VoteDownButton.Scroll();
-			Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_DOWN_BUTTON.Replace("*#*", author).Replace("*#*", translation)));
 
 			return LoadPage();
 		}
