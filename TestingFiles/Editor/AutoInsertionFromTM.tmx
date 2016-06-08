@@ -1,0 +1,64 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<tmx version="1.4">
+  <header creationtool="AbbyyLS.Tmx" creationtoolversion="2.42.1.189" segtype="sentence" o-tmf="ATM" adminlang="en-US" srclang="ru" datatype="plaintext" />
+  <body>
+    <tu creationdate="20150903T131509Z" changedate="20150903T131509Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-post">&lt;seg&gt;Банк России, выполняя роль главного координирующего и регулирующего органа всей кредитной системы страны, выступает органом экономического управления.&lt;/seg&gt;</prop>
+        <seg>Центральный банк Российской Федерации (Банк России) — юридическое лицо, главный банк первого уровня, главный эмиссионный, денежно-кредитный институт Российской Федерации, разрабатывающий и реализующий во взаимодействии с Правительством России единую государственную кредитно-денежную политику и наделённый особыми полномочиями, в частности, правом эмиссии денежных знаков и регулирования деятельности банков.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>The Central Bank of the Russian Federation (the Bank of Russia) is a legal entity, the major bank at the first level, the main issuance, money institution of the Russian Federation developing and implementing in interaction with the Government of Russia single public monetary policy and granted special authorities, in particular, the right of currency issue and regulation of the activity of banks.</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20150903T131511Z" changedate="20150903T131511Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-pre">&lt;seg&gt;Центральный банк Российской Федерации (Банк России) — юридическое лицо, главный банк первого уровня, главный эмиссионный, денежно-кредитный институт Российской Федерации, разрабатывающий и реализующий во взаимодействии с Правительством России единую государственную кредитно-денежную политику и наделённый особыми полномочиями, в частности, правом эмиссии денежных знаков и регулирования деятельности банков.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Банк России контролирует деятельность кредитных организаций, выдаёт и отзывает у них лицензии на осуществление банковских операций, а уже кредитные организации работают с прочими юридическими и физическими лицами.&lt;/seg&gt;</prop>
+        <seg>Банк России, выполняя роль главного координирующего и регулирующего органа всей кредитной системы страны, выступает органом экономического управления.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>Carrying out role of the principal coordinating and regulatory authority of all the credit system of the country, the Bank of Russia is the body of economic management.</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20150903T131514Z" changedate="20150903T131514Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-pre">&lt;seg&gt;Банк России, выполняя роль главного координирующего и регулирующего органа всей кредитной системы страны, выступает органом экономического управления.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;Центральный банк Российской Федерации (Банк России) был учрежден 13 июля 1990 года на базе Российского республиканского банка Госбанка СССР.&lt;/seg&gt;</prop>
+        <seg>Банк России контролирует деятельность кредитных организаций, выдаёт и отзывает у них лицензии на осуществление банковских операций, а уже кредитные организации работают с прочими юридическими и физическими лицами.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>The Bank of Russia controls the activity of credit institutions, issues and revokes from them licences for implementation of banking operations and already the credit institutions work with other legal entities and natural persons.</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20150903T131517Z" changedate="20150903T131517Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-pre">&lt;seg&gt;Банк России контролирует деятельность кредитных организаций, выдаёт и отзывает у них лицензии на осуществление банковских операций, а уже кредитные организации работают с прочими юридическими и физическими лицами.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;В ноябре 1991 года Центральный банк РСФСР стал единственным на территории РСФСР органом государственного денежно-кредитного и валютного регулирования экономики республики.&lt;/seg&gt;</prop>
+        <seg>Центральный банк Российской Федерации (Банк России) был учрежден 13 июля 1990 года на базе Российского республиканского банка Госбанка СССР.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>The Central Bank of the Russian Federation (the Bank of Russia) was established on July 13, 1990 on the base of the Russian republican bank State bank of the USSR.</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20150903T131519Z" changedate="20150903T131519Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-pre">&lt;seg&gt;Центральный банк Российской Федерации (Банк России) был учрежден 13 июля 1990 года на базе Российского республиканского банка Госбанка СССР.&lt;/seg&gt;</prop>
+        <prop type="x-context-post">&lt;seg&gt;С 1995 года Банк России прекратил использование прямых кредитов для финансирования дефицита федерального бюджета и перестал предоставлять целевые централизованные кредиты отраслям экономики.&lt;/seg&gt;</prop>
+        <seg>В ноябре 1991 года Центральный банк РСФСР стал единственным на территории РСФСР органом государственного денежно-кредитного и валютного регулирования экономики республики.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>In November 1991 the Central Bank of RSFSR became territory RSFSR's only body of money and foreign exchange government regulation of economy of the republic.</seg>
+      </tuv>
+    </tu>
+    <tu creationdate="20150903T131522Z" changedate="20150903T131522Z">
+      <tuv xml:lang="ru">
+        <prop type="x-context-pre">&lt;seg&gt;В ноябре 1991 года Центральный банк РСФСР стал единственным на территории РСФСР органом государственного денежно-кредитного и валютного регулирования экономики республики.&lt;/seg&gt;</prop>
+        <seg>С 1995 года Банк России прекратил использование прямых кредитов для финансирования дефицита федерального бюджета и перестал предоставлять целевые централизованные кредиты отраслям экономики.</seg>
+      </tuv>
+      <tuv xml:lang="en">
+        <seg>Since 1995 the Bank of Russia discontinued the use of direct credits for financing of a federal budget deficit and ceased to provide centralized special purpose credits to branches of economy.</seg>
+      </tuv>
+    </tu>
+  </body>
+</tmx>

@@ -201,6 +201,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
 		/// <param name="documentPath">путь до документа</param>
+		/// <param name="needCloseTutorial">необходимость закрытия туториала</param>
 		public EditorPage ClickDocumentRefExpectingEditorPage(string projectName, string documentPath, bool needCloseTutorial = true)
 		{
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);

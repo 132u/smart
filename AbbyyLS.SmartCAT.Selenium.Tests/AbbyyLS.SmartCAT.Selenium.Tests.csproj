@@ -72,6 +72,7 @@
     <Compile Include="DataStructures\ErrorType.cs" />
     <Compile Include="DataStructures\PreTranslateRulles.cs" />
     <Compile Include="DataStructures\ProjectStatus.cs" />
+    <Compile Include="DataStructures\TmMatchesPercents.cs" />
     <Compile Include="ExplicitAttributes\UserDataExplicitAttribute.cs" />
     <Compile Include="FeatureAttributes\AuthorizationAttribute.cs" />
     <Compile Include="FeatureAttributes\CourseraAttribute.cs" />
@@ -344,7 +345,10 @@
     <Compile Include="Tests\Editor\TopPanelTests\SearchInDictionariesButtonTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoButtonsTests.cs" />
     <Compile Include="Tests\Editor\TopPanelTests\UndoRedoButtonsTests\EditorUndoRedoCatPasteTests.cs" />
-    <Compile Include="Tests\Editor\UserSettingsTests\UserSettingsTests.cs" />
+    <Compile Include="Tests\Editor\UserSettingsTests\AutoInsertionFromTMTests.cs" />
+    <Compile Include="Tests\Editor\UserSettingsTests\AutoInsertionMTTests.cs" />
+    <Compile Include="Tests\Editor\UserSettingsTests\AutoInsertionSymbolsTests.cs" />
+    <Compile Include="Tests\Editor\UserSettingsTests\UserSettingsBaseTest.cs" />
     <Compile Include="Tests\GlobalSetup.cs" />
     <Compile Include="Tests\Glossaries\BaseGlossaryTest.cs" />
     <Compile Include="Tests\Glossaries\ChangeGlossaryTests\ChangeGlossaryNameTests.cs" />

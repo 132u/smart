@@ -126,11 +126,33 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		/// <summary>
 		/// Путь к тестовому файлу с небуквенными символами.
 		/// </summary>
-		public static string EditorAutoSubstitutionFile
+		public static string EditorAutoInsertionFile
 		{
 			get
 			{
-				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "AutoSubstitution.txt")).LocalPath);
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "AutoInsertion.txt")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу для тестирования автоподставлений из ТМ.
+		/// </summary>
+		public static string AutoInsertionFromTMTxtFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "AutoInsertionFromTM.txt")).LocalPath;
+			}
+		}
+
+		/// <summary>
+		/// Путь к .tmx файлу для тестирования автоподставлений из ТМ.
+		/// </summary>
+		public static string AutoInsertionFromTMTmxFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "AutoInsertionFromTM.tmx")).LocalPath;
 			}
 		}
 

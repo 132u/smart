@@ -436,7 +436,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			CustomTestContext.WriteLine("Кликнуть по таргету сегмента {0}.", rowNumber);
 			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.JavaScriptClick();
+			TargetCell.ScrollAndClick();
 
 			return LoadPage();
 		}
@@ -2580,6 +2580,20 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 			return elements.Count > 0;
 		}
+		
+		/// <summary>
+		/// Проверить, что в таргете присутствует указанный текст.
+		/// </summary>
+		/// <param name="text">текст который должен содержаться в таргет сегменте</param>
+		/// <param name="rowNumber">номер сегмента</param>
+		public bool IsTargetContainsText(int rowNumber, string text)
+		{
+			CustomTestContext.WriteLine("Проверить, что в таргете - {0} присутствует указанный текст - {1}",
+				rowNumber , text);
+
+			return Driver.WaitUntilElementIsDisplay(
+					By.XPath(TEXT_IN_TARGET_CELL.Replace("*#*", rowNumber.ToString()).Replace("*##*", text)));
+		}
 
 		public bool IsDictionariesTabOpened()
 		{
@@ -2836,7 +2850,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
-
+		
 		[FindsBy(How = How.XPath, Using = DELETE_TRANSLATE_BUTTON)]
 		protected IWebElement DeleteTranslateButton { get; set; }
 		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
@@ -2864,6 +2878,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement OpenTranslationInNewTabLink { get; set; }
 
 		protected IWebElement ProgressBarWidth { get; set; }
+		protected IWebElement TextInTarget { get; set; }
 		protected IWebElement Comment { get; set; }
 		protected IWebElement CommentCell { get; set; }
 		protected IWebElement VoteDownButton { get; set; }
@@ -2920,6 +2935,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'confirmed')]";
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
+		protected const string TEXT_IN_TARGET_CELL = "//div[contains(@id, 'segments-body')]//table[*#*]//td[contains(@class, 'x-targeteditor-default-cell x-grid-item-focused')]//p[contains(text(), '*##*')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
 		protected const string TAG = "//div[contains(@id, 'targeteditor')][*#*]//img[contains(@class,'tag')]";
