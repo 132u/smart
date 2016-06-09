@@ -110,25 +110,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		public CourseraHomePage ClickVoteUpButton(string translation)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования За.");
+			CustomTestContext.WriteLine("Нажать кнопку голосования За перевод {0}.", translation);
 			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, translation);
-			VoteUpButton.Click();
-
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_UP_LIKED_BUTTON)))
+			VoteUpButton.ScrollAndClickViaElementBlock();
+			
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_UP_LIKED_BUTTON.Replace("*#*", translation))))
 			{
-				throw new Exception("Произошла ошибка: не появилась активная кнопка голосования За.");
+				throw new Exception(string.Format("Произошла ошибка: не появилась активная кнопка голосования За перевод {0}.", translation));
 			}
-
-			return LoadPage();
-		}
-		/// <summary>
-		/// Проскролить до кнопки голосования За.
-		/// </summary>
-		public CourseraHomePage ScrollVoteUpButton(string translation)
-		{
-			CustomTestContext.WriteLine("Проскролить до кнопки голосования За.");
-			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, translation);
-			VoteUpButton.Scroll();
 
 			return LoadPage();
 		}
@@ -138,13 +127,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// </summary>
 		public CourseraHomePage ClickVoteDownButton(string translation)
 		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования Против.");
+			CustomTestContext.WriteLine("Нажать кнопку голосования Против перевода {0}.", translation);
 			ScrollVoteDownButton(translation);
 			VoteDownButton.Click();
 
-			if (!Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_DOWN_LIKED_BUTTON)))
+			if (!Driver.WaitUntilElementIsDisplay(By.XPath(VOTE_DOWN_LIKED_BUTTON.Replace("*#*", translation))))
 			{
-				throw new Exception("произошла ошибка: не появилась активная кнопка голосования Против.");
+				throw new Exception(string.Format("Произошла ошибка: не появилась активная кнопка голосования Против перевод {0}.", translation));
 			}
 
 			return LoadPage();
@@ -228,6 +217,21 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		#endregion
 
 		#region Методы, проверяющие состояние страницы
+
+		/// <summary>
+		/// Проверить, что в списке последних событий отображается событие голосования за/против перевод
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translation">перевод</param>
+		public bool IsVoteActionInLastEventDisplayed(string author, string translation)
+		{
+			CustomTestContext.WriteLine("Проверить, что в списке последних событий отображается событие голосования автора {0} за/против перевод '{1}'.", author, translation);
+			string votePickReplaced = VOTE_TICK.Replace("*#*", author).Replace("*##*", translation);
+			VoteTick = Driver.FindElement(By.XPath(votePickReplaced));
+			VoteTick.ScrollDown();
+
+			return Driver.WaitUntilElementIsDisplay(By.XPath(votePickReplaced));
+		}
 
 		/// <summary>
 		/// Проверить, что открылась главная страница курсеры
@@ -325,6 +329,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected IWebElement VoteDownButton { get; set; }
 		protected IWebElement AuthorInEventList { get; set; }
 		protected IWebElement VoteCount { get; set; }
+		protected IWebElement VoteTick { get; set; }
 
 		#endregion
 
@@ -344,6 +349,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		protected const string VOTE_DOWN_LIKED_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='disliked']";
 		protected const string VOTE_COUNT = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//span[@data-bind='text: rating']";
 		protected const string VOTE_DOWN_BUTTON = ".//table[@class='last-events']//tr//td[@class='col-4']//span[contains(text(),'*#*')]//..//..//td[@class='col-5']//div[@class='dislike']";
+		protected const string VOTE_TICK = "//table[@class='last-events']//a[contains(text(),'*#*')]/ancestor::tr//span[contains(text(),'*##*')]/ancestor::tr//div[@class='tick']";
 
 		#endregion
 	}

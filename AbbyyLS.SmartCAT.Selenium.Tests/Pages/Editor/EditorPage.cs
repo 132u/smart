@@ -1977,6 +1977,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		#region Методы, проверяющие состояние страницы
 
 		/// <summary>
+		/// Проверить, что кнопка голосования за перевод неактивна.
+		/// </summary>
+		/// <param name="author">автор</param>
+		/// <param name="translatioin">перевод</param>
+		public bool IsVoteUpButtonDisabled(string author, string translatioin)
+		{
+			CustomTestContext.WriteLine("Проверить, что кнопка голосования за перевод {0} автора {1} неактивна.", translatioin, author);
+			VoteUpDisabledButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON_INACTIVE, author, translatioin);
+
+			return VoteUpDisabledButton.Displayed;
+		}
+
+		/// <summary>
 		/// Проверить, что отображается терминологическая ошибка
 		/// </summary>
 		/// <param name="term">термин</param>
@@ -2877,6 +2890,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = SIDE_PANEL_DICTIONARIES_OPEN_IN_NEW_TAB_LINK)]
 		protected IWebElement OpenTranslationInNewTabLink { get; set; }
 
+		protected IWebElement VoteUpDisabledButton { get; set; }
 		protected IWebElement ProgressBarWidth { get; set; }
 		protected IWebElement TextInTarget { get; set; }
 		protected IWebElement Comment { get; set; }
@@ -2992,7 +3006,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";
 		protected const string DELETE_TRANSLATE_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]//ancestor::td//following-sibling::td//div[contains(@class, 'sci-delete')]";
 		protected const string VOTE_UP_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'plus')]";
-		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[@class='rating-count']";
+		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]//ancestor::td//following-sibling::td//span[@class='rating-count']";
+		protected const string VOTE_DOWN_BUTTON_INACTIVE = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]/ancestor::td//following-sibling::td//span[contains(@class,'minus')]";
+		protected const string VOTE_UP_BUTTON_INACTIVE = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]/ancestor::td//following-sibling::td//span[contains(@class,'plus')]";
 
 		protected const string MESSAGE_WITH_CRITICAL_ERROR = "//div[contains(text(),'contains critical errors.')]";
 		protected const string CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON = "//div[contains(text(),'contains critical errors.')]/../../..//div[@data-qtip='Close panel']";

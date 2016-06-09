@@ -325,6 +325,7 @@
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileInvalidTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\OpenProfileTests.cs" />
     <Compile Include="Tests\Coursera\UserProfileTests\UserProfileValidTests.cs" />
+    <Compile Include="Tests\Coursera\VoteTests.cs" />
     <Compile Include="Tests\Editor\BottomPanelTests\EditorCommentsTests.cs" />
     <Compile Include="Tests\Editor\PretranslateTests\MTPretranslateTests.cs" />
     <Compile Include="Tests\Editor\PretranslateTests\PretranslateBaseTest.cs" />
