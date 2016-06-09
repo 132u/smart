@@ -148,6 +148,7 @@
     <Compile Include="Pages\Projects\ProjectSettings\RepetitionsSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\CancelConfirmationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\GeneralTab.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\InformationFromWFSetupTabDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\NewLanguageSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\QualityAssuranceSettings.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\WorkflowSetUpTab.cs" />

@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog.ClickWorkflowTab();
+			_projectSettingsDialog.ClickWorkflowTab();
 
 			_workflowSetUptab
 				.AddTask(WorkflowTask.Proofreading)
@@ -123,7 +123,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 
-			_settingsDialog.ClickWorkflowTab();
+			_projectSettingsDialog.ClickWorkflowTab();
 
 			_workflowSetUptab
 				.AddTask(WorkflowTask.Proofreading)
@@ -179,7 +179,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			Assert.IsTrue(_workflowSetUptab.IsWorkflowTaskMatchExpected(
 				WorkflowTask.Proofreading, taskNumber: 1), "Произошла ошибка:\n задача не соответствует ожидаемой");
 
-			_settingsDialog.SaveSettings();
+			_projectSettingsDialog.SaveSettings();
 
 			_projectSettingsHelper.OpenWorkflowSettings();
 

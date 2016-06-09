@@ -42,7 +42,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 				.AddUserToGroupIfNotAlredyAdded(_groupName, AdditionalUser.FullName);
 		}
 
-		[Test, Description("S-13767")]
+		[Test, Description("S-13767"), ShortCheckList]
 		public void WorkflowTaskDialogForUserWithProjectManagementRightsTest()
 		{
 			_groupsAndAccessRightsTab
@@ -142,6 +142,46 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects.WorkflowTests
 
 			Assert.IsFalse(_selectTaskDialog.IsManagerButtonDisplayed(),
 				"Произошла ошибка:\n Отобразилась кнопка входа для исполнителя как менеджера.");
+		}
+
+		[Test, Description("S-13766"), ShortCheckList]
+		public void WorkflowDeleteStageTest()
+		{
+			_groupsAndAccessRightsTab.GoToProjectsPage();
+
+			_createProjectHelper.CreateNewProject(
+				_projectUniqueName,
+				new[] { _editorTxtFile },
+				tasks: _tasksList);
+
+			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
+
+			_projectSettingsPage.ClickAssignButtonOnPanel();
+
+			_taskAssignmentPage
+				.SetResponsible(AdditionalUser.NickName, taskNumber: 1)
+				.SetResponsible(AdditionalUser.NickName, taskNumber: 2)
+				.SetResponsible(AdditionalUser.NickName, taskNumber: 3)
+				.ClickSaveButton()
+				.GoToProjectsPage();
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, _editorTxtFile);
+
+			_editorPage
+				.FillTarget("первое предложение.")
+				.ConfirmSegmentTranslation()
+				.ClickHomeButtonExpectingProjectSettingsPage();
+
+			_projectSettingsPage.ClickSettingsButton();
+
+			_projectSettingsDialog.ClickWorkflowTab();
+
+			_workflowSetUptab.ClickDeleteTaskButton(taskNumber: 1);
+
+			Assert.IsTrue(_informationFromWfSetupTabDialog.IsInformationFromWFSetupTabDialogOpened(),
+				"Произошла ошибка:\n Не открылся информационный диалог при попытке удаления этапа WF.");
 		}
 
 		private List<WorkflowTask> _tasksList;

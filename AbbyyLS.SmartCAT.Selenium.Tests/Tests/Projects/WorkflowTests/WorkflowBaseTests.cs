@@ -1,4 +1,5 @@
 ﻿using System.IO;
+
 using NUnit.Framework;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
@@ -30,7 +31,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 
 			_projectsPage = new ProjectsPage(Driver);
-			_settingsDialog = new ProjectSettingsDialog(Driver);
+			_projectSettingsDialog = new ProjectSettingsDialog(Driver);
+			_informationFromWfSetupTabDialog = new InformationFromWFSetupTabDialog(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_newProjectWorkflowPage = new NewProjectWorkflowPage(Driver);
 			_newProjectSettingsPage = new NewProjectSettingsPage(Driver);
@@ -74,9 +76,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 		protected ProjectSettingsHelper _projectSettingsHelper;
 
 		protected ProjectsPage _projectsPage;
-		protected ProjectSettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _projectSettingsDialog;
+		protected InformationFromWFSetupTabDialog _informationFromWfSetupTabDialog;
 		protected ProjectSettingsPage _projectSettingsPage;
-		public SelectTaskDialog _selectTaskDialog;
+		protected SelectTaskDialog _selectTaskDialog;
 		protected NewProjectDocumentUploadPage _newProjectDocumentUploadPage;
 		protected NewProjectWorkflowPage _newProjectWorkflowPage;
 		protected NewProjectSettingsPage _newProjectSettingsPage;
