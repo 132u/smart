@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog.Adv
 		public PretranslateSettingsSection ClickTmButton()
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку памяти переводов.");
-			TmButton.Click();
+			TmButton.ScrollAndClickViaElementBlock();
 
 			return LoadPage();
 		}
@@ -85,7 +85,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog.Adv
 		public PretranslateSettingsSection ClickSourceButton()
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Оригинал(только цифры)'.");
-			SourceButton.Click();
+			SourceButton.ScrollAndClickViaElementBlock();
 
 			return LoadPage();
 		}
@@ -96,7 +96,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog.Adv
 		public PretranslateSettingsSection ClickMachineTranslationButton()
 		{
 			CustomTestContext.WriteLine("Кликнуть на кнопку 'Машинный перевод'.");
-			MachineTranslationButton.Click();
+			MachineTranslationButton.ScrollAndClickViaElementBlock();
 
 			return LoadPage();
 		}
