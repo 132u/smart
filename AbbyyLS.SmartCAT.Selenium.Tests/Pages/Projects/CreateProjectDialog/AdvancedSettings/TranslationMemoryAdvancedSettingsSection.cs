@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		#region Объявление XPath элементов
 
-		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
+		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn' and contains(@data-bind, 'addExistingTM')]//a";
 
 		#endregion
 	}
