@@ -16,6 +16,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		public void AddTranslationNoTranslationsTests()
 		{
 			var lecture = "1.1 Introduction";
+
+			_header.GoToUserProfile();
+
 			var sentencesCount = _profilePage.GetTranslatedSentencesCount();
 
 			_profilePage.GoToCoursesPage();
