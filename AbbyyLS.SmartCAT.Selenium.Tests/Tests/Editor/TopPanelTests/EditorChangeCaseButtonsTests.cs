@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseByHotkeyTest()
 		{
 			var sourceText = "the example sentence";
@@ -86,7 +86,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseLastWordByHotkeyTest()
 		{
 			var sourceText = "some words for example";
@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseFirstWordByHotkeyTest()
 		{
 			var sourceText = "some words for example";
@@ -163,7 +163,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseHyphenWordTestByHotKey()
 		{
 			var sourceText = "some-words for example";
@@ -236,7 +236,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCasePartWordTestByHotkey()
 		{
 			var sourceText = "some words for example";
@@ -262,8 +262,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				_editorPage.GetTargetText(_segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
-		
-		[Test]
+
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseSecondThirdWordsByHotkeyNonStandardTest()
 		{
 			var sourceText = "some wOrDs fOr example";
@@ -356,7 +356,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17386")]
 		public void ChangeCaseFirstWordByHotkeyNonStandardTestCurrentRealizatioin()
 		{
 			var sourceText = "sOMe words for example";

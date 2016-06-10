@@ -1862,17 +1862,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		/// <param name="clearField">очистить поле перед вводом (default)</param>
 		public EditorPage FillSegmentTargetField(string text = "Translation", int rowNumber = 1, bool clearField = true)
 		{
+			ClickOnTargetCellInSegment(rowNumber);
+
 			CustomTestContext.WriteLine("Ввести текст в таргет сегмента {0}.", rowNumber);
-			TargetCell = Driver.SetDynamicValue(How.XPath, TARGET_CELL, (rowNumber - 1).ToString());
-			TargetCell.JavaScriptClick();
+			TargetCellValue = Driver.SetDynamicValue(How.XPath, TARGET_CELL_VALUE, (rowNumber - 1).ToString());
 
 			if (clearField)
 			{
-				TargetCell.SetText(text, expectedText: text);
+				TargetCellValue.SetText(text, expectedText: text);
 			}
 			else
 			{
-				TargetCell.SendKeys(text);
+				TargetCellValue.SendKeys(text);
 			}
 
 			return LoadPage();
@@ -2705,9 +2706,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		
 		[FindsBy(How = How.Id, Using = ADD_TERM_BUTTON)]
 		protected IWebElement AddTermButton { get; set; }
-
-		[FindsBy(How = How.Id, Using = TARGET_CELL)]
-		protected IWebElement TargetCell { get; set; }
 		
 		[FindsBy(How = How.Id, Using = CHARACTER_FORM)]
 		protected IWebElement CharacterForm { get; set; }
@@ -2906,8 +2904,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement User { get; set; }
 		protected IWebElement Type { get; set; }
 		protected IWebElement QAError { get; set; }
-		protected IWebElement DictionariesSearchResults { get; set; }
 		protected IWebElement InsertResource { get; set; }
+		protected IWebElement TargetCell { get; set; }
+		protected IWebElement TargetCellValue { get; set; }
+		protected IWebElement DictionariesSearchResults { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -2948,7 +2949,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'confirmed')]";
-		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
+		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]/parent::div";
 		protected const string TEXT_IN_TARGET_CELL = "//div[contains(@id, 'segments-body')]//table[*#*]//td[contains(@class, 'x-targeteditor-default-cell x-grid-item-focused')]//p[contains(text(), '*##*')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
