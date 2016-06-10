@@ -15,6 +15,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		public void SetUp()
 		{
 			_specialCharactersForm = new SpecialCharactersForm(Driver);
+
+			_editorPage.ClickOnTargetCellInSegment(1);
 		}
 
 		[Test(Description = "Проверяет открытие формы 'Специальные символы' с помощью кнопки")]

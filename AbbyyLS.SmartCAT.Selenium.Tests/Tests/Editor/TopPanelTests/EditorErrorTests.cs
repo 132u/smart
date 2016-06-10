@@ -49,7 +49,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 			_selectTaskDialog.SelectTask();
 		}
 
-		[Test(Description = "Проверяет открытие диалога поиска ошибок с помощью кнопки")]
+		[Test(Description = "Проверяет открытие диалога поиска ошибок с помощью кнопки"), Ignore("PRX-17394")]
 		public void FindErrorButtonTest()
 		{
 			_editorPage.ClickFindErrorButton();
@@ -58,7 +58,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n не появился диалог поиска ошибок");
 		}
 
-		[Test(Description = "Проверяет открытие диалога поиска ошибок нажатием F7")]
+		[Test(Description = "Проверяет открытие диалога поиска ошибок нажатием F7"), Ignore("PRX-17394")]
 		public void FindErrorHotkeyTest()
 		{
 			_editorPage.OpenFindErrorsDialogByHotkey();

@@ -43,7 +43,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 		[Test(Description = "Проверяет вставку тега с помощью кнопки")]
 		public void TagButtonTest()
 		{
-			_editorPage.ClickInsertTag();
+			_editorPage
+				.FillSegmentTargetField()
+				.ClickInsertTag();
 
 			Assert.IsTrue(_editorPage.IsTagDisplayed(),
 				"Произошла ошибка:\n тег не появился в таргете");

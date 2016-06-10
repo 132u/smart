@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 
-		[Test(Description = "Проверяет подтверждение сегмента нажатием Ctrl+Enter")]
+		[Test(Description = "Проверяет подтверждение сегмента нажатием Ctrl+Enter"), Ignore("PRX-17386")]
 		public void ConfirmHotkeyTest()
 		{
 			_editorPage

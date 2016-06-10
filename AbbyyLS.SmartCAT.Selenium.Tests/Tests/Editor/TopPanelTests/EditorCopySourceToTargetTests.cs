@@ -10,6 +10,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 	[Editor]
 	public class EditorCopySourceToTargetTests<TWebDriverProvider> : EditorBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		[SetUp]
+		public void SetUp()
+		{
+			_editorPage.ClickOnTargetCellInSegment(1);
+		}
+
 		[Test(Description = "Проверяет копирование текста из сорса в таргет с помощью кнопки")]
 		public void CopySourceToTargetButtonTest()
 		{
