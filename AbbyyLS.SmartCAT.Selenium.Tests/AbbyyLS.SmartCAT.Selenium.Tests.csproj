@@ -99,6 +99,7 @@
     <Compile Include="Pages\Coursera\LeaderboardPage.cs" />
     <Compile Include="Pages\Coursera\UserProfilePage.cs" />
     <Compile Include="Pages\Editor\ConfirmTermWithoutTranskationDialog.cs" />
+    <Compile Include="Pages\Editor\UserPreferences\AutoPropagationTab.cs" />
     <Compile Include="Pages\Editor\UserPreferences\SegmentConfirmationTab.cs" />
     <Compile Include="Pages\Editor\DeleteTranslationDialog.cs" />
     <Compile Include="Pages\Editor\UserPreferences\UserPreferencesDialog.cs" />
@@ -144,6 +145,7 @@
     <Compile Include="Pages\Projects\ProjectSettings\EditTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\NewTranslationMemoryDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\PretranslationDialog.cs" />
+    <Compile Include="Pages\Projects\ProjectSettings\RepetitionsSettingsDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\CancelConfirmationDialog.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\GeneralTab.cs" />
     <Compile Include="Pages\Projects\ProjectSettings\SettingsDialog\NewLanguageSettingsDialog.cs" />
@@ -399,6 +401,7 @@
     <Compile Include="Tests\MachineTranslations\UsingMTTests\UsingSeveralMachineTranslationsTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
+    <Compile Include="Tests\Projects\RepetitionsSettingsTests\RepetitionsSettingsTests.cs" />
     <Compile Include="Tests\Projects\UploadDocumentToProjectTests\UploadDocumentToProjectTests.cs" />
     <Compile Include="Tests\Editor\ProgressBarTests\ProgressBarTests.cs" />
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTaskDialogInEditorTests.cs" />

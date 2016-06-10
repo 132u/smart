@@ -124,7 +124,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		public TaskAssignmentPage ClickAssignButtonOnPanel()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку 'Назначить задачу' на панели");
-			AssignTasksButtonOnPanel.Click();
+			AssignTasksButtonOnPanel.ScrollAndClick();
 			Driver.SwitchToNewBrowserTab();
 
 			return new TaskAssignmentPage(Driver).LoadPage();
@@ -435,6 +435,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 			return Description.Text;
 		}
 
+		/// <summary>
+		/// Кликнуть на кнопку Repetitions.
+		/// </summary>
+		public RepetitionsSettingsDialog ClickRepetiotinsButton()
+		{
+			CustomTestContext.WriteLine("Кликнуть на кнопку Repetitions.");
+			RepetitionsButton.Click();
+
+			return new RepetitionsSettingsDialog(Driver).LoadPage();
+		}
+
 		#endregion
 
 		#region Составные методы
@@ -729,6 +740,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 
 		[FindsBy(How = How.XPath, Using = SORT_BY_QA)]
 		protected IWebElement SortByQA { get; set; }
+
+		[FindsBy(How = How.XPath, Using = REPETITIONS_BUTTON)]
+		protected IWebElement RepetitionsButton { get; set; }
 
 		protected IWebElement DocumentSettingsButton { get; set; }
 

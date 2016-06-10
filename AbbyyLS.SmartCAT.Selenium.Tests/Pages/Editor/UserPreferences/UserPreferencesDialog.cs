@@ -38,6 +38,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Кликнуть на кнопку 'Закрыть.'
+		/// </summary>
+		public EditorPage ClickCloseButton()
+		{
+			CustomTestContext.WriteLine("Кликнуть на кнопку 'Закрыть.'");
+			CloseButton.Click();
+
+			return new EditorPage(Driver).LoadPage();
+		}
+
+		/// <summary>
 		/// Кликнуть по чекбоксу блока 'Copy source'.
 		/// </summary>
 		public UserPreferencesDialog ClickCopySourceCheckBox()
@@ -68,6 +79,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ConfirmSegmentCheckbox.JavaScriptClick();
 
 			return LoadPage();
+		}
+
+		/// <summary>
+		/// Переключиться на вкладку настроек повторов.
+		/// </summary>
+		public AutoPropagationTab SwitchToAutoPropagationTab()
+		{
+			CustomTestContext.WriteLine("Переключиться на вкладку настроек повторов.");
+			AutoPropagationTab.Click();
+
+			return new AutoPropagationTab(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -230,11 +252,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = INSERT_MT_CHECKBOX)]
 		protected IWebElement InsertMtCheckBox { get; set; }
 
-		[FindsBy(How = How.XPath, Using = SAVE_BTN)]
+		[FindsBy(How = How.XPath, Using = SAVE_BUTTON)]
 		protected IWebElement SaveButton { get; set; }
+
+		[FindsBy(How = How.XPath, Using = CLOSE_BUTTON)]
+		protected IWebElement CloseButton { get; set; }
 
 		[FindsBy(How = How.XPath, Using = SEGMENT_CONFIRMATION_TAB)]
 		protected IWebElement SegmentConfirmationTab { get; set; }
+
+		[FindsBy(How = How.XPath, Using = AUTO_PROPAGATION_TAB)]
+		protected IWebElement AutoPropagationTab { get; set; }
 
 		[FindsBy(How = How.XPath, Using = COPY_SOURCE_CHECK_BOX)]
 		protected IWebElement CopySourceCheckBox { get; set; }
@@ -270,8 +298,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string PERCENTS_IN_DROP_DOWN_LIST = "//div[contains(@class, 'x-boundlist')]//ul//li[contains(text(), '*#*%')]";
 
 		protected const string SEGMENT_CONFIRMATION_TAB = "//span[contains(text(), 'Segment Confirmation')]";
+		protected const string AUTO_PROPAGATION_TAB = "//span[contains(text(), 'Auto-Propagation')]";
 
-		protected const string SAVE_BTN = "//span[contains(text(), 'Save')]";
+		protected const string SAVE_BUTTON = "//span[contains(text(), 'Save')]";
+		protected const string CLOSE_BUTTON = "//div[contains(@class,'x-tool-close')]";
 
 		#endregion
 	}

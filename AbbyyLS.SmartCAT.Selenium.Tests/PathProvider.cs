@@ -124,6 +124,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу txt, где тексты повторяются, но имеют разный регистр
+		/// </summary>
+		public static string RepetitionsWithDifferencesInCaseTxtFile
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "RepetitionsWithDifferencesInCase.txt")).LocalPath);
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу EditorTxtFile2.txt
 		/// </summary>
 		public static string EditorTxtFile2
