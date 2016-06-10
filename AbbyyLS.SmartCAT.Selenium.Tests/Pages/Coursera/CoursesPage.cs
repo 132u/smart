@@ -66,7 +66,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		/// <summary>
 		/// Проверить, что открылась страница курсов
 		/// </summary>
-		private bool IsCoursesPageOpened()
+		public bool IsCoursesPageOpened()
 		{
 			return Driver.WaitUntilElementIsDisplay(By.XPath(COURSE_LIST));
 		}

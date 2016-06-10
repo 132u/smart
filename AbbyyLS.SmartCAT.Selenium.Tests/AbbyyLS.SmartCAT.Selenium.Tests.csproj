@@ -320,6 +320,7 @@
     <Compile Include="Tests\Clients\CreateClientTests.cs" />
     <Compile Include="Tests\Clients\DeleteClientTests.cs" />
     <Compile Include="Tests\Coursera\CourseraBaseTests.cs" />
+    <Compile Include="Tests\Coursera\EditorButtonsTests.cs" />
     <Compile Include="Tests\Coursera\LeaderboardTests.cs" />
     <Compile Include="Tests\Coursera\RatingTests.cs" />
     <Compile Include="Tests\Coursera\ProgressTests\ProgressTests.cs" />

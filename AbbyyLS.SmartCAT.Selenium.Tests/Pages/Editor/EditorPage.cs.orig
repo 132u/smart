@@ -2975,13 +2975,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement Type { get; set; }
 		protected IWebElement QAError { get; set; }
 		protected IWebElement InsertResource { get; set; }
+<<<<<<< 840b1bf8a02996c1555e0c86104bcffff1b73e72
 		protected IWebElement TargetCell { get; set; }
 		protected IWebElement TargetCellValue { get; set; }
 		protected IWebElement DictionariesSearchResults { get; set; }
+
+=======
 		protected IWebElement ConfirmTick { get; set; }
 		protected IWebElement LineBreakSymbol { get; set; }
 
-
+>>>>>>> SCAT-758 Актуализировать тесты на кнопки в редакторе курсеры
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -3023,8 +3026,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'confirmed')]";
+<<<<<<< 840b1bf8a02996c1555e0c86104bcffff1b73e72
 		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]/parent::div";
+=======
 		protected const string CROWD_CONFIRMED_ICO = "//table[@data-recordindex = '*#*']//div[contains(@class, 'crowd-status-confirmed')]";
+		protected const string TARGET_CELL = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//td[contains(@class, ' test-segment-target')]//div//div[contains(@id,'segmenteditor')]";
+>>>>>>> SCAT-758 Актуализировать тесты на кнопки в редакторе курсеры
 		protected const string TEXT_IN_TARGET_CELL = "//div[contains(@id, 'segments-body')]//table[*#*]//td[contains(@class, 'x-targeteditor-default-cell x-grid-item-focused')]//p[contains(text(), '*##*')]";
 		protected const string TARGET_CELL_VALUE = "//table[@data-recordindex='*#*']//td[contains(@class, ' test-segment-target')]//div[contains(@id, 'segmenteditor')]";
 		protected const string SOURCE_CELL = "//table[@data-recordindex='*#*']//td[contains(@class, 'test-segment-source')]//div[contains(@id, 'segmenteditor')]";
