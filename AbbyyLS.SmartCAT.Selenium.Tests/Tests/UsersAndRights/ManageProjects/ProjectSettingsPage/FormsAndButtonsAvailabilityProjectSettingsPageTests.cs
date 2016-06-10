@@ -60,7 +60,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_projectSettingsPage.ClickStatisticsButton();
 
-			Assert.IsTrue(_statisticsPage.IsBuildStatisticsPageOpened(),
+			Assert.IsTrue(_buildStatisticsPage.IsBuildStatisticsPageOpened(),
 				"Произошла ошибка:\n Не открылся диалог статистики.");
 		}
 
@@ -93,7 +93,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectSettingsPage.ClickSettingsButton();
 
-			Assert.IsTrue(_settingsDialog.IsSettingsDialogOpened(),
+			Assert.IsTrue(_projectSettingsDialog.IsSettingsDialogOpened(),
 				"Произошла ошибка:\n Диалог настроек пректа не открылся.");
 		}
 
@@ -102,12 +102,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		{
 			_projectSettingsPage.ClickSettingsButton();
 
-			_settingsDialog.ClickWorkflowTab();
+			_projectSettingsDialog.ClickWorkflowTab();
 
 			Assert.IsTrue(_workflowSetUpTab.IsWorkflowSetUpTabOpened(),
 				"Произошла ошибка:\n Не открылась вкладка Workflow Setup.");
 
-			_settingsDialog.ClickGeneralTab();
+			_projectSettingsDialog.ClickGeneralTab();
 
 			Assert.IsTrue(_generalTab.IsGeneralTabOpened(),
 				"Произошла ошибка:\n Не открылась вкладка General.");
@@ -139,7 +139,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_generalTab.CancelSettingsChanges();
 
-			Assert.IsFalse(_settingsDialog.IsSettingsDialogOpened(),
+			Assert.IsFalse(_projectSettingsDialog.IsSettingsDialogOpened(),
 				"Произошла ошибка:\n Диалог настроек проекта не закрылся.");
 		}
 
@@ -157,7 +157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 			_generalTab.SaveSettings();
 
-			Assert.IsFalse(_settingsDialog.IsSettingsDialogOpened(),
+			Assert.IsFalse(_projectSettingsDialog.IsSettingsDialogOpened(),
 				"Произошла ошибка:\n Диалог настроек проекта не закрылся.");
 		}
 

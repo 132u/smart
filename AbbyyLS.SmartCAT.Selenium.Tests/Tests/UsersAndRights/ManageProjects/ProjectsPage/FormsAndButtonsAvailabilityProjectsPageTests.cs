@@ -144,7 +144,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.OpenProjectInfo(_projectUniqueName)
 				.ClickProjectStatisticsButtonExpectingBuildStatisticsPage(_projectUniqueName);
 
-			Assert.IsTrue(_statisticsPage.IsBuildStatisticsPageOpened(),
+			Assert.IsTrue(_buildStatisticsPage.IsBuildStatisticsPageOpened(),
 				"Произошла ошибка:\n Не открылась страница построения статистики.");
 		}
 

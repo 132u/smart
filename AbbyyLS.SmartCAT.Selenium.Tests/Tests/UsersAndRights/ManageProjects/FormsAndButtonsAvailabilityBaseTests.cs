@@ -27,12 +27,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			try
 			{
 				CustomTestContext.WriteLine("Начало работы теста {0}", TestContext.CurrentContext.Test.Name);
-				_document1 = PathProvider.DocumentFile;
-				_document2 = PathProvider.DocumentFile2;
-
 				_loginHelper = new LoginHelper(Driver);
 				_loginHelper.Authorize(StartPage, AdditionalUser);
-				_exportNotification.CancelAllNotifiers<Pages.Projects.ProjectsPage>();
+				_exportNotification.CancelAllNotifiers<ProjectsPage>();
 			}
 			catch (Exception ex)
 			{
@@ -44,12 +41,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		[OneTimeSetUp]
 		public void OneTimeSetUp()
 		{
-			_settingsDialog = new ProjectSettingsDialog(Driver);
-			_projectSettingsPage = new Pages.Projects.ProjectSettings.ProjectSettingsPage(Driver);
+			_projectSettingsDialog = new ProjectSettingsDialog(Driver);
+			_projectSettingsPage = new ProjectSettingsPage(Driver);
 			_createProjectHelper = new CreateProjectHelper(Driver);
 			_workspacePage = new WorkspacePage(Driver);
 			_loginHelper = new LoginHelper(Driver);
-			_projectsPage = new Pages.Projects.ProjectsPage(Driver);
+			_projectsPage = new ProjectsPage(Driver);
 			_exportNotification = new ExportNotification(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
@@ -65,13 +62,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_taskAssignmentPage = new TaskAssignmentPage(Driver);
 			_documentSettingsDialog = new DocumentSettingsDialog(Driver);
 			_confirmDeclineTaskDialog = new ConfirmDeclineTaskDialog(Driver);
-			_statisticsPage = new BuildStatisticsPage(Driver);
+			_buildStatisticsPage = new BuildStatisticsPage(Driver);
 			_selectTaskDialog = new SelectTaskDialog(Driver);
 			_editorPage = new EditorPage(Driver);
 			_pretranslationDialog = new PretranslationDialog(Driver);
 			_userRightsHelper = new UserRightsHelper(Driver);
 			_datePicker = new DatePicker(Driver);
 			_documentUploadGeneralInformationDialog = new AddFilesStep(Driver);
+
+			_document1 = PathProvider.DocumentFile;
+			_document2 = PathProvider.DocumentFile2;
 
 			// Нужен лог для отладки тестов SCAT-938
 			CustomTestContext.WriteLine("OneTimeSetUp FormsAndButtonsAvailabilityBaseTests.");
@@ -106,9 +106,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 
 		protected UserRightsHelper _userRightsHelper;
 		protected AddFilesStep _documentUploadGeneralInformationDialog;
-		protected ProjectSettingsDialog _settingsDialog;
+		protected ProjectSettingsDialog _projectSettingsDialog;
 		protected EditorPage _editorPage;
-		protected BuildStatisticsPage _statisticsPage;
+		protected BuildStatisticsPage _buildStatisticsPage;
 		protected QualityAssuranceDialog _qualityAssuranceDialog;
 		protected CreateProjectHelper _createProjectHelper;
 		protected WorkspacePage _workspacePage;
@@ -116,11 +116,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected string _projectUniqueName;
 		protected UsersTab _usersTab;
 		protected AddAccessRightDialog _addAccessRightDialog;
-		protected Pages.Projects.ProjectsPage _projectsPage;
+		protected ProjectsPage _projectsPage;
 		protected ExportNotification _exportNotification;
 		protected NewGroupDialog _newGroupDialog;
 		protected GroupsAndAccessRightsTab _groupsAndAccessRightsTab;
-		protected Pages.Projects.ProjectSettings.ProjectSettingsPage _projectSettingsPage;
+		protected ProjectSettingsPage _projectSettingsPage;
 		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected PretranslationDialog _pretranslationDialog;
 		protected WorkflowSetUpTab _workflowSetUpTab;
