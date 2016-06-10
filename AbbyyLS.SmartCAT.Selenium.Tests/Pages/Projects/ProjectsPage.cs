@@ -202,9 +202,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// <param name="projectName">название проекта</param>
 		/// <param name="documentPath">путь до документа</param>
 		/// <param name="needCloseTutorial">необходимость закрытия туториала</param>
-		public EditorPage ClickDocumentRefExpectingEditorPage(string projectName, string documentPath, bool needCloseTutorial = true)
+		/// <param name="language">язык(для мультиязычных проектов)</param>
+		public EditorPage ClickDocumentRefExpectingEditorPage(string projectName, string documentPath, bool needCloseTutorial = true, Language? language = null)
 		{
-			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			var documentNameWithoutExtension = Path.GetFileNameWithoutExtension(documentPath);
+			var documentName = language == null
+				? documentNameWithoutExtension
+				: String.Format("{0}_{1}", documentNameWithoutExtension, language.Description());
+			
 			HoverDocumentRow(projectName, documentName);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
 			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);
@@ -219,9 +224,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 		/// </summary>
 		/// <param name="projectName">название проекта</param>
 		/// <param name="documentPath">путь до документа</param>
-		public SelectTaskDialog ClickDocumentRefExpectingSelectTaskDialog(string projectName, string documentPath)
+		/// <param name="language">язык(для мультиязычных проектов)</param>
+		public SelectTaskDialog ClickDocumentRefExpectingSelectTaskDialog(string projectName, string documentPath, Language? language = null)
 		{
-			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			var documentNameWithoutExtension = Path.GetFileNameWithoutExtension(documentPath);
+			var documentName = language == null
+				? documentNameWithoutExtension
+				: String.Format("{0}_{1}", documentNameWithoutExtension, language.Description());
+
 			HoverDocumentRow(projectName, documentName);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его) ожидая диалог выбора задачи.", documentName);
 			ClickTranslateButton<SelectTaskDialog>(documentName);

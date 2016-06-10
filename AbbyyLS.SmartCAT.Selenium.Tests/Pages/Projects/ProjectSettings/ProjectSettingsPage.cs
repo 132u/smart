@@ -171,10 +171,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// <summary>
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
-		/// <param name="documentName">имя документа</param>
-		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentPath)
+		/// <param name="documentPath">имя документа</param>
+		/// <param name="language">язык(для мультиязычных проектов)</param>
+		public SelectTaskDialog OpenDocumentInEditorWithTaskSelect(string documentPath, Language? language = null)
 		{
-			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			var documentNameWithoutExtension = Path.GetFileNameWithoutExtension(documentPath);
+			var documentName = language == null
+				? documentNameWithoutExtension
+				: String.Format("{0}_{1}", documentNameWithoutExtension, language.Description());
+
 			HoverDocumentRow(documentName);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);
@@ -188,9 +193,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings
 		/// Кликнуть по ссылке на документ (открыть его)
 		/// </summary>
 		/// <param name="documentPath">имя документа</param>
-		public EditorPage OpenDocumentInEditorWithoutTaskSelect(string documentPath)
+		/// <param name="language">язык(для мультиязычных проектов)</param>
+		public EditorPage OpenDocumentInEditorWithoutTaskSelect(string documentPath, Language? language = null)
 		{
-			var documentName = Path.GetFileNameWithoutExtension(documentPath);
+			var documentNameWithoutExtension = Path.GetFileNameWithoutExtension(documentPath);
+			var documentName = language == null
+				? documentNameWithoutExtension
+				: String.Format("{0}_{1}", documentNameWithoutExtension, language.Description());
+
 			HoverDocumentRow(documentName);
 			CustomTestContext.WriteLine("Кликнуть по ссылке на документ {0} (открыть его).", documentName);
 			TranslateButton = Driver.SetDynamicValue(How.XPath, TRANSLATE_BUTTON, documentName);

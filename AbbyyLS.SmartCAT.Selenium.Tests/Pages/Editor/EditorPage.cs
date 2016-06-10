@@ -246,6 +246,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Нажать на стрелку повтора
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public EditorPage ClickRepetitionArrow(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Нажать на стрелку повтора в сегменте №{0}.", segmentNumber);
+			RepetitionArrow = Driver.SetDynamicValue(How.XPath, REPETITION_ARROW, (segmentNumber - 1).ToString());
+			RepetitionArrow.Click();
+
+			return LoadPage();
+		}
+
+		/// <summary>
 		/// Нажать на вкладку комментариев сегмента
 		/// </summary>
 		public EditorPage ClickSegmentCommentTab()
@@ -2516,6 +2529,28 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
+		/// Проверить, что показывается стрелка, говорящая, что в этом сегменте находится повтор.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public bool IsRepetitionArrowDisplayed(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить видимость стрелки, говорящей, что в сегменте №{0} находится повтор.", segmentNumber);
+
+			return Driver.WaitUntilElementIsDisplay(Driver.GetValueOfDynamicBy(How.XPath, REPETITION_ARROW, (segmentNumber - 1).ToString()));
+		}
+
+		/// <summary>
+		/// Проверить, что повтор исключён.
+		/// </summary>
+		/// <param name="segmentNumber">номер сегмента</param>
+		public bool IsRepetitionExcluded(int segmentNumber = 1)
+		{
+			CustomTestContext.WriteLine("Проверить, что повтор исключён для сегмента №{0}.", segmentNumber);
+
+			return Driver.WaitUntilElementIsDisplay(Driver.GetValueOfDynamicBy(How.XPath, REPETITION_ARROW_EXCLUDED, (segmentNumber - 1).ToString()));
+		}
+
+		/// <summary>
 		/// Проверить, что появился попап со списком ошибок.
 		/// </summary>
 		public bool IsErrorsPopupExist()
@@ -2982,6 +3017,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected IWebElement LineBreakSymbol { get; set; }
 
 
+		protected IWebElement RepetitionArrow { get; set; }
+
 		#endregion
 
 		#region Описание XPath элементов страницы
@@ -3019,7 +3056,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 
 		protected const string ROW_NUMBER_ACTIVE_XPATH = ".//div[@id='segments-body']//table//td[contains(@class, 'x-grid-item-focused')]/../td[1]//div[contains(@class, 'row-numberer')]";
 
-		protected const string SEGMENT = "//div[@id='segments-body']//div//div[2]//table[]*#*";
 		protected const string SEGMENTS_TABLE_XPATH = "//div[@id='segments-body']//div//div[2]//table";
 		protected const string SEGMENTS_BODY = "//div[@id='segments-body']//table";
 		protected const string CONFIRMED_ICO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'confirmed')]";
@@ -3031,6 +3067,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string TAG = "//div[contains(@id, 'targeteditor')][*#*]//img[contains(@class,'tag')]";
 		protected const string SEGMENT_LOCK = "//div[contains(text(), '*#*')]//..//..//..//div[contains(@class,'lock')][not(contains(@class,'inactive'))]";
 		protected const string SEGMENT_ERROR_LOGO = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'x-segment-target-info')]//span[contains(@class, 'errors')]/ancestor::a";
+		protected const string REPETITION_ARROW = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'repetition')]";
+		protected const string REPETITION_ARROW_EXCLUDED = "//div[@id='segments-body']//table[@data-recordindex = '*#*']//div[contains(@class,'repetition-exclude')]";
 		protected const string CONFIRM_TICK = "//table[*#*]//div[@data-qtip='Save Translation (Enter)']";
 		protected const string LINE_BREAK_SYMBOL = "//table[*#*]//td[3][contains(@class, 'segmenteditor')]//img[@class='tag tag-srt']";
 

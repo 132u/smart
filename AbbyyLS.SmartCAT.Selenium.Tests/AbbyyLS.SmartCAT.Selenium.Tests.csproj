@@ -403,7 +403,8 @@
     <Compile Include="Tests\MachineTranslations\UsingMTTests\UsingSeveralMachineTranslationsTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusByExecutiveTests.cs" />
     <Compile Include="Tests\Projects\ChangeProjectStatusTests\ChangeProjectStatusTests.cs" />
-    <Compile Include="Tests\Projects\RepetitionsSettingsTests\RepetitionsSettingsTests.cs" />
+    <Compile Include="Tests\Projects\RepetitionsTests\RepetitionsTests.cs" />
+    <Compile Include="Tests\Projects\RepetitionsTests\RepetitionsSettingsTests.cs" />
     <Compile Include="Tests\Projects\UploadDocumentToProjectTests\UploadDocumentToProjectTests.cs" />
     <Compile Include="Tests\Editor\ProgressBarTests\ProgressBarTests.cs" />
     <Compile Include="Tests\Projects\WorkflowTests\WorkflowTaskDialogInEditorTests.cs" />
