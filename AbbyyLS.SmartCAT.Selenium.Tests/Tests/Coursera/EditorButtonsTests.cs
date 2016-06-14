@@ -292,19 +292,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			Assert.IsTrue(_editorPage.IsSegmentCrowdConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
-
-		[Test]
-		public void ConfirmByTickButtonTest()
-		{
-			_lecturesTab.OpenLecture();
-
-			_editorPage
-				.FillSegmentTargetField()
-				.ClickSegmentConfirmTick();
-
-			Assert.IsTrue(_editorPage.IsSegmentCrowdConfirmed(),
-				"Произошла ошибка:\n не удалось подтвердить сегмент");
-		}
 	}
 }
 
