@@ -1,0 +1,108 @@
+<xliff version='1.2'
+       xmlns='urn:oasis:names:tc:xliff:document:1.2'>
+<file original='hello.txt' source-language='en' target-language='ru'
+       datatype='plaintext'>
+<body>
+<trans-unit id='hi1' approved='no'>
+<source>Hello world1.</source>
+<target state='new' >state='new' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi1' approved='yes'>
+<source>Hello world11.</source>
+<target state='new' >state='new' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi2' approved='no'>
+<source>Hello world2.</source>
+<target state='needs-translation'>state='needs-translation' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi2' approved='yes'>
+<source>Hello world12.</source>
+<target state='needs-translation'>state='needs-translation' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi3' approved='no'>
+<source>Hello world3.</source>
+<target state='needs-adaptation'>state='needs-adaptation' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi3' approved='yes'>
+<source>Hello world13.</source>
+<target state='needs-adaptation'>state='needs-adaptation' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi4' approved='no'>
+<source>Hello world4.</source>
+<target state='needs-l10n' >state='needs-l10n' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi4' approved='yes'>
+<source>Hello world14.</source>
+<target state='needs-l10n' >state='needs-l10n' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi5' approved='no'>
+<source>Hello world5.</source>
+<target  state='needs-review-adaptation' >state='needs-review-adaptation' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi5' approved='yes'>
+<source>Hello world15.</source>
+<target  state='needs-review-adaptation' >state='needs-review-adaptation' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi6' approved='no'>
+<source>Hello world6.</source>
+<target state='needs-review-l10n' >state='needs-review-l10n' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi6' approved='yes'>
+<source>Hello world16.</source>
+<target state='needs-review-l10n' >state='needs-review-l10n' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi7' approved='no'>
+<source>Hello world7.</source>
+<target state='needs-review-translation' >state='needs-review-translation' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi7' approved='yes'>
+<source>Hello world17.</source>
+<target state='needs-review-translation' >state='needs-review-translation' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi8' approved='no'>
+<source>Hello world8.</source>
+<target state='translated'>state='translated' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi8' approved='yes'>
+<source>Hello world18.</source>
+<target state='translated'>state='translated' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi9' approved='no'>
+<source>Hello world9.</source>
+<target state='signed-off'>state='signed-off' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi9' approved='yes'>
+<source>Hello world19.</source>
+<target state='signed-off'>state='signed-off' approved = 'yes'</target>
+</trans-unit>
+
+<trans-unit id='hi10'  approved='no'>
+<source>Hello world10.</source>
+<target state='final'>state='final' approved = 'no'</target>
+</trans-unit>
+
+<trans-unit id='hi10'  approved='yes'>
+<source>Hello world20.</source>
+<target state='final'>state='final' aprooved = 'yes'</target>
+</trans-unit>
+
+</body>
+</file>
+</xliff>

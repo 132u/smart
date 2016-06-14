@@ -97,16 +97,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Projects
 				"Произошла ошибка:\n для языка {0} не должно быть джобов.", targetLanguages[0]);
 		}
 
-		[Test, Description("S-7164"), ShortCheckList]
+		[Test, Description("S-7164"), ShortCheckList, Ignore("PRX-17422")]
 		[TestCase(true)]
-		//[TestCase(false)] Ignore("PRX-17326")]
+		[TestCase(false)]
 		public void UploadSecondDocumentToUpdateFirstDocumentTest(bool isDocx)
 		{
 			var file = PathProvider.EditorTxtDublicateFile3;
 			var dublicateFile = PathProvider.EditorTxt3DublicateFile;
-			//TODO исправить null, когда тестировщики дадут файл PRX-17326
-			var filePath = isDocx ? file : null;
-			var dublicateFilePath = isDocx ? dublicateFile : null;
+			var pOFile = PathProvider.POFile;
+			var pODublicateFile = PathProvider.PODublicateFile;
+			var filePath = isDocx ? file : pOFile;
+			var dublicateFilePath = isDocx ? dublicateFile : pODublicateFile;
 			var translation = "Translation";
 			
 			_createProjectHelper.CreateNewProject(_projectUniqueName, filesPaths: new[] { filePath });

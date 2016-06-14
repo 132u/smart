@@ -168,6 +168,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу EditorTxtFile3.txt
+		/// </summary>
+		public static string POFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorFilesFolder, "standard.po")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу EditorTxtFile.txt (дубликат)
 		/// </summary>
 		public static string EditorTxt3DublicateFile
@@ -179,6 +190,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 		}
 
 		/// <summary>
+		/// Путь к тестовому файлу standard.po (дубликат)
+		/// </summary>
+		public static string PODublicateFile
+		{
+			get
+			{
+				return new Uri(Path.Combine(editorDublicateFilesFolder, "standard.po")).LocalPath;
+			}
+		}
+
+		/// <summary>
 		/// Путь к тестовому файлу с небуквенными символами.
 		/// </summary>
 		public static string EditorAutoInsertionFile
@@ -186,6 +208,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests
 			get
 			{
 				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "AutoInsertion.txt")).LocalPath);
+			}
+		}
+
+		/// <summary>
+		/// Путь к тестовому файлу pretranslateFile.xliff.
+		/// </summary>
+		public static string EditorPretranslatXliffFile
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "pretranslateFile.xliff")).LocalPath);
+			}
+		}
+
+
+		/// <summary>
+		/// Путь к тестовому файлу pretranslateFile.txt.
+		/// </summary>
+		public static string EditorPretranslateTtxFile
+		{
+			get
+			{
+				return GetUniqueFilePath(new Uri(Path.Combine(editorFilesFolder, "pretranslateFile.ttx")).LocalPath);
 			}
 		}
 

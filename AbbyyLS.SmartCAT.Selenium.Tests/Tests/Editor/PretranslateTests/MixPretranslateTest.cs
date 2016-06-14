@@ -14,19 +14,43 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor.PretranslateTests
 	class MixPretranslateTests<TWebDriverProvider> :
 		PretranslateBaseTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[Test, Description("S-29308"), Ignore("SCAT-1177")]
-		public void PretranslateWithTwoLanguagesDocumentTest()
+		[Test, Description("S-29308")]
+		public void PretranslateWithTwoLanguagesTxtDocumentTest()
 		{
-			var file = PathProvider.EditorAutoInsertionFile;
+			var file = PathProvider.EditorPretranslateTtxFile;
+
 			_createProjectHelper.CreateNewProject(
 				projectName: _projectUniqueName,
 				filesPaths: new[] { file });
 			
 			_projectsPage
 				.OpenProjectInfo(_projectUniqueName)
-				.ClickDocumentRefExpectingSelectTaskDialog(_projectUniqueName, file);
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, file);
 
-			_editorPage.ClickRevisionTab();
+			_editorPage
+				.ClickRevisionTab()
+				.ClickOnTargetCellInSegment(rowNumber: 1);
+
+			Assert.AreEqual(RevisionType.Pretranslation.Description(), _editorPage.GetRevisionType(),
+				"Произошла ошибка: неверный тип ревизии в строке №1.");
+		}
+
+		[Test, Description("S-29308")]
+		public void PretranslateWithTwoLanguagesXliffDocumentTest()
+		{
+			var file = PathProvider.EditorPretranslatXliffFile;
+
+			_createProjectHelper.CreateNewProject(
+				projectName: _projectUniqueName,
+				filesPaths: new[] { file });
+
+			_projectsPage
+				.OpenProjectInfo(_projectUniqueName)
+				.ClickDocumentRefExpectingEditorPage(_projectUniqueName, file);
+
+			_editorPage
+				.ClickRevisionTab()
+				.ClickOnTargetCellInSegment(rowNumber: 1);
 
 			Assert.AreEqual(RevisionType.Pretranslation.Description(), _editorPage.GetRevisionType(),
 				"Произошла ошибка: неверный тип ревизии в строке №1.");
