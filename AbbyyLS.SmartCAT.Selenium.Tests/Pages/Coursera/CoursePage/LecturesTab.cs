@@ -46,7 +46,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 		/// <summary>
 		/// Открыть лекцию.
 		/// </summary>
-		/// <param name="lectureNumber">название лекции</param>
+		/// <param name="lecture">название лекции</param>
 		public EditorPage OpenLecture(string lecture)
 		{
 			CustomTestContext.WriteLine("Открыть лекцию '{0}'.", lecture);
@@ -64,23 +64,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			CustomTestContext.WriteLine("Получить список названий лекций.");
 
 			return Driver.GetElementsCount(By.XPath(LECTURE_NAME_LIST));
-		}
-
-		/// <summary>
-		/// Получить номер первой лекции с пустым личным прогресс баром.
-		/// </summary>
-		public int GetLectureNumberWithEmptyPersonalProgress()
-		{
-			CustomTestContext.WriteLine("Получить номер первой лекции с пустым личным прогресс баром.");
-			for (int i =1; i < GetLectureNamesCount(); i++)
-			{
-				if (GetPersonalProgressValueByLectureNumber(i).ToString() == "0")
-				{
-					return i;
-				}
-			}
-
-			throw new Exception("Произошла ошибка:\n Нет подходящей лекции с пустым личным прогресс баром.");
 		}
 
 		/// <summary>
@@ -176,29 +159,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 
 			return result;
 
-		}
-		/// <summary>
-		/// Открыть первую лекцию с пустым личным погресс баром.
-		/// </summary>
-		public EditorPage ClickFirstEmptyPersonalProgressBar()
-		{
-			CustomTestContext.WriteLine("Открыть первую лекции с пустым личным погресс баром.");
-			PersonalProgressList = Driver.GetElementList(By.XPath(PERSONAL_PROGRESS_LIST));
-			PersonalProgressList[0].Click();
-
-			return new EditorPage(Driver).LoadPage();
-		}
-
-		/// <summary>
-		/// Открыть первую лекции с пустым общим погресс баром.
-		/// </summary>
-		public EditorPage ClickFirstEmptyCommonProgressBar()
-		{
-			CustomTestContext.WriteLine("Открыть первую лекции с пустым общим погресс баром.");
-			CommonProgressList = Driver.GetElementList(By.XPath(COMMON_PROGRESS_LIST));
-			CommonProgressList[0].Click();
-
-			return new EditorPage(Driver).LoadPage();
 		}
 
 		#endregion

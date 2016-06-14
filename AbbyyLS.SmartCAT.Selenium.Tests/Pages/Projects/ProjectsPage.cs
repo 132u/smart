@@ -216,7 +216,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			TranslateButton.Click();
 			Driver.SwitchToNewBrowserTab();
 
-			return new EditorPage(Driver, needCloseTutorial).LoadPage();
+			return new EditorPage(Driver, needCloseTutorial).LoadPageFromAnotherPage();
 		}
 
 		/// <summary>

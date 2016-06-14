@@ -69,7 +69,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			CustomTestContext.WriteLine("Нажать кнопку 'Продолжить'.");
 			ContinueButton.Click();
 
-			return new EditorPage(Driver).LoadPage();
+			return new EditorPage(Driver).LoadPageFromAnotherPage();
 		}
 
 		/// <summary>

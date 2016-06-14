@@ -36,17 +36,22 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			if (!IsEditorPageOpened(_needCloseTutorial))
 			{
-				if (IsEditorDialogBackgroundDisplayed() && _needCloseTutorial)
-				{
-					CloseTutorial();
-				}
-				else
-				{
-					throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
-				}
+				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
 			}
 
 			return this;
+		}
+
+		public EditorPage LoadPageFromAnotherPage()
+		{
+			Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON), 3);
+
+			if (IsCloseTutorialButtonDisplay() && _needCloseTutorial)
+			{
+				CloseTutorial();
+			}
+
+			return LoadPage();
 		}
 
 		#region Простые методы страницы
@@ -2289,11 +2294,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Проверить, закрылся ли фон диалога в редакторе
+		/// Проверить, видно ли кнопку закрытия туториала
 		/// </summary>
-		public bool IsEditorDialogBackgroundDisplayed()
+		public bool IsCloseTutorialButtonDisplay()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(EDITOR_DIALOG_BACKGROUND), 2);
+			return Driver.WaitUntilElementIsDisplay(By.XPath(FINISH_TUTORIAL_BUTTON));
 		}
 
 		/// <summary>
