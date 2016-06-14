@@ -10,12 +10,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 	class OpenProfileTests<TWebDriverProvider> : CourseraBaseTests<TWebDriverProvider>
 		where TWebDriverProvider : IWebDriverProvider, new()
 	{
-		[SetUp]
-		public void OpenProfileTestsSetUp()
-		{
-			_loginHelper.LogInCoursera(CourseraCrowdsourceUser.Login, CourseraCrowdsourceUser.Password);
-		}
-		
 		[Test]
 		public void OpenProfileFromHomePage()
 		{
