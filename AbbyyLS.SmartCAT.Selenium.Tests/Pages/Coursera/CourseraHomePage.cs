@@ -192,7 +192,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			CustomTestContext.WriteLine("Проскролить до количества голосов.");
 			VoteCount = Driver.SetDynamicValue(How.XPath, VOTE_COUNT, translation);
-			VoteCount.Scroll();
+			VoteCount.ScrollDown();
 
 			return LoadPage();
 		}
