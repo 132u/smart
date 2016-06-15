@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Количество переведенных предложений не увеличилось.");
 		}
 
-		[Test, Ignore("PRX-17445, PRX-17445")]
+		[Test, Ignore("PRX-17445")]
 		public void VoteUpTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
