@@ -1,21 +1,39 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using NUnit.Framework;
 
+using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.FeatureAttributes;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Billing;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.MachineTranslation;
-using AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.FastMTTests;
+using AbbyyLS.SmartCAT.Selenium.Tests.TestHelpers;
 
 namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 {
 	[Parallelizable(ParallelScope.Fixtures)]
-	class SpendingPaidPagesByMTTests<TWebDriverProvider> : EnablingFastMTTests<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
+	class SpendingPaidPagesByMTTests<TWebDriverProvider> : BaseMTTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
 		[SetUp]
 		public void SetUp()
 		{
+			var accountUniqueName = AdminHelper.GetAccountUniqueName();
+			_adminHelper
+				.CreateAccountIfNotExist(
+					LoginHelper.SmartCATVenture,
+					accountName: accountUniqueName,
+					features: new List<string>() { Feature.FastMT.ToString() })
+				.AddUserToAdminGroupInAccountIfNotAdded(ThreadUser.Login, ThreadUser.Name, ThreadUser.Surname, accountUniqueName);
+
+			_signInPage
+				.GetPage()
+				.SubmitForm(ThreadUser.Login, ThreadUser.Password);
+
+			_selectAccountForm.SelectAccount(accountUniqueName);
+
+			_workspacePage.SetLocale();
+
 			_billingPage = new BillingPage(Driver);
 			_fastMTTextPage = new FastMTTextPage(Driver);
 
@@ -52,7 +70,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 				"Произошла ошибка:\n баланс не уменьшился");
 		}
 
-		[Test, Description("S-7273"), ShortCheckList]
+		[Test, Description("S-29775"), ShortCheckList]
 		public void SpendPaidPagesByFastMTTest()
 		{
 			_workspacePage.GoToMachineTranslationPage();
@@ -76,6 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 		}
 
 		private double _balanceBeforeTest;
+
 		private FastMTTextPage _fastMTTextPage;
 		private BillingPage _billingPage;
 	}

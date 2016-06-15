@@ -14,7 +14,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.FastMTTests
 			_workspacePage.GoToMachineTranslationPage();
 		}
 
-		[Test, Description("S-7273"), ShortCheckList]
+		[Test, Description("S-29774"), ShortCheckList]
 		public void TranslateFileUsingFastMTTest()
 		{
 			var documentsCountBeforeDownload = _fastMTAddFilesPage.GetDocumentsCount();

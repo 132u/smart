@@ -19,7 +19,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.FastMTTests
 			_fastMTTextPage = new FastMTTextPage(Driver);
 		}
 
-		[Test, Description("S-7273"), ShortCheckList]
+		[Test, Description("S-29773"), ShortCheckList]
 		public void TranslateTextUsingFastMTTest()
 		{
 			_fastMTTextPage

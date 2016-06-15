@@ -353,6 +353,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 		}
 
 		/// <summary>
+		/// Проверить, есть ли ссылка 'Machine Translation' в открытом боковом меню
+		/// </summary>
+		public bool IsMachineTranslationRefExist()
+		{
+			CustomTestContext.WriteLine("Проверить, есть ли ссылка 'Machine Translation' в открытом боковом меню");
+			return Driver.GetIsElementExist(By.XPath(MACHINE_TRANSLATION_MENU));
+		}
+
+		/// <summary>
 		/// Обновить страницу
 		/// </summary>
 		public T RefreshPage<T>() where T : class, IAbstractPage<T>
@@ -917,6 +926,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Workspace
 			return exportType == ExportType.TMX
 				? Path.GetFileNameWithoutExtension(filePath) + "*.tmx"
 				: Path.GetFileNameWithoutExtension(filePath) + "*" + Path.GetExtension(filePath);
+		}
+
+		/// <summary>
+		/// Проверить, что в меню есть ссылка 'Machine Translation'
+		/// </summary>
+		public bool IsMachineTranslationExistInMenu()
+		{
+			OpenHideMenuIfClosed();
+			return IsMachineTranslationRefExist();
 		}
 
 		#endregion

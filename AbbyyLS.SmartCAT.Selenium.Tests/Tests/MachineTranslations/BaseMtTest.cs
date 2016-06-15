@@ -2,6 +2,7 @@
 
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor;
+using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Login;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.MachineTranslation;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
@@ -25,20 +26,29 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations
 			_projectSettingsHelper = new ProjectSettingsHelper(Driver);
 			_fastMTAddFilesPage = new FastMTAddFilesPage(Driver);
 			_fastMTAddFilesSettingsPage = new FastMTAddFilesSettingsPage(Driver);
+			_adminHelper = new AdminHelper(Driver);
+			_selectAccountForm = new SelectAccountForm(Driver);
+			_signInPage = new SignInPage(Driver);
 
 			_projectUniqueName = _createProjectHelper.GetProjectUniqueName();
 		}
 
 		protected string _projectUniqueName;
-		protected WorkspacePage _workspacePage;
+
 		protected CreateProjectHelper _createProjectHelper;
+		protected AdminHelper _adminHelper;
+		protected ProjectSettingsHelper _projectSettingsHelper;
+
+		protected WorkspacePage _workspacePage;
 		protected ProjectsPage _projectsPage;
-		protected DocumentSettingsDialog _documentSettingsDialog;
+		protected SignInPage _signInPage;
 		protected ProjectSettingsPage _projectSettingsPage;
 		protected EditorPage _editorPage;
-		protected SelectTaskDialog _selectTaskDialog;
-		protected ProjectSettingsHelper _projectSettingsHelper;
 		protected FastMTAddFilesPage _fastMTAddFilesPage;
 		protected FastMTAddFilesSettingsPage _fastMTAddFilesSettingsPage;
+
+		protected DocumentSettingsDialog _documentSettingsDialog;
+		protected SelectTaskDialog _selectTaskDialog;
+		protected SelectAccountForm _selectAccountForm;
 	}
 }
