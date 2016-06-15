@@ -187,7 +187,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Неверное значение общего прогресса для лекции '{0}'.", lecture);
 		}
 		
-		[Test]
+		[Test, Ignore("PRX-17445")]
 		public void DecreaseLectureCommonProgressTwoUsersTest()
 		{
 			var lecture = "1.7 Cultural approach";

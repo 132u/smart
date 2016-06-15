@@ -43,7 +43,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Рейтинг пользователя не изменился.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17445")]
 		public void VoteDownTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -108,7 +108,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Количество переведенных предложений не увеличилось.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17445, PRX-17445")]
 		public void VoteUpTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -175,7 +175,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Количество переведенных предложений не увеличилось.");
 		}
 
-		[Test, Ignore("PRX-14792")]
+		[Test, Ignore("PRX-14792, PRX-17445")]
 		public void RatingTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -233,7 +233,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			Assert.AreNotEqual(ratingBeforeRate, ratingAfterRate, "Произошла ошибка:\n Рейтинг не изменился.");
 		}
 
-		[Test, Ignore("PRX-14792")]
+		[Test, Ignore("PRX-14792, PRX-17445")]
 		public void VoteUpViaEventsListTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -280,7 +280,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Рейтинг не увеличился.");
 		}
 
-		[Test, Ignore("PRX-14792")]
+		[Test, Ignore("PRX-14792, PRX-17445")]
 		public void VoteDownViaEventsListTest()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
