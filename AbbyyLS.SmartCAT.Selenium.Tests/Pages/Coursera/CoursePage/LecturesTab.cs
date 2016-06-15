@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 			Lecture = Driver.SetDynamicValue(How.XPath, LECTURE, lectureNumber.ToString());
 			Lecture.Click();
 
-			return new EditorPage(Driver).LoadPage();
+			return new EditorPage(Driver).LoadPageFromAnotherPage();
 		}
 
 		/// <summary>
