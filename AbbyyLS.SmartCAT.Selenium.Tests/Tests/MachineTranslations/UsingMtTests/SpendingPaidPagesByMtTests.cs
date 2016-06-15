@@ -15,6 +15,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 	[Parallelizable(ParallelScope.Fixtures)]
 	class SpendingPaidPagesByMTTests<TWebDriverProvider> : BaseMTTest<TWebDriverProvider> where TWebDriverProvider : IWebDriverProvider, new()
 	{
+		public SpendingPaidPagesByMTTests()
+		{
+			StartPage = StartPage.Admin;
+		}
+
 		[SetUp]
 		public void SetUp()
 		{
