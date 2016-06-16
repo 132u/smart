@@ -105,7 +105,6 @@
     <Compile Include="Pages\Editor\DeleteTranslationDialog.cs" />
     <Compile Include="Pages\Editor\UserPreferences\UserPreferencesDialog.cs" />
     <Compile Include="Pages\Glossaries\FilterDialog.cs" />
-    <Compile Include="Pages\Glossaries\GlossaryExportNotification.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SelectGlossaryDialog.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsGlossaryPage.cs" />
     <Compile Include="Pages\Glossaries\SuggestedTerms\SuggestedTermsPage.cs" />

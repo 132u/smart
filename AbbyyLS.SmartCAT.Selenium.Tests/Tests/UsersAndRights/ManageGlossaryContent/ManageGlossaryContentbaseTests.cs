@@ -39,7 +39,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaryConten
 			_workspacePage = new WorkspacePage(Driver);
 			_loginHelper = new LoginHelper(Driver);
 			_projectsPage = new ProjectsPage(Driver);
-			_exportNotification = new ExportNotification(Driver);
 			_usersTab = new UsersTab(Driver);
 			_addAccessRightDialog = new AddAccessRightDialog(Driver);
 			_newGroupDialog = new NewGroupDialog(Driver);
@@ -74,7 +73,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaryConten
 			_suggestedTermsPageForCurrentGlossaries = new SuggestedTermsGlossaryPage(Driver);
 			_addTermDialog = new AddTermDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
-			_glossaryExportNotification = new GlossaryExportNotification(Driver);
 
 			_clientName = _clientsPage.GetClientUniqueName();
 
@@ -163,7 +161,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersRights.ManageGlossaryConten
 
 		protected string _clientName;
 
-		protected GlossaryExportNotification _glossaryExportNotification;
 		protected AddTermDialog _addTermDialog;
 		protected SuggestedTermsGlossaryPage _suggestedTermsPageForCurrentGlossaries;
 		protected ProjectGroupsPage _projectGroupsPage;

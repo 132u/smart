@@ -21,7 +21,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				.CreateTerm("secondTerm1", "secondTerm2")
 				.ClickExportGlossary();
 
-			_eglossaryExportNotification.ClickDownloadNotifier<GlossaryPage>();
+			_exportNotification.ClickDownloadNotifier<GlossaryPage>();
 
 			Assert.IsTrue(_glossaryPage.IsGlossaryExportedSuccesfully(Path.Combine(PathProvider.ExportFiles, _glossaryUniqueName.Replace(":", "-") + ".xlsx")),
 				"Произошла ошибка:\n файл не был скачан за отведенное время");

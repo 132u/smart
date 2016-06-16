@@ -85,12 +85,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Glossaries
 		/// <summary>
 		/// Нажать на кнопку Export
 		/// </summary>
-		public GlossaryExportNotification ClickExportGlossary()
+		public ExportNotification ClickExportGlossary()
 		{
 			CustomTestContext.WriteLine("Нажать кнопку Export.");
 			ExportButton.Click();
 
-			return new GlossaryExportNotification(Driver).LoadPage();
+			return new ExportNotification(Driver).LoadPage();
 		}
 
 		/// <summary>

@@ -24,13 +24,13 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_glossariesHelper = new GlossariesHelper(Driver);
 			_filterDialog = new FilterDialog(Driver);
 			_glossaryUniqueName = GlossariesHelper.UniqueGlossaryName();
-            _exportNotification = new GlossaryExportNotification(Driver);
+			_exportNotification = new ExportNotification(Driver);
 
-            _workspacePage.GoToGlossariesPage();
+			_workspacePage.GoToGlossariesPage();
 		}
 
-        protected GlossaryExportNotification _exportNotification;
-        protected GlossariesHelper _glossariesHelper;
+		protected ExportNotification _exportNotification;
+		protected GlossariesHelper _glossariesHelper;
 		protected WorkspacePage _workspacePage;
 		protected GlossaryPage _glossaryPage;
 		protected GlossariesPage _glossariesPage;

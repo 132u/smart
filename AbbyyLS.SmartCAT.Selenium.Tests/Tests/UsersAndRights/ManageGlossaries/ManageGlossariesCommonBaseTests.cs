@@ -69,7 +69,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 			_addTermDialog = new AddTermDialog(Driver);
 			_glossaryPage = new GlossaryPage(Driver);
 			_newGlossaryDialog = new Pages.Glossaries.NewGlossaryDialog(Driver);
-			_eglossaryExportNotification = new GlossaryExportNotification(Driver);
 		}
 
 		[OneTimeTearDown]
@@ -88,7 +87,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 		protected string _glossaryUniqueName;
 		protected string _commonGlossaryUniqueName;
 
-		protected GlossaryExportNotification _eglossaryExportNotification;
+
 		protected Pages.Glossaries.NewGlossaryDialog _newGlossaryDialog;
 		protected AddTermDialog _addTermDialog;
 		protected SuggestedTermsGlossaryPage _suggestedTermsPageForCurrentGlossaries;

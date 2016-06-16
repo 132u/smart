@@ -41,7 +41,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.UsersAndRights
 				_exportNotification.CancelAllNotifiers<ProjectsPage>();
 
 				_workspacePage.GoToGlossariesPage();
-				_eglossaryExportNotification.CloseAllNotifications<GlossariesPage>();
+				_exportNotification.CloseAllNotifications<GlossariesPage>();
 				_glossariesHelper.CreateGlossary(_glossaryUniqueName);
 			}
 			catch (Exception ex)
