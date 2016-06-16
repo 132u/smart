@@ -29,7 +29,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -51,7 +51,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -65,7 +65,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(translationText2);
+			_courseraEditorPage.AddTranslationForCourseraProgress(translationText2);
 
 			_header.GoToUserProfile();
 
@@ -89,7 +89,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header
 				.ClickSignOut()
@@ -109,7 +109,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(translationText2);
+			_courseraEditorPage.AddTranslationForCourseraProgress(translationText2);
 
 			_header.GoToUserProfile();
 
@@ -130,7 +130,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -144,13 +144,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 	
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ClickDeleteTranslateButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage.DeleteTranslation(_translationText, CourseraCrowdsourceUser.NickName);
 
 			_deleteTranslationDialog.ClickYesButton();
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();
 
@@ -171,7 +169,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -185,7 +183,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -207,7 +205,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 
@@ -221,7 +219,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture2);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToUserProfile();
 

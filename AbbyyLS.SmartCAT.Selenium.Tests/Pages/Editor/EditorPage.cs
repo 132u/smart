@@ -11,7 +11,6 @@ using Keys = OpenQA.Selenium.Keys;
 
 using AbbyyLS.SmartCAT.Selenium.Tests.DataStructures;
 using AbbyyLS.SmartCAT.Selenium.Tests.Drivers;
-using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.ProjectSettings;
 using AbbyyLS.SmartCAT.Selenium.Tests.Pages.Search;
@@ -23,7 +22,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 	{
 		public WebDriver Driver { get; set; }
 
-		private bool _needCloseTutorial { get; set; }
+		protected bool _needCloseTutorial { get; set; }
 
 		public EditorPage(WebDriver driver, bool needCloseTutorial = true)
 		{
@@ -36,7 +35,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		{
 			if (!IsEditorPageOpened(_needCloseTutorial))
 			{
-				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе");
+				throw new XPathLookupException("Произошла ошибка:\n не удалось открыть документ в редакторе.");
 			}
 
 			return this;
@@ -366,17 +365,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		}
 
 		/// <summary>
-		/// Нажать кнопку "Домой" для перехода на страницу курсов курсеры.
-		/// </summary>
-		public CoursesPage ClickHomeButtonExpectingCourseraCoursesPage()
-		{
-			CustomTestContext.WriteLine("Нажать кнопку 'Домой' для перехода на страницу курсов курсеры.");
-			HomeButton.Click();
-
-			return new CoursesPage(Driver).LoadPage();
-		}
-
-		/// <summary>
 		/// Подтвердить текст с помощью грячих клавиш Ctrl+Enter
 		/// </summary>
 		public EditorPage ConfirmSegmentByHotkeys()
@@ -651,20 +639,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ConcordanceSearchText.SetText(searchText);
 
 			return LoadPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку удаления перевода пользователя
-		/// </summary>
-		/// <param name="author">автор</param>
-		///  <param name="translation">перевод</param>
-		public DeleteTranslationDialog ClickDeleteTranslateButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку удаления перевода {0} пользователя {1}.", translation, author);
-			DeleteTranslateButton = Driver.SetDynamicValue(How.XPath, DELETE_TRANSLATE_BUTTON, author, translation);
-			DeleteTranslateButton.Click();
-
-			return new DeleteTranslationDialog(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -1151,47 +1125,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			return LoadPage();
 		}
 
-		/// <summary>
-		/// Нажать кнопку голосования За.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ClickVoteUpButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
-			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
-			VoteUpButton.Click();
-
-			return LoadPage();
-		}
-		/// <summary>
-		/// Проскролить до кнопки голосования За.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ScrollToVoteUpButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
-			VoteUpButton = Driver.SetDynamicValue(How.XPath, VOTE_UP_BUTTON, author, translation);
-			VoteUpButton.Scroll();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Проскролить и нажать кнопку голосования За.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ScrollAndClickVoteUpButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования За перевода '{0}' автора {1}.", translation, author);
-			ScrollToVoteUpButton(author, translation);
-			ClickVoteUpButton(author, translation);
-
-			return LoadPage();
-		}
-
 		public EditorPage ScrollToVoteCount(string author, string translation)
 		{
 			Driver.WaitUntilElementIsAppear(By.XPath(VOTE_COUNT.Replace("*#*", author).Replace("*##*", translation)));
@@ -1219,48 +1152,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			}
 
 			return result;
-		}
-
-		/// <summary>
-		///Проскролить до кнопки голосования Против.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ScrollToVoteDownButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Проскролить до кнопки голосования Против перевода '{0}' автора {1}.", translation, author);
-			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
-			VoteDownButton.Scroll();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Нажать кнопку голосования Против.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ClickVoteDownButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Нажать кнопку голосования Против перевода '{0}' автора {1}.", translation, author);
-			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
-			VoteDownButton.JavaScriptClick();
-
-			return LoadPage();
-		}
-
-		/// <summary>
-		/// Проскролить и нажать кнопку голосования Против.
-		/// </summary>
-		/// <param name="author">автор</param>
-		/// <param name="translation">перевод</param>
-		public EditorPage ScrollAndClickVoteDownButton(string author, string translation)
-		{
-			CustomTestContext.WriteLine("Проскролить и нажать кнопку голосования Против перевода '{0}' автора {1}.", translation, author);
-			ScrollToVoteDownButton(author, translation);
-			ClickVoteDownButton(author, translation);
-
-			return LoadPage();
 		}
 
 		/// <summary>
@@ -1616,19 +1507,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 			ScrollToVoteCount(author, translation);
 
 			return GetVoteCount(author, translation);
-		}
-
-		/// <summary>
-		/// Добавить перевод
-		/// </summary>
-		/// <param name="translationText">перевод</param>
-		public CoursesPage AddTranslationForCourseraProgress(string translationText, int rowNumber = 1)
-		{
-			FillTarget(translationText, rowNumber);
-			ConfirmSegmentTranslation();
-			ClickHomeButtonExpectingCourseraCoursesPage();
-
-			return new CoursesPage(Driver).LoadPage();
 		}
 
 		/// <summary>
@@ -2971,8 +2849,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		[FindsBy(How = How.XPath, Using = CLOSE_MESSAGE_WITH_CRITICAL_ERROR_BUTTON)]
 		protected IWebElement CloseCriticalErrorMessageButton { get; set; }
 		
-		[FindsBy(How = How.XPath, Using = DELETE_TRANSLATE_BUTTON)]
-		protected IWebElement DeleteTranslateButton { get; set; }
 		[FindsBy(How = How.XPath, Using = USER_PREF_BTN)]
 		protected IWebElement UserPreferencesButton { get; set; }
 
@@ -3127,7 +3003,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string EDITOR_DIALOG_BACKGROUND = "//div[contains(@class,'x-mask callout-mask')]";
 
 		protected const string VOTE_DOWN_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'minus')]";
-		protected const string DELETE_TRANSLATE_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]//ancestor::td//following-sibling::td//div[contains(@class, 'sci-delete')]";
 		protected const string VOTE_UP_BUTTON = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]//../following-sibling::td//div[contains(text(), '*##*')]//../following-sibling::td//span[contains(@class,'plus')]";
 		protected const string VOTE_COUNT = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]//ancestor::td//following-sibling::td//span[@class='rating-count']";
 		protected const string VOTE_DOWN_BUTTON_INACTIVE = "//div[@id='translations-body']//tbody//div[contains(text(), '*#*')]/ancestor::td//following-sibling::td//div[contains(text(), '*##*')]/ancestor::td//following-sibling::td//span[contains(@class,'minus')]";

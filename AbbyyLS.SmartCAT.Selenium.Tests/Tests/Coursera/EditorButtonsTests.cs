@@ -26,7 +26,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			Assert.IsTrue(_coursesPage.IsCoursesPageOpened(),
 				"Произошла ошибка: не открылась страница курсов.");
@@ -37,14 +37,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			var sourceText = _editorPage.GetSourceText(rowNumber: 1);
+			var sourceText = _courseraEditorPage.GetSourceText(rowNumber: 1);
 
-			_editorPage
+			_courseraEditorPage
 				.ClickOnTargetCellInSegment()
 				.ClickCopySourceToTargetButton()
 				.ConfirmSegmentTranslation();
 
-			Assert.AreEqual(sourceText, _editorPage.GetTargetText(rowNumber: 1),
+			Assert.AreEqual(sourceText, _courseraEditorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №1."); ;
 		}
 
@@ -53,14 +53,14 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			var sourceText = _editorPage.GetSourceText(rowNumber: 1);
+			var sourceText = _courseraEditorPage.GetSourceText(rowNumber: 1);
 
-			_editorPage
+			_courseraEditorPage
 				.ClickOnTargetCellInSegment()
 				.CopySourceToTargetHotkey()
 				.ConfirmSegmentTranslation();
 
-			Assert.AreEqual(sourceText, _editorPage.GetTargetText(rowNumber: 1),
+			Assert.AreEqual(sourceText, _courseraEditorPage.GetTargetText(rowNumber: 1),
 				"Произошла ошибка:\n Неверный текст в таргете сегмента №1."); ;
 		}
 
@@ -74,19 +74,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectAllTextByHotkey(segmentNumber)
 				.ClickChangeCaseButton();
 
-			Assert.AreEqual(changedText1, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText1, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectAllTextByHotkey(segmentNumber)
 				.ClickChangeCaseButton();
 
-			Assert.AreEqual(changedText2, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText2, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -100,19 +100,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectAllTextByHotkey(segmentNumber)
 				.PressChangeCaseHotKey();
 
-			Assert.AreEqual(changedText1, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText1, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectAllTextByHotkey(segmentNumber)
 				.PressChangeCaseHotKey();
 
-			Assert.AreEqual(changedText2, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText2, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -126,19 +126,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectLastWordByHotkey(segmentNumber)
 				.ClickChangeCaseButton();
 
-			Assert.AreEqual(changedText1, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText1, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectLastWordByHotkey(segmentNumber)
 				.ClickChangeCaseButton();
 
-			Assert.AreEqual(changedText2, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText2, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -152,19 +152,19 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectLastWordByHotkey(segmentNumber)
 				.PressChangeCaseHotKey();
 
-			Assert.AreEqual(changedText1, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText1, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectLastWordByHotkey(segmentNumber)
 				.PressChangeCaseHotKey();
 
-			Assert.AreEqual(changedText2, _editorPage.GetTargetText(segmentNumber),
+			Assert.AreEqual(changedText2, _courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -178,23 +178,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectFirstWordInSegment(segmentNumber, segmentType: SegmentType.Target)
 				.ClickChangeCaseButton();
 
 			Assert.AreEqual(
 				changedText1,
-				_editorPage.GetTargetText(segmentNumber),
+				_courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectFirstWordInSegment(segmentNumber, segmentType: SegmentType.Target)
 				.ClickChangeCaseButton();
 
 			Assert.AreEqual(
 				changedText2,
-				_editorPage.GetTargetText(segmentNumber),
+				_courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -208,23 +208,23 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField(sourceText, segmentNumber)
 				.SelectFirstWordInSegment(segmentNumber, segmentType: SegmentType.Target)
 				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(
 				changedText1,
-				_editorPage.GetTargetText(segmentNumber),
+				_courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 
-			_editorPage
+			_courseraEditorPage
 				.SelectFirstWordInSegment(segmentNumber, segmentType: SegmentType.Target)
 				.PressChangeCaseHotKey();
 
 			Assert.AreEqual(
 				changedText2,
-				_editorPage.GetTargetText(segmentNumber),
+				_courseraEditorPage.GetTargetText(segmentNumber),
 				"Произошла ошибка:\n Неверный текст в таргете.");
 		}
 
@@ -233,11 +233,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField()
 				.ClickAddLineBreakButton();
 
-			Assert.IsTrue(_editorPage.IsLineBreakSymbolDisplayed(),
+			Assert.IsTrue(_courseraEditorPage.IsLineBreakSymbolDisplayed(),
 				"Произошла ошибка: в сегменте не отобразлся символ переноса строки.");
 		}
 
@@ -246,11 +246,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField()
 				.ClickAddLineBreakHotkey();
 
-			Assert.IsTrue(_editorPage.IsLineBreakSymbolDisplayed(),
+			Assert.IsTrue(_courseraEditorPage.IsLineBreakSymbolDisplayed(),
 				"Произошла ошибка: в сегменте не отобразлся символ переноса строки.");
 		}
 
@@ -259,11 +259,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentTranslation();
 
-			Assert.IsTrue(_editorPage.IsSegmentCrowdConfirmed(),
+			Assert.IsTrue(_courseraEditorPage.IsSegmentCrowdConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 
@@ -272,11 +272,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentByEnterHotkeys();
 
-			Assert.IsTrue(_editorPage.IsSegmentCrowdConfirmed(),
+			Assert.IsTrue(_courseraEditorPage.IsSegmentCrowdConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 
@@ -285,11 +285,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillSegmentTargetField()
 				.ConfirmSegmentByHotkeys();
 
-			Assert.IsTrue(_editorPage.IsSegmentCrowdConfirmed(),
+			Assert.IsTrue(_courseraEditorPage.IsSegmentCrowdConfirmed(),
 				"Произошла ошибка:\n не удалось подтвердить сегмент");
 		}
 	}

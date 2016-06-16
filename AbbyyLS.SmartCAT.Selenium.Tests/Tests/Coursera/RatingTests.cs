@@ -32,9 +32,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();
@@ -62,9 +61,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header
@@ -80,16 +78,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 			
-			var translationVotesCountBefore = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var translationVotesCountBefore = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
-			_editorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
+			_courseraEditorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(translationVotesCountBefore - 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не уменьшилось.");
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header
 				.GoToUserProfile()
@@ -127,9 +125,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header
@@ -145,18 +142,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 			
-			var voteCountBefore = _editorPage
+			var voteCountBefore = _courseraEditorPage
 				.ClickOnTargetCellInSegment()
 				.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
-			_editorPage.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, translationText);
+			_courseraEditorPage.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(voteCountBefore + 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не увеличилось.");
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header
 				.GoToUserProfile()
@@ -190,9 +187,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();
@@ -210,16 +206,16 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			var translationVotesCountBefore = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var translationVotesCountBefore = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
-			_editorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
+			_courseraEditorPage.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, translationText);
 
-			var voteCountAfter = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
+			var voteCountAfter = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, translationText);
 
 			Assert.AreEqual(translationVotesCountBefore - 1, voteCountAfter,
 				"Произошла ошибка:\n Количество голосов не уменьшилось.");
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header
 				.GoToUserProfile()
@@ -248,9 +244,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();
@@ -295,9 +290,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();

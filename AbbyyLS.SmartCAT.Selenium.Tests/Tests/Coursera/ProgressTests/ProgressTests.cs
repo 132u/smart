@@ -42,9 +42,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_coursesPage = new CoursesPage(Driver);
 			_leaderboardPage = new LeaderboardPage(Driver);
 			_coursePage = new CoursePage(Driver);
-			_editorPage = new EditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
+			_courseraEditorPage = new CourseraEditorPage(Driver);
 
 			CourseraReviewerUser = TakeUser(ConfigurationManager.CourseraReviewerUsers);
 			
@@ -82,7 +82,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -94,7 +94,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText, rowNumber: 2);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText, rowNumber: 2);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 			
 			_header.ClickSignOut();
 
@@ -136,7 +136,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -158,7 +158,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -170,13 +170,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ClickDeleteTranslateButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage.DeleteTranslation(_translationText, CourseraCrowdsourceUser.NickName);
 
 			_deleteTranslationDialog.ClickYesButton();
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -201,7 +199,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 			
 			_header
 				.GoToUserProfile()
@@ -215,7 +213,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText2);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText2);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -224,13 +222,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment(rowNumber: 1)
-				.ClickDeleteTranslateButton(_secondUser.NickName, _translationText2);
+			_courseraEditorPage.DeleteTranslation(_translationText2, _secondUser.NickName);
 			
 			_deleteTranslationDialog.ClickYesButton();
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -253,7 +249,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToHomePage();
 
@@ -275,7 +271,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.GoToHomePage();
 
@@ -298,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 
@@ -319,7 +315,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
+			_courseraEditorPage
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
@@ -351,9 +347,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
 				.AddTranslationForCourseraProgress(_translationText +"2");
 		
 			_header
@@ -371,11 +366,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.FillTarget(_translationText + "secondUser")
-				.ConfirmSegmentTranslation()
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText + "secondUser")
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
@@ -400,20 +393,17 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
-				.FillTarget(secondTranslationVersion)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
+				.FillAndConfirmTarget(secondTranslationVersion)
 				.AddTranslationForCourseraProgress(thirdTranslationVersion);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, secondTranslationVersion)
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
@@ -435,9 +425,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(author: CourseraCrowdsourceUser.NickName, translation: _translationText)
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, secondTranslationVersion)
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
@@ -459,7 +448,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
+			_courseraEditorPage
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, secondTranslationVersion)
 				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
@@ -486,11 +475,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
-				.FillTarget(secondTranslationVersion)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
+				.FillAndConfirmTarget(secondTranslationVersion)
 				.AddTranslationForCourseraProgress(thirdTranslationVersion);
 
 			_coursesPage.ClickCourse(_progressCourseraProject);
@@ -500,9 +487,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, secondTranslationVersion)
 				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, thirdTranslationVersion)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
@@ -530,11 +516,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture1);
 
-			_editorPage
-				.FillSegmentTargetField(translationText, rowNumber: 1)
-				.ConfirmSegmentTranslation()
-				.FillSegmentTargetField(translationText, rowNumber: 2)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
+				.FillAndConfirmTarget(translationText, segmentNumber: 2)
 				.AddTranslationForCourseraProgress(translationText, rowNumber: 3);
 
 			_coursesPage.WaitCourseProgressChanged(_completeCourseraProject, courseProgress);
@@ -554,11 +538,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture2);
 
-			_editorPage
-				.FillSegmentTargetField(translationText, rowNumber: 1)
-				.ConfirmSegmentTranslation()
-				.FillSegmentTargetField(translationText, rowNumber: 2)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText, segmentNumber: 1)
+				.FillAndConfirmTarget(translationText, segmentNumber: 2)
 				.AddTranslationForCourseraProgress(translationText, rowNumber: 3);
 
 			_coursesPage.WaitCourseProgressChanged(_completeCourseraProject, 58.3);

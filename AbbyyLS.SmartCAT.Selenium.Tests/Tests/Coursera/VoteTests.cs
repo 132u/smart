@@ -22,15 +22,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
+			_courseraEditorPage
 				.FillTarget(_translationText)
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment();
 
-			Assert.AreEqual(1, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(1, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 
-			Assert.IsTrue(_editorPage.IsVoteUpButtonDisabled(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.IsTrue(_courseraEditorPage.IsVoteUpButtonDisabled(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Кнопка голосования за перевод активна.");
 		}
 
@@ -47,7 +47,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -61,49 +61,45 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.ClickOnTargetCellInSegment();
+			_courseraEditorPage.ClickOnTargetCellInSegment();
 
-			var voteCount = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText);
+			var voteCount = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
 
-			Assert.AreEqual(voteCount + 1, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(voteCount + 1, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
 
-			Assert.AreEqual(voteCount + 1, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(voteCount + 1, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 
-			_editorPage.ClickHomeButtonExpectingCourseraCoursesPage();
+			_courseraEditorPage.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_coursesPage.ClickCourse(_courseraProject);
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
 
-			Assert.AreEqual(voteCount + 1, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(voteCount + 1, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 
-			var voteCountBeforeDownVote = _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText);
+			var voteCountBeforeDownVote = _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText);
 
-			Assert.AreEqual(voteCountBeforeDownVote - 2, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(voteCountBeforeDownVote - 2, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 
-			_editorPage.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
+			_courseraEditorPage.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText);
 
-			Assert.AreEqual(voteCountBeforeDownVote, _editorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
+			Assert.AreEqual(voteCountBeforeDownVote, _courseraEditorPage.ScrollAndGetVoteCount(CourseraCrowdsourceUser.NickName, _translationText),
 				"Произошла ошибка:\n Неверное количество голосов за перевод.");
 		}
 
@@ -125,7 +121,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -139,9 +135,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.ClickSignOut();
@@ -177,7 +172,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -191,9 +186,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.ClickSignOut();
@@ -226,7 +220,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -240,9 +234,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToHomePage();
@@ -264,7 +257,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -278,9 +271,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteDownButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToHomePage();
@@ -302,7 +294,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -316,9 +308,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage
-				.ClickOnTargetCellInSegment()
-				.ScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
+			_courseraEditorPage
+				.ClickOnTargetAndScrollAndClickVoteUpButton(CourseraCrowdsourceUser.NickName, _translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToHomePage();
@@ -340,7 +331,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -397,7 +388,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -428,7 +419,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -461,7 +452,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 
@@ -492,7 +483,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture(lecture);
 
-			_editorPage.AddTranslationForCourseraProgress(_translationText);
+			_courseraEditorPage.AddTranslationForCourseraProgress(_translationText);
 
 			_header.ClickSignOut();
 

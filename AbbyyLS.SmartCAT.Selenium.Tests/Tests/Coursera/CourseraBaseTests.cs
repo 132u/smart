@@ -40,7 +40,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 			_coursesPage = new CoursesPage(Driver);
 			_leaderboardPage = new LeaderboardPage(Driver);
 			_coursePage = new CoursePage(Driver);
-			_editorPage = new EditorPage(Driver);
+			_courseraEditorPage = new CourseraEditorPage(Driver);
 			_profilePage = new UserProfilePage(Driver);
 			_editProfileDialog = new EditProfileDialog(Driver);
 
@@ -105,7 +105,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		protected string _translationText;
 		protected string _courseraProject;
 
-		protected EditorPage _editorPage;
+		protected CourseraEditorPage _courseraEditorPage;
 		protected HeaderMenu _header;
 		protected UserProfilePage _profilePage;
 		protected CourseraHomePage _courseraHomePage;

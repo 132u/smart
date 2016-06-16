@@ -21,9 +21,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToLeaderboardPage();

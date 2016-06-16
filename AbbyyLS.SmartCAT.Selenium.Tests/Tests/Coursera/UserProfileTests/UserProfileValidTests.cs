@@ -88,12 +88,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
+			_courseraEditorPage
 				.FillTarget(translationText)
 				.ConfirmSegmentTranslation()
 				.ClickOnTargetCellInSegment();
 
-			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(translationText),
+			Assert.AreEqual(_newFullName, _courseraEditorPage.GetSegmentTranslationUserName(translationText),
 				"Произошла ошибка:\nНеверное имя пользователя в ревизии перевода");
 		}
 
@@ -110,9 +110,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToUserProfile();
@@ -129,9 +128,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage.ClickOnTargetCellInSegment();
+			_courseraEditorPage.ClickOnTargetCellInSegment();
 
-			Assert.AreEqual(_newFullName, _editorPage.GetSegmentTranslationUserName(translationText),
+			Assert.AreEqual(_newFullName, _courseraEditorPage.GetSegmentTranslationUserName(translationText),
 				"Произошла ошибка:\nНеверное имя пользователя в ревизии перевода");
 		}
 
@@ -146,9 +145,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToHomePage();
@@ -190,9 +188,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_lecturesTab.OpenLecture();
 
-			_editorPage
-				.FillTarget(_translationText)
-				.ConfirmSegmentTranslation()
+			_courseraEditorPage
+				.FillAndConfirmTarget(_translationText)
 				.ClickHomeButtonExpectingCourseraCoursesPage();
 
 			_header.GoToHomePage();
