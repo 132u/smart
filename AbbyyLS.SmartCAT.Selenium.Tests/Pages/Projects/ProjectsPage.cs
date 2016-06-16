@@ -313,7 +313,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Навести курсор на документ {0} в проекте '{1}'", documentName, projectName);
 			DocumentRow = Driver.SetDynamicValue(How.XPath, DOCUMENT_ROW, documentName);
-			DocumentRow.Click();
+						DocumentRow.Click();
 
 			return LoadPage();
 		}
@@ -328,6 +328,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects
 			var documentName = Path.GetFileNameWithoutExtension(documentPath);
 			CustomTestContext.WriteLine("Нажать кнопку настроек в меню документа {0} в проекте '{1}'", documentName, projectName);
 			DocumentSettings = Driver.SetDynamicValue(How.XPath, DOCUMENT_SETTINGS, documentName);
+			HoverDocumentRow(projectName, documentPath);
 			DocumentSettings.Click();
 
 			return new DocumentSettingsDialog(Driver).LoadPage();

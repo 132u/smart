@@ -20,11 +20,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 		[Test, Description("S-7272"), ShortCheckList]
 		public void UseSeveralMachineTranslationsTest()
 		{
-			_createProjectHelper.CreateNewProject(_projectUniqueName, new [] {PathProvider.DocumentFile});
+			var file = PathProvider.DocumentFile;
+			var documentName = Path.GetFileNameWithoutExtension(file);
+
+			_createProjectHelper.CreateNewProject(_projectUniqueName, new [] { file });
 
 			_projectsPage.OpenProjectSettingsPage(_projectUniqueName);
-
-			var documentName = Path.GetFileNameWithoutExtension(PathProvider.DocumentFile);
 
 			_projectSettingsPage
 				.HoverDocumentRow(documentName)
@@ -39,10 +40,10 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.MachineTranslations.UsingMTTests
 				.WaitUntilDocumentProcessed();
 
 			_projectSettingsHelper
-				.AssignTasksOnDocument(Path.GetFileNameWithoutExtension(PathProvider.DocumentFile), ThreadUser.FullName, _projectUniqueName);
+				.AssignTasksOnDocument(documentName, ThreadUser.FullName, _projectUniqueName);
 
 			_projectSettingsPage
-				.OpenDocumentInEditorWithTaskSelect(PathProvider.DocumentFile);
+				.OpenDocumentInEditorWithTaskSelect(file);
 			
 			_selectTaskDialog
 				.ClickTranslateButton()
