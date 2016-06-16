@@ -2455,6 +2455,8 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsSegmentSelected(int segmentNumber)
 		{
 			CustomTestContext.WriteLine("Проверить, что сегмент №{0} активен (подсвечен голубым цветом).", segmentNumber);
+			// нужен сли из-за sre
+			Thread.Sleep(1000);
 
 			return Driver.WaitUntilElementIsDisplay(By.XPath(SELECTED_SEGMENT.Replace("*#*", segmentNumber.ToString())));
 		}
