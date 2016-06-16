@@ -211,8 +211,18 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.TestFramework
 			}
 			catch (InvalidOperationException)
 			{
-				webElement.ScrollDown();
-				webElement.Click();
+				try
+				{
+					webElement.ScrollDown();
+					webElement.Click();
+				}
+				// актуально для курсеры, когда после прокрутки вниз, хидер загораживает нужный элемент,
+				// так как он закреплен и движется вместе с прокруткой (на главной странице)
+				catch (InvalidOperationException)
+				{
+					webElement.Scroll();
+					webElement.Click();
+				}
 			}
 			catch (TargetInvocationException)
 			{
