@@ -439,7 +439,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 				"Произошла ошибка:\n Неверное количество голосов.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17339")]
 		public void LastEventsVoteUpCheckLastEvents()
 		{
 			_secondUser = TakeUser(ConfigurationManager.CourseraCrowdsourceUsers);
@@ -462,7 +462,9 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 
 			_header.GoToHomePage();
 
-			_courseraHomePage.ClickVoteUpButton(_translationText);
+			_courseraHomePage
+				.ScrollVoteDownButton(_translationText)
+				.ClickVoteUpButton(_translationText);
 
 			_courseraHomePage.RefreshPage<CourseraHomePage>();
 

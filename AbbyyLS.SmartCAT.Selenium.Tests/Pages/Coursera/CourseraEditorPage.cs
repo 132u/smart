@@ -72,7 +72,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			CustomTestContext.WriteLine("Проскролить до кнопки голосования Против перевода '{0}' автора {1}.", translation, author);
 			VoteDownButton = Driver.SetDynamicValue(How.XPath, VOTE_DOWN_BUTTON, author, translation);
-			VoteDownButton.Scroll();
+			VoteDownButton.ScrollAndClickViaElementBlock();
 
 			return LoadPage();
 		}

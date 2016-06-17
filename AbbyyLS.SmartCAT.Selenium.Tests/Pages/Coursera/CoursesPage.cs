@@ -36,7 +36,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera
 		{
 			CustomTestContext.WriteLine("Кликнуть по ссылке на курс {0}.", courseName);
 			Course = Driver.SetDynamicValue(How.XPath, COURSE, courseName);
-			Course.Click();
+			Course.ScrollAndClick();
 
 			return new CoursePage.CoursePage(Driver).LoadPage();
 		}

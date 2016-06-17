@@ -48,7 +48,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Coursera.CoursePage
 		/// </summary>
 		private bool IsCoursePageOpened()
 		{
-			return Driver.WaitUntilElementIsDisplay(By.XPath(LECTURE_TAB));
+			return Driver.WaitUntilElementIsDisplay(By.XPath(LECTURE_TAB), timeout: 60);
 		}
 
 		#endregion

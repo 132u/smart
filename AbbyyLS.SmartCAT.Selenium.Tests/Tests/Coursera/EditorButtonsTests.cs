@@ -53,15 +53,15 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Coursera
 		{
 			_lecturesTab.OpenLecture();
 
-			var sourceText = _courseraEditorPage.GetSourceText(rowNumber: 1);
+			var sourceText = _courseraEditorPage.GetSourceText(rowNumber: 2);
 
 			_courseraEditorPage
-				.ClickOnTargetCellInSegment()
+				.ClickOnTargetCellInSegment(rowNumber: 2)
 				.CopySourceToTargetHotkey()
 				.ConfirmSegmentTranslation();
 
-			Assert.AreEqual(sourceText, _courseraEditorPage.GetTargetText(rowNumber: 1),
-				"Произошла ошибка:\n Неверный текст в таргете сегмента №1."); ;
+			Assert.AreEqual(sourceText, _courseraEditorPage.GetTargetText(rowNumber: 2),
+				"Произошла ошибка:\n Неверный текст в таргете сегмента №2."); ;
 		}
 
 		[Test]
