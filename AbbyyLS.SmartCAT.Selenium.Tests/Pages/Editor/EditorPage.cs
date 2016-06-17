@@ -2157,7 +2157,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsCatTypeExist(CatType type)
 		{
 			CustomTestContext.WriteLine("Проверить, что подстановка типа {0} есть в CAT-панели", type);
-
+			
 			return Driver.WaitUntilElementIsAppear(By.XPath(CAT_TYPE.Replace("*#*", type.ToString())));
 		}
 
@@ -2964,11 +2964,11 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		protected const string MATCH_COLUMN = "//div[@id='segments-body']//table[*#*]//tbody//div[contains(@class,'insert-resource')]";
 		protected const string TARGET_MATCH_COLUMN_PERCENT = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//span[contains(@class, 'match-percentage')]";
 		protected const string CAT_PANEL_PERCENT_MATCH = ".//div[@id='cat-body']//table[*#*]//td[3]//div[contains(@class, 'x-match-percentage')]";
-		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//..//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
+		protected const string MT_SOURCE_TEXT_IN_CAT_PANEL = ".//div[@id='cat-body']//table//tbody//tr//div[text()='MT']//ancestor::tr//preceding-sibling::td[contains(@class, 'test-cat-source')]/div";
 		protected const string CAT_TYPE_LIST_IN_PANEL = ".//div[@id='cat-body']//table//td[3]/div";
 		protected const string TARGET_CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-target')]/div";
 		protected const string SOURCE_CAT_TRANSLATION = ".//div[@id='cat-body']//table[*#*]//td[contains(@class, 'test-cat-source')]/div";
-		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//td[3]/div[contains(text(),'*#*')]";
+		protected const string CAT_TYPE = ".//div[@id='cat-body']//table//div[contains(text(),'*#*')]";
 		protected const string CAT_SOURCE = ".//div[@id='cat-body']//table//td[contains(@class, 'test-cat-source')]/div[text()='*#*']";
 
 		protected const string PERCENT_COLOR = "//table[@data-recordindex='*#*' and contains(@id, 'tableview')]//span[contains(@class, 'match-percentage')]";
