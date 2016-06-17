@@ -2205,8 +2205,6 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 		public bool IsMatchColumnCatTypeMatch(CatType catType, int rowNumber = 1)
 		{
 			CustomTestContext.WriteLine("Проверить, что текст в колонке MatchColumn совпадает с {0}.", catType);
-			var catTypeColumn = catType != CatType.TB ? catType.ToString() : string.Empty;
-
 			var textInMacthColumn = GetMatchColumnText(rowNumber).Trim();
 
 			if (textInMacthColumn.Contains("%"))
@@ -2214,7 +2212,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Editor
 				textInMacthColumn = textInMacthColumn.Substring(0, 2);
 			}
 
-			return textInMacthColumn.Trim() == catTypeColumn;
+			return textInMacthColumn.Trim() == catType.ToString();
 		}
 
 		/// <summary>
