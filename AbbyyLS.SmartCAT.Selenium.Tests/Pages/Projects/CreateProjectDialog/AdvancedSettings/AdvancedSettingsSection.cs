@@ -118,7 +118,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Pages.Projects.CreateProjectDialog
 
 		protected const string DEADLINE_DATE_CURRENT = "//div[contains(@id, 'ui-datepicker-div')]//table[contains(@class, 'ui-datepicker-calendar')]//td[contains(@class, 'ui-datepicker-today')]//a";
 		protected const string PRETRANSLATION_TAB = "//li[text()='Pretranslation']";
-		protected const string SELECT_TM_BUTTON = "//div[@class='g-btn g-greenbtn ' and contains(@data-bind, 'addExistingTM')]//a";
+		protected const string SELECT_TM_BUTTON = "//div[contains(@class,'greenbtn') and contains(@data-bind, 'addExistingTM')]//a";
 		protected const string TRANSLATION_MEMORY_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[1]";
 		protected const string GLOSSARIES_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[2]";
 		protected const string QUALITY_ASSURANCE_TAB = "//ul[contains(@data-bind, 'advancedSettingsTabs')]//li[3]";
