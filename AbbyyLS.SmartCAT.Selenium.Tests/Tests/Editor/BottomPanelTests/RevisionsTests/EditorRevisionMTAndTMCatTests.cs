@@ -84,7 +84,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 						"Произошла ошибка:\nНеверный тип ревизии.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17506")]
 		public void TMRevisionPretranslateTest()
 		{
 			var oneLineTmxFile = PathProvider.OneLineTmxFile;
@@ -147,7 +147,7 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Editor
 						"Произошла ошибка:\nНеверный тип ревизии.");
 		}
 
-		[Test]
+		[Test, Ignore("PRX-17506")]
 		public void TMRevisionHotkeyPretranslateTest()
 		{
 			var oneLineTmxFile = PathProvider.OneLineTmxFile;
