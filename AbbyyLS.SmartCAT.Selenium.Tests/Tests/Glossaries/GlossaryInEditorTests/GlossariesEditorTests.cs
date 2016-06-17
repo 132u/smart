@@ -50,10 +50,12 @@ namespace AbbyyLS.SmartCAT.Selenium.Tests.Tests.Glossaries
 			_projectsPage.OpenProjectSettingsPage(_projectName);
 
 			_projectSettingsHelper
-				.UploadDocument(new []{ document })
-				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectName)
-				.AddGlossaryToDocument(document, _glossary1Name)
-				.AddGlossaryToDocument(document, _glossary2Name);
+				.UploadDocument(new[] {document})
+				.AssignTasksOnDocument(document, ThreadUser.NickName, _projectName);
+
+			_projectSettingsPage
+				.SelectGlossaryByName(_glossary1Name)
+				.SelectGlossaryByName(_glossary2Name);
 
 			_projectSettingsPage.OpenDocumentInEditorWithTaskSelect(document);
 
